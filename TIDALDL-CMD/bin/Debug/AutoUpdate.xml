@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<AutoUpdate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VersionFile>AlbumDL.exe</VersionFile>
+  <FileList>
+    <FileInfo>
+      <Name>AlbumDL.exe</Name>
+      <Path />
+    </FileInfo>
+    <FileInfo>
+      <Name>AIGS.dll</Name>
+      <Path />
+    </FileInfo>
+    <FileInfo>
+      <Name>Newtonsoft.Json.dll</Name>
+      <Path />
+    </FileInfo>
+  </FileList>
+</AutoUpdate>
