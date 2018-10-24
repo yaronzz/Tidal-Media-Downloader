@@ -19,11 +19,11 @@ namespace AlbumDownload
         static string m_AlbumDir;
         static int m_DownladCount;
         static DateTime m_DateTimeHandle;
-
+        static string m_SessionID;
+        static AlbumDL.SoundQuality m_eQua;
+        static AlbumDL.CountryCode m_eCode;
         static void Main(string[] args)
         {
-
-
             //读取配置文件
             string sOutputDir   = AIGS.Helper.ConfigHelper.GetValue("OutputDir", ".\\", "BASE", ".\\AlbumDL.ini");
             string sSessionID   = AIGS.Helper.ConfigHelper.GetValue("SessionID", "", "BASE", ".\\AlbumDL.ini");
@@ -32,28 +32,29 @@ namespace AlbumDownload
             string sXmlDir      = AIGS.Helper.ConfigHelper.GetValue("Website", "http://119.29.24.117:80", "BASE", ".\\AlbumDL.ini");
 
             AlbumDL.AlbumInfo m_AlbumInfo = new AlbumDL.AlbumInfo();
-            AlbumDL.SoundQuality eQua = (AlbumDL.SoundQuality)AIGS.Common.Convert.ConverStringToEnum(SoundQuality, typeof(AlbumDL.SoundQuality), (int)AlbumDL.SoundQuality.LOSSLESS);
-            AlbumDL.CountryCode eCode = (AlbumDL.CountryCode)AIGS.Common.Convert.ConverStringToEnum(sCountryCode, typeof(AlbumDL.CountryCode), (int)AlbumDL.CountryCode.US);
+            m_eQua = (AlbumDL.SoundQuality)AIGS.Common.Convert.ConverStringToEnum(SoundQuality, typeof(AlbumDL.SoundQuality), (int)AlbumDL.SoundQuality.LOSSLESS);
+            m_eCode = (AlbumDL.CountryCode)AIGS.Common.Convert.ConverStringToEnum(sCountryCode, typeof(AlbumDL.CountryCode), (int)AlbumDL.CountryCode.US);
+            m_SessionID = sSessionID;
 #if DEBUG
             //sSessionID = null;
             //sSessionID = "4c165e71-8748-47bf-94b9-7341616836a1";
             //eQua = AlbumDL.SoundQuality.LOW;
 
-            List<string> aFiles = new List<string>() { "AlbumDL.exe", "AIGS.dll", "Newtonsoft.Json.dll" };
-            UpdateExeHelper.CreatAutoUpdateFile(aFiles);
+            //List<string> aFiles = new List<string>() { "AlbumDL.exe", "AIGS.dll", "Newtonsoft.Json.dll" };
+            //UpdateVersionHelper.CreatAutoUpdateFile(aFiles);
             
             //sXmlDir = @"E:\working\通用库\AIGTool\Album-DL\code\AlbumDL\bin";
 #endif
             //更新
             Console.WriteLine("================================================");
-            Console.WriteLine("Version:".PadRight(15) + VersionHelper.GetSelfVersion());
-            if (UpdateExeHelper.UpdateOnlineVersion(args, sXmlDir + "/AlbumDL"))
-                return;
+            //Console.WriteLine("Version:".PadRight(15) + VersionHelper.GetSelfVersion());
+            //if (UpdateVersionHelper.UpdateOnlineVersion(args, sXmlDir + "/AlbumDL"))
+            //    return;
 
             Console.WriteLine("OutputDir:".PadRight(15) + sOutputDir);
             Console.WriteLine("SessionID:".PadRight(15) + sSessionID);
-            Console.WriteLine("CountryCode:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)eCode, typeof(AlbumDL.CountryCode)));
-            Console.WriteLine("SoundQuality:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)eQua, typeof(AlbumDL.SoundQuality)));
+            Console.WriteLine("CountryCode:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_eCode, typeof(AlbumDL.CountryCode)));
+            Console.WriteLine("SoundQuality:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_eQua, typeof(AlbumDL.SoundQuality)));
             
             if (string.IsNullOrEmpty(sSessionID))
             {
@@ -63,8 +64,7 @@ namespace AlbumDownload
             }
 
             //启动消息队列线程
-            m_Thread = new ThreadHelper();
-            m_Thread.List_Init(30);
+            m_Thread = new ThreadHelper(1);
             m_ThreadQueue = ThreadHelper.Start(Thread_QueueEvent);
 
             while (true)
@@ -85,7 +85,7 @@ namespace AlbumDownload
                 Console.WriteLine();
 
                 //获取专辑歌曲
-                List<AlbumDL.TrackInfo> aTrackInfos = AlbumDL.GetAlbumTracks(iID, sSessionID, eQua, eCode);
+                List<AlbumDL.TrackInfo> aTrackInfos = AlbumDL.GetAlbumTracks(iID);
                 if (aTrackInfos == null)
                 {
                     Console.WriteLine("Get TrackInfos Err!");
@@ -106,11 +106,11 @@ namespace AlbumDownload
                 m_DateTimeHandle = DateTime.Now;
                 for (int i = 0; i < m_AlbumInfo.NumberOfTracks; i++)
                 {
-                    m_Thread.List_Start(Thread_DownloadEvent, aTrackInfos[i]);
+                    m_Thread.ThreadStart(Thread_DownloadEvent, aTrackInfos[i]);
                 }
 
                 //等待
-                while(!m_Thread.List_IsAllFree())
+                while(!m_Thread.IsAllFree())
                 {
                     Thread.Sleep(3000);
                 }
@@ -124,7 +124,7 @@ namespace AlbumDownload
         {
             AlbumDL.TrackInfo Info = (AlbumDL.TrackInfo)data;
             string SongFilePath = m_AlbumDir + "\\" + PathHelper.ReplaceLimitChar(Info.Title, "-") + ".m4a";
-            string DlUrl = Info.StreamUrl;
+            string DlUrl = AlbumDL.GetStreamUrl(Info.ID, m_SessionID, m_eQua, m_eCode);
 
             string sRet = Info.Title;
             if (AIGS.Helper.NetHelper.DownloadFile(DlUrl, SongFilePath) != 0)
