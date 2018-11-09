@@ -31,6 +31,7 @@ namespace AlbumDownload
         static string m_OutputDir;
         static int m_Index;
         static object m_Lock = new object();
+        static List<string> m_ErrDownloadTracks = new List<string>();
 
         static void Main(string[] args)
         {
@@ -162,16 +163,43 @@ namespace AlbumDownload
                 //下载
                 m_Index = 0;
                 m_DateTimeHandle = DateTime.Now;
+                m_ErrDownloadTracks = new List<string>();
                 m_WaitDownloadEvent = new EventWaitHelper(true, aAlbumInfo.NumberOfTracks);
                 for (int i = 0; i < aAlbumInfo.NumberOfTracks; i++)
                 {
                     m_Thread.ThreadStartWait(Thread_DownloadEvent, aTrackInfos[i]);
                 }
-
                 //等待
                 m_WaitDownloadEvent.WaitOne();
                 Thread.Sleep(3000);
                 Console.WriteLine("");
+
+                while (true)
+                {
+                    if (m_ErrDownloadTracks.Count <= 0)
+                        break;
+
+                    Console.WriteLine("--------------------Retry-----------------------");
+                    Console.Write("Some Tracks Download Err, Is Need Retry?（Enter '1' to retry）:");
+                    if (Console.ReadLine() == "1")
+                    {
+                        m_WaitDownloadEvent = new EventWaitHelper(true, m_ErrDownloadTracks.Count);
+                        for (int i = 0; i < aAlbumInfo.NumberOfTracks; i++)
+                        {
+                            if (!m_ErrDownloadTracks.Contains(aTrackInfos[i].Title))
+                                continue;
+
+                            m_Thread.ThreadStartWait(Thread_DownloadEvent, aTrackInfos[i]);
+                        }
+                        //等待
+                        m_WaitDownloadEvent.WaitOne();
+                        Thread.Sleep(3000);
+                        Console.WriteLine("");
+                    }
+                    else
+                        break;
+                }
+
             }
 
             return sReturn;
@@ -358,12 +386,16 @@ namespace AlbumDownload
             if (String.IsNullOrWhiteSpace(StreamUrl))
             {
                 sReturnMsg = "[ERR]".PadRight(12) + Info.Title + "(Get StreamUrl Err!)";
+                m_ErrDownloadTracks.Add(Info.Title);
             }
             else
             {
                 string sRet = Info.Title;
                 if (AIGS.Helper.NetHelper.DownloadFile(StreamUrl, SongFilePath) != 0)
+                {
                     sReturnMsg = "[ERR]".PadRight(12) + Info.Title + "(Download Err!)";
+                    m_ErrDownloadTracks.Add(Info.Title);
+                }
                 else
                 {
                     File.SetLastWriteTime(SongFilePath, m_DateTimeHandle.AddMinutes(Info.TrackNumber));
