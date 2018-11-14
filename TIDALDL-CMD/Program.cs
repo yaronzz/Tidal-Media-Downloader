@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using AIGS.Common;
 using AIGS.Tools;
 using AIGS.Helper;
 using System.Threading;
@@ -22,9 +23,10 @@ namespace AlbumDownload
 
         //下载等待
         static EventWaitHelper m_WaitDownloadEvent;
+        
         //其他
-        static AlbumDL.SoundQuality m_SoundQuality;
-        static AlbumDL.CountryCode m_CountryCode;
+        static TidalTool.SoundQuality m_SoundQuality;
+        static TidalTool.CountryCode m_CountryCode;
         static string m_SessionID;
         static string m_TargetDir;
         static DateTime m_DateTimeHandle;
@@ -42,28 +44,28 @@ namespace AlbumDownload
             string sCountryCode = AIGS.Helper.ConfigHelper.GetValue("CountryCode", "US", "BASE", ".\\AlbumDL.ini");
             string sXmlDir = AIGS.Helper.ConfigHelper.GetValue("Website", "http://144.202.15.40", "BASE", ".\\AlbumDL.ini");
 
-            m_SoundQuality = (AlbumDL.SoundQuality)AIGS.Common.Convert.ConverStringToEnum(SoundQuality, typeof(AlbumDL.SoundQuality), (int)AlbumDL.SoundQuality.LOSSLESS);
-            m_CountryCode = (AlbumDL.CountryCode)AIGS.Common.Convert.ConverStringToEnum(sCountryCode, typeof(AlbumDL.CountryCode), (int)AlbumDL.CountryCode.US);
+            m_SoundQuality = (TidalTool.SoundQuality)AIGS.Common.Convert.ConverStringToEnum(SoundQuality, typeof(TidalTool.SoundQuality), (int)TidalTool.SoundQuality.LOSSLESS);
+            m_CountryCode = (TidalTool.CountryCode)AIGS.Common.Convert.ConverStringToEnum(sCountryCode, typeof(TidalTool.CountryCode), (int)TidalTool.CountryCode.US);
             m_SessionID = sSessionID;
             m_OutputDir = sOutputDir;
 //#if DEBUG
-//            List<string> aFiles = new List<string>() { "AlbumDL.exe", "AIGS.dll", "Newtonsoft.Json.dll" };
+//            List<string> aFiles = new List<string>() { "TidalTool.exe", "AIGS.dll", "Newtonsoft.Json.dll" };
 //            UpdateVersionHelper.CreatUpdateVersionFile(aFiles);
 //#endif
             //更新
             Console.WriteLine("================================================");
             Console.WriteLine("Version:".PadRight(15) + VersionHelper.GetSelfVersion());
-            if (UpdateVersionHelper.UpdateOnlineVersion(args, sXmlDir + "/AlbumDL"))
-                return;
+            //if (UpdateVersionHelper.UpdateOnlineVersion(args, sXmlDir + "/TidalTool"))
+            //    return;
 
             Console.WriteLine("OutputDir:".PadRight(15) + sOutputDir);
             Console.WriteLine("SessionID:".PadRight(15) + sSessionID);
-            Console.WriteLine("CountryCode:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_CountryCode, typeof(AlbumDL.CountryCode)));
-            Console.WriteLine("SoundQuality:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_SoundQuality, typeof(AlbumDL.SoundQuality)));
+            Console.WriteLine("CountryCode:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_CountryCode, typeof(TidalTool.CountryCode)));
+            Console.WriteLine("SoundQuality:".PadRight(15) + AIGS.Common.Convert.ConverEnumToString((int)m_SoundQuality, typeof(TidalTool.SoundQuality)));
 
             if (string.IsNullOrEmpty(sSessionID))
             {
-                Console.Write("No SessionID In {" + Path.GetFullPath(".\\AlbumDL.ini") + "}");
+                Console.Write("No SessionID In {" + Path.GetFullPath(".\\TidalTool.ini") + "}");
                 Console.ReadLine();
                 return;
             }
@@ -78,7 +80,7 @@ namespace AlbumDownload
                 Console.WriteLine(" Enter '1' : Download Album.");
                 Console.WriteLine(" Enter '2' : Download Track.");
                 Console.WriteLine(" Enter '3' : Download PlayList.");
-                Console.WriteLine(" Enter '4' : Download ID-File.");
+                Console.WriteLine(" Enter '4' : Download Albums From 'AlbumDL.ini'");
                 Console.WriteLine("================================================");
                 Console.Write("Please enter Choice:");
 
@@ -88,7 +90,7 @@ namespace AlbumDownload
                     case 1: GetAlbum(); break;
                     case 2: GetTrack(); break;
                     case 3: GetPlayList(); break;
-                    case 4: GetIDFile(); break;
+                    case 4: GetAlbumsFromIniFile(); break;
                 }
 
             }
@@ -113,8 +115,8 @@ namespace AlbumDownload
                     continue;
 
                 //获取专辑信息
-                AlbumDL.AlbumInfo aAlbumInfo = new AlbumDL.AlbumInfo();
-                if (AlbumDL.GetAlbumInfo(iAlbumID, ref aAlbumInfo) != 0)
+                Album aAlbumInfo = new Album();
+                if (TidalTool.GetAlbumInfo(iAlbumID, ref aAlbumInfo) != 0)
                 {
                     sReturn = "Get AlbumInfo Err!";
                     Console.WriteLine(sReturn);
@@ -125,7 +127,7 @@ namespace AlbumDownload
                 Console.WriteLine();
 
                 //获取专辑歌曲
-                List<AlbumDL.TrackInfo> aTrackInfos = AlbumDL.GetAlbumTracks(iAlbumID);
+                List<Track> aTrackInfos = TidalTool.GetAlbumTracks(iAlbumID);
                 if (aTrackInfos == null)
                 {
                     sReturn = "Get TrackInfos Err!";
@@ -146,7 +148,7 @@ namespace AlbumDownload
                     
 
                 //写信息
-                string sText = AlbumDL.ConvertAlbumInfoToString(aAlbumInfo, aTrackInfos);
+                string sText = TidalTool.ConvertAlbumInfoToString(aAlbumInfo, aTrackInfos);
                 File.WriteAllText(m_TargetDir + "\\AlbumInfo.txt", sText);
 
                 //下载封面
@@ -217,8 +219,8 @@ namespace AlbumDownload
                     return;
 
                 //获取曲目信息
-                AlbumDL.TrackInfo aTrackInfo = new AlbumDL.TrackInfo();
-                if (AlbumDL.GetTrackInfo(iTrackID, ref aTrackInfo) != 0)
+                Track aTrackInfo = new Track();
+                if (TidalTool.GetTrackInfo(iTrackID, ref aTrackInfo) != 0)
                 {
                     Console.WriteLine("Get TrackInfo Err!");
                     continue;
@@ -259,8 +261,8 @@ namespace AlbumDownload
                     return;
 
                 //获取曲目信息
-                AlbumDL.PlayListInfo aListInfo = new AlbumDL.PlayListInfo();
-                if (AlbumDL.GetPlayList(sUuid, ref aListInfo) != 0)
+                PlayList aListInfo = new PlayList();
+                if (TidalTool.GetPlayList(sUuid, ref aListInfo) != 0)
                 {
                     Console.WriteLine("Get PlayListInfo Err!");
                     continue;
@@ -274,7 +276,7 @@ namespace AlbumDownload
                 Console.WriteLine();
 
                 //获取歌曲
-                List<AlbumDL.TrackInfo> aTrackInfos = AlbumDL.GetPlayListTracks(sUuid, aListInfo.NumberOfTracks);
+                List<Track> aTrackInfos = TidalTool.GetPlayListTracks(sUuid, aListInfo.NumberOfTracks);
                 if (aTrackInfos == null)
                 {
                     Console.WriteLine("Get TrackInfos Err!");
@@ -287,7 +289,7 @@ namespace AlbumDownload
                     Directory.CreateDirectory(m_TargetDir);
 
                 //写信息
-                string sText = AlbumDL.ConvertPlayListInfoToString(aListInfo, aTrackInfos);
+                string sText = TidalTool.ConvertPlayListInfoToString(aListInfo, aTrackInfos);
                 File.WriteAllText(m_TargetDir + "\\PlayListInfo.txt", sText);
 
                 //下载封面
@@ -313,57 +315,35 @@ namespace AlbumDownload
             }
         }
 
-
-
-
-        static void GetIDFile()
+        static void GetAlbumsFromIniFile()
         {
-            while (true)
+            Console.WriteLine("--------------DL ALBUMS FROM INI----------------");
+            string sString = AIGS.Helper.ConfigHelper.GetValue("Albums", ".\\", "DOWNLOADLIST", ".\\AlbumDL.ini");
+            if(String.IsNullOrWhiteSpace(sString))
             {
-                Console.WriteLine("-------------------ID-FILE----------------------");
-                Console.Write("Enter Path（Enter '0' go back）:");
-                string sFilePath = Console.ReadLine();
-                //string sFilePath = "e:\\fff.txt";
-                string sInfo = "";
+                Console.WriteLine("No 'DOWNLOADLIST-Albums' Para in ConfigFile!");
+                return;
+            }
 
-                if (String.IsNullOrWhiteSpace(sFilePath))
-                {
-                    Console.WriteLine("Get FilePath Err!");
+            HashSet<int> pIDList = new HashSet<int>();
+            string[] sParts = sString.Split(',');
+            foreach (string item in sParts)
+            {
+                if (pIDList.Contains(AIGS.Common.Convert.ConverStringToInt(item)))
                     continue;
-                }
-                if (!File.Exists(sFilePath))
-                {
-                    Console.WriteLine("File Not Exist!");
-                    continue;
-                }
 
-                //先处理专辑
-                sInfo += "[Album]\r\n";
-                List<string> pAlbumList = AlbumDL.GetDownloadListFormFile(sFilePath, "Album");
-                for (int i = 0; i < pAlbumList.Count; i++)
-                {
-                    //获取专辑信息
-                    int iAlbumID = AIGS.Common.Convert.ConverStringToInt(pAlbumList[i], -999);
-                    string sRet = GetAlbum(iAlbumID);
-                    if (String.IsNullOrWhiteSpace(sRet))
-                        sInfo += pAlbumList[i].PadRight(15) + "\r\n";
-                    else
-                        sInfo += pAlbumList[i].PadRight(15) + "(" + sRet + ")\r\n";
+                pIDList.Add(AIGS.Common.Convert.ConverStringToInt(item));
+            }
 
-                }
-
-                //保存信息
-                m_TargetDir = m_OutputDir + "\\IDFile\\";
-                if (Directory.Exists(m_TargetDir) == false)
-                    Directory.CreateDirectory(m_TargetDir);
-
-                string sPath = Path.GetDirectoryName(sFilePath);
-                string sName = Path.GetFileNameWithoutExtension(sFilePath);
-                File.Delete(sFilePath);
-                File.Copy(sFilePath, m_TargetDir + sName + ".txt");
-                File.WriteAllText(m_TargetDir + sName + "-Log.txt", sInfo);
+            Console.WriteLine("[AlbumNum ]:".PadRight(15) + pIDList.Count);
+            for (int i = 0; i < pIDList.Count; i++)
+            {
+                int iID = pIDList.ElementAt(i);
+                Console.WriteLine("------" + i + "、" + iID + "------");
+                GetAlbum(iID);
             }
         }
+
 
 
 
@@ -373,8 +353,8 @@ namespace AlbumDownload
 
         static void Thread_DownloadEvent(object data)
         {
-            AlbumDL.TrackInfo Info = (AlbumDL.TrackInfo)data;
-            string StreamUrl = AlbumDL.GetStreamUrl(Info.ID, m_SessionID, m_SoundQuality, m_CountryCode);
+            Track Info = (Track)data;
+            string StreamUrl = TidalTool.GetStreamUrl(Info.ID, m_SessionID, m_SoundQuality, m_CountryCode);
             string sReturnMsg = "";
             string SongFilePath = "";
             string VolumeDir = m_TargetDir + "\\Volume" + Info.VolumeNumber;
