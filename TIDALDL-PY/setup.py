@@ -1,19 +1,19 @@
-# from distutils.core import setup
-# python setup.py sdist
-
-#!/usr/bin/env python
 from setuptools import setup, find_packages
+
 setup(
     name = 'tidal-dl',
-    version = '1.0.0.1',
-    license="MIT Licence",
+    version='1.0.0.3',
+    license = "MIT Licence",
+    description = "Tidal Music Download.",
 
-    author='YaronH',
-    description="Album\PlayList\Tracks Download.",
+    author = 'YaronH',
+    author_email = "yaronhuang@qq.com",
 
-    include_package_data=True,
-    platforms="any",
-    install_requires=[]
+    packages = find_packages(),
+    include_package_data = True,
+    platforms = "any",
+    install_requires=[],
 
-
+    entry_points={'console_scripts': [
+        'tidal-dl = tidal_dl:main', ]}
 )

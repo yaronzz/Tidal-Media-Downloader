@@ -13,7 +13,10 @@
             "args": [
                 "-a",
                 "96146858",
-                "--outputdir=e:/1"
+                "--sessionid=83d691a7-6603-4568-82d1-f2f1d35139c6",
+                "quality=LOSSLESS",
+                "countrycode=NZ"
+
             ],
         },
         {
