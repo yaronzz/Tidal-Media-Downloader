@@ -1,5 +1,0 @@
-setup.py
-tidal_dl.egg-info/PKG-INFO
-tidal_dl.egg-info/SOURCES.txt
-tidal_dl.egg-info/dependency_links.txt
-tidal_dl.egg-info/top_level.txt
