@@ -11,12 +11,6 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "-a",
-                "96146858",
-                "--sessionid=xxxxxxxxx",
-                "quality=LOSSLESS",
-                "countrycode=NZ"
-
             ],
         },
         {

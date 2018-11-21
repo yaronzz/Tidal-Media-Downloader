@@ -1,135 +1,142 @@
-import requests
 import sys
 import os
 import getopt
-import aigpy
+from aigpy import pathHelper
+from aigpy import netHelper
+
 sys.path.append('./tidal_dl')
-import tidal
-import config
-import netHelper
-import pathHelper
+import tidal_dl.tidal as tidal
+from tidal_dl.tidal import TidalConfig,TidalTool,TidalAccount
 
-def printHelp():
-    print("-a id:\t" + "Download Album.")
-    print("-p id:\t" + "Download Playlist.")
-    print("-t id:\t" + "Download Track.")
-    print("-h:\t" + "Help Message.")
-    print("--outputdir=xxx:\t" + "Set outputdir.")
-    print("--sessionid=xxx:\t" + "Set sessionid.")
-    print("--quality=xxx:\t" + "Set quality.")
-    print("--countrycode=xxx:\t" + "Set countrycode.")
+def downloadAlbum():
+    tool = TidalTool()
+    cf   = TidalConfig()
+    while True:
+        print("----------------ALBUM------------------")
+        sID = input("Enter AlbumID（Enter '0' go back）:")
+        if sID == '0':
+            return
+
+        aAlbumInfo = tool.getAlbum(sID)
+        if tool.errmsg != "":
+            print("Get AlbumInfo Err!")
+            return
+
+        print("[Title]       %s" % (aAlbumInfo['title']))
+        print("[SongNum]     %s" % (aAlbumInfo['numberOfTracks']))
+
+        # 获取曲目
+        aAlbumTracks = tool.getAlbumTracks(sID)
+        if tool.errmsg != "":
+            print("Get AlbumTracks Err!")
+            return
+
+        # 创建输出目录
+        targetDir = cf.outputdir + "\\Album\\" + aAlbumInfo['title']
+        if os.access(targetDir, 0) == False:
+            pathHelper.mkdirs(targetDir)
+
+        #创建分碟目录
+        count = 0
+        numOfVolumes = int(aAlbumInfo['numberOfVolumes'])
+        if numOfVolumes > 1:
+            while count < numOfVolumes:
+                volumeDir = targetDir + "\\Volume" + str(count)
+                if os.access(volumeDir, 0) == False:
+                    pathHelper.mkdirs(volumeDir)
+                count = count + 1
+
+        # 写信息
+        string = tool.convertToString(aAlbumInfo, aAlbumTracks)
+        with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
+            fd.write(string)
+
+        # # 下载封面
+        # if 'cover' in aAlbumInfo:
+        #     coverPath = targetDir + '\\' + aAlbumInfo['title'] + ".jpg"
+        #     sCoverUrl = tidal.GetAlbumCoverUrl(aAlbumInfo['cover'])
+        #     if False == netHelper.downloadFile(sCoverUrl, coverPath):
+        #         print("Download Cover Err!")
+
+        # 下载曲目
+        for item in aAlbumTracks['items']:
+            filePath   = targetDir + "\\" + item['title'] + ".m4a"
+            streamInfo = tool.getStreamUrl(str(item['id']), cf.quality)
+            if tool.errmsg != "":
+                print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+                continue
+
+            if False == netHelper.downloadFile(streamInfo['url'], filePath):
+                print("[Err]\t\t" + item['title'] + "(Download Err!)")
+            else:
+                print("[SUCCESS]\t\t" + item['title'])
     return
 
-def downloadAlbum(sID):
-    # 获取专辑信息
-    aAlbumInfo = tidal.GetAlbumInfo(sID)
-    if aAlbumInfo == None:
-        print("Get AlbumInfo Err!")
-        return
-    if 'id' not in aAlbumInfo:
-        print("Get AlbumInfo Err!")
-        return
-    print("[Title]       %s" % (aAlbumInfo['title']))
-    print("[SongNum]     %s" % (aAlbumInfo['numberOfTracks']))
-
-    # 获取曲目
-    aAlbumTracks = tidal.GetAlbumTracks(sID)
-    if aAlbumTracks == None:
-        print("Get AlbumInfo Err!")
+def logIn():
+    print("----------------LogIn------------------")
+    username = input("username:")
+    password = input("password:")
+    account  = TidalAccount(username, password)
+    if account.errmsg != "":
+        print(account.errmsg)
         return
 
-    # 创建输出目录
-    OUTPUTDIR = config.GetOutputDir()
-    targetDir = OUTPUTDIR + "\\Album\\" + aAlbumInfo['title']
-    if os.access(targetDir, 0) == False:
-        pathHelper.mkdirs(targetDir)
-
-    #创建分碟目录
-    count = 0
-    numOfVolumes = int(aAlbumInfo['numberOfVolumes'])
-    if numOfVolumes > 1:
-        while count < numOfVolumes:
-            volumeDir = targetDir + "\\Volume" + str(count)
-            if os.access(volumeDir, 0) == False:
-                pathHelper.mkdirs(volumeDir)
-            count = count + 1
-
-    # 写信息
-    string = tidal.ConvertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
-    with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
-        fd.write(string)
-
-    # 下载封面
-    if 'cover' in aAlbumInfo:
-        coverPath = targetDir + '\\' + aAlbumInfo['title'] + ".jpg"
-        sCoverUrl = tidal.GetAlbumCoverUrl(aAlbumInfo['cover'])
-        if False == netHelper.downloadFile(sCoverUrl, coverPath):
-            print("Download Cover Err!")
-
-    # 下载曲目
-    SESSIONID = config.GetSessionID()
-    COUNTRYCODE = config.GetCountryCode()
-    SOUNDQUALITY = config.GetSoundQuality()
-    for item in aAlbumTracks['items']:
-        filePath = targetDir + "\\" + item['title'] + ".m4a"
-        url = tidal.GetStreamUrl(str(item['id']), SESSIONID, SOUNDQUALITY, COUNTRYCODE)
-        if False == netHelper.downloadFile(url, filePath):
-            print("[Err]\t" + item['title'])
-        else:
-            print("[SUCCESS]\t" + item['title'])
+    cf = TidalConfig()
+    cf.set_account(username, password, account.session_id, account.country_code)
     return
+
+def setting():
+    cf = TidalConfig()
+    print("----------------Setting----------------")
+    while True:
+        outputdir = input("outputdir:")
+        if os.path.isdir(outputdir) == False:
+            print("Path is Err!")
+            continue
+        break
+    while True:        
+        quality = input("quality  :")
+        if cf.valid_quality(quality) == False:
+            print("[Err]Quality Err,Only Have " + str(tidal.QUALITY))
+            continue
+        break
+
+    cf = TidalConfig()
+    cf.set_outputdir(outputdir)
+    cf.set_quality(quality)
 
 def main(argv=None):
-
-    
-    VERSION = '1.0.0.3'
-    OUTPUTDIR = config.GetOutputDir()
-    SESSIONID = config.GetSessionID()
-    COUNTRYCODE = config.GetCountryCode()
-    SOUNDQUALITY = config.GetSoundQuality()
-
-    try:
-        useOpts, elseArgs = getopt.getopt(sys.argv[1:], "a:p:t:", ["outputdir=", "sessionid=", "quality=", "countrycode="])
-    except getopt.GetoptError:
-        printHelp()
-        return
-
-    if useOpts.__len__ == 0:
-        printHelp()
-        return  
-
-    for op, value in useOpts:
-        if op == "--outputdir":
-            OUTPUTDIR = value
-            config.SetOutputDir(value)
-        elif op == "--sessionid":
-            SESSIONID = value
-            config.SetSessionID(value)
-        elif op == "--quality":
-            SOUNDQUALITY = value
-            config.SetSoundQuality(value)
-        elif op == "--countrycode":
-            COUNTRYCODE = value
-            config.SetCountryCode(value)
-
-    print("================================================")
-    print("Version:\t" + VERSION)
-    print("OutputDir:\t" + OUTPUTDIR)
-    print("SessionID:\t" + SESSIONID)
-    print("CountryCode:\t" + COUNTRYCODE)
-    print("SoundQuality:\t" + SOUNDQUALITY)
+    cf = TidalConfig()
+    print(tidal.LOG)
+    print("================Tidal-dl========================")
+    print("OutputDir    :\t" + cf.outputdir)
+    print("SessionID    :\t" + cf.sessionid)
+    print("CountryCode  :\t" + cf.countrycode)
+    print("SoundQuality :\t" + cf.quality)
     print("================================================")
 
-    for op, value in useOpts:
-        if op == "-a":
-            downloadAlbum(value)
-        elif op == "-p":
-            output_file = value
-        elif op == "-t":
-            sys.exit()
-        elif op == "-h":
-            printHelp()
+    if cf.sessionid == "":
+        logIn()
 
+    while True:
+        print("=====================Choice=====================")
+        print(" Enter '0' : Exit")
+        print(" Enter '1' : LogIn And Get SessionID.")
+        print(" Enter '2' : Setting(OutputDir/Quality).")
+        print(" Enter '3' : Download Album.")
+        # print(" Enter '4' : Download Track.")
+        # print(" Enter '5' : Download PlayList.")
+        # print(" Enter '6' : Download Albums By File")
+        print("================================================")
+        choice = input("Choice:")
+        if choice == '0':
+            return
+        elif choice == '1':
+            logIn()
+        elif choice == '2':
+            setting()
+        elif choice == '3':
+            downloadAlbum()
 
 if __name__ == '__main__':
     main(sys.argv)
