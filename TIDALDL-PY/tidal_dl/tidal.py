@@ -1,8 +1,9 @@
 import requests
 import json
 import uuid
-
+import re
 from aigpy import configHelper
+from aigpy import netHelper
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
@@ -16,6 +17,8 @@ LOG = '''
    | $$   | $$| $$  | $$ /$$__  $$| $$        | $$  | $$| $$
    | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
    |__/   |__/ \_______/ \_______/|__/         \_______/|__/
+   
+                   (c) 2018 YaronH 
 '''
 
 class TidalTool(object):
@@ -39,10 +42,10 @@ class TidalTool(object):
 
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
-    def getPlaylist(self, playlist_id):
+    def getPlaylist(self, playlist_id, num = 100):
         return self._get('playlists/' + playlist_id + '/items', {
             'offset': 0,
-            'limit': 100
+            'limit': num
         })
     def getAlbumTracks(self, album_id):
         return self._get('albums/' + str(album_id) + '/tracks')
@@ -56,11 +59,43 @@ class TidalTool(object):
         return self._get('users/' + str(user_id) + '/favorites/tracks',{'limit': 9999})
     def getTrackContributors(self, track_id):
         return self._get('tracks/' + str(track_id) + '/contributors')
-    def getVideoStreamUrl(self, video_id):
-        return self._get('videos/' + str(video_id) + '/streamurl')
     @classmethod
     def getAlbumArtworkUrl(cls, album_id, size=1280):
         return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(album_id.replace('-', '/'), size)
+
+    def getVideoResolutionList(self, video_id):
+        info = self._get('videos/' + str(video_id) + '/streamurl')
+        if self.errmsg != "":
+            return None
+
+        content   = netHelper.downloadString(info['url'], None)
+        resolutionList, urlList = self.parseVideoMasterAll(str(content))
+        return resolutionList, urlList
+
+    def getVideoMediaPlaylist(self, url):
+        urlList = self.parseVideoMediaPlaylist(url)
+        return urlList
+
+    def parseVideoMasterAll(self, content):
+        pattern        = re.compile(r"(?<=RESOLUTION=).+?(?=\\n)")
+        resolutionList = pattern.findall(content)
+        pattern        = re.compile(r"(?<=http).+?(?=\\n)")
+        pList          = pattern.findall(content)
+        urlList = []
+        for item in pList:
+            urlList.append("http"+item)
+
+        return resolutionList, urlList
+    
+    def parseVideoMediaPlaylist(self, url):
+        content = netHelper.downloadString(url, None)
+        pattern = re.compile(r"(?<=http).+?(?=\\n)")
+        plist   = pattern.findall(str(content))
+        urllist = []
+        for item in plist:
+            urllist.append("http"+item)
+        return urllist
+
 
     def convertToString(self, aAlbumInfo, aAlbumTracks):
         str = ""
@@ -155,3 +190,7 @@ class TidalConfig(object):
             return True
         return False
 
+
+# if __name__ == '__main__':
+#     tool = TidalTool()
+#     tool.getVideoStreamUrl(97246192)
