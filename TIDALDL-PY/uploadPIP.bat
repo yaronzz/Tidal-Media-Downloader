@@ -12,11 +12,11 @@ REM pack
 python setup.py sdist bdist_wheel
 
 REM creat exe file
-pyinstaller -F tidal_dl/__init__.py
+pyinstaller -F tidal_dl/__main__.py
 
 REM rename exe name
 cd dist
-ren __init__.exe tidal-dl.exe
+ren __main__.exe tidal-dl.exe
 move tidal-dl.exe ../exe/
 cd ..
 

@@ -192,60 +192,29 @@ def downloadVideo():
             print('   ' + str(index) + "    " + resolutionList[index])
             index = index + 1
         print("--------------------")
-        index = myinput("Enter ResolutionIndex:")
-        if int(index) >= len(resolutionList):
-            print("[Err]\t\t" + "ResolutionIndex is overflow!")
-            continue
-
-        urllist = tool.getVideoMediaPlaylist(urlList[int(index)])
-        if tool.errmsg != "":
-            print("[Err]\t\t" + aVideoInfo['title'] + "(Get Stream Url Err!)")
-            continue
-
-        index = -1
-        fileList = []
-        for item in urllist:
-            index      = index + 1
-            filePath   = targetDir + "\\" + str(sID) + "-" + str(index) + ".ts"
-            fileList.append(filePath)
-
-            if tool.errmsg != "":
-                print("[Err]\t\t" + aVideoInfo['title'] + "(Get Stream Url Err!)")
-                continue
-
-            paraList = {'title': aVideoInfo['title'] + str(index),'url': item, 'path': filePath, 'retry': 3}
-            thread.threadStartWait(thradfunc_dltrack, paraList)
-        # wait all download thread
         while True:
-            if thread.allFree() == True:
-                break
-            threadHelper.time.sleep(2)
-        # merge all video
+            index = myinput("Enter ResolutionIndex:")
+            if index == '' or index == None or int(index) >= len(resolutionList):
+                print("[Err] " + "ResolutionIndex is err")
+                continue
+            break
+
         filePath = targetDir + "\\" + aVideoInfo['title'] + ".mp4"
         filePath = pathHelper.replaceLimiChar(filePath, '-')
-        mergeVideo(targetDir, aVideoInfo['title'], fileList, filePath)
+        if os.path.exists(filePath) == True:
+            os.remove(filePath)
+        ffmpegDownloadVideo(urlList[int(index)], filePath)
     return
 
-def mergeVideo(targetDir, title, fileList, filePath):
-    if fileList == None:
-        return False
-    if len(fileList) <= 0:
-        return False
-
-    path = targetDir + "\\" + pathHelper.replaceLimiChar(title,'-') + ".txt"
-    with open(path, 'w') as fd:
-        for item in fileList:
-            fd.write("file \'" + item + '\'\n')
-    cmd = "ffmpeg -f concat -safe 0 -i \"" + path + "\" -c copy \"" + filePath + "\""
-    res = subprocess.call(cmd, shell=False, creationflags=0x08000000)
+def ffmpegDownloadVideo(url, filePath):
+    print("-----downloading-----")
+    cmd = "ffmpeg -i " + url + " -c copy -bsf:a aac_adtstoasc \"" + filePath + "\""
+    res = subprocess.call(cmd, shell=False)
     if res != 0:
         print("ffmpeg merge video err!")
         return False
-
-    for item in fileList:
-        os.remove(item)
-    os.remove(path)
     return True
+    
 
 def downloadPlaylist():
     tool   = TidalTool()

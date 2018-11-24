@@ -18,7 +18,7 @@ LOG = '''
    | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
    |__/   |__/ \_______/ \_______/|__/         \_______/|__/
    
-                   (c) 2018 YaronH 
+    (c) https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
 
 class TidalTool(object):
