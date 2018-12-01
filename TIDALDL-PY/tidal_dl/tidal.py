@@ -18,7 +18,7 @@ LOG = '''
    | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
    |__/   |__/ \_______/ \_______/|__/         \_______/|__/
    
-    (c) https://github.com/yaronzz/Tidal-Media-Downloader 
+       https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
 
 class TidalTool(object):
@@ -43,10 +43,12 @@ class TidalTool(object):
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
     def getPlaylist(self, playlist_id, num = 100):
-        return self._get('playlists/' + playlist_id + '/items', {
+        info = self._get('playlists/' + playlist_id)
+        items = self._get('playlists/' + playlist_id + '/items', {
             'offset': 0,
             'limit': num
         })
+        return info,items
     def getAlbumTracks(self, album_id):
         return self._get('albums/' + str(album_id) + '/tracks')
     def getTrack(self, track_id):
@@ -69,14 +71,14 @@ class TidalTool(object):
             return None
 
         content   = netHelper.downloadString(info['url'], None)
-        resolutionList, urlList = self.parseVideoMasterAll(str(content))
+        resolutionList, urlList = self.__parseVideoMasterAll(str(content))
         return resolutionList, urlList
 
     def getVideoMediaPlaylist(self, url):
-        urlList = self.parseVideoMediaPlaylist(url)
+        urlList = self.__parseVideoMediaPlaylist(url)
         return urlList
 
-    def parseVideoMasterAll(self, content):
+    def __parseVideoMasterAll(self, content):
         pattern        = re.compile(r"(?<=RESOLUTION=).+?(?=\\n)")
         resolutionList = pattern.findall(content)
         pattern        = re.compile(r"(?<=http).+?(?=\\n)")
@@ -87,7 +89,7 @@ class TidalTool(object):
 
         return resolutionList, urlList
     
-    def parseVideoMediaPlaylist(self, url):
+    def __parseVideoMediaPlaylist(self, url):
         content = netHelper.downloadString(url, None)
         pattern = re.compile(r"(?<=http).+?(?=\\n)")
         plist   = pattern.findall(str(content))
@@ -95,7 +97,6 @@ class TidalTool(object):
         for item in plist:
             urllist.append("http"+item)
         return urllist
-
 
     def convertToString(self, aAlbumInfo, aAlbumTracks):
         str = ""

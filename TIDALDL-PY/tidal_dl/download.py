@@ -1,263 +1,244 @@
 import sys
 import os
-import subprocess
-
-from ffmpeg import video
 
 from aigpy import pathHelper
 from aigpy import netHelper
-from aigpy import threadHelper
+from aigpy import ffmpegHelper
+
 from aigpy.cmdHelper import myinput
+from aigpy.threadHelper import ThreadTool
 
-import tidal_dl.tidal as tidal
-from tidal_dl.tidal import TidalConfig, TidalTool, TidalAccount
+from tidal_dl.tidal import TidalTool
+from tidal_dl.tidal import TidalConfig
+from tidal_dl.tidal import TidalAccount
 
+class Download(object):
+    def __init__(self, threadNum=50):
+        self.config = TidalConfig()
+        self.tool   = TidalTool()
+        self.thread = ThreadTool(threadNum)
+        pathHelper.mkdirs(self.config.outputdir + "\\Album\\")
+        pathHelper.mkdirs(self.config.outputdir + "\\Track\\")
+        pathHelper.mkdirs(self.config.outputdir + "\\Playlist\\")
+        pathHelper.mkdirs(self.config.outputdir + "\\Video\\")
 
-# dowmload track thread
-def thradfunc_dltrack(paraList):
-    try:
-        count = 1
+    # dowmload track thread
+    def __thradfunc_dl(self, paraList):
+        count    = 1
+        printRet = True
+        pstr     = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
         if 'retry' in paraList:
             count = count + paraList['retry']
+        if 'show' in paraList:
+            printRet = paraList['show']
 
-        while True:
-            count = count - 1
-            path  = pathHelper.replaceLimiChar(paraList['path'],'-')
-            check = netHelper.downloadFile(paraList['url'], paraList['path'])
-            if check == True:
-                break
-            if(count <= 0):
-                break
+        try:
+            while count > 0:
+                count = count - 1
+                check = netHelper.downloadFile(paraList['url'], paraList['path'])
+                if check == True:
+                    break
+            if check:
+                pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
+        except:
+            pass
+        
+        if printRet:
+            print(pstr)
+        return
 
-        if check == False:
-            print('{:<14}'.format("[Err]") + paraList['title'] + "(Download Err!)")
-        else:
-            print('{:<14}'.format("[SUCCESS]") + paraList['title'])
-    except:
-        print('{:<14}'.format("[Err]") + paraList['title'] + "(Download Err!)")
-
-# Creat outputDir
-def mkdirOutputDir(aAlbumInfo, aTrackInfo = None, aPlaylistInfo = None, aVideoInfo = None):
-    cf = TidalConfig()
-    if aAlbumInfo != None:
+    # creat album output dir
+    def __creatAlbumDir(self, albumInfo):
         # creat outputdir
-        title = pathHelper.mkdirs(aAlbumInfo['title'], '-')
-        targetDir = cf.outputdir + "\\Album\\" + title
-        if os.access(targetDir, 0) == False:
-            pathHelper.mkdirs(targetDir)
-
+        title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
+        targetDir = self.config.outputdir + "\\Album\\" + title
+        pathHelper.mkdirs(targetDir)
         # creat volumes dir
         count = 0
-        numOfVolumes = int(aAlbumInfo['numberOfVolumes'])
+        numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes > 1:
             while count < numOfVolumes:
                 volumeDir = targetDir + "\\Volume" + str(count)
-                if os.access(volumeDir, 0) == False:
-                    pathHelper.mkdirs(volumeDir)
+                pathHelper.mkdirs(volumeDir)
                 count = count + 1
+        return targetDir
     
-    if aTrackInfo != None:
-        targetDir = cf.outputdir + "\\Track\\"
-        if os.access(targetDir, 0) == False:
-            pathHelper.mkdirs(targetDir)
+    def __getAlbumSongSavePath(self, targetDir, albumInfo, item):
+        numOfVolumes = int(albumInfo['numberOfVolumes'])
+        if numOfVolumes <= 1:
+            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-') + ".m4a"
+        else:
+            index = item['volumeNumber']
+            filePath = targetDir + "\\Volume" + index + pathHelper.replaceLimitChar(item['title'], '-') + ".m4a"
+        return filePath
 
-    if aPlaylistInfo != None:
-        title = pathHelper.mkdirs(aPlaylistInfo['title'], '-')
-        targetDir = cf.outputdir + "\\Playlist\\" + title
-        if os.access(targetDir, 0) == False:
-            pathHelper.mkdirs(targetDir)
+    def downloadAlbum(self):
+        while True:
+            print("----------------ALBUM------------------")
+            sID = myinput("Enter AlbumID（Enter '0' go back）:")
+            if sID == '0':
+                return
 
-    if aVideoInfo != None:
-        targetDir = cf.outputdir + "\\Video\\"
-        if os.access(targetDir, 0) == False:
-            pathHelper.mkdirs(targetDir)
-
-    return targetDir
-
-
-def downloadAlbum():
-    tool   = TidalTool()
-    cf     = TidalConfig()
-    thread = threadHelper.ThreadTool(30)
-
-    while True:
-        print("----------------ALBUM------------------")
-        sID = myinput("Enter AlbumID（Enter '0' go back）:")
-        if sID == '0':
-            return
-
-        aAlbumInfo = tool.getAlbum(sID)
-        if tool.errmsg != "":
-            print("Get AlbumInfo Err!")
-            continue
-
-        print("[Title]       %s" % (aAlbumInfo['title']))
-        print("[SongNum]     %s\n" % (aAlbumInfo['numberOfTracks']))
-
-        # Get Tracks
-        aAlbumTracks = tool.getAlbumTracks(sID)
-        if tool.errmsg != "":
-            print("Get AlbumTracks Err!")
-            return
-        # Creat OutputDir
-        targetDir = mkdirOutputDir(aAlbumInfo)
-        # write msg
-        string = tool.convertToString(aAlbumInfo, aAlbumTracks)
-        with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
-            fd.write(string)
-        # download album tracks
-        for item in aAlbumTracks['items']:
-            filePath = targetDir + "\\" + item['title'] + ".m4a"
-            streamInfo = tool.getStreamUrl(str(item['id']), cf.quality)
-            if tool.errmsg != "":
-                print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+            aAlbumInfo = self.tool.getAlbum(sID)
+            if self.tool.errmsg != "":
+                print("Get AlbumInfo Err!")
                 continue
 
-            paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath}
-            thread.threadStartWait(thradfunc_dltrack, paraList)
-        # wait all download thread
+            print("[Title]       %s" % (aAlbumInfo['title']))
+            print("[SongNum]     %s\n" % (aAlbumInfo['numberOfTracks']))
+
+            # Get Tracks
+            aAlbumTracks = self.tool.getAlbumTracks(sID)
+            if self.tool.errmsg != "":
+                print("Get AlbumTracks Err!")
+                return
+            # Creat OutputDir
+            targetDir = self.__creatAlbumDir(aAlbumInfo)
+            # write msg
+            string = self.tool.convertToString(aAlbumInfo, aAlbumTracks)
+            with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
+                fd.write(string)
+            # download album tracks
+            for item in aAlbumTracks['items']:
+                filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item)
+                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                if self.tool.errmsg != "":
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+                    continue
+
+                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+                self.thread.start(self.__thradfunc_dl, paraList)
+            # wait all download thread
+            self.thread.waitAll()
+        return
+
+    def downloadTrack(self):
         while True:
-            if thread.allFree() == True:
-                break
-            threadHelper.time.sleep(2)
-    return
+            targetDir = self.config.outputdir + "\\Track\\"
+            print("----------------TRACK------------------")
+            sID = myinput("Enter TrackID（Enter '0' go back）:")
+            if sID == '0':
+                return
 
-def downloadTrack():
-    tool   = TidalTool()
-    cf     = TidalConfig()
-    thread = threadHelper.ThreadTool(1)
+            aTrackInfo = self.tool.getTrack(sID)
+            if self.tool.errmsg != "":
+                print("Get TrackInfo Err!")
+                return
 
-    while True:
-        print("----------------TRACK------------------")
-        sID = myinput("Enter TrackID（Enter '0' go back）:")
-        if sID == '0':
-            return
-
-        aTrackInfo = tool.getTrack(sID)
-        if tool.errmsg != "":
-            print("Get TrackInfo Err!")
-            return
-
-        print("[TrackTitle ]       %s" % (aTrackInfo['title']))
-        print("[Duration   ]       %s" % (aTrackInfo['duration']))
-        print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
-        print("[Version    ]       %s\n" % (aTrackInfo['version']))
-        # Creat OutputDir
-        targetDir = mkdirOutputDir(None, aTrackInfo)
-        # download
-        filePath = targetDir + "\\" + aTrackInfo['title'] + ".m4a"
-        streamInfo = tool.getStreamUrl(sID, cf.quality)
-        if tool.errmsg != "":
-            print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!)")
-            continue
-        paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath}
-        thread.threadStartWait(thradfunc_dltrack, paraList)
-        # wait all download thread
-        while True:
-            if thread.allFree() == True:
-                break
-            threadHelper.time.sleep(2)
-    return
-
-def downloadVideo():
-    tool   = TidalTool()
-    cf     = TidalConfig()
-    thread = threadHelper.ThreadTool(50)
-
-    while True:
-        print("----------------VIDEO------------------")
-        sID = myinput("Enter VideoID（Enter '0' go back）:")
-        if sID == '0':
-            return
-        # sID = 97246192
-        aVideoInfo = tool.getVideo(sID)
-        if tool.errmsg != "":
-            print("Get VideoInfo Err!")
-            continue
-
-        print("[Title      ]       %s" % (aVideoInfo['title']))
-        print("[Duration   ]       %s" % (aVideoInfo['duration']))
-        print("[TrackNumber]       %s" % (aVideoInfo['trackNumber']))
-        print("[Type       ]       %s\n" % (aVideoInfo['type']))
-
-        # Creat OutputDir
-        targetDir = mkdirOutputDir(None, None, None, aVideoInfo)
-        # download
-        filePath = targetDir + "\\" + aVideoInfo['title'] + ".mp4"
-        # get resolution
-        index = 0
-        resolutionList, urlList = tool.getVideoResolutionList(sID)
-        print("-Index--Resolution--")
-        for item in resolutionList:
-            print('   ' + str(index) + "    " + resolutionList[index])
-            index = index + 1
-        print("--------------------")
-        while True:
-            index = myinput("Enter ResolutionIndex:")
-            if index == '' or index == None or int(index) >= len(resolutionList):
-                print("[Err] " + "ResolutionIndex is err")
+            print("[TrackTitle ]       %s" % (aTrackInfo['title']))
+            print("[Duration   ]       %s" % (aTrackInfo['duration']))
+            print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
+            print("[Version    ]       %s\n" % (aTrackInfo['version']))
+            # download
+            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + ".m4a"
+            streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
+            if self.tool.errmsg != "":
+                print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!)")
                 continue
-            break
+            paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+            self.thread.start(self.__thradfunc_dl, paraList)
+            # wait all download thread
+            self.thread.waitAll()
+        return
 
-        filePath = targetDir + "\\" + aVideoInfo['title'] + ".mp4"
-        filePath = pathHelper.replaceLimiChar(filePath, '-')
-        if os.path.exists(filePath) == True:
-            os.remove(filePath)
-        ffmpegDownloadVideo(urlList[int(index)], filePath)
-    return
-
-def ffmpegDownloadVideo(url, filePath):
-    print("-----downloading-----")
-    cmd = "ffmpeg -i " + url + " -c copy -bsf:a aac_adtstoasc \"" + filePath + "\""
-    res = subprocess.call(cmd, shell=False)
-    if res != 0:
-        print("ffmpeg merge video err!")
-        return False
-    return True
-    
-
-def downloadPlaylist():
-    tool   = TidalTool()
-    cf     = TidalConfig()
-    thread = threadHelper.ThreadTool(50)
-    while True:
-        print("--------------PLAYLIST-----------------")
-        sID = myinput("Enter PlayListID（Enter '0' go back）:")
-        if sID == '0':
-            return
-
-        aPlaylistInfo = tool.getPlaylist(sID, 300)
-        if tool.errmsg != "":
-            print("Get PlaylistInfo Err!")
-            return
-
-        print("[Title         ]       %s" % (aPlaylistInfo['title']))
-        print("[Type          ]       %s" % (aPlaylistInfo['type']))
-        print("[Public        ]       %s" % (aPlaylistInfo['public']))
-        print("[NumberOfTracks]       %s" % (aPlaylistInfo['numberOfTracks']))
-        print("[NumberOfVideos]       %s" % (aPlaylistInfo['numberOfVideos']))
-        print("[Duration      ]       %s\n" % (aPlaylistInfo['duration']))
-
-        # Creat OutputDir
-        targetDir = mkdirOutputDir(None, None, aPlaylistInfo)
-        # download
-        # for item in aAlbumTracks['items']:
-        #     filePath = targetDir + "\\" + item['title'] + ".m4a"
-        #     streamInfo = tool.getStreamUrl(str(item['id']), cf.quality)
-        #     if tool.errmsg != "":
-        #         print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
-        #         continue
-
-        #     paraList = {'title': item['title'],
-        #                 'url': streamInfo['url'], 'path': filePath}
-        #     thread.threadStartWait(thradfunc_dltrack, paraList)
-
-        # wait all download thread
+    def downloadVideo(self):
         while True:
-            if thread.allFree() == True:
+            targetDir = self.config.outputdir + "\\Video\\"
+            print("----------------VIDEO------------------")
+            sID = myinput("Enter VideoID（Enter '0' go back）:")
+            if sID == '0':
+                return
+            aVideoInfo = self.tool.getVideo(sID)
+            if self.tool.errmsg != "":
+                print("Get VideoInfo Err!")
+                continue
+
+            print("[Title      ]       %s" % (aVideoInfo['title']))
+            print("[Duration   ]       %s" % (aVideoInfo['duration']))
+            print("[TrackNumber]       %s" % (aVideoInfo['trackNumber']))
+            print("[Type       ]       %s\n" % (aVideoInfo['type']))
+
+            # get resolution
+            index = 0
+            resolutionList, urlList = self.tool.getVideoResolutionList(sID)
+            print("-Index--Resolution--")
+            for item in resolutionList:
+                print('   ' + str(index) + "    " + resolutionList[index])
+                index = index + 1
+            print("--------------------")
+            while True:
+                index = myinput("Enter ResolutionIndex:")
+                if index == '' or index == None or int(index) >= len(resolutionList):
+                    print("[Err] " + "ResolutionIndex is err")
+                    continue
                 break
-            threadHelper.time.sleep(2)
-    return
+
+            urls    = self.tool.getVideoMediaPlaylist(urlList[int(index)])
+            pre     = targetDir + "\\" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-') 
+            index   = 0
+            patharr = []
+
+            for item in urls:
+                index = index + 1
+                path  = pre + str(index) + ".mp4"
+                patharr.append(path)
+                if os.path.exists(path) == True:
+                    os.remove(path)
+                paraList = {'title': aVideoInfo['title'] + str(index), 'url': item, 'path': path, 'retry': 3, 'show': False}
+                self.thread.start(self.__thradfunc_dl, paraList)
+
+            self.thread.waitAll()
+            path = targetDir + "\\" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-')+ ".mp4"
+            if ffmpegHelper.mergerByFiles(patharr, path, False):
+                print('{:<14}'.format("[SUCCESS]") + aVideoInfo['title'])
+            else:
+                print('{:<14}'.format("[ERR]") + aVideoInfo['title'])
+            
+            for item in patharr:
+                if os.path.exists(item) == True:
+                    os.remove(item)
+        return
+
+    def downloadPlaylist(self):
+        while True:
+            targetDir = self.config.outputdir + "\\Playlist\\"
+            print("--------------PLAYLIST-----------------")
+            sID = myinput("Enter PlayListID（Enter '0' go back）:")
+            if sID == '0':
+                return
+
+            aPlaylistInfo,aItemInfo = self.tool.getPlaylist(sID)
+            if self.tool.errmsg != "":
+                print("Get PlaylistInfo Err!")
+                return
+
+            print("[Title]                %s" % (aPlaylistInfo['title']))
+            print("[Type]                 %s" % (aPlaylistInfo['type']))
+            print("[NumberOfTracks]       %s" % (aPlaylistInfo['numberOfTracks']))
+            print("[NumberOfVideos]       %s" % (aPlaylistInfo['numberOfVideos']))
+            print("[Duration]             %s\n" % (aPlaylistInfo['duration']))
+
+            # Creat OutputDir
+            targetDir = targetDir + pathHelper.replaceLimitChar(aPlaylistInfo['title'],'-')
+            pathHelper.mkdirs(targetDir)
+            # download track
+            for item in aItemInfo['items']:
+                type = item['type']
+                item = item['item']
+                if type != 'track':
+                    continue
+
+                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + ".m4a";
+                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                if self.tool.errmsg != "":
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+                    continue
+
+                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+                self.thread.start(self.__thradfunc_dl, paraList)
+
+            self.thread.waitAll()
+        return
 
 def downloadByFile():
     return

@@ -2,10 +2,11 @@ import sys
 import os
 
 import tidal_dl.tidal as tidal
-from tidal_dl.tidal import TidalConfig, TidalAccount
-from tidal_dl.download import downloadAlbum, downloadTrack, downloadPlaylist, downloadByFile, downloadVideo
-from aigpy.cmdHelper import myinput
 
+from aigpy.cmdHelper import myinput
+from tidal_dl.tidal import TidalConfig
+from tidal_dl.tidal import TidalAccount
+from tidal_dl.download import Download
 
 def logIn():
     print("----------------LogIn------------------")
@@ -17,8 +18,7 @@ def logIn():
         return
 
     cf = TidalConfig()
-    cf.set_account(username, password, account.session_id,
-                   account.country_code)
+    cf.set_account(username, password, account.session_id, account.country_code)
     return
 
 
@@ -28,7 +28,7 @@ def setting():
     while True:
         outputdir = myinput("outputdir:")
         if os.path.isdir(outputdir) == False:
-            print("Path is Err!")
+            print("[Err]Path is Err!")
             continue
         break
     while True:
@@ -38,10 +38,9 @@ def setting():
             continue
         break
 
-    cf = TidalConfig()
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
-
+    return
 
 def main(argv=None):
     cf = TidalConfig()
@@ -56,6 +55,7 @@ def main(argv=None):
     if cf.sessionid == "":
         logIn()
 
+    dl = Download()
     while True:
         print("=====================Choice=========================")
         print(" Enter '0' : Exit")
@@ -63,7 +63,7 @@ def main(argv=None):
         print(" Enter '2' : Setting(OutputDir/Quality).")
         print(" Enter '3' : Download Album.")
         print(" Enter '4' : Download Track.")
-        # print(" Enter '5' : Download PlayList.")
+        print(" Enter '5' : Download PlayList.")
         print(" Enter '6' : Download Video")
         # print(" Enter '7' : Download By File")
         print("====================================================")
@@ -75,15 +75,15 @@ def main(argv=None):
         elif choice == '2':
             setting()
         elif choice == '3':
-            downloadAlbum()
+            dl.downloadAlbum()
         elif choice == '4':
-            downloadTrack()
-        # elif choice == '5':
-        #     downloadPlaylist()
+            dl.downloadTrack()
+        elif choice == '5':
+            dl.downloadPlaylist()
         elif choice == '6':
-            downloadVideo()
-        elif choice == '7':
-            downloadByFile()
+            dl.downloadVideo()
+        # elif choice == '7':
+        #     dl.downloadByFile()
 
 # if __name__ == '__main__':
 #     main(sys.argv)
