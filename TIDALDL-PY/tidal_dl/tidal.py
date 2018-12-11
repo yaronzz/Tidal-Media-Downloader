@@ -98,7 +98,7 @@ class TidalTool(object):
             urllist.append("http"+item)
         return urllist
 
-    def convertToString(self, aAlbumInfo, aAlbumTracks):
+    def convertAlbumInfoToString(self, aAlbumInfo, aAlbumTracks):
         str = ""
         str += "[ID]          %d\n" % (aAlbumInfo['id'])
         str += "[Title]       %s\n" % (aAlbumInfo['title'])
@@ -119,6 +119,38 @@ class TidalTool(object):
                     continue            
                 str += '{:<8}'.format("[%d]" % item['trackNumber'])
                 str += "%s\n" % item['title']
+        return str
+
+    def convertPlaylistInfoToString(seld, aPlaylistInfo, aTrackItems):
+        str = ""
+        str += "[Title]           %s\n" % (aPlaylistInfo['title'])
+        str += "[Type]            %s\n" % (aPlaylistInfo['type'])
+        str += "[NumberOfTracks]  %s\n" % (aPlaylistInfo['numberOfTracks'])
+        str += "[NumberOfVideos]  %s\n" % (aPlaylistInfo['numberOfVideos'])
+        str += "[Duration]        %s\n" % (aPlaylistInfo['duration'])
+
+        i = 0;
+        str += "===========Track=============\n"
+        for item in aTrackItems['items']:
+            type = item['type']
+            item = item['item']
+            if type != 'track':
+                continue
+
+            i = i + 1
+            str += '{:<8}'.format("[%d]" % i) + item['title'] + '\n'
+
+        i = 0
+        str += "\n===========Video=============\n"
+        for item in aTrackItems['items']:
+            type = item['type']
+            item = item['item']
+            if type != 'video':
+                continue
+
+            i = i + 1
+            str += '{:<8}'.format("[%d]" % i) + item['title'] + '\n'
+
         return str
 
 # LogIn and Get SessionID

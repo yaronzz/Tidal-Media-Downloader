@@ -95,7 +95,7 @@ class Download(object):
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
-            string = self.tool.convertToString(aAlbumInfo, aAlbumTracks)
+            string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
             with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
                 fd.write(string)
             # download album tracks
@@ -221,6 +221,10 @@ class Download(object):
             # Creat OutputDir
             targetDir = targetDir + pathHelper.replaceLimitChar(aPlaylistInfo['title'],'-')
             pathHelper.mkdirs(targetDir)
+            # write msg
+            string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
+            with open(targetDir + "\\PlaylistInfo.txt", 'w') as fd:
+                fd.write(string)
             # download track
             for item in aItemInfo['items']:
                 type = item['type']
@@ -236,8 +240,42 @@ class Download(object):
 
                 paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
                 self.thread.start(self.__thradfunc_dl, paraList)
-
             self.thread.waitAll()
+
+            # download video 
+            for item in aItemInfo['items']:
+                type = item['type']
+                item = item['item']
+                if type != 'video':
+                    continue
+                
+                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+                resolutionList, urlList = self.tool.getVideoResolutionList(sID)
+                urls = self.tool.getVideoMediaPlaylist(urlList[0])
+
+                pre = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-') 
+                index   = 0
+                patharr = []
+
+                for url in urls:
+                    index = index + 1
+                    path  = pre + str(index) + ".mp4"
+                    patharr.append(path)
+                    if os.path.exists(path) == True:
+                        os.remove(path)
+                    paraList = {'title': item['title'] + str(index), 'url': url, 'path': path, 'retry': 3, 'show': False}
+                    self.thread.start(self.__thradfunc_dl, paraList)
+
+                self.thread.waitAll()
+                path = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-')+ ".mp4"
+                if ffmpegHelper.mergerByFiles(patharr, path, False):
+                    print('{:<14}'.format("[SUCCESS]") + item['title'])
+                else:
+                    print('{:<14}'.format("[ERR]") + item['title'])
+                
+                for item in patharr:
+                    if os.path.exists(item) == True:
+                        os.remove(item)
         return
 
 def downloadByFile():
