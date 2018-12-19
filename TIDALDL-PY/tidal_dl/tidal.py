@@ -166,6 +166,7 @@ class TidalAccount(object):
         self.errmsg   = ""
         self.getSessionID(password)
 
+
     def getSessionID(self, password):
         postParams = {
             'username'       : self.username,

@@ -1,9 +1,10 @@
 import sys
 import os
 
-import tidal_dl.tidal as tidal
-
+from aigpy import pathHelper
 from aigpy.cmdHelper import myinput
+
+import tidal_dl.tidal as tidal
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
@@ -40,6 +41,11 @@ def setting():
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
+
+    pathHelper.mkdirs(outputdir + "\\Album\\")
+    pathHelper.mkdirs(outputdir + "\\Track\\")
+    pathHelper.mkdirs(outputdir + "\\Playlist\\")
+    pathHelper.mkdirs(outputdir + "\\Video\\")
     return
 
 def main(argv=None):

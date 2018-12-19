@@ -3,8 +3,8 @@ import os
 
 from aigpy import pathHelper
 from aigpy import netHelper
-from aigpy import ffmpegHelper
 
+from aigpy.ffmpegHelper import FFmpegTool
 from aigpy.cmdHelper import myinput
 from aigpy.threadHelper import ThreadTool
 
@@ -17,6 +17,8 @@ class Download(object):
         self.config = TidalConfig()
         self.tool   = TidalTool()
         self.thread = ThreadTool(threadNum)
+        self.ffmpeg = FFmpegTool()
+
         pathHelper.mkdirs(self.config.outputdir + "\\Album\\")
         pathHelper.mkdirs(self.config.outputdir + "\\Track\\")
         pathHelper.mkdirs(self.config.outputdir + "\\Playlist\\")
@@ -173,30 +175,15 @@ class Download(object):
                     continue
                 break
 
-            urls    = self.tool.getVideoMediaPlaylist(urlList[int(index)])
-            pre     = targetDir + "\\" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-') 
-            index   = 0
-            patharr = []
-
-            for item in urls:
-                index = index + 1
-                path  = pre + str(index) + ".mp4"
-                patharr.append(path)
-                if os.path.exists(path) == True:
-                    os.remove(path)
-                paraList = {'title': aVideoInfo['title'] + str(index), 'url': item, 'path': path, 'retry': 3, 'show': False}
-                self.thread.start(self.__thradfunc_dl, paraList)
-
-            self.thread.waitAll()
             path = targetDir + "\\" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-')+ ".mp4"
-            if ffmpegHelper.mergerByFiles(patharr, path, False):
+            path = os.path.abspath(path)
+            if os.access(path, 0):
+                os.remove(path)
+
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[int(index)], path):
                 print('{:<14}'.format("[SUCCESS]") + aVideoInfo['title'])
             else:
                 print('{:<14}'.format("[ERR]") + aVideoInfo['title'])
-            
-            for item in patharr:
-                if os.path.exists(item) == True:
-                    os.remove(item)
         return
 
     def downloadPlaylist(self):
@@ -250,32 +237,15 @@ class Download(object):
                     continue
                 
                 filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+                filePath = os.path.abspath(filePath)
+                if os.access(filePath, 0):
+                    os.remove(filePath)
+
                 resolutionList, urlList = self.tool.getVideoResolutionList(sID)
-                urls = self.tool.getVideoMediaPlaylist(urlList[0])
-
-                pre = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-') 
-                index   = 0
-                patharr = []
-
-                for url in urls:
-                    index = index + 1
-                    path  = pre + str(index) + ".mp4"
-                    patharr.append(path)
-                    if os.path.exists(path) == True:
-                        os.remove(path)
-                    paraList = {'title': item['title'] + str(index), 'url': url, 'path': path, 'retry': 3, 'show': False}
-                    self.thread.start(self.__thradfunc_dl, paraList)
-
-                self.thread.waitAll()
-                path = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-')+ ".mp4"
-                if ffmpegHelper.mergerByFiles(patharr, path, False):
+                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath):
                     print('{:<14}'.format("[SUCCESS]") + item['title'])
                 else:
                     print('{:<14}'.format("[ERR]") + item['title'])
-                
-                for item in patharr:
-                    if os.path.exists(item) == True:
-                        os.remove(item)
         return
 
 def downloadByFile():
