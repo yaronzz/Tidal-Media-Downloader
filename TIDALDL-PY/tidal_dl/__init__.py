@@ -2,6 +2,7 @@ import sys
 import os
 
 from aigpy import pathHelper
+# from aigpy import versionHelper
 from aigpy.cmdHelper import myinput
 
 import tidal_dl.tidal as tidal
@@ -52,6 +53,7 @@ def main(argv=None):
     cf = TidalConfig()
     print(tidal.LOG)
     print("====================Tidal-dl========================")
+    print("OutputDir    :\t" + __file__)
     print("OutputDir    :\t" + cf.outputdir)
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)

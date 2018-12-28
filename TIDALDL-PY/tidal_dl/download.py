@@ -7,6 +7,7 @@ from aigpy import netHelper
 from aigpy.ffmpegHelper import FFmpegTool
 from aigpy.cmdHelper import myinput
 from aigpy.threadHelper import ThreadTool
+from aigpy.progressHelper import ProgressTool
 
 from tidal_dl.tidal import TidalTool
 from tidal_dl.tidal import TidalConfig
@@ -14,10 +15,11 @@ from tidal_dl.tidal import TidalAccount
 
 class Download(object):
     def __init__(self, threadNum=50):
-        self.config = TidalConfig()
-        self.tool   = TidalTool()
-        self.thread = ThreadTool(threadNum)
-        self.ffmpeg = FFmpegTool()
+        self.config   = TidalConfig()
+        self.tool     = TidalTool()
+        self.thread   = ThreadTool(threadNum)
+        self.ffmpeg   = FFmpegTool()
+        self.progress = ProgressTool(100)
 
         pathHelper.mkdirs(self.config.outputdir + "\\Album\\")
         pathHelper.mkdirs(self.config.outputdir + "\\Track\\")
@@ -180,7 +182,7 @@ class Download(object):
             if os.access(path, 0):
                 os.remove(path)
 
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[int(index)], path):
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[int(index)], path, True):
                 print('{:<14}'.format("[SUCCESS]") + aVideoInfo['title'])
             else:
                 print('{:<14}'.format("[ERR]") + aVideoInfo['title'])
@@ -242,7 +244,7 @@ class Download(object):
                     os.remove(filePath)
 
                 resolutionList, urlList = self.tool.getVideoResolutionList(sID)
-                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath):
+                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, True):
                     print('{:<14}'.format("[SUCCESS]") + item['title'])
                 else:
                     print('{:<14}'.format("[ERR]") + item['title'])
