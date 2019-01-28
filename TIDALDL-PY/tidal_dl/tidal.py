@@ -7,7 +7,8 @@ from aigpy import netHelper
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
-QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
+QUALITY = ['LOSSLESS', 'HIGH', 'LOW']
+# QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -181,14 +182,14 @@ class TidalAccount(object):
                 self.errmsg = "Uername or password err!"
             else:
                 self.errmsg = "Get sessionid err!"
+        else:
+            self.session_id   = re['sessionId']
+            self.user_id      = re['userId']
+            self.country_code = re['countryCode']
 
-        self.session_id   = re['sessionId']
-        self.user_id      = re['userId']
-        self.country_code = re['countryCode']
-
-        re = requests.get(URL_PRE + 'users/' + str(self.user_id), params={'sessionId': self.session_id}).json()
-        if 'status' in re and not re['status'] == 200:
-            self.errmsg = "Sessionid is unvalid!"
+            re = requests.get(URL_PRE + 'users/' + str(self.user_id), params={'sessionId': self.session_id}).json()
+            if 'status' in re and not re['status'] == 200:
+                self.errmsg = "Sessionid is unvalid!"
 
 # Config Tool
 class TidalConfig(object):

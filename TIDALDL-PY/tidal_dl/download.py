@@ -12,6 +12,8 @@ from aigpy.progressHelper import ProgressTool
 from tidal_dl.tidal import TidalTool
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
+from tidal_dl.decryption import decrypt_security_token
+from tidal_dl.decryption import decrypt_file
 
 class Download(object):
     def __init__(self, threadNum=50):
@@ -41,6 +43,10 @@ class Download(object):
                 count = count - 1
                 check = netHelper.downloadFile(paraList['url'], paraList['path'])
                 if check == True:
+                    if paraList['key'] == '':
+                        break
+                    key,nonce = decrypt_security_token(paraList['key'])
+                    decrypt_file(paraList['path'],key,nonce)
                     break
             if check:
                 pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
@@ -107,10 +113,10 @@ class Download(object):
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item)
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)" + self.tool.errmsg)
                     continue
 
-                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -139,7 +145,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!)")
                 continue
-            paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+            paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -227,7 +233,7 @@ class Download(object):
                     print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
                     continue
 
-                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3}
+                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             self.thread.waitAll()
 

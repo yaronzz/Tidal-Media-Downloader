@@ -2,7 +2,6 @@ import sys
 import os
 
 from aigpy import pathHelper
-# from aigpy import versionHelper
 from aigpy.cmdHelper import myinput
 
 import tidal_dl.tidal as tidal
@@ -52,16 +51,15 @@ def setting():
 def main(argv=None):
     cf = TidalConfig()
     print(tidal.LOG)
+    if cf.sessionid == "":
+        logIn()
+
     print("====================Tidal-dl========================")
-    print("OutputDir    :\t" + __file__)
     print("OutputDir    :\t" + cf.outputdir)
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
     print("====================================================")
-
-    if cf.sessionid == "":
-        logIn()
 
     dl = Download()
     while True:
@@ -80,8 +78,10 @@ def main(argv=None):
             return
         elif choice == '1':
             logIn()
+            dl = Download()
         elif choice == '2':
             setting()
+            dl = Download()
         elif choice == '3':
             dl.downloadAlbum()
         elif choice == '4':
