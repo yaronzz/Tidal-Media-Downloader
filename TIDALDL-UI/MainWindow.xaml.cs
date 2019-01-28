@@ -22,6 +22,7 @@ namespace TIDALDL_UI
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }
 }
