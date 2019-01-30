@@ -45,7 +45,7 @@
                                   Height="28"
                                   Width="195" 
                                   HorizontalAlignment="Left" 
-                                  GotFocus="GotFocus"
+                                  GotFocus="EditGotFocus"
                                   DisplayMemberPath="Key" 
                                   SelectedValuePath="Value"
                                   SelectionChanged="m_CUser_SelectionChanged"/>
@@ -55,16 +55,24 @@
                              Name="m_CPwd"
                              Height="28"
                              Width="195" 
-                             BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="GotFocus" />
+                             BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="EditGotFocus" />
                         <CheckBox Name="m_CRemember" Content="Remember" Margin="115,66,0,56" IsChecked="True" HorizontalAlignment="Left" Width="90" />
                         <CheckBox Name="m_CAuto" Content="Auto LongIn" Margin="216,66,0,56" IsChecked="True" HorizontalAlignment="Left" Width="94" Checked="m_CAuto_Checked"/>
                         <materialDesign:Badged Name="m_CErrLabel" Margin="115,93,0,24">
                             <Button Name="m_CLogin" Content="LOG IN" HorizontalAlignment="Left" Width="195" Height="Auto" Click="m_CLogin_Click" IsDefault="True"/>
                         </materialDesign:Badged>
                     </Grid>
-                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage"  Visibility="Hidden">
-                        <ProgressBar IsIndeterminate="True" Margin="0,30,0,104" Height="Auto"/>
+                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage">
+                        <!--<ProgressBar IsIndeterminate="True" Margin="0,30,0,104" Height="Auto"/>-->
+                        <Button   Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                  materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                  materialDesign:ButtonProgressAssist.Value="-1"
+                                  materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                  Margin="185,5,189,83">
+                            <materialDesign:PackIcon Kind="AccountCircle" Height="30" Width="31"/>
+                        </Button>
                         <Button Name="m_CCancle" Content="CANCLE" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom" Click="m_CCancle_Click"/>
+                        <Label Name="m_CAccountLabel" Content="test@gmail.com" FontSize="16" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Width="280" Height="32" FontWeight="SemiBold" HorizontalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
             </materialDesign:DialogHost>

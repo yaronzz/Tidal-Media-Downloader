@@ -12,6 +12,13 @@ namespace Tidal
         private static string Version = "1.9.1";
         public  string Errmsg         = "";
 
+        private string shortuser;
+        public string ShortUser
+        {
+            get { return shortuser; }
+            set { shortuser = value; }
+        }
+
         private string user;
         public string User
         {
@@ -97,10 +104,14 @@ namespace Tidal
             }
 
             this.User        = sUser;
+            this.ShortUser   = sUser;
             this.Pwd         = sPwd;
             this.SessionID   = sSessionID;
             this.UserID      = sUserID;
             this.CountryCode = sCountryCode;
+            if (sUser.Contains("@"))
+                this.ShortUser = sUser.Substring(0, sUser.IndexOf('@'));
+
             return true;
         }
     }

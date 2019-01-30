@@ -7,10 +7,14 @@ namespace Tidal
 {
     public class TidalTool
     {
-        public static Account User;
-        public static string Errmsg;
+        public  static Account User;
+        public  static string Errmsg;
         private static string Url = "https://api.tidalhifi.com/v1/";
 
+        #region tool
+        /// <summary>
+        /// http get 
+        /// </summary>
         private static string Get(string Path, Dictionary<string, string> Paras = null)
         {
             string sParams = "?countryCode=" + User.CountryCode;
@@ -19,8 +23,8 @@ namespace Tidal
                 sParams += "&" + Paras.ElementAt(i).Key + "=" + Paras.ElementAt(i).Value;
             }
 
-            string sRet = (string)HttpHelper.GetOrPost(Url + Path + sParams, Header: "X-Tidal-SessionId:" + User.SessionID);
-            string sStatus = JsonHelper.GetValue(sRet, "status");
+            string sRet       = (string)HttpHelper.GetOrPost(Url + Path + sParams, Header: "X-Tidal-SessionId:" + User.SessionID);
+            string sStatus    = JsonHelper.GetValue(sRet, "status");
             string sSubStatus = JsonHelper.GetValue(sRet, "subStatus");
 
             if (!string.IsNullOrEmpty(sStatus) && sStatus == "404" && sSubStatus == "2001")
@@ -30,6 +34,11 @@ namespace Tidal
 
             return sRet;
         }
+
+        #endregion
+
+
+
 
         public static Album GetAlbum(string sID)
         {

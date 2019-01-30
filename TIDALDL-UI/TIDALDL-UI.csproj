@@ -71,6 +71,9 @@
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
     <Compile Include="Para.cs" />
+    <Compile Include="Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tidal\Account.cs" />
     <Compile Include="Tidal\Album.cs" />
     <Compile Include="Tidal\Artist.cs" />
@@ -98,6 +101,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -19,9 +19,6 @@ namespace TIDALDL_UI
 {
     public partial class Login : Window
     {
-        private string UserName;
-        private string Password;
-
         public Login()
         {
             InitializeComponent();
@@ -30,46 +27,44 @@ namespace TIDALDL_UI
             m_CUser.SelectedIndex      = 0;
             m_CAuto.IsChecked          = Para.Config.AutoLogin;
             m_CRemember.IsChecked      = Para.Config.Remember;
+
+            //auto login
+            if ((bool)m_CAuto.IsChecked && Para.Config.Accounts.Count > 0)
+            {
+                AIGS.Common.Property aProperty = Para.Config.Accounts[0];
+                if (aProperty.Key != null && aProperty.Value != null &&
+                    !string.IsNullOrWhiteSpace(aProperty.Key.ToString()) &&
+                    !string.IsNullOrWhiteSpace(aProperty.Value.ToString()))
+                {
+                    m_CAccountLabel.Content = aProperty.Key.ToString();
+
+                    //show wait page
+                    IsShowWaitPage(true);
+                    ThreadHelper.Start(ThreadFunc_LogIn, aProperty);
+                }
+            }
         }
 
-        private void m_CUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (m_CUser.SelectedItem == null)
-                return;
-            m_CPwd.Password = ((AIGS.Common.Property)m_CUser.SelectedItem).Value.ToString();
-        }
-
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void m_CAuto_Checked(object sender, RoutedEventArgs e)
-        {
-            m_CRemember.IsChecked = true;
-        }
-
+        #region button func
+        /// <summary>
+        /// Cloase window
+        /// </summary>
         private void m_CClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void GotFocus(object sender, RoutedEventArgs e)
-        {
-            m_CErrLabel.Badge = "";
-        }
-
+        /// <summary>
+        /// Cancle LogIn
+        /// </summary>
         private void m_CCancle_Click(object sender, RoutedEventArgs e)
         {
             IsShowWaitPage(false);
         }
 
-        private void IsShowWaitPage(bool bFlag)
-        {
-            m_CLoginPage.Visibility = bFlag ? Visibility.Hidden : Visibility.Visible;
-            m_CWaitPage.Visibility = bFlag ? Visibility.Visible : Visibility.Hidden;
-        }
-
+        /// <summary>
+        /// LogIn
+        /// </summary>
         private void m_CLogin_Click(object sender, RoutedEventArgs e)
         {
             string sUser = m_CUser.Text;
@@ -80,26 +75,83 @@ namespace TIDALDL_UI
                 return;
             }
 
+            m_CAccountLabel.Content = sUser;
+
             //show wait page
             IsShowWaitPage(true);
-
-            //start login thread
-            this.UserName = sUser;
-            this.Password = sPwd;
-            ThreadHelper.Start(ThreadFunc_LogIn);
+            ThreadHelper.Start(ThreadFunc_LogIn, new AIGS.Common.Property(sUser, sPwd));
             return;
         }
+        #endregion
 
+        #region operate callback
+        /// <summary>
+        /// Set passwordBox after combox select changed
+        /// </summary>
+        private void m_CUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (m_CUser.SelectedItem == null)
+                return;
+            m_CPwd.Password = ((AIGS.Common.Property)m_CUser.SelectedItem).Value.ToString();
+        }
+
+        /// <summary>
+        /// Window move
+        /// </summary>
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        /// <summary>
+        /// Check rememberBox after autoLogin checked
+        /// </summary>
+        private void m_CAuto_Checked(object sender, RoutedEventArgs e)
+        {
+            m_CRemember.IsChecked = true;
+        }
+        #endregion
+
+
+        #region else
+        /// <summary>
+        /// Clear errmsg label after focus on edit control
+        /// </summary>
+        private void EditGotFocus(object sender, RoutedEventArgs e)
+        {
+            m_CErrLabel.Badge = "";
+        }
+
+        /// <summary>
+        /// Show wait page after login 
+        /// </summary>
+        private void IsShowWaitPage(bool bFlag)
+        {
+            m_CLoginPage.Visibility = bFlag ? Visibility.Hidden : Visibility.Visible;
+            m_CWaitPage.Visibility  = bFlag ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Login thread
+        /// </summary>
+        /// <param name="data">username and password</param>
         private void ThreadFunc_LogIn(object data)
         {
-            ThreadResultNotify mothed = new ThreadResultNotify(LogInResult);
+            Account aAccount               = new Account();
+            AIGS.Common.Property aProperty = (AIGS.Common.Property)data;
+            bool   bCheck                  = aAccount.LogIn(aProperty.Key.ToString(), aProperty.Value.ToString());
 
-            Account aUser = new Account();
-            bool bCheck = aUser.LogIn(this.UserName, this.Password);
-            this.Dispatcher.Invoke(mothed, aUser);
+            ThreadResultNotify mothed = new ThreadResultNotify(LogInResult);
+            this.Dispatcher.Invoke(mothed, aAccount);
             return;
         }
 
+        /// <summary>
+        /// Result callback func
+        /// </summary>
         delegate void ThreadResultNotify(Account aUser);
         private void LogInResult(Account aUser)
         {
@@ -110,15 +162,18 @@ namespace TIDALDL_UI
                 return;
             }
 
+            //add account to global para
             Para.User            = aUser;
             Tidal.TidalTool.User = aUser;
 
             //add account to config
-            Para.Config.addAccount(this.UserName, this.Password);
+            Para.Config.addAccount(aUser.User, aUser.Pwd);
 
             //open main window
             MainWindow Form = new MainWindow();
             Form.Show();
+
+            //close login window
             this.Close();
         }
 
