@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AIG12306"
+        xmlns:local="clr-namespace:TIDALDL_UI"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -11,7 +11,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"    
-        FontFamily="{DynamicResource MaterialDesignFont}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Title="Tidal-dl" 
         Width="515"
         Height="415" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
@@ -24,7 +24,7 @@
                         <RowDefinition Height="23*"/>
                     </Grid.RowDefinitions>
                     <Grid Background="Black" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Margin="0,-10,0,0">
-                        <Image Margin="-10,-10,0,-15" Source="pack://application:,,,/res/tidal.jpg" />
+                        <Image Margin="-10,-10,0,0" Source="pack://application:,,,/res/tidal.jpg" />
                         <ToggleButton Style="{StaticResource MaterialDesignFlatToggleButton}"
                             x:Name="m_CClose"
                             Margin="404,0,0,160" 
@@ -48,7 +48,7 @@
                                   GotFocus="EditGotFocus"
                                   DisplayMemberPath="Key" 
                                   SelectedValuePath="Value"
-                                  SelectionChanged="m_CUser_SelectionChanged"/>
+                                  SelectionChanged="m_CUser_SelectionChanged" Padding="2,6,0,6"/>
                         <PasswordBox Margin="115,38,0,0" 
                              materialDesign:HintAssist.Hint="  Password"
                              Background="White"
@@ -56,13 +56,15 @@
                              Height="28"
                              Width="195" 
                              BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="EditGotFocus" />
-                        <CheckBox Name="m_CRemember" Content="Remember" Margin="115,66,0,56" IsChecked="True" HorizontalAlignment="Left" Width="90" />
-                        <CheckBox Name="m_CAuto" Content="Auto LongIn" Margin="216,66,0,56" IsChecked="True" HorizontalAlignment="Left" Width="94" Checked="m_CAuto_Checked"/>
+                        <CheckBox Name="m_CRemember" Content="Remember" Margin="115,66,0,56" HorizontalAlignment="Left" Width="90"
+                                  IsChecked="{Binding Remember, Source={x:Static local:Para.Config}}" />
+                        <CheckBox Name="m_CAuto" Content="Auto LongIn" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" Checked="m_CAuto_Checked"
+                                  IsChecked="{Binding AutoLogin, Source={x:Static local:Para.Config}}" />
                         <materialDesign:Badged Name="m_CErrLabel" Margin="115,93,0,24">
                             <Button Name="m_CLogin" Content="LOG IN" HorizontalAlignment="Left" Width="195" Height="Auto" Click="m_CLogin_Click" IsDefault="True"/>
                         </materialDesign:Badged>
                     </Grid>
-                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage">
+                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage" Visibility="Hidden">
                         <!--<ProgressBar IsIndeterminate="True" Margin="0,30,0,104" Height="Auto"/>-->
                         <Button   Style="{StaticResource MaterialDesignFloatingActionButton}"
                                   materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"

@@ -8,29 +8,59 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"    
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Background="{x:Null}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Tidal-dl" Height="610" Width="780" AllowsTransparency="True" WindowStyle="None" >
+
+    <Window.Resources>
+        <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+            <Setter Property="Background" Value="#FFCDC9C9"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot"  SnapsToDevicePixels="True" >
+                            <Label x:Name="txt" Visibility="Visible" Background="Pink" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="{TemplateBinding Header}" ToolTip="{TemplateBinding Header}" Foreground="{TemplateBinding Foreground}" Height="Auto" VerticalContentAlignment="Center" Margin="0,0,10,0" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Background" TargetName="txt" Value="White"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <materialDesign:Card Name="m_CMainCard" materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
-            <Grid Background="{x:Null}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="19*"/>
-                </Grid.RowDefinitions>
-                <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" VerticalAlignment="Stretch">
-                    <DockPanel>
-                        <!--close/max/min window-->
-                        <Button DockPanel.Dock="Right"
+                <Grid Background="{x:Null}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="19*"/>
+                    </Grid.RowDefinitions>
+                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" VerticalAlignment="Stretch">
+                        <DockPanel>
+                            <!--close/max/min window-->
+                            <Button DockPanel.Dock="Right"
                                     Name="m_CClose"
                                     Padding="0"
                                     Style="{DynamicResource MaterialDesignToolForegroundButton}"
                                     Margin="0 0 0 0"
                                     Click="m_CClose_Click">
-                            <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
-                        </Button>
-                        <!--<Button DockPanel.Dock="Right"
+                                <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
+                            </Button>
+                            <!--<Button DockPanel.Dock="Right"
                                     Name="m_CMaxWindow"
                                     Padding="0"
                                     Style="{DynamicResource MaterialDesignToolForegroundButton}"
@@ -38,64 +68,104 @@
                                     Click="m_CMaxWindow_Click">
                             <materialDesign:PackIcon Kind="CheckBoxOutlineBlank" />
                         </Button>-->
-                        <Button DockPanel.Dock="Right"
+                            <Button DockPanel.Dock="Right"
                                     Name="m_CMinWindow"
                                     Padding="0"
                                     Style="{DynamicResource MaterialDesignToolForegroundButton}"
                                     Margin="0 0 0 0"
                                     Click="m_CMinWindow_Click">
-                            <materialDesign:PackIcon Kind="Minus" Height="20" Width="20"/>
-                        </Button>
-                        <!--menu-->
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" Padding="0,0,0,0">
-                            <StackPanel Width="80">
-                                <Button Content="Setting" Height="42" Name="m_CSetting" Click="m_CSetting_Click" BorderThickness="0"/>
-                                <Button Content="Update" Height="42" Name="m_CUpdate" Click="m_CUpdate_Click"  BorderThickness="0"/>
-                                <Separator/>
-                                <Button Content="About" Height="42" Name="m_CAbout" Click="m_CAbout_Click"  BorderThickness="0"/>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
-                        <!--userinfo-->
-                        <materialDesign:Chip DockPanel.Dock="Right" 
-                                                 Content="{Binding ShortUser, Source={x:Static local:Para.User}}" 
-                                                 IsDeletable="True">
-                            <materialDesign:Chip.Icon>
-                                <materialDesign:PackIcon Kind="AccountCircle" Height="32" Width="32"/>
-                            </materialDesign:Chip.Icon>
-                        </materialDesign:Chip>
+                                <materialDesign:PackIcon Kind="Minus" Height="20" Width="20"/>
+                            </Button>
+                            <!--menu-->
+                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" Padding="0,0,0,0">
+                                <StackPanel Width="80">
+                                    <Button Content="Setting" Height="42" Name="m_CSetting" Click="m_CSetting_Click" BorderThickness="0"/>
+                                    <Button Content="Update" Height="42" Name="m_CUpdate" Click="m_CUpdate_Click"  BorderThickness="0"/>
+                                    <Separator/>
+                                    <Button Content="About" Height="42" Name="m_CAbout" Click="m_CAbout_Click"  BorderThickness="0"/>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                            <!--userinfo-->
+                            <materialDesign:Chip DockPanel.Dock="Right" 
+                                             Content="{Binding ShortUser, Source={x:Static local:Para.User}}" 
+                                             IsDeletable="True"
+                                             DeleteClick="Chip_DeleteClick">
+                                <materialDesign:Chip.Icon>
+                                    <materialDesign:PackIcon Kind="AccountCircle" Height="32" Width="32"/>
+                                </materialDesign:Chip.Icon>
+                            </materialDesign:Chip>
 
-                        <StackPanel Orientation="Horizontal">
-                            <!--title-->
-                            <TextBlock VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18"> 
-                                TEST
-                            </TextBlock>
-                            <!--search box-->
-                            <materialDesign:ColorZone Mode="Standard" 
+                            <StackPanel Orientation="Horizontal">
+                                <!--title-->
+                                <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
+                                <TextBlock Text="TIDAL-DL" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
+                                <!--search box-->
+                                <materialDesign:ColorZone Mode="Standard" 
                                                           Padding="4 0 4 0" 
                                                           CornerRadius="15" 
                                                           Panel.ZIndex="1" 
                                                           Margin="50 0 0 0"
                                                           materialDesign:ShadowAssist.ShadowDepth="Depth1" HorizontalContentAlignment="Center">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Margin="8 0 0 0"
-                                             materialDesign:HintAssist.Hint="ID-Album/Track/Playlist"
-                                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-                                             BorderThickness="0"
-                                             MinWidth="200"
-                                             VerticalAlignment="Center" />
-                                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}">
-                                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-                                    </Button>
-                                </Grid>
-                            </materialDesign:ColorZone>
-                        </StackPanel>
-                    </DockPanel>
-                </materialDesign:ColorZone>
-            </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Margin="8 0 0 0"
+                                                 Name="m_CIDText"
+                                                 materialDesign:HintAssist.Hint="ID-Album/Track/Playlist"
+                                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                                 BorderThickness="0"
+                                                 MinWidth="200"
+                                                 VerticalAlignment="Center" />
+                                        <Button Name="m_CSearch" Click="m_CSearch_Click" Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignToolButton}">
+                                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56"/>
+                                        </Button>
+                                    </Grid>
+                                </materialDesign:ColorZone>
+                            </StackPanel>
+                        </DockPanel>
+                    </materialDesign:ColorZone>
+
+                    <Grid Grid.Row="1">
+                        <TabControl HorizontalAlignment="Left" Height="520"  Width="740" BorderThickness="0">
+                            <TabItem Style="{StaticResource TabItemStyle}" Header="ALBUM" Height="22">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Style="{StaticResource TabItemStyle}" Header="TRACK" Height="22">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Style="{StaticResource TabItemStyle}" Header="PLAYLIST" Height="22">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                        </TabControl>
+
+
+                        <!--<DataGrid AutoGenerateColumns="False"
+                                  materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Binding="{Binding IsSelected}"
+                                                          ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                                          EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                                    <DataGridCheckBoxColumn.Header>
+                                        <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
+                                            <CheckBox HorizontalAlignment="Center"
+                                                        DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
+                                                        IsChecked="{Binding IsAllItems3Selected}" />
+                                        </Border>
+                                    </DataGridCheckBoxColumn.Header>
+                                </DataGridCheckBoxColumn>
+                                <DataGridTextColumn Binding="{Binding Title}"
+                                                    Header="TITLE"
+                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                <DataGridTextColumn Binding="{Binding Title}"
+                                                    Header="ALBUM"
+                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                            </DataGrid.Columns>
+                        </DataGrid>-->
+                    </Grid>
+                </Grid>
             </materialDesign:DialogHost>
         </materialDesign:Card>
     </Grid>

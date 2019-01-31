@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace TIDALDL_UI
 {
-    public class Config
+    public class Config : AIGS.Common.ViewMoudleBase
     {
         private string Path = AIGS.Helper.SystemHelper.GetExeDirectoryName() + "/Tidal-dl.ini";
 
@@ -15,15 +16,16 @@ namespace TIDALDL_UI
         private List<AIGS.Common.Property> accounts;
         public List<AIGS.Common.Property> Accounts
         {
-            get {
-                if(accounts == null)
+            get
+            {
+                if (accounts == null)
                 {
                     accounts = new List<AIGS.Common.Property>();
                     int count = AIGS.Helper.ConfigHelper.GetValue("num", 0, "account", Path);
                     for (int i = 0; i < count; i++)
                     {
-                        string sUser = AIGS.Helper.ConfigHelper.GetValue("user"+i, null, "account", Path);
-                        string sPwd = AIGS.Helper.ConfigHelper.GetValue("pwd"+i, null, "account", Path);
+                        string sUser = AIGS.Helper.ConfigHelper.GetValue("user" + i, null, "account", Path);
+                        string sPwd = AIGS.Helper.ConfigHelper.GetValue("pwd" + i, null, "account", Path);
                         if (string.IsNullOrEmpty(sUser))
                             continue;
 
@@ -48,7 +50,7 @@ namespace TIDALDL_UI
             AIGS.Helper.ConfigHelper.SetValue("num", Accounts.Count, "account", Path);
             for (int i = 0; i < Accounts.Count; i++)
             {
-                AIGS.Helper.ConfigHelper.SetValue("user"+i, Accounts[i].Key.ToString(), "account", Path);
+                AIGS.Helper.ConfigHelper.SetValue("user" + i, Accounts[i].Key.ToString(), "account", Path);
                 AIGS.Helper.ConfigHelper.SetValue("pwd" + i, Accounts[i].Value.ToString(), "account", Path);
             }
             return;
@@ -58,85 +60,80 @@ namespace TIDALDL_UI
         #region login window para
         public bool Remember
         {
-            get {return AIGS.Helper.ConfigHelper.GetValue("remember", true, "common", Path); }
-            set { AIGS.Helper.ConfigHelper.SetValue("remember", value, "common", Path); }
+            get { return AIGS.Helper.ConfigHelper.GetValue("remember", true, "common", Path); }
+            set { AIGS.Helper.ConfigHelper.SetValue("remember", value, "common", Path);
+                OnPropertyChanged();
+            }
         }
         public bool AutoLogin
         {
             get { return AIGS.Helper.ConfigHelper.GetValue("autologin", true, "common", Path); }
-            set { AIGS.Helper.ConfigHelper.SetValue("autologin", value, "common", Path); }
+            set { AIGS.Helper.ConfigHelper.SetValue("autologin", value, "common", Path);
+                OnPropertyChanged();
+            }
         }
         #endregion
 
         private string outputDir;
-        public  string OutputDir
+        public string OutputDir
         {
             get
             {
-                if(string.IsNullOrEmpty(outputDir))
+                if (string.IsNullOrEmpty(outputDir))
                     outputDir = AIGS.Helper.ConfigHelper.GetValue("outputdir", "./tidal", "common", Path);
                 return outputDir;
             }
             set
             {
                 outputDir = value;
+                OnPropertyChanged();
+
                 AIGS.Helper.ConfigHelper.SetValue("outputdir", value, "common", Path);
             }
         }
 
-        private string quality;
-        public string  Quality
+        private Tidal.Quality quality = Tidal.Quality.NONE;
+        public Tidal.Quality Quality
         {
             get
             {
-                if (string.IsNullOrEmpty(quality))
+                if (quality == Tidal.Quality.NONE)
                 {
-                    quality = AIGS.Helper.ConfigHelper.GetValue("quality", "HIGH", "common", Path).ToUpper();
-                    if (quality != "LOW" && quality != "HIGH" && quality != "LOSSLESS" && quality != "HI_RES")
-                        quality = "HIGH";
+                    string sStr = AIGS.Helper.ConfigHelper.GetValue("quality", "HIGH", "common", Path).ToUpper();
+                    quality = Tidal.TidalTool.ConverStringToQuality(sStr, Tidal.Quality.HIGH);
                 }
-                return outputDir;
+                return quality;
             }
             set
             {
                 quality = value;
-                AIGS.Helper.ConfigHelper.SetValue("quality", value, "common", Path);
-            }
-        }
-        public int QualityIndex
-        {
-            get
-            {
-                if (Quality == "LOW")      return 0;
-                if (Quality == "HIGH")     return 1;
-                if (Quality == "LOSSLESS") return 2;
-                if (Quality == "HI_RES")   return 3;
-                return 0;
-            }
-            set
-            {
-                if (value == 0) Quality = "LOW";      return;
-                if (value == 1) Quality = "HIGH";     return;
-                if (value == 2) Quality = "LOSSLESS"; return;
-                if (value == 3) Quality = "HI_RES";   return;
+                OnPropertyChanged();
+
+                string sStr = AIGS.Common.Convert.ConverEnumToString((int)value, typeof(Tidal.Quality), (int)Tidal.Quality.HIGH);
+                AIGS.Helper.ConfigHelper.SetValue("quality", sStr, "common", Path);
             }
         }
 
-        private int threadnum;
+
+        private int threadnum = -1;
         public int ThreadNum
         {
             get
             {
-                if (string.IsNullOrEmpty(quality))
+                if (threadnum == -1)
                     threadnum = AIGS.Helper.ConfigHelper.GetValue("threadnum", 10, "common", Path);
                 return threadnum;
             }
             set
             {
                 threadnum = value;
+                OnPropertyChanged();
+
                 AIGS.Helper.ConfigHelper.SetValue("threadnum", value, "common", Path);
             }
         }
 
     }
+
+
 }

@@ -34,8 +34,16 @@ namespace TIDALDL_UI
         {
             _session = eventargs.Session;
         }
-        
 
+        private void m_CPath_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog aDialog = new System.Windows.Forms.FolderBrowserDialog();
+            aDialog.RootFolder = Environment.SpecialFolder.MyComputer;
 
+            if (aDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Para.Config.OutputDir = aDialog.SelectedPath;
+            }
+        }
     }
 }

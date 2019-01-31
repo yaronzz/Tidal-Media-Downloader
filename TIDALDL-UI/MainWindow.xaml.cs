@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Tidal;
 namespace TIDALDL_UI
 {
     /// <summary>
@@ -51,7 +51,7 @@ namespace TIDALDL_UI
         }
         #endregion
 
-        #region show about/update/setting window
+        #region show about/update/setting/login window
         private void m_CAbout_Click(object sender, RoutedEventArgs e)
         {
 
@@ -66,6 +66,81 @@ namespace TIDALDL_UI
         {
             Setting Form = new Setting();
             await DialogHost.Show(Form, Form.ExtendedOpenedEventHandler);
+        }
+
+        private void Chip_DeleteClick(object sender, RoutedEventArgs e)
+        {
+            Login Form = new Login(true);
+            Form.Show();
+            this.Close();
+        }
+        #endregion
+
+        #region search
+        private System.Threading.Thread SearchThread;
+
+        /// <summary>
+        /// Search button click
+        /// </summary>
+        private async void m_CSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string sID = m_CIDText.Text;
+            if (string.IsNullOrEmpty(sID))
+                return;
+
+            //start thread
+            SearchThread = AIGS.Helper.ThreadHelper.Start(ThreadFunc_Search, sID);
+
+            //show wait window
+            Para.WaitForm = new Wait(SearchCancle);
+            await DialogHost.Show(Para.WaitForm, Para.WaitForm.ExtendedOpenedEventHandler);
+        }
+
+        /// <summary>
+        /// Search thread
+        /// </summary>
+        /// <param name="data">ID</param>
+        private void ThreadFunc_Search(object data)
+        {
+            ThreadResultNotify mothed = new ThreadResultNotify(SearchResult);
+
+            //search album
+            Album aAlbum = TidalTool.GetAlbum(data.ToString(), true, Enum.GetName(typeof(Quality), Para.Config.Quality));
+            if(aAlbum != null)
+            {
+                this.Dispatcher.Invoke(mothed, "Album", aAlbum);
+                return;
+            }
+
+
+        }
+
+        /// <summary>
+        /// Result callback func
+        /// </summary>
+        delegate void ThreadResultNotify(string typeName, object data);
+        private async void SearchResult(string typeName, object data)
+        {
+            if(typeName == "Album")
+            {
+                Para.WaitForm.Close();
+                AlbumInfo Form = new AlbumInfo((Album)data);
+                await DialogHost.Show(Form, Form.ExtendedOpenedEventHandler);
+            }
+            
+            return;
+        }
+
+        /// <summary>
+        /// Cancle search
+        /// </summary>
+        private void SearchCancle()
+        {
+            if (SearchThread != null &&
+                (SearchThread.ThreadState == System.Threading.ThreadState.Running ||
+                SearchThread.ThreadState == System.Threading.ThreadState.Suspended))
+                SearchThread.Abort();
+            SearchThread = null;
         }
         #endregion
     }

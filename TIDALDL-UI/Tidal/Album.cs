@@ -50,11 +50,18 @@ namespace Tidal
             set { cover = value; }
         }
         //专辑封面链接
-        private string convrurl;
-        public string ConvrUrl
+        private string covrurl;
+        public string CovrUrl
         {
-            get { return convrurl; }
-            set { convrurl = value; }
+            get { return covrurl; }
+            set { covrurl = value; }
+        }
+        //封面数据
+        private Byte[] coverdata;
+        public Byte[] CoverData
+        {
+            get { return coverdata; }
+            set { coverdata = value; }
         }
         //专辑曲目数量
         private int numberoftracks;
@@ -83,6 +90,13 @@ namespace Tidal
         {
             get { return artist; }
             set { artist = value; }
+        }
+
+        private List<Track> tracks;
+        public List<Track> Tracks
+        {
+            get { return tracks; }
+            set { tracks = value; }
         }
     }
 }

@@ -9,8 +9,9 @@ namespace TIDALDL_UI
     public class Para
     {
         public static Account User { set; get; }
-        public static TidalTool Tool { set; get; }
 
         public static Config Config = new Config();
+
+        public static Wait WaitForm = null;
     }
 }

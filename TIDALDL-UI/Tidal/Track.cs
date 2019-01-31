@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIGS.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,18 @@ namespace Tidal
         public int Duration
         {
             get { return duration; }
-            set { duration = value; }
+            set { duration = value;
+                  SDuration = TimeHelper.ConverIntToString(value);
+            }
         }
+
+        private string sduration;
+        public string SDuration
+        {
+            get { return sduration; }
+            set { sduration = value; }
+        }
+
         //曲目序号
         private int tracknumber;
         public int TrackNumber
@@ -69,6 +80,13 @@ namespace Tidal
         {
             get { return album; }
             set { album = value; }
+        }
+
+        private StreamUrl streamurl;
+        public StreamUrl StreamUrl
+        {
+            get { return streamurl; }
+            set { streamurl = value; }
         }
     }
 }

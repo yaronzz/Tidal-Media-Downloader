@@ -22,11 +22,27 @@ namespace TIDALDL_UI
         public Login()
         {
             InitializeComponent();
+            InitDetial();
+        }
+
+        public Login(bool bNotAutoLogin = false)
+        {
+            InitializeComponent();
+            InitDetial(bNotAutoLogin);
+        }
+
+
+        public void InitDetial(bool bNotAutoLogin = false)
+        {
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             m_CUser.ItemsSource        = Para.Config.Accounts;
             m_CUser.SelectedIndex      = 0;
             m_CAuto.IsChecked          = Para.Config.AutoLogin;
             m_CRemember.IsChecked      = Para.Config.Remember;
+
+            IsShowWaitPage(false);
+            if (bNotAutoLogin)
+                return;
 
             //auto login
             if ((bool)m_CAuto.IsChecked && Para.Config.Accounts.Count > 0)
@@ -40,10 +56,11 @@ namespace TIDALDL_UI
 
                     //show wait page
                     IsShowWaitPage(true);
-                    ThreadHelper.Start(ThreadFunc_LogIn, aProperty);
+                    OpenThread(aProperty);
                 }
             }
         }
+
 
         #region button func
         /// <summary>
@@ -59,6 +76,7 @@ namespace TIDALDL_UI
         /// </summary>
         private void m_CCancle_Click(object sender, RoutedEventArgs e)
         {
+            CloseThread();
             IsShowWaitPage(false);
         }
 
@@ -79,7 +97,7 @@ namespace TIDALDL_UI
 
             //show wait page
             IsShowWaitPage(true);
-            ThreadHelper.Start(ThreadFunc_LogIn, new AIGS.Common.Property(sUser, sPwd));
+            OpenThread(new AIGS.Common.Property(sUser, sPwd));
             return;
         }
         #endregion
@@ -108,10 +126,9 @@ namespace TIDALDL_UI
         /// </summary>
         private void m_CAuto_Checked(object sender, RoutedEventArgs e)
         {
-            m_CRemember.IsChecked = true;
+            Para.Config.Remember = true;
         }
         #endregion
-
 
         #region else
         /// <summary>
@@ -133,6 +150,28 @@ namespace TIDALDL_UI
 
         #endregion
 
+        #region thread
+        private System.Threading.Thread ThreadHandle = null;
+
+        /// <summary>
+        /// open
+        /// </summary>
+        /// <param name="aProperty"></param>
+        private void OpenThread(AIGS.Common.Property aProperty)
+        {
+            ThreadHandle = ThreadHelper.Start(ThreadFunc_LogIn, aProperty);
+        }
+
+        /// <summary>
+        /// close
+        /// </summary>
+        private void CloseThread()
+        {
+            if (ThreadHandle != null &&
+                (ThreadHandle.ThreadState == System.Threading.ThreadState.Running ||
+                ThreadHandle.ThreadState == System.Threading.ThreadState.Suspended))
+                    ThreadHandle.Abort();
+        }
 
         /// <summary>
         /// Login thread
@@ -176,7 +215,7 @@ namespace TIDALDL_UI
             //close login window
             this.Close();
         }
-
+        #endregion
 
     }
 }

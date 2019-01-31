@@ -5,6 +5,16 @@ using System.Text;
 using AIGS.Helper;
 namespace Tidal
 {
+    public enum Quality
+    {
+        LOW,
+        HIGH,
+        LOSSLESS,
+        HI_RES,
+        NONE,
+    };
+
+
     public class TidalTool
     {
         public  static Account User;
@@ -17,6 +27,12 @@ namespace Tidal
         /// </summary>
         private static string Get(string Path, Dictionary<string, string> Paras = null)
         {
+            if(User == null)
+            {
+                Errmsg = "Not login!";
+                return null;
+            }
+
             string sParams = "?countryCode=" + User.CountryCode;
             for (int i = 0; Paras != null && i < Paras.Count; i++)
             {
@@ -35,38 +51,60 @@ namespace Tidal
             return sRet;
         }
 
+        public static Quality ConverStringToQuality(string sStr, Quality eDefault)
+        {
+            if (string.IsNullOrEmpty(sStr))
+                return eDefault;
+            return (Quality)AIGS.Common.Convert.ConverStringToEnum(sStr, typeof(Quality), (int)eDefault);
+        }
+
         #endregion
 
 
 
 
-        public static Album GetAlbum(string sID)
+        public static Album GetAlbum(string sID, bool bGetTracks = false, string sQuality = null)
         {
             string sRet = Get("albums/" + sID);
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
 
-            Album aRet = JsonHelper.ConverStringToObject<Album>(sRet);
+            Album aRet     = JsonHelper.ConverStringToObject<Album>(sRet);
+            aRet.CovrUrl   = "https://resources.tidal.com/images/" + aRet.Cover.Replace('-', '/') + "/1280x1280.jpg";
+            aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CovrUrl, IsRetByte:true);
+
+            if (bGetTracks)
+            {
+                List<Track> aTracks = GetAlbumTracks(sID, true, sQuality);
+                aRet.Tracks = aTracks;
+            }
             return aRet;
         }
 
-        public static List<Track> GetAlbumTracks(string sID)
+        public static List<Track> GetAlbumTracks(string sID, bool bGetUrl = false, string sQuality = null)
         {
             string sRet = Get("albums/" + sID + "/tracks");
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
 
             List<Track> aRet = JsonHelper.ConverStringToObject<List<Track>>(sRet, "items");
+            for (int i = 0; bGetUrl && i < aRet.Count; i++)
+            {
+                Track item     = aRet[i];
+                item.StreamUrl = GetStreamUrl(item.ID.ToString(), sQuality);
+                aRet[i]        = item;
+            }
             return aRet;
         }
 
-        public static Track GetTrack(string sID)
+        public static Track GetTrack(string sID, string sQuality)
         {
             string sRet = Get("tracks/" + sID);
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
 
-            Track aRet = JsonHelper.ConverStringToObject<Track>(sRet);
+            Track aRet     = JsonHelper.ConverStringToObject<Track>(sRet);
+            aRet.StreamUrl = GetStreamUrl(sID, sQuality);
             return aRet;
         }
 

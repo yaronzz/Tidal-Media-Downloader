@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="TIDALDL_UI.AlbumInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:TIDALDL_UI"
+             xmlns:aigs="clr-namespace:AIGS.Common;assembly=AIGS"
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"    
+             FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+             Width="568" 
+             Height="473">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="130" />
+            <RowDefinition Height="47*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="ALBUMINFO" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image Name="m_CImage" Margin="0,10"></Image>
+
+            <Label Name="m_CTitle" Content="L.O.V.E." FontSize="28" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Column="1" Height="40" FontWeight="ExtraBlack" />
+            <Label Name="m_CIntro" Content="by Eason Chan, eason and the duo band — 15 Tracks — 50:20" FontSize="13" VerticalAlignment="Top" Margin="10,40,0,0" Grid.Column="1" Height="25" />
+            <Label Name="m_CReleaseDate" Content="Release date 12/12/2018" FontSize="13" VerticalAlignment="Top" Margin="10,65,0,0" Grid.Column="1" Height="25" />
+
+            <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
+                    Click="Button_Click"
+                    Content="Download" 
+                    Height="27" VerticalAlignment="Bottom" Margin="10,0,257,8"/>
+        </Grid>
+
+        <ListView Grid.Row="3" Name="m_CList" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding TrackNumber}"/>
+                    <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Header="ALBUM" Width="180" DisplayMemberBinding="{Binding Album.Title}"/>
+                    <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding SDuration}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</UserControl>

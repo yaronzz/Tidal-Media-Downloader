@@ -61,6 +61,7 @@ namespace Tidal
             return sRet;
         }
 
+
         public bool LogIn(string sUser, string sPwd)
         {
             Errmsg = "";
@@ -111,7 +112,7 @@ namespace Tidal
             this.CountryCode = sCountryCode;
             if (sUser.Contains("@"))
                 this.ShortUser = sUser.Substring(0, sUser.IndexOf('@'));
-
+            
             return true;
         }
     }
