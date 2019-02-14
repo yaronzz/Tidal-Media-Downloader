@@ -1,5 +1,4 @@
 import sys
-
 sys.path.append('./')
 import tidal_dl
 

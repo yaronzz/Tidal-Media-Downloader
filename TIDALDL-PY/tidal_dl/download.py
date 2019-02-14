@@ -73,13 +73,25 @@ class Download(object):
                 count = count + 1
         return targetDir
     
-    def __getAlbumSongSavePath(self, targetDir, albumInfo, item):
+    def _getSongExtension(self, downloadUrl):
+        if downloadUrl.find('.flac?') != -1:
+            return '.flac'
+        if downloadUrl.find('.m4a?') != -1:
+            return '.m4a'
+        if downloadUrl.find('.mp4?') != -1:
+            return '.mp4'
+        return '.m4a'
+
+    def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
+        if extension == None:
+            extension = ".m4a"
+
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes <= 1:
-            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-') + ".m4a"
+            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(item['title'],'-') + extension
         else:
             index = item['volumeNumber']
-            filePath = targetDir + "\\Volume" + index + pathHelper.replaceLimitChar(item['title'], '-') + ".m4a"
+            filePath = targetDir + "\\Volume" + index + pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
     def downloadAlbum(self):
@@ -110,12 +122,13 @@ class Download(object):
                 fd.write(string)
             # download album tracks
             for item in aAlbumTracks['items']:
-                filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item)
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
                     print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)" + self.tool.errmsg)
                     continue
 
+                fileType = self._getSongExtension(streamInfo['url'])
+                filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
                 paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
@@ -140,11 +153,13 @@ class Download(object):
             print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
             print("[Version    ]       %s\n" % (aTrackInfo['version']))
             # download
-            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + ".m4a"
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
             if self.tool.errmsg != "":
                 print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!)")
                 continue
+
+            fileType = self._getSongExtension(streamInfo['url'])
+            filePath = targetDir + "\\" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
             paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
@@ -227,12 +242,13 @@ class Download(object):
                 if type != 'track':
                     continue
 
-                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + ".m4a";
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
                     print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
                     continue
 
+                fileType = self._getSongExtension(streamInfo['url'])
+                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
                 paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             self.thread.waitAll()

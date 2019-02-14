@@ -1,5 +1,8 @@
+======2019-02-14=============================
+1\ Set music-filetype by StreamUrlInfo
+
 ======2019-01-28=============================
-1\ add decryption.py -- Download LOSSLESS music
+1\ Add decryption.py -- Download LOSSLESS music
 
 ======2018-12-28=============================
 1\ Add Progressbar - Download Video 
