@@ -14,13 +14,13 @@
 
 ### UI-Login
 Get sessionid by username and password 
-# ![Alt text](TIDALdl-UI/res/login.png) 
+# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/res/login.png) 
 ### UI-Setting
 Change outputdir/quality/threadnum 
-# ![Alt text](TIDALdl-UI/res/setting.png) 
+# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/res/setting.png) 
 ### UI-Search Album
 Show albuminfo
-# ![Alt text](TIDALdl-UI/res/search.png) 
+# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/res/search.png) 
 ### UI-Main Windows
 In development...
 
