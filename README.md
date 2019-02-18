@@ -14,7 +14,7 @@
 
 ### UI-Login
 Get sessionid by username and password 
-# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/res/login.png) 
+# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/login.png) 
 ### UI-Setting
 Change outputdir/quality/threadnum 
 # ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/res/setting.png) 
