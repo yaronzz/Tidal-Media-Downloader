@@ -39,6 +39,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        
+        
     </Window.Resources>
 
     <Grid>
@@ -113,7 +116,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBox Margin="8 0 0 0"
                                                  Name="m_CIDText"
-                                                 materialDesign:HintAssist.Hint="ID-Album/Track/Playlist"
+                                                 materialDesign:HintAssist.Hint="ID From Album"
                                                  materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                  BorderThickness="0"
                                                  MinWidth="200"
@@ -128,7 +131,7 @@
                     </materialDesign:ColorZone>
 
                     <Grid Grid.Row="1">
-                        <TabControl HorizontalAlignment="Left" Height="520"  Width="740" BorderThickness="0">
+                        <!--<TabControl HorizontalAlignment="Left" Height="520"  Width="740" BorderThickness="0">
                             <TabItem Style="{StaticResource TabItemStyle}" Header="ALBUM" Height="22">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
@@ -138,10 +141,11 @@
                             <TabItem Style="{StaticResource TabItemStyle}" Header="PLAYLIST" Height="22">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                        </TabControl>
+                        </TabControl>-->
 
 
-                        <!--<DataGrid AutoGenerateColumns="False"
+                        <DataGrid AutoGenerateColumns="False"
+                                  Name="m_CAllList"
                                   materialDesign:DataGridAssist.CellPadding="13 8 8 8"
                                   materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                             <DataGrid.Columns>
@@ -160,10 +164,10 @@
                                                     Header="TITLE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                                 <DataGridTextColumn Binding="{Binding Title}"
-                                                    Header="ALBUM"
+                                                    Header="TYPE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                             </DataGrid.Columns>
-                        </DataGrid>-->
+                        </DataGrid>
                     </Grid>
                 </Grid>
             </materialDesign:DialogHost>
