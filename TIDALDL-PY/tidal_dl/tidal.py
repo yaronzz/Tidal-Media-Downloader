@@ -2,8 +2,10 @@ import requests
 import json
 import uuid
 import re
+import os
 from aigpy import configHelper
 from aigpy import netHelper
+from pydub import AudioSegment
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
@@ -41,6 +43,18 @@ class TidalTool(object):
             self.errmsg = "Get operation err!"
         return resp
 
+    def setTrackMetadata(self, track_info, file_path):
+        try:
+            ext   = os.path.splitext(file_path)[1][1:]
+            data  = AudioSegment.from_file(file_path, ext)
+            check = data.export(file_path, format=ext, tags={
+                'Artist': track_info['artist']['name'],
+                'Album': track_info['album']['title'],
+                'Title': track_info['title'],
+                'CopyRight': track_info['copyright'],
+                'TrackNum':track_info['trackNumber']})
+        except:
+            return
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
     def getPlaylist(self, playlist_id, num = 100):
@@ -63,8 +77,8 @@ class TidalTool(object):
     def getTrackContributors(self, track_id):
         return self._get('tracks/' + str(track_id) + '/contributors')
     @classmethod
-    def getAlbumArtworkUrl(cls, album_id, size=1280):
-        return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(album_id.replace('-', '/'), size)
+    def getAlbumArtworkUrl(cls, coverid, size=1280):
+        return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size)
 
     def getVideoResolutionList(self, video_id):
         info = self._get('videos/' + str(video_id) + '/streamurl')

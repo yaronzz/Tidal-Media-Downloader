@@ -49,6 +49,7 @@ class Download(object):
                     decrypt_file(paraList['path'],key,nonce)
                     break
             if check:
+                self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
                 pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
         except:
             pass
@@ -120,6 +121,10 @@ class Download(object):
             string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
             with open(targetDir + "\\AlbumInfo.txt", 'w') as fd:
                 fd.write(string)
+            # download cover
+            coverPath = targetDir + '\\' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
+            coverUrl = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
+            netHelper.downloadFile(coverUrl, coverPath)
             # download album tracks
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
@@ -129,7 +134,7 @@ class Download(object):
 
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
-                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                paraList = {'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -160,7 +165,7 @@ class Download(object):
 
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = targetDir + "\\" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
-            paraList = {'title': aTrackInfo['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            paraList = {'title': aTrackInfo['title'], 'trackinfo':aTrackInfo, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -249,7 +254,7 @@ class Download(object):
 
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                paraList = {'title': item['title'], 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             self.thread.waitAll()
 
