@@ -98,13 +98,13 @@ class Download(object):
     def downloadAlbum(self):
         while True:
             print("----------------ALBUM------------------")
-            sID = myinput("Enter AlbumID（Enter '0' go back）:")
+            sID = myinput("Enter AlbumID(Enter '0' go back):")
             if sID == '0':
                 return
 
             aAlbumInfo = self.tool.getAlbum(sID)
             if self.tool.errmsg != "":
-                print("Get AlbumInfo Err!")
+                print("Get AlbumInfo Err! " + self.tool.errmsg)
                 continue
 
             print("[Title]       %s" % (aAlbumInfo['title']))
@@ -113,7 +113,7 @@ class Download(object):
             # Get Tracks
             aAlbumTracks = self.tool.getAlbumTracks(sID)
             if self.tool.errmsg != "":
-                print("Get AlbumTracks Err!")
+                print("Get AlbumTracks Err!" + self.tool.errmsg)
                 return
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
@@ -129,7 +129,7 @@ class Download(object):
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)" + self.tool.errmsg)
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                     continue
 
                 fileType = self._getSongExtension(streamInfo['url'])
@@ -144,13 +144,13 @@ class Download(object):
         while True:
             targetDir = self.config.outputdir + "\\Track\\"
             print("----------------TRACK------------------")
-            sID = myinput("Enter TrackID（Enter '0' go back）:")
+            sID = myinput("Enter TrackID(Enter '0' go back):")
             if sID == '0':
                 return
 
             aTrackInfo = self.tool.getTrack(sID)
             if self.tool.errmsg != "":
-                print("Get TrackInfo Err!")
+                print("Get TrackInfo Err! " + self.tool.errmsg)
                 return
 
             print("[TrackTitle ]       %s" % (aTrackInfo['title']))
@@ -160,7 +160,7 @@ class Download(object):
             # download
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
             if self.tool.errmsg != "":
-                print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!)")
+                print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
@@ -175,12 +175,12 @@ class Download(object):
         while True:
             targetDir = self.config.outputdir + "\\Video\\"
             print("----------------VIDEO------------------")
-            sID = myinput("Enter VideoID（Enter '0' go back）:")
+            sID = myinput("Enter VideoID(Enter '0' go back):")
             if sID == '0':
                 return
             aVideoInfo = self.tool.getVideo(sID)
             if self.tool.errmsg != "":
-                print("Get VideoInfo Err!")
+                print("Get VideoInfo Err! " + self.tool.errmsg)
                 continue
 
             print("[Title      ]       %s" % (aVideoInfo['title']))
@@ -218,13 +218,13 @@ class Download(object):
         while True:
             targetDir = self.config.outputdir + "\\Playlist\\"
             print("--------------PLAYLIST-----------------")
-            sID = myinput("Enter PlayListID（Enter '0' go back）:")
+            sID = myinput("Enter PlayListID(Enter '0' go back):")
             if sID == '0':
                 return
 
             aPlaylistInfo,aItemInfo = self.tool.getPlaylist(sID)
             if self.tool.errmsg != "":
-                print("Get PlaylistInfo Err!")
+                print("Get PlaylistInfo Err! " + self.tool.errmsg)
                 return
 
             print("[Title]                %s" % (aPlaylistInfo['title']))
@@ -249,7 +249,7 @@ class Download(object):
 
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!)")
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                     continue
 
                 fileType = self._getSongExtension(streamInfo['url'])

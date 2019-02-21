@@ -39,8 +39,9 @@ class TidalTool(object):
 
         if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
             self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
-        if 'status' in resp and not resp['status'] == 200:
-            self.errmsg = "Get operation err!"
+        elif 'status' in resp and not resp['status'] == 200:
+            self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
+            # self.errmsg = "Get operation err!"
         return resp
 
     def setTrackMetadata(self, track_info, file_path):
