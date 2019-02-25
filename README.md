@@ -4,6 +4,7 @@
 ### Install
   >- pip install tidal-dl
   >- use [tidal-dl.exe] 
+# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 
   
 
 # C#(UI)

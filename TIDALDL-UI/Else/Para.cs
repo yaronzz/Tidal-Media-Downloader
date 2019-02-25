@@ -13,5 +13,7 @@ namespace TIDALDL_UI
         public static Config Config = new Config();
 
         public static Wait WaitForm = null;
+
+        public static List<MainItem> MainItems = new List<MainItem>();
     }
 }

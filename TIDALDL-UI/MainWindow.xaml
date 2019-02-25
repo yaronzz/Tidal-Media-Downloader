@@ -149,7 +149,7 @@
                                   materialDesign:DataGridAssist.CellPadding="13 8 8 8"
                                   materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Binding="{Binding IsSelected}"
+                                <!--<DataGridCheckBoxColumn Binding="{Binding IsSelected}"
                                                           ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                                           EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
                                     <DataGridCheckBoxColumn.Header>
@@ -159,12 +159,15 @@
                                                         IsChecked="{Binding IsAllItems3Selected}" />
                                         </Border>
                                     </DataGridCheckBoxColumn.Header>
-                                </DataGridCheckBoxColumn>
-                                <DataGridTextColumn Binding="{Binding Title}"
+                                </DataGridCheckBoxColumn>-->
+                                <DataGridTextColumn Binding="{Binding Name}"
                                                     Header="TITLE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
-                                <DataGridTextColumn Binding="{Binding Title}"
+                                <DataGridTextColumn Binding="{Binding Type}"
                                                     Header="TYPE"
+                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                <DataGridTextColumn Binding="{Binding Percentage}"
+                                                    Header="SIZE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                             </DataGrid.Columns>
                         </DataGrid>
