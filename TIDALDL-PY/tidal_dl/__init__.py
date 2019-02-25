@@ -9,18 +9,20 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 
-def logIn():
-    print("----------------LogIn------------------")
-    username = myinput("username:")
-    password = myinput("password:")
+
+def logIn(username = "", password = ""):
+    if username == "" or password == "":
+        print("----------------LogIn------------------")
+        username = myinput("username:")
+        password = myinput("password:")
     account = TidalAccount(username, password)
     if account.errmsg != "":
         print(account.errmsg)
-        return
+        return False
 
     cf = TidalConfig()
-    cf.set_account(username, password, account.session_id, account.country_code)
-    return
+    cf.set_account(username, password, account.session_id, account.country_code, account.user_id)
+    return True
 
 
 def setting():
@@ -51,9 +53,8 @@ def setting():
 def main(argv=None):
     cf = TidalConfig()
     print(tidal.LOG)
-    if cf.sessionid == "":
-        logIn()
-
+    while logIn(cf.username, cf.password) == False:
+        pass
     print("====================Tidal-dl========================")
     print("OutputDir    :\t" + cf.outputdir)
     print("SessionID    :\t" + cf.sessionid)
@@ -71,6 +72,7 @@ def main(argv=None):
         print(" Enter '4' : Download Track.")
         print(" Enter '5' : Download PlayList.")
         print(" Enter '6' : Download Video")
+        print(" Enter '7' : Download FavoriteTracks")
         # print(" Enter '7' : Download By File")
         print("====================================================")
         choice = myinput("Choice:")
@@ -90,7 +92,8 @@ def main(argv=None):
             dl.downloadPlaylist()
         elif choice == '6':
             dl.downloadVideo()
-        # elif choice == '7':
+        elif choice == '7':
+            dl.downloadFavoriteTracks()
         #     dl.downloadByFile()
 
 # if __name__ == '__main__':

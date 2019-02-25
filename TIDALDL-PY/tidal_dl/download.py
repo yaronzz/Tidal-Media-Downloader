@@ -277,6 +277,32 @@ class Download(object):
                     print('{:<14}'.format("[ERR]") + item['title'])
         return
 
+    def downloadFavoriteTracks(self):
+        while True:
+            targetDir = self.config.outputdir + "\\Favorite\\"
+            pathHelper.mkdirs(targetDir)
+            
+            aFavoriteList = self.tool.getFavoriteTracks(self.config.userid)
+            if self.tool.errmsg != "":
+                print("Get FavoriteList Err! " + self.tool.errmsg)
+                return
+
+            print("[NumberOfTracks]       %s" % (aFavoriteList['totalNumberOfItems']))
+            # write msg
+            # download track
+            for item in aFavoriteList['items']:
+                item = item['item']
+                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                if self.tool.errmsg != "":
+                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                    continue
+
+                fileType = self._getSongExtension(streamInfo['url'])
+                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
+                paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                self.thread.start(self.__thradfunc_dl, paraList)
+            self.thread.waitAll()
+        return
 def downloadByFile():
     return
 

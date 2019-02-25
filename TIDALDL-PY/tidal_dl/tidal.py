@@ -58,7 +58,7 @@ class TidalTool(object):
             return
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
-    def getPlaylist(self, playlist_id, num = 100):
+    def getPlaylist(self, playlist_id, num = 9999):
         info = self._get('playlists/' + playlist_id)
         items = self._get('playlists/' + playlist_id + '/items', {
             'offset': 0,
@@ -216,6 +216,7 @@ class TidalConfig(object):
         self.quality     = configHelper.GetValue("base", "quality", "LOSSLESS", self.FILE_NAME)
         self.username    = configHelper.GetValue("base", "username", "", self.FILE_NAME)
         self.password    = configHelper.GetValue("base", "password", "", self.FILE_NAME)
+        self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
 
     def set_outputdir(self, outputdir):
         self.outputdir = outputdir
@@ -225,7 +226,7 @@ class TidalConfig(object):
         self.quality = quality
         configHelper.SetValue("base", "quality", quality, self.FILE_NAME)
 
-    def set_account(self, username, password, sessionid, countrycode):
+    def set_account(self, username, password, sessionid, countrycode, userid):
         self.username    = username
         self.password    = password
         self.sessionid   = sessionid
@@ -234,6 +235,7 @@ class TidalConfig(object):
         configHelper.SetValue("base", "password", password, self.FILE_NAME)
         configHelper.SetValue("base", "sessionid", sessionid, self.FILE_NAME)
         configHelper.SetValue("base", "countrycode",countrycode, self.FILE_NAME)
+        configHelper.SetValue("base", "userid",str(userid), self.FILE_NAME)
 
     def valid_quality(self, quality):
         if quality in QUALITY:
