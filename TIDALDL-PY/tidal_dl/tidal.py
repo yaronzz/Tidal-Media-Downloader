@@ -58,13 +58,29 @@ class TidalTool(object):
             return
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
-    def getPlaylist(self, playlist_id, num = 9999):
-        info = self._get('playlists/' + playlist_id)
-        items = self._get('playlists/' + playlist_id + '/items', {
-            'offset': 0,
-            'limit': num
-        })
-        return info,items
+    def getPlaylist(self, playlist_id):
+        info   = self._get('playlists/' + playlist_id)
+        count  = info['numberOfTracks'] + info['numberOfVideos']
+        offset = 0
+        limit  = 100
+        list   = None
+        while offset < count:
+            items = self._get('playlists/' + playlist_id + '/items', {
+                'offset': offset,
+                'limit': limit
+            })
+            if self.errmsg != "":
+                if self.errmsg.find('Too big page') >= 0:
+                    limit = limit - 10
+                    continue
+                else:
+                    return info,list
+            offset = offset + limit
+            if list == None:
+                list = items['items']
+            else:
+                list.extend(items['items'])
+        return info, list
     def getAlbumTracks(self, album_id):
         return self._get('albums/' + str(album_id) + '/tracks')
     def getTrack(self, track_id):
@@ -147,7 +163,7 @@ class TidalTool(object):
 
         i = 0;
         str += "===========Track=============\n"
-        for item in aTrackItems['items']:
+        for item in aTrackItems:
             type = item['type']
             item = item['item']
             if type != 'track':
@@ -158,7 +174,7 @@ class TidalTool(object):
 
         i = 0
         str += "\n===========Video=============\n"
-        for item in aTrackItems['items']:
+        for item in aTrackItems:
             type = item['type']
             item = item['item']
             if type != 'video':

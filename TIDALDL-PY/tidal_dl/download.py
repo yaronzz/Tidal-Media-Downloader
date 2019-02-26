@@ -238,10 +238,10 @@ class Download(object):
             pathHelper.mkdirs(targetDir)
             # write msg
             string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
-            with open(targetDir + "\\PlaylistInfo.txt", 'w') as fd:
+            with open(targetDir + "\\PlaylistInfo.txt", 'w', encoding = 'utf-8') as fd:
                 fd.write(string)
             # download track
-            for item in aItemInfo['items']:
+            for item in aItemInfo:
                 type = item['type']
                 item = item['item']
                 if type != 'track':
@@ -259,7 +259,7 @@ class Download(object):
             self.thread.waitAll()
 
             # download video 
-            for item in aItemInfo['items']:
+            for item in aItemInfo:
                 type = item['type']
                 item = item['item']
                 if type != 'video':
