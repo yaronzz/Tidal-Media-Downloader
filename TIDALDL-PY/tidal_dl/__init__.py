@@ -72,7 +72,7 @@ def main(argv=None):
         print(" Enter '4' : Download Track.")
         print(" Enter '5' : Download PlayList.")
         print(" Enter '6' : Download Video")
-        print(" Enter '7' : Download FavoriteTracks")
+        print(" Enter '7' : Download Favorite")
         # print(" Enter '7' : Download By File")
         print("====================================================")
         choice = myinput("Choice:")
@@ -93,7 +93,7 @@ def main(argv=None):
         elif choice == '6':
             dl.downloadVideo()
         elif choice == '7':
-            dl.downloadFavoriteTracks()
+            dl.downloadFavorite()
         #     dl.downloadByFile()
 
 # if __name__ == '__main__':

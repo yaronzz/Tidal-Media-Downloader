@@ -277,31 +277,46 @@ class Download(object):
                     print('{:<14}'.format("[ERR]") + item['title'])
         return
 
-    def downloadFavoriteTracks(self):
-        while True:
-            targetDir = self.config.outputdir + "\\Favorite\\"
-            pathHelper.mkdirs(targetDir)
-            
-            aFavoriteList = self.tool.getFavoriteTracks(self.config.userid)
+    def downloadFavorite(self):
+        targetDir = self.config.outputdir + "\\Favorite\\"
+        pathHelper.mkdirs(targetDir)
+        
+        trackList,videoList = self.tool.getFavorite(self.config.userid)
+        if self.tool.errmsg != "":
+            print("Get FavoriteList Err! " + self.tool.errmsg)
+            return
+        
+        print("[NumberOfTracks]       %s" % (len(trackList)))
+        print("[NumberOfVideos]       %s" % (len(videoList)))
+        # download track
+        for item in trackList:
+            item = item['item']
+            streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
             if self.tool.errmsg != "":
-                print("Get FavoriteList Err! " + self.tool.errmsg)
-                return
+                print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                continue
 
-            print("[NumberOfTracks]       %s" % (aFavoriteList['totalNumberOfItems']))
-            # write msg
-            # download track
-            for item in aFavoriteList['items']:
-                item = item['item']
-                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
-                if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
-                    continue
+            fileType = self._getSongExtension(streamInfo['url'])
+            filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
+            paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            self.thread.start(self.__thradfunc_dl, paraList)
+        self.thread.waitAll()
 
-                fileType = self._getSongExtension(streamInfo['url'])
-                filePath = targetDir + '\\' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
-                self.thread.start(self.__thradfunc_dl, paraList)
-            self.thread.waitAll()
+        # download video
+        for item in videoList:
+            item = item['item']
+
+            filePath = targetDir + '\\' + \
+                pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+            filePath = os.path.abspath(filePath)
+            if os.access(filePath, 0):
+                os.remove(filePath)
+
+            resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, True):
+                print('{:<14}'.format("[SUCCESS]") + item['title'])
+            else:
+                print('{:<14}'.format("[ERR]") + item['title'])
         return
 def downloadByFile():
     return

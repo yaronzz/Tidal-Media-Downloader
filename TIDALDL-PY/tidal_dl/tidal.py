@@ -89,8 +89,31 @@ class TidalTool(object):
         return self._get('albums/' + str(album_id))
     def getVideo(self, video_id):
         return self._get('videos/' + str(video_id))
-    def getFavoriteTracks(self, user_id):
-        return self._get('users/' + str(user_id) + '/favorites/tracks',{'limit': 9999})
+    def getFavorite(self, user_id):
+        trackList = self.__getItemsList('users/' + str(user_id) + '/favorites/tracks')
+        videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
+        return trackList, videoList
+    def __getItemsList(self, url, count=None):
+        if count == None:
+            ret     = self._get(url, {'limit':0})
+            count   = ret['totalNumberOfItems']
+        offset  = 0
+        limit   = 100
+        retList = None
+        while offset < count:
+            items = self._get(url, {'offset': offset,'limit': limit})
+            if self.errmsg != "":
+                if self.errmsg.find('Too big page') >= 0:
+                    limit = limit - 10
+                    continue
+                else:
+                    return retList
+            offset = offset + limit
+            if retList == None:
+                retList = items['items']
+            else:
+                retList.extend(items['items'])
+        return retList
     def getTrackContributors(self, track_id):
         return self._get('tracks/' + str(track_id) + '/contributors')
     @classmethod
