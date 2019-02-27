@@ -22,10 +22,13 @@ namespace TIDALDL_UI
     /// </summary>
     public partial class AlbumInfo : UserControl
     {
+        Album m_Info;
+
         public AlbumInfo(Album info)
         {
             InitializeComponent();
 
+            m_Info                 = info;
             m_CTitle.Content       = info.Title;
             m_CReleaseDate.Content = "Release date " + info.ReleaseDate;
             m_CIntro.Content       = string.Format("by {0}-{1} Tracks-{2}", info.Artist.Name, info.NumberOfTracks, TimeHelper.ConverIntToString(info.Duration));
@@ -44,6 +47,15 @@ namespace TIDALDL_UI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Para.MainItems.Add(new MainItem()
+            {
+                data         = m_Info,
+                Type         = "ALBUM",
+                Name         = m_Info.Title,
+                DownloadSize = 0,
+                Percentage   = 0,
+                TotalSize    = 0
+            });
             _session.Close();
         }
 

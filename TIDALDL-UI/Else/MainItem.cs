@@ -8,7 +8,7 @@ namespace TIDALDL_UI
 {
     public class MainItem : AIGS.Common.ViewMoudleBase
     {
-        private object data;
+        public object data;
 
         private string name;
         public string Name
@@ -18,6 +18,15 @@ namespace TIDALDL_UI
                 OnPropertyChanged();
             }
         }
+        private string type;
+        public string Type
+        {
+            get { return type; }
+            set { type = value;
+                OnPropertyChanged();
+            }
+        }
+
         private int totalsize;
         public int TotalSize
         {

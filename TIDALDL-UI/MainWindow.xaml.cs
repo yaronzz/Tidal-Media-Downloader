@@ -24,6 +24,7 @@ namespace TIDALDL_UI
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            m_CAllList.ItemsSource     = Para.MainItems;
         }
 
         #region close/min/max/move window
@@ -141,6 +142,16 @@ namespace TIDALDL_UI
                 SearchThread.ThreadState == System.Threading.ThreadState.Suspended))
                 SearchThread.Abort();
             SearchThread = null;
+        }
+        #endregion
+
+        #region datagrid callback
+        /// <summary>
+        /// Show sequence number
+        /// </summary>
+        private void m_CAllList_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = e.Row.GetIndex() + 1;
         }
         #endregion
     }

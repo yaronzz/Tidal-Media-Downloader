@@ -116,6 +116,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBox Margin="8 0 0 0"
                                                  Name="m_CIDText"
+                                                 Text="100270475"
                                                  materialDesign:HintAssist.Hint="ID From Album"
                                                  materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                  BorderThickness="0"
@@ -142,33 +143,33 @@
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
                         </TabControl>-->
-
-
                         <DataGrid AutoGenerateColumns="False"
                                   Name="m_CAllList"
+                                  IsReadOnly="True"
+                                  CanUserSortColumns="False"
+                                  CanUserAddRows="False"
                                   materialDesign:DataGridAssist.CellPadding="13 8 8 8"
-                                  materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="8" LoadingRow="m_CAllList_LoadingRow">
                             <DataGrid.Columns>
-                                <!--<DataGridCheckBoxColumn Binding="{Binding IsSelected}"
-                                                          ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                                                          EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
-                                    <DataGridCheckBoxColumn.Header>
-                                        <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
-                                            <CheckBox HorizontalAlignment="Center"
-                                                        DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
-                                                        IsChecked="{Binding IsAllItems3Selected}" />
-                                        </Border>
-                                    </DataGridCheckBoxColumn.Header>
-                                </DataGridCheckBoxColumn>-->
+                                <DataGridTextColumn Binding="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}, Mode=FindAncestor}}"
+                                                    Header="SEQ"
+                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                                 <DataGridTextColumn Binding="{Binding Name}"
                                                     Header="TITLE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                                 <DataGridTextColumn Binding="{Binding Type}"
                                                     Header="TYPE"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
-                                <DataGridTextColumn Binding="{Binding Percentage}"
-                                                    Header="SIZE"
-                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                <DataGridTemplateColumn Header="SIZE" Width="200">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Label Content="{Binding Percentage}"/>
+                                                <ProgressBar Height="10" Maximum="100" Value="50"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
