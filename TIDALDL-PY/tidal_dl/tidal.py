@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   tidal.py
+@Time    :   2019/02/27
+@Author  :   Yaron Huang 
+@Version :   1.0
+@Contact :   yaronhuang@qq.com
+@Desc    :   Tidal API
+'''
 import requests
 import json
 import uuid
@@ -9,8 +19,7 @@ from pydub import AudioSegment
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
-QUALITY = ['LOSSLESS', 'HIGH', 'LOW']
-# QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
+QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -28,7 +37,6 @@ class TidalTool(object):
     def __init__(self):
         self.config = TidalConfig()
         self.errmsg = ""
-
     def _get(self, url, params={}):
         self.errmsg = ""
         params['countryCode'] = self.config.countrycode
@@ -60,26 +68,7 @@ class TidalTool(object):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
     def getPlaylist(self, playlist_id):
         info   = self._get('playlists/' + playlist_id)
-        count  = info['numberOfTracks'] + info['numberOfVideos']
-        offset = 0
-        limit  = 100
-        list   = None
-        while offset < count:
-            items = self._get('playlists/' + playlist_id + '/items', {
-                'offset': offset,
-                'limit': limit
-            })
-            if self.errmsg != "":
-                if self.errmsg.find('Too big page') >= 0:
-                    limit = limit - 10
-                    continue
-                else:
-                    return info,list
-            offset = offset + limit
-            if list == None:
-                list = items['items']
-            else:
-                list.extend(items['items'])
+        list   = self.__getItemsList('playlists/' + playlist_id + '/items')
         return info, list
     def getAlbumTracks(self, album_id):
         return self._get('albums/' + str(album_id) + '/tracks')
@@ -93,10 +82,9 @@ class TidalTool(object):
         trackList = self.__getItemsList('users/' + str(user_id) + '/favorites/tracks')
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
-    def __getItemsList(self, url, count=None):
-        if count == None:
-            ret     = self._get(url, {'limit':0})
-            count   = ret['totalNumberOfItems']
+    def __getItemsList(self, url):
+        ret     = self._get(url, {'limit':0})
+        count   = ret['totalNumberOfItems']
         offset  = 0
         limit   = 100
         retList = None
@@ -116,10 +104,8 @@ class TidalTool(object):
         return retList
     def getTrackContributors(self, track_id):
         return self._get('tracks/' + str(track_id) + '/contributors')
-    @classmethod
-    def getAlbumArtworkUrl(cls, coverid, size=1280):
+    def getAlbumArtworkUrl(self, coverid, size=1280):
         return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size)
-
     def getVideoResolutionList(self, video_id):
         info = self._get('videos/' + str(video_id) + '/streamurl')
         if self.errmsg != "":
@@ -285,3 +271,4 @@ class TidalConfig(object):
 # if __name__ == '__main__':
 #     tool = TidalTool()
 #     tool.getVideoStreamUrl(97246192)
+

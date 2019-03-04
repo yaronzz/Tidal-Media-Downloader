@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   download.py
+@Time    :   2019/02/27
+@Author  :   Yaron Huang 
+@Version :   1.0
+@Contact :   yaronhuang@qq.com
+@Desc    :   Download Function
+'''
 import sys
 import os
 
@@ -270,8 +280,9 @@ class Download(object):
                 if os.access(filePath, 0):
                     os.remove(filePath)
 
-                resolutionList, urlList = self.tool.getVideoResolutionList(sID)
-                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, True):
+                videoID = item['id']
+                resolutionList, urlList = self.tool.getVideoResolutionList(videoID)
+                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
                     print('{:<14}'.format("[SUCCESS]") + item['title'])
                 else:
                     print('{:<14}'.format("[ERR]") + item['title'])
@@ -313,7 +324,7 @@ class Download(object):
                 os.remove(filePath)
 
             resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, True):
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
                 print('{:<14}'.format("[SUCCESS]") + item['title'])
             else:
                 print('{:<14}'.format("[ERR]") + item['title'])

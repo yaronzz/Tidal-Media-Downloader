@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   decryption.py
+@Time    :   2019/02/27
+@Author  :   Yaron Huang 
+@Version :   1.0
+@Contact :   yaronhuang@qq.com
+@Desc    :   HIGH Quality Track Dectyption;File From Project 'RedSea'
+'''
 import base64
 
 from Crypto.Cipher import AES
