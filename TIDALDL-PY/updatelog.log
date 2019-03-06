@@ -1,8 +1,9 @@
-======2019-03-04=============================
+======2019-03-06=============================
 1\ Add Config 'ThreadNum'
 2\ Support Linux
 3\ Add 'requirements.txt'
 4\ Show Tool Version
+5\ Set Metadata in Linux
 
 ======2019-03-04=============================
 1\ Simplified Code

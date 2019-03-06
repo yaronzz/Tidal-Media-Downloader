@@ -54,8 +54,8 @@ class TidalTool(object):
         return resp
 
     def setTrackMetadata(self, track_info, file_path):
-        if systemHelper.isWindows() == False:
-            return
+        # if systemHelper.isWindows() == False:
+        #     return
         try:
             ext   = os.path.splitext(file_path)[1][1:]
             data  = AudioSegment.from_file(file_path, ext)
