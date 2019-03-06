@@ -1,0 +1,6 @@
+aigpy==1.0.33
+requests==2.21.0
+ffmpeg==1.4
+futures==0.17.1
+pycryptodome==3.7.0
+pydub==0.23.1

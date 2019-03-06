@@ -9,6 +9,7 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 
+TIDAL_DL_VERSION="2019.3.6.5"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -40,14 +41,21 @@ def setting():
             print("[Err]Quality Err,Only Have " + str(tidal.QUALITY))
             continue
         break
+    while True:
+        threadnum = myinput("threadnum :")
+        if cf.valid_threadnum(threadnum) == False:
+            print("[Err]threadnum Err")
+            continue
+        break
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
+    cf.set_threadnum(threadnum)
 
-    pathHelper.mkdirs(outputdir + "\\Album\\")
-    pathHelper.mkdirs(outputdir + "\\Track\\")
-    pathHelper.mkdirs(outputdir + "\\Playlist\\")
-    pathHelper.mkdirs(outputdir + "\\Video\\")
+    pathHelper.mkdirs(outputdir + "/Album/")
+    pathHelper.mkdirs(outputdir + "/Track/")
+    pathHelper.mkdirs(outputdir + "/Playlist/")
+    pathHelper.mkdirs(outputdir + "/Video/")
     return
 
 def main(argv=None):
@@ -60,6 +68,8 @@ def main(argv=None):
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
+    print("ThreadNum    :\t" + cf.threadnum)
+    print("Version      :\t" + TIDAL_DL_VERSION)
     print("====================================================")
 
     dl = Download()
@@ -80,10 +90,10 @@ def main(argv=None):
             return
         elif choice == '1':
             logIn()
-            dl = Download()
+            dl = Download(cf.threadnum)
         elif choice == '2':
             setting()
-            dl = Download()
+            dl = Download(cf.threadnum)
         elif choice == '3':
             dl.downloadAlbum()
         elif choice == '4':

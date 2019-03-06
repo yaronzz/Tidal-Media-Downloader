@@ -15,6 +15,7 @@ import re
 import os
 from aigpy import configHelper
 from aigpy import netHelper
+from aigpy import systemHelper
 from pydub import AudioSegment
 
 VERSION = '1.9.1'
@@ -53,6 +54,8 @@ class TidalTool(object):
         return resp
 
     def setTrackMetadata(self, track_info, file_path):
+        if systemHelper.isWindows() == False:
+            return
         try:
             ext   = os.path.splitext(file_path)[1][1:]
             data  = AudioSegment.from_file(file_path, ext)
@@ -242,6 +245,11 @@ class TidalConfig(object):
         self.username    = configHelper.GetValue("base", "username", "", self.FILE_NAME)
         self.password    = configHelper.GetValue("base", "password", "", self.FILE_NAME)
         self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
+        self.threadnum   = configHelper.GetValue("base", "threadnum", "3", self.FILE_NAME)
+
+    def set_threadnum(self, threadnum):
+        self.threadnum = threadnum
+        configHelper.SetValue("base", "threadnum", threadnum, self.FILE_NAME)
 
     def set_outputdir(self, outputdir):
         self.outputdir = outputdir
@@ -266,6 +274,13 @@ class TidalConfig(object):
         if quality in QUALITY:
             return True
         return False
+
+    def valid_threadnum(self, threadnum):
+        try:
+            num = int(threadnum)
+            return num > 0
+        except:
+            return False
 
 
 # if __name__ == '__main__':
