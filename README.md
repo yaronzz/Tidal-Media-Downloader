@@ -1,19 +1,24 @@
-# PYTHON
+# **Welcome to Tidal-Media-Downloader**  
+## **PYTHON**
 ### Requirements
-  - python : version > 3.0
-  - ffmpeg : download video / set metadata
-  - else   : please read 'TIDALDL-PY/requirements.txt'
+  - **python** : version > 3.0
+  - **ffmpeg** : download video / set metadata
+  - **else**   : please read 'TIDALDL-PY/requirements.txt'
 ### Install
-  >- pip install tidal-dl
-  >- use windows exe[tidal-dl.exe] 
+  - **Release**(Only Windows) : [tidal-dl.exe]  
+  - **By PIP** :
+  ``` python
+  root:~# pip install tidal-dl
+  root:~# tidal-dl 
+  ```
 # ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 
   
 
-# C#(UI)
+## **C# (UI)**
 ### Reference
-* [TidalApi] - Unofficial API for TIDAL music streaming service. 
-* [AIGS] - C# Common Tool Lib
-* [MaterialDesignInXamlToolkit] - WPF UI Design
+* **[TidalApi]** - Unofficial API for TIDAL music streaming service. 
+* **[AIGS]** - C# Common Tool Lib
+* **[MaterialDesignInXamlToolkit]** - WPF UI Design
 
 ### UI-Login
 Get sessionid by username and password 
