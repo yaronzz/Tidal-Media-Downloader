@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,17 +48,41 @@ namespace TIDALDL_UI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            long lTotalSize = 0;
+            ObservableCollection<SubItem> pList = new ObservableCollection<SubItem>();
+            foreach (Track item in m_Info.Tracks)
+            {
+                pList.Add(new SubItem()
+                {
+                    data         = item,
+                    Type         = "TRACK",
+                    Status       = AIGS.Common.Status.Wait,
+                    Name         = item.Title,
+                    DownloadSize = 0,
+                    Percentage   = 0,
+                    TotalSize    = item.StreamUrl == null ? 0 : item.StreamUrl.FileSize,
+                    DownloadUrl  = item.StreamUrl
+                });
+                lTotalSize += item.StreamUrl == null ? 0 : item.StreamUrl.FileSize;
+            }
+
             Para.MainItems.Add(new MainItem()
             {
                 data         = m_Info,
                 Type         = "ALBUM",
+                Status       = AIGS.Common.Status.Wait,
                 Name         = m_Info.Title,
                 DownloadSize = 0,
                 Percentage   = 0,
-                TotalSize    = 0
+                TotalSize    = lTotalSize,
+                SubList      = pList
             });
             _session.Close();
         }
 
+        private void m_CClose_Click(object sender, RoutedEventArgs e)
+        {
+            _session.Close();
+        }
     }
 }

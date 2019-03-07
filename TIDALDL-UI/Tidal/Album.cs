@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace Tidal
 {
@@ -63,6 +65,7 @@ namespace Tidal
             get { return coverdata; }
             set { coverdata = value; }
         }
+
         //专辑曲目数量
         private int numberoftracks;
         public int NumberOfTracks
@@ -92,8 +95,8 @@ namespace Tidal
             set { artist = value; }
         }
 
-        private List<Track> tracks;
-        public List<Track> Tracks
+        private ObservableCollection<Track> tracks;
+        public ObservableCollection<Track> Tracks
         {
             get { return tracks; }
             set { tracks = value; }

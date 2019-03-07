@@ -177,10 +177,10 @@ namespace TIDALDL_UI
         /// Login thread
         /// </summary>
         /// <param name="data">username and password</param>
-        private void ThreadFunc_LogIn(object data)
+        private void ThreadFunc_LogIn(object[] data)
         {
             Account aAccount               = new Account();
-            AIGS.Common.Property aProperty = (AIGS.Common.Property)data;
+            AIGS.Common.Property aProperty = (AIGS.Common.Property)data[0];
             bool   bCheck                  = aAccount.LogIn(aProperty.Key.ToString(), aProperty.Value.ToString());
 
             ThreadResultNotify mothed = new ThreadResultNotify(LogInResult);
@@ -209,8 +209,8 @@ namespace TIDALDL_UI
             Para.Config.addAccount(aUser.User, aUser.Pwd);
 
             //open main window
-            MainWindow Form = new MainWindow();
-            Form.Show();
+            Para.MainForm = new MainWindow();
+            Para.MainForm.Show();
 
             //close login window
             this.Close();

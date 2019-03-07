@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AIGS.Helper;
+using System.Collections.ObjectModel;
+
 namespace Tidal
 {
     public enum Quality
@@ -10,7 +12,6 @@ namespace Tidal
         LOW,
         HIGH,
         LOSSLESS,
-        HI_RES,
         NONE,
     };
 
@@ -21,11 +22,11 @@ namespace Tidal
         public  static string Errmsg;
         private static string Url = "https://api.tidalhifi.com/v1/";
 
-        #region tool
+        #region Common Tool
         /// <summary>
         /// http get 
         /// </summary>
-        private static string Get(string Path, Dictionary<string, string> Paras = null)
+        private static string Get(string Path, Dictionary<string, string> Paras = null, int RetryNum = 0)
         {
             if(User == null)
             {
@@ -39,7 +40,7 @@ namespace Tidal
                 sParams += "&" + Paras.ElementAt(i).Key + "=" + Paras.ElementAt(i).Value;
             }
 
-            string sRet       = (string)HttpHelper.GetOrPost(Url + Path + sParams, Header: "X-Tidal-SessionId:" + User.SessionID);
+            string sRet       = (string)HttpHelper.GetOrPost(Url + Path + sParams, Header: "X-Tidal-SessionId:" + User.SessionID, Retry:RetryNum);
             string sStatus    = JsonHelper.GetValue(sRet, "status");
             string sSubStatus = JsonHelper.GetValue(sRet, "subStatus");
 
@@ -51,6 +52,9 @@ namespace Tidal
             return sRet;
         }
 
+        /// <summary>
+        /// string -> Enum
+        /// </summary>
         public static Quality ConverStringToQuality(string sStr, Quality eDefault)
         {
             if (string.IsNullOrEmpty(sStr))
@@ -58,12 +62,23 @@ namespace Tidal
             return (Quality)AIGS.Common.Convert.ConverStringToEnum(sStr, typeof(Quality), (int)eDefault);
         }
 
+        public static long GetTotalDownloadSize(object oData, string sType)
+        {
+            long lRet = 0;
+            if(sType == "ALBUM")
+            {
+                Album album = (Album)oData;
+                foreach (Track item in album.Tracks)
+                {
+                    lRet += DownloadFileHepler.GetFileLength(item.StreamUrl.Url);
+                }
+            }
+            return lRet;
+        }
         #endregion
 
-
-
-
-        public static Album GetAlbum(string sID, bool bGetTracks = false, string sQuality = null)
+        #region Get Album
+        public static Album GetAlbum(string sID, bool bGetTracksUrl = false, string sQuality = null)
         {
             string sRet = Get("albums/" + sID);
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
@@ -71,32 +86,36 @@ namespace Tidal
 
             Album aRet     = JsonHelper.ConverStringToObject<Album>(sRet);
             aRet.CovrUrl   = "https://resources.tidal.com/images/" + aRet.Cover.Replace('-', '/') + "/1280x1280.jpg";
-            aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CovrUrl, IsRetByte:true);
-
-            if (bGetTracks)
-            {
-                List<Track> aTracks = GetAlbumTracks(sID, true, sQuality);
-                aRet.Tracks = aTracks;
-            }
+            aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CovrUrl, IsRetByte:true, Timeout:5000);
+            aRet.Tracks    = GetAlbumTracks(sID, bGetTracksUrl, sQuality);
             return aRet;
         }
 
-        public static List<Track> GetAlbumTracks(string sID, bool bGetUrl = false, string sQuality = null)
+        public static ObservableCollection<Track> GetAlbumTracks(string sID, bool bGetUrl = false, string sQuality = null, Quality eQuality = Quality.LOSSLESS)
         {
             string sRet = Get("albums/" + sID + "/tracks");
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
 
-            List<Track> aRet = JsonHelper.ConverStringToObject<List<Track>>(sRet, "items");
-            for (int i = 0; bGetUrl && i < aRet.Count; i++)
+            ObservableCollection<Track> aRet = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet, "items");
+            if (bGetUrl)
             {
-                Track item     = aRet[i];
-                item.StreamUrl = GetStreamUrl(item.ID.ToString(), sQuality);
-                aRet[i]        = item;
+                if (sQuality == null)
+                    sQuality = AIGS.Common.Convert.ConverEnumToString((int)eQuality, typeof(Quality), 0);
+
+                //ThreadHelper ThreadList = new ThreadHelper(1);
+                ThreadHelper ThreadList = new ThreadHelper(aRet.Count);
+                for (int i = 0; i < aRet.Count; i++)
+                {
+                    ThreadList.ThreadStartWait(GetStreamUrl, 0, aRet[i], sQuality);
+                }
+                ThreadList.WaitAll();
             }
             return aRet;
         }
+        #endregion
 
+        #region GetTrack
         public static Track GetTrack(string sID, string sQuality)
         {
             string sRet = Get("tracks/" + sID);
@@ -107,16 +126,56 @@ namespace Tidal
             aRet.StreamUrl = GetStreamUrl(sID, sQuality);
             return aRet;
         }
+        #endregion
 
+        #region Get Track StreamUrl
         public static StreamUrl GetStreamUrl(string sID, string sQuality)
         {
-            string sRet = Get("tracks/" + sID + "/streamUrl", new Dictionary<string, string>() { { "soundQuality", sQuality } });
+            string sRet = Get("tracks/" + sID + "/streamUrl", new Dictionary<string, string>() { { "soundQuality", sQuality } }, 3);
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
 
             StreamUrl aRet = JsonHelper.ConverStringToObject<StreamUrl>(sRet);
+            aRet.FileSize  = DownloadFileHepler.GetFileLength(aRet.Url);
             return aRet;
         }
 
+        public static void GetStreamUrl(object[] paras)
+        {
+            Track track     = (Track)paras[0];
+            string quality  = (string)paras[1];
+            track.StreamUrl = GetStreamUrl(track.ID.ToString(), quality);
+        }
+        #endregion
+
+        #region Get Video
+        public static Video GetVideo(string sID)
+        {
+            string sRet = Get("videos/" + sID);
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return null;
+
+            Video aRet = JsonHelper.ConverStringToObject<Video>(sRet);
+            return aRet;
+        }
+
+        public static string GetVideoResolutionList(string sID)
+        {
+            string sRet = Get("videos/" + sID + "/streamurl");
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return null;
+
+            string sUrl    = JsonHelper.GetValue(sRet, "url");
+            string content = (string)HttpHelper.GetOrPost(sUrl);
+            //todo
+            return null;
+        }
+        #endregion
+
+        #region Get Playlist
+        #endregion
+
+        #region Get Farviorte
+        #endregion
     }
 }

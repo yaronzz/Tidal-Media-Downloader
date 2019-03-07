@@ -121,7 +121,7 @@ namespace TIDALDL_UI
             get
             {
                 if (threadnum == -1)
-                    threadnum = AIGS.Helper.ConfigHelper.GetValue("threadnum", 10, "common", Path);
+                    threadnum = AIGS.Helper.ConfigHelper.GetValue("threadnum", 1, "common", Path);
                 return threadnum;
             }
             set

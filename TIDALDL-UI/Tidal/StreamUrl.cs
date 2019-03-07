@@ -50,5 +50,12 @@ namespace Tidal
             get { return url; }
             set { url = value; }
         }
+
+        private long filesize;
+        public long FileSize
+        {
+            get { return filesize; }
+            set { filesize = value; }
+        }
     }
 }

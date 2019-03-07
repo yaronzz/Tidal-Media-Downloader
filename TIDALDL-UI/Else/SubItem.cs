@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AIGS.Common;
-using System.Collections.ObjectModel;
-
 namespace TIDALDL_UI
 {
-    public class MainItem : AIGS.Common.ViewMoudleBase
+    public class SubItem : AIGS.Common.ViewMoudleBase
     {
         public object data;
 
@@ -16,7 +14,9 @@ namespace TIDALDL_UI
         public string Name
         {
             get { return name; }
-            set { name = value;
+            set
+            {
+                name = value;
                 OnPropertyChanged();
             }
         }
@@ -24,7 +24,9 @@ namespace TIDALDL_UI
         public string Type
         {
             get { return type; }
-            set { type = value;
+            set
+            {
+                type = value;
                 OnPropertyChanged();
             }
         }
@@ -68,13 +70,13 @@ namespace TIDALDL_UI
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<SubItem> sublist;
-        public ObservableCollection<SubItem> SubList
+        private Object downloadurl;
+        public Object DownloadUrl
         {
-            get { return sublist; }
+            get { return downloadurl; }
             set
             {
-                sublist = value;
+                downloadurl = value;
                 OnPropertyChanged();
             }
         }

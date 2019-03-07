@@ -156,16 +156,18 @@
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                                 <DataGridTextColumn Binding="{Binding Name}"
                                                     Header="TITLE"
+                                                    Width="250"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                                 <DataGridTextColumn Binding="{Binding Type}"
                                                     Header="TYPE"
+                                                    Width="100"
                                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
-                                <DataGridTemplateColumn Header="SIZE" Width="200">
+                                <DataGridTemplateColumn Header="SIZE" Width="300">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel>
                                                 <Label Content="{Binding Percentage}"/>
-                                                <ProgressBar Height="10" Maximum="100" Value="50"/>
+                                                <ProgressBar Height="10" Maximum="100" Value="{Binding Percentage}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

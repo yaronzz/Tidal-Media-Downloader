@@ -23,7 +23,12 @@
         </Grid.RowDefinitions>
 
         <Label Content="ALBUMINFO" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
-
+        <Button Name="m_CClose"
+                Padding="0"
+                Style="{DynamicResource MaterialDesignToolForegroundButton}"
+                Click="m_CClose_Click" Margin="520,-17,-14,35">
+            <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
+        </Button>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="130"/>

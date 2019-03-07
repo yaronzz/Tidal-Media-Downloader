@@ -9,6 +9,7 @@ namespace TIDALDL_UI
 {
     public class Para
     {
+        public static MainWindow MainForm;
         public static Account User { set; get; }
 
         public static Config Config = new Config();
@@ -16,5 +17,7 @@ namespace TIDALDL_UI
         public static Wait WaitForm = null;
 
         public static ObservableCollection<MainItem> MainItems = new ObservableCollection<MainItem>();
+
+        public static Downloader Downloader = new Downloader();
     }
 }

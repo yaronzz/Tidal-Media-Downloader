@@ -101,18 +101,14 @@ namespace TIDALDL_UI
         /// Search thread
         /// </summary>
         /// <param name="data">ID</param>
-        private void ThreadFunc_Search(object data)
+        private void ThreadFunc_Search(object[] data)
         {
             ThreadResultNotify mothed = new ThreadResultNotify(SearchResult);
 
             //search album
-            Album aAlbum = TidalTool.GetAlbum(data.ToString(), true, Enum.GetName(typeof(Quality), Para.Config.Quality));
-            if(aAlbum != null)
-            {
-                this.Dispatcher.Invoke(mothed, "Album", aAlbum);
-                return;
-            }
-
+            Album aAlbum = TidalTool.GetAlbum(data[0].ToString(), false, Enum.GetName(typeof(Quality), Para.Config.Quality));
+            this.Dispatcher.Invoke(mothed, "Album", aAlbum);
+            return;
 
         }
 
@@ -122,14 +118,23 @@ namespace TIDALDL_UI
         delegate void ThreadResultNotify(string typeName, object data);
         private async void SearchResult(string typeName, object data)
         {
-            if(typeName == "Album")
+            try
             {
                 Para.WaitForm.Close();
-                AlbumInfo Form = new AlbumInfo((Album)data);
-                await DialogHost.Show(Form, Form.ExtendedOpenedEventHandler);
+                if (data == null)
+                    return;
+
+                if (typeName == "Album")
+                {
+                    
+                    AlbumInfo Form = new AlbumInfo((Album)data);
+                    await DialogHost.Show(Form, Form.ExtendedOpenedEventHandler);
+                }
             }
-            
-            return;
+            catch
+            {
+                return;
+            }
         }
 
         /// <summary>

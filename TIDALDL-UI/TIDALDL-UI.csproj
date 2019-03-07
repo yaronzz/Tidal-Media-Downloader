@@ -71,7 +71,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Else\Downloader.cs" />
     <Compile Include="Else\MainItem.cs" />
+    <Compile Include="Else\SubItem.cs" />
     <Compile Include="Window\AlbumInfo.xaml.cs">
       <DependentUpon>AlbumInfo.xaml</DependentUpon>
     </Compile>
