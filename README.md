@@ -1,11 +1,11 @@
 # PYTHON
 ### Requirements
-  - pythone : version > 3.5
+  - python : version > 3.0
   - ffmpeg : download video / set metadata
-  - else : please read 'TIDALDL-PY/requirements.txt'
+  - else   : please read 'TIDALDL-PY/requirements.txt'
 ### Install
   >- pip install tidal-dl
-  >- use [tidal-dl.exe] 
+  >- use windows exe[tidal-dl.exe] 
 # ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 
   
 
