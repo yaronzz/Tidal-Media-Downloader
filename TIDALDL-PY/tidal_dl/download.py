@@ -19,6 +19,7 @@ from aigpy.cmdHelper import myinput
 from aigpy.threadHelper import ThreadTool
 from aigpy.progressHelper import ProgressTool
 
+from tidal_dl.check import CheckTool
 from tidal_dl.tidal import TidalTool
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
@@ -32,6 +33,7 @@ class Download(object):
         self.thread   = ThreadTool(int(threadNum))
         self.ffmpeg   = FFmpegTool()
         self.progress = ProgressTool(100)
+        self.check    = CheckTool()
 
         pathHelper.mkdirs(self.config.outputdir + "/Album/")
         pathHelper.mkdirs(self.config.outputdir + "/Track/")
@@ -250,23 +252,47 @@ class Download(object):
             string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
             with open(targetDir + "/PlaylistInfo.txt", 'w', encoding = 'utf-8') as fd:
                 fd.write(string)
+
             # download track
-            for item in aItemInfo:
-                type = item['type']
-                item = item['item']
-                if type != 'track':
-                    continue
+            bBreakFlag = False
+            bFirstTime = True
+            errIndex   = []
+            index      = 0
 
-                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
-                if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
-                    continue
+            while bBreakFlag == False:
+                self.check.clear()
+                for item in aItemInfo:
+                    type  = item['type']
+                    item  = item['item']
+                    if type != 'track':
+                        continue
 
-                fileType = self._getSongExtension(streamInfo['url'])
-                filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
-                self.thread.start(self.__thradfunc_dl, paraList)
-            self.thread.waitAll()
+                    index = index + 1
+                    if bFirstTime == False:
+                        if self.check.isInErr(index - 1, errIndex) == False:
+                            continue
+
+                    streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                    if self.tool.errmsg != "":
+                        print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                        continue
+
+                    fileType = self._getSongExtension(streamInfo['url'])
+                    filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
+                    paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                    self.check.addPath(filePath)
+                    self.thread.start(self.__thradfunc_dl, paraList)
+                self.thread.waitAll()
+            
+                bBreakFlag = True
+                bFirstTime = False
+            
+                # check
+                isErr, errIndex = self.check.checkPaths()
+                if isErr:
+                    check = myinput("[Err]\t\t" + len(errIndex) + " Tracks Download Failed.Try Again?(y/n):")
+                    if check == 'y' or check == 'Y':
+                        bBreakFlag = False
 
             # download video 
             for item in aItemInfo:
@@ -328,7 +354,9 @@ class Download(object):
             else:
                 print('{:<14}'.format("[ERR]") + item['title'])
         return
-def downloadByFile():
-    return
+
+
+
+
 
 

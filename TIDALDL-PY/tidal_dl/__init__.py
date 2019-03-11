@@ -1,6 +1,7 @@
 import sys
 import os
 
+from aigpy import pipHelper
 from aigpy import pathHelper
 from aigpy.cmdHelper import myinput
 
@@ -9,7 +10,7 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 
-TIDAL_DL_VERSION="2019.3.6.8"
+TIDAL_DL_VERSION="2019.3.11.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -63,6 +64,8 @@ def main(argv=None):
     print(tidal.LOG)
     while logIn(cf.username, cf.password) == False:
         pass
+
+    onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
     print("OutputDir    :\t" + cf.outputdir)
     print("SessionID    :\t" + cf.sessionid)
@@ -70,6 +73,7 @@ def main(argv=None):
     print("SoundQuality :\t" + cf.quality)
     print("ThreadNum    :\t" + cf.threadnum)
     print("Version      :\t" + TIDAL_DL_VERSION)
+    print("LastVer      :\t" + onlineVer)
     print("====================================================")
 
     dl = Download()
@@ -77,13 +81,12 @@ def main(argv=None):
         print("=====================Choice=========================")
         print(" Enter '0' : Exit")
         print(" Enter '1' : LogIn And Get SessionID.")
-        print(" Enter '2' : Setting(OutputDir/Quality).")
+        print(" Enter '2' : Setting(OutputDir/Quality/ThreadNum).")
         print(" Enter '3' : Download Album.")
         print(" Enter '4' : Download Track.")
         print(" Enter '5' : Download PlayList.")
         print(" Enter '6' : Download Video")
         print(" Enter '7' : Download Favorite")
-        # print(" Enter '7' : Download By File")
         print("====================================================")
         choice = myinput("Choice:")
         if choice == '0':
@@ -104,10 +107,8 @@ def main(argv=None):
             dl.downloadVideo()
         elif choice == '7':
             dl.downloadFavorite()
-        #     dl.downloadByFile()
 
 # if __name__ == '__main__':
 #     main(sys.argv)
-
 
 __all__ = ['main', 'tidal', 'download']
