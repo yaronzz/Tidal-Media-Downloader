@@ -10,7 +10,7 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 
-TIDAL_DL_VERSION="2019.3.11.1"
+TIDAL_DL_VERSION="2019.3.13.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -73,7 +73,8 @@ def main(argv=None):
     print("SoundQuality :\t" + cf.quality)
     print("ThreadNum    :\t" + cf.threadnum)
     print("Version      :\t" + TIDAL_DL_VERSION)
-    print("LastVer      :\t" + onlineVer)
+    if onlineVer != None:
+        print("LastVer      :\t" + onlineVer)
     print("====================================================")
 
     dl = Download()
