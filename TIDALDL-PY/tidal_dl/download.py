@@ -104,7 +104,7 @@ class Download(object):
             filePath = targetDir + "/" + pathHelper.replaceLimitChar(item['title'],'-') + extension
         else:
             index = item['volumeNumber']
-            filePath = targetDir + "/Volume/" + str(index-1) + pathHelper.replaceLimitChar(item['title'], '-') + extension
+            filePath = targetDir + "/Volume" + str(index-1) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
     def downloadAlbum(self):
