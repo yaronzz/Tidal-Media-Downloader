@@ -1,14 +1,17 @@
 # **Welcome to Tidal-Media-Downloader**  
 ## **PYTHON**
 ### Requirements
-  - **python** : version > 3.0
-  - **ffmpeg** : download video / set metadata
-  - **else**   : please read 'TIDALDL-PY/requirements.txt'
+|Require|Desc|
+|:----|:----|
+|**python**| version > 3.0|
+|**ffmpeg**| download video / set metadata|
+|**else**| please read 'TIDALDL-PY/requirements.txt'|
+
 ### Install
   - **Release**(Only Windows) : [tidal-dl.exe]  
   - **By PIP** :
   ``` python
-  root:~# pip install tidal-dl
+  root:~# pip install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
 # ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 

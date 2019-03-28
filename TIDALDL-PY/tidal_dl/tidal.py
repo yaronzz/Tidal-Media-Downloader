@@ -8,11 +8,14 @@
 @Contact :   yaronhuang@qq.com
 @Desc    :   Tidal API
 '''
-import requests
+import os
+import re
 import json
 import uuid
-import re
-import os
+import requests
+
+from aigpy import fileHelper
+from aigpy import pathHelper
 from aigpy import configHelper
 from aigpy import netHelper
 from aigpy import systemHelper
@@ -54,19 +57,31 @@ class TidalTool(object):
         return resp
 
     def setTrackMetadata(self, track_info, file_path):
-        # if systemHelper.isWindows() == False:
-        #     return
+        path = pathHelper.getDirName(file_path)
+        name = pathHelper.getFileNameWithoutExtension(file_path)
+        exte = pathHelper.getFileExtension(file_path)
+        tmpfile = path + '/' + name + 'TMP' + exte
         try:
-            ext   = os.path.splitext(file_path)[1][1:]
-            data  = AudioSegment.from_file(file_path, ext)
-            check = data.export(file_path, format=ext, tags={
+            # 备份一下文件
+            pathHelper.copyFile(file_path, tmpfile)
+            # 设置信息
+            ext   = os.path.splitext(tmpfile)[1][1:]
+            data  = AudioSegment.from_file(tmpfile, ext)
+            check = data.export(tmpfile, format=ext, tags={
                 'Artist': track_info['artist']['name'],
                 'Album': track_info['album']['title'],
                 'Title': track_info['title'],
                 'CopyRight': track_info['copyright'],
                 'TrackNum':track_info['trackNumber']})
+            # 检查文件大小
+            if fileHelper.getFileSize(tmpfile) > 0:
+                pathHelper.remove(file_path)
+                pathHelper.copyFile(tmpfile, file_path)
         except:
-            return
+            pass
+        if os.access(tmpfile, 0):
+            pathHelper.remove(tmpfile)
+
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
     def getPlaylist(self, playlist_id):
