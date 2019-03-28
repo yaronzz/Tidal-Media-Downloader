@@ -22,5 +22,3 @@ cd ..
 
 REM upload version to pip server
 twine upload dist/*
-
-

@@ -40,6 +40,7 @@ class Download(object):
         pathHelper.mkdirs(self.config.outputdir + "/Playlist/")
         pathHelper.mkdirs(self.config.outputdir + "/Video/")
 
+
     # dowmload track thread
     def __thradfunc_dl(self, paraList):
         count    = 1
@@ -141,7 +142,7 @@ class Download(object):
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
+                    print('{:<14}'.format("[ERR]") + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                     continue
 
                 fileType = self._getSongExtension(streamInfo['url'])
