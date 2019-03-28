@@ -283,7 +283,8 @@ class Download(object):
                     filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
                     paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
                     self.check.addPath(filePath)
-                    self.thread.start(self.__thradfunc_dl, paraList)
+                    if not os.path.isfile(filePath):
+                        self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
             
                 bBreakFlag = True
