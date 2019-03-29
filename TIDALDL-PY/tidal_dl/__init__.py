@@ -10,9 +10,10 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 
-TIDAL_DL_VERSION="2019.3.29.0"
+TIDAL_DL_VERSION = "2019.3.29.0"
 
-def logIn(username = "", password = ""):
+
+def logIn(username="", password=""):
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
@@ -23,7 +24,8 @@ def logIn(username = "", password = ""):
         return False
 
     cf = TidalConfig()
-    cf.set_account(username, password, account.session_id, account.country_code, account.user_id)
+    cf.set_account(username, password, account.session_id,
+                   account.country_code, account.user_id)
     return True
 
 
@@ -58,6 +60,7 @@ def setting():
     pathHelper.mkdirs(outputdir + "/Playlist/")
     pathHelper.mkdirs(outputdir + "/Video/")
     return
+
 
 def main(argv=None):
     cf = TidalConfig()
@@ -111,5 +114,6 @@ def main(argv=None):
 
 # if __name__ == '__main__':
 #     main(sys.argv)
+
 
 __all__ = ['main', 'tidal', 'download']

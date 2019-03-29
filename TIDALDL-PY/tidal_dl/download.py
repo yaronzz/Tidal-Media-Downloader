@@ -27,14 +27,15 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
 
+
 class Download(object):
     def __init__(self, threadNum=3):
-        self.config   = TidalConfig()
-        self.tool     = TidalTool()
-        self.thread   = ThreadTool(int(threadNum))
-        self.ffmpeg   = FFmpegTool()
+        self.config = TidalConfig()
+        self.tool = TidalTool()
+        self.thread = ThreadTool(int(threadNum))
+        self.ffmpeg = FFmpegTool()
         self.progress = ProgressTool(100)
-        self.check    = CheckTool()
+        self.check = CheckTool()
 
         pathHelper.mkdirs(self.config.outputdir + "/Album/")
         pathHelper.mkdirs(self.config.outputdir + "/Track/")
@@ -52,11 +53,11 @@ class Download(object):
 
     # dowmload track thread
     def __thradfunc_dl(self, paraList):
-        count      = 1
-        printRet   = True
-        pstr       = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
+        count = 1
+        printRet = True
+        pstr = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
         redownload = True
-        needDl     = True
+        needDl = True
         if 'redownload' in paraList:
             redownload = paraList['redownload']
         if 'retry' in paraList:
@@ -64,28 +65,30 @@ class Download(object):
         if 'show' in paraList:
             printRet = paraList['show']
 
-        if redownload == False:
+        if not redownload:
             needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
-        
+
         if needDl:
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path'])
+                    check = netHelper.downloadFile(
+                        paraList['url'], paraList['path'])
                     if check == True:
                         if paraList['key'] == '':
                             break
-                        key,nonce = decrypt_security_token(paraList['key'])
-                        decrypt_file(paraList['path'],key,nonce)
+                        key, nonce = decrypt_security_token(paraList['key'])
+                        decrypt_file(paraList['path'], key, nonce)
                         break
                 if check:
-                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
+                    self.tool.setTrackMetadata(
+                        paraList['trackinfo'], paraList['path'])
                     pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
             except:
                 pass
         else:
             pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
-        
+
         if printRet:
             print(pstr)
         return
@@ -105,7 +108,7 @@ class Download(object):
                 pathHelper.mkdirs(volumeDir)
                 count = count + 1
         return targetDir
-    
+
     def _getSongExtension(self, downloadUrl):
         if downloadUrl.find('.flac?') != -1:
             return '.flac'
@@ -116,15 +119,18 @@ class Download(object):
         return '.m4a'
 
     def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
-        if extension == None:
+        if extension is None:
             extension = ".m4a"
 
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes <= 1:
-            filePath = targetDir + "/" + pathHelper.replaceLimitChar(item['title'],'-') + extension
+            filePath = targetDir + "/" + \
+                pathHelper.replaceLimitChar(item['title'], '-') + extension
         else:
             index = item['volumeNumber']
-            filePath = targetDir + "/Volume" + str(index-1) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
+            filePath = targetDir + "/Volume" + \
+                str(index-1) + "/" + \
+                pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
     def __getExistFiles(self, paths):
@@ -133,7 +139,6 @@ class Download(object):
             if os.path.isfile(item):
                 ret.append(item)
         return ret
-
 
     def downloadAlbum(self):
         while True:
@@ -158,34 +163,39 @@ class Download(object):
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
-            string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
+            string = self.tool.convertAlbumInfoToString(
+                aAlbumInfo, aAlbumTracks)
             with open(targetDir + "/AlbumInfo.txt", 'w') as fd:
                 fd.write(string)
             # download cover
-            coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
-            coverUrl  = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
+            coverPath = targetDir + '/' + \
+                pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
+            coverUrl = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
             netHelper.downloadFile(coverUrl, coverPath)
             # check exist files
-            existFiles= pathHelper.getDirFiles(targetDir)
+            existFiles = os.listdir(targetDir);
             for item in existFiles:
                 if '.txt' in item:
                     continue
                 if '.jpg' in item:
                     continue
-                check = myinput("Some TrackFile Exist.Is Redownload?(y/n):")
-                if check != 'y' and check != 'yes':
-                    redownload = False
+                check = myinput("Some track files already exist. Redownload?(y/n):")
+                redownload = True if check in ('y', 'yes') else False
                 break
             # download album tracks
             for item in aAlbumTracks['items']:
-                streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                streamInfo = self.tool.getStreamUrl(
+                    str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print('{:<14}'.format("[ERR]") + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
+                    print('{:<14}'.format(
+                        "[ERR]") + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                     continue
 
                 fileType = self._getSongExtension(streamInfo['url'])
-                filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
-                paraList = {'redownload': redownload, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                filePath = self.__getAlbumSongSavePath(
+                    targetDir, aAlbumInfo, item, fileType)
+                paraList = {'redownload': redownload, 'title': item['title'], 'trackinfo': item,
+                            'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -211,12 +221,16 @@ class Download(object):
             # download
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
             if self.tool.errmsg != "":
-                print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
+                print("[Err]\t\t" + aTrackInfo['title'] +
+                      "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
-            filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
-            paraList = {'title': aTrackInfo['title'], 'trackinfo':aTrackInfo, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            filePath = targetDir + "/" + \
+                pathHelper.replaceLimitChar(
+                    aTrackInfo['title'], '-') + fileType
+            paraList = {'title': aTrackInfo['title'], 'trackinfo': aTrackInfo, 'url': streamInfo['url'],
+                        'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -254,7 +268,8 @@ class Download(object):
                     continue
                 break
 
-            path = targetDir + "/" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-')+ ".mp4"
+            path = targetDir + "/" + \
+                pathHelper.replaceLimitChar(aVideoInfo['title'], '-') + ".mp4"
             path = os.path.abspath(path)
             if os.access(path, 0):
                 os.remove(path)
@@ -273,36 +288,40 @@ class Download(object):
             if sID == '0':
                 return
 
-            aPlaylistInfo,aItemInfo = self.tool.getPlaylist(sID)
+            aPlaylistInfo, aItemInfo = self.tool.getPlaylist(sID)
             if self.tool.errmsg != "":
                 print("Get PlaylistInfo Err! " + self.tool.errmsg)
                 return
 
             print("[Title]                %s" % (aPlaylistInfo['title']))
             print("[Type]                 %s" % (aPlaylistInfo['type']))
-            print("[NumberOfTracks]       %s" % (aPlaylistInfo['numberOfTracks']))
-            print("[NumberOfVideos]       %s" % (aPlaylistInfo['numberOfVideos']))
+            print("[NumberOfTracks]       %s" %
+                  (aPlaylistInfo['numberOfTracks']))
+            print("[NumberOfVideos]       %s" %
+                  (aPlaylistInfo['numberOfVideos']))
             print("[Duration]             %s\n" % (aPlaylistInfo['duration']))
 
             # Creat OutputDir
-            targetDir = targetDir + pathHelper.replaceLimitChar(aPlaylistInfo['title'],'-')
+            targetDir = targetDir + \
+                pathHelper.replaceLimitChar(aPlaylistInfo['title'], '-')
             pathHelper.mkdirs(targetDir)
             # write msg
-            string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
-            with open(targetDir + "/PlaylistInfo.txt", 'w', encoding = 'utf-8') as fd:
+            string = self.tool.convertPlaylistInfoToString(
+                aPlaylistInfo, aItemInfo)
+            with open(targetDir + "/PlaylistInfo.txt", 'w', encoding='utf-8') as fd:
                 fd.write(string)
 
             # download track
             bBreakFlag = False
             bFirstTime = True
-            errIndex   = []
-            index      = 0
+            errIndex = []
+            index = 0
 
             while bBreakFlag == False:
                 self.check.clear()
                 for item in aItemInfo:
-                    type  = item['type']
-                    item  = item['item']
+                    type = item['type']
+                    item = item['item']
                     if type != 'track':
                         continue
 
@@ -311,43 +330,51 @@ class Download(object):
                         if self.check.isInErr(index - 1, errIndex) == False:
                             continue
 
-                    streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                    streamInfo = self.tool.getStreamUrl(
+                        str(item['id']), self.config.quality)
                     if self.tool.errmsg != "":
-                        print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                        print("[Err]\t\t" + item['title'] +
+                              "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                         continue
 
                     fileType = self._getSongExtension(streamInfo['url'])
-                    filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                    paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                    filePath = targetDir + '/' + \
+                        pathHelper.replaceLimitChar(
+                            item['title'], '-') + fileType
+                    paraList = {'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'],
+                                'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                     self.check.addPath(filePath)
                     if not os.path.isfile(filePath):
                         self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
-            
+
                 bBreakFlag = True
                 bFirstTime = False
-            
+
                 # check
                 isErr, errIndex = self.check.checkPaths()
                 if isErr:
-                    check = myinput("[Err]\t\t" + len(errIndex) + " Tracks Download Failed.Try Again?(y/n):")
+                    check = myinput("[Err]\t\t" + len(errIndex) +
+                                    " Tracks Download Failed.Try Again?(y/n):")
                     if check == 'y' or check == 'Y':
                         bBreakFlag = False
 
-            # download video 
+            # download video
             for item in aItemInfo:
                 type = item['type']
                 item = item['item']
                 if type != 'video':
                     continue
-                
-                filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+
+                filePath = targetDir + '/' + \
+                    pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
                 filePath = os.path.abspath(filePath)
                 if os.access(filePath, 0):
                     os.remove(filePath)
 
                 videoID = item['id']
-                resolutionList, urlList = self.tool.getVideoResolutionList(videoID)
+                resolutionList, urlList = self.tool.getVideoResolutionList(
+                    videoID)
                 if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
                     print('{:<14}'.format("[SUCCESS]") + item['title'])
                 else:
@@ -357,25 +384,29 @@ class Download(object):
     def downloadFavorite(self):
         targetDir = self.config.outputdir + "/Favorite/"
         pathHelper.mkdirs(targetDir)
-        
-        trackList,videoList = self.tool.getFavorite(self.config.userid)
+
+        trackList, videoList = self.tool.getFavorite(self.config.userid)
         if self.tool.errmsg != "":
             print("Get FavoriteList Err! " + self.tool.errmsg)
             return
-        
+
         print("[NumberOfTracks]       %s" % (len(trackList)))
         print("[NumberOfVideos]       %s" % (len(videoList)))
         # download track
         for item in trackList:
             item = item['item']
-            streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+            streamInfo = self.tool.getStreamUrl(
+                str(item['id']), self.config.quality)
             if self.tool.errmsg != "":
-                print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                print("[Err]\t\t" + item['title'] +
+                      "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
-            filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-            paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            filePath = targetDir + '/' + \
+                pathHelper.replaceLimitChar(item['title'], '-') + fileType
+            paraList = {'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'],
+                        'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
         self.thread.waitAll()
 
@@ -383,20 +414,16 @@ class Download(object):
         for item in videoList:
             item = item['item']
 
-            filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+            filePath = targetDir + '/' + \
+                pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
             filePath = os.path.abspath(filePath)
             if os.access(filePath, 0):
                 os.remove(filePath)
 
-            resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
+            resolutionList, urlList = self.tool.getVideoResolutionList(
+                item['id'])
             if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
                 print('{:<14}'.format("[SUCCESS]") + item['title'])
             else:
                 print('{:<14}'.format("[ERR]") + item['title'])
         return
-
-
-
-
-
-
