@@ -13,6 +13,7 @@ import os
 
 from aigpy import pathHelper
 from aigpy import netHelper
+from aigpy import fileHelper
 
 from aigpy.ffmpegHelper import FFmpegTool
 from aigpy.cmdHelper import myinput
@@ -40,32 +41,50 @@ class Download(object):
         pathHelper.mkdirs(self.config.outputdir + "/Playlist/")
         pathHelper.mkdirs(self.config.outputdir + "/Video/")
 
+    def __isNeedDownload(self, path, url):
+        curSize = fileHelper.getFileSize(path)
+        if curSize <= 0:
+            return True
+        netSize = netHelper.getFileSize(url)
+        if curSize >= netSize:
+            return False
+        return True
 
     # dowmload track thread
     def __thradfunc_dl(self, paraList):
-        count    = 1
-        printRet = True
-        pstr     = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
+        count      = 1
+        printRet   = True
+        pstr       = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
+        redownload = True
+        needDl     = True
+        if 'redownload' in paraList:
+            redownload = paraList['redownload']
         if 'retry' in paraList:
             count = count + paraList['retry']
         if 'show' in paraList:
             printRet = paraList['show']
 
-        try:
-            while count > 0:
-                count = count - 1
-                check = netHelper.downloadFile(paraList['url'], paraList['path'])
-                if check == True:
-                    if paraList['key'] == '':
+        if redownload == False:
+            needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
+        
+        if needDl:
+            try:
+                while count > 0:
+                    count = count - 1
+                    check = netHelper.downloadFile(paraList['url'], paraList['path'])
+                    if check == True:
+                        if paraList['key'] == '':
+                            break
+                        key,nonce = decrypt_security_token(paraList['key'])
+                        decrypt_file(paraList['path'],key,nonce)
                         break
-                    key,nonce = decrypt_security_token(paraList['key'])
-                    decrypt_file(paraList['path'],key,nonce)
-                    break
-            if check:
-                self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
-                pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
-        except:
-            pass
+                if check:
+                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
+                    pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
+            except:
+                pass
+        else:
+            pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
         
         if printRet:
             print(pstr)
@@ -108,6 +127,14 @@ class Download(object):
             filePath = targetDir + "/Volume" + str(index-1) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
+    def __getExistFiles(self, paths):
+        ret = []
+        for item in paths:
+            if os.path.isfile(item):
+                ret.append(item)
+        return ret
+
+
     def downloadAlbum(self):
         while True:
             print("----------------ALBUM------------------")
@@ -136,8 +163,19 @@ class Download(object):
                 fd.write(string)
             # download cover
             coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
-            coverUrl = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
+            coverUrl  = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
             netHelper.downloadFile(coverUrl, coverPath)
+            # check exist files
+            existFiles= pathHelper.getDirFiles(targetDir)
+            for item in existFiles:
+                if '.txt' in item:
+                    continue
+                if '.jpg' in item:
+                    continue
+                check = myinput("Some TrackFile Exist.Is Redownload?(y/n):")
+                if check != 'y' and check != 'yes':
+                    redownload = False
+                break
             # download album tracks
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
@@ -147,8 +185,7 @@ class Download(object):
 
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
-                paraList = {'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
-                # if not os.path.isfile(filePath):
+                paraList = {'redownload': redownload, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()

@@ -42,19 +42,28 @@ class TidalTool(object):
         self.config = TidalConfig()
         self.errmsg = ""
     def _get(self, url, params={}):
-        self.errmsg = ""
-        params['countryCode'] = self.config.countrycode
-        resp = requests.get(
-            URL_PRE + url,
-            headers={'X-Tidal-SessionId': self.config.sessionid},
-            params=params).json()
+        retry = 3
+        while retry > 0:
+            retry -= 1
+            try:
+                self.errmsg = ""
+                params['countryCode'] = self.config.countrycode
+                resp = requests.get(
+                    URL_PRE + url,
+                    headers={'X-Tidal-SessionId': self.config.sessionid},
+                    params=params).json()
 
-        if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
-            self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
-        elif 'status' in resp and not resp['status'] == 200:
-            self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
-            # self.errmsg = "Get operation err!"
-        return resp
+                if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
+                    self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
+                elif 'status' in resp and not resp['status'] == 200:
+                    self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
+                    # self.errmsg = "Get operation err!"
+                return resp
+            except:
+                if retry <= 0:
+                    self.errmsg = 'Function `Http-Get` Err!'
+                    return None
+        
 
     def setTrackMetadata(self, track_info, file_path):
         path = pathHelper.getDirName(file_path)
