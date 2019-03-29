@@ -104,7 +104,7 @@ class TidalTool(object):
         ret     = self._get(url, {'limit':0})
         count   = ret['totalNumberOfItems']
         offset  = 0
-        limit   = 10000
+        limit   = 100
         retList = None
         while offset < count:
             items = self._get(url, {'offset': offset,'limit': limit})

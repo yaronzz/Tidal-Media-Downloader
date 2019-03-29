@@ -148,8 +148,8 @@ class Download(object):
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
                 paraList = {'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
-                if not os.path.isfile(filePath):
-                    self.thread.start(self.__thradfunc_dl, paraList)
+                # if not os.path.isfile(filePath):
+                self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
         return
