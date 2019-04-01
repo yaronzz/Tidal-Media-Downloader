@@ -166,7 +166,8 @@ class Download(object):
             coverUrl  = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
             netHelper.downloadFile(coverUrl, coverPath)
             # check exist files
-            existFiles= pathHelper.getDirFiles(targetDir)
+            redownload = True
+            existFiles = pathHelper.getDirFiles(targetDir)
             for item in existFiles:
                 if '.txt' in item:
                     continue
