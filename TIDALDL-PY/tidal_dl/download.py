@@ -159,7 +159,7 @@ class Download(object):
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
             string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
-            with open(targetDir + "/AlbumInfo.txt", 'w') as fd:
+            with open(targetDir + "/AlbumInfo.txt", 'w', encoding='utf-8') as fd:
                 fd.write(string)
             # download cover
             coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
