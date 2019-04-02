@@ -16,7 +16,7 @@ from aigpy import netHelper
 from aigpy import fileHelper
 
 from aigpy.ffmpegHelper import FFmpegTool
-from aigpy.cmdHelper import myinput
+from aigpy.cmdHelper import myinput,myinputInt
 from aigpy.threadHelper import ThreadTool
 from aigpy.progressHelper import ProgressTool
 
@@ -26,6 +26,7 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
+from tidal_dl.printhelper import printChoice, printErr, printSUCCESS
 
 class Download(object):
     def __init__(self, threadNum=3):
@@ -54,9 +55,10 @@ class Download(object):
     def __thradfunc_dl(self, paraList):
         count      = 1
         printRet   = True
-        pstr       = '{:<14}'.format("[ERR]") + paraList['title'] + "(Download Err!)"
+        pstr       = paraList['title'] + "(Download Err!)"
         redownload = True
         needDl     = True
+        bIsSuccess = False
         if 'redownload' in paraList:
             redownload = paraList['redownload']
         if 'retry' in paraList:
@@ -80,14 +82,19 @@ class Download(object):
                         break
                 if check:
                     self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
-                    pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
+                    pstr = paraList['title']
+                    bIsSuccess = True
             except:
                 pass
         else:
-            pstr = '{:<14}'.format("[SUCCESS]") + paraList['title']
-        
+            pstr = paraList['title']
+            bIsSuccess = True
+
         if printRet:
-            print(pstr)
+            if(bIsSuccess):
+                printSUCCESS(14, pstr)
+            else:
+                printErr(14, pstr)
         return
 
     # creat album output dir
@@ -138,13 +145,13 @@ class Download(object):
     def downloadAlbum(self):
         while True:
             print("----------------ALBUM------------------")
-            sID = myinput("Enter AlbumID(Enter '0' go back):")
+            sID = printChoice("Enter AlbumID(Enter '0' go back):", True, 0)
             if sID == '0':
                 return
 
             aAlbumInfo = self.tool.getAlbum(sID)
             if self.tool.errmsg != "":
-                print("Get AlbumInfo Err! " + self.tool.errmsg)
+                printErr(0, "Get AlbumInfo Err! " + self.tool.errmsg)
                 continue
 
             print("[Title]       %s" % (aAlbumInfo['title']))
@@ -153,7 +160,7 @@ class Download(object):
             # Get Tracks
             aAlbumTracks = self.tool.getAlbumTracks(sID)
             if self.tool.errmsg != "":
-                print("Get AlbumTracks Err!" + self.tool.errmsg)
+                printErr(0,"Get AlbumTracks Err!" + self.tool.errmsg)
                 return
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
@@ -173,7 +180,7 @@ class Download(object):
                     continue
                 if '.jpg' in item:
                     continue
-                check = myinput("Some TrackFile Exist.Is Redownload?(y/n):")
+                check = printChoice("Some TrackFile Exist.Is Redownload?(y/n):")
                 if check != 'y' and check != 'yes':
                     redownload = False
                 break
@@ -181,7 +188,7 @@ class Download(object):
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                 if self.tool.errmsg != "":
-                    print('{:<14}'.format("[ERR]") + item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
+                    printErr(14,item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                     continue
 
                 fileType = self._getSongExtension(streamInfo['url'])
@@ -196,13 +203,13 @@ class Download(object):
         while True:
             targetDir = self.config.outputdir + "/Track/"
             print("----------------TRACK------------------")
-            sID = myinput("Enter TrackID(Enter '0' go back):")
+            sID = printChoice("Enter TrackID(Enter '0' go back):", True, 0)
             if sID == '0':
                 return
 
             aTrackInfo = self.tool.getTrack(sID)
             if self.tool.errmsg != "":
-                print("Get TrackInfo Err! " + self.tool.errmsg)
+                printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
                 return
 
             print("[TrackTitle ]       %s" % (aTrackInfo['title']))
@@ -212,7 +219,7 @@ class Download(object):
             # download
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
             if self.tool.errmsg != "":
-                print("[Err]\t\t" + aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
+                printErr(14, aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
@@ -227,12 +234,12 @@ class Download(object):
         while True:
             targetDir = self.config.outputdir + "/Video/"
             print("----------------VIDEO------------------")
-            sID = myinput("Enter VideoID(Enter '0' go back):")
+            sID = printChoice("Enter VideoID(Enter '0' go back):", True, 0)
             if sID == '0':
                 return
             aVideoInfo = self.tool.getVideo(sID)
             if self.tool.errmsg != "":
-                print("Get VideoInfo Err! " + self.tool.errmsg)
+                printErr(0,"Get VideoInfo Err! " + self.tool.errmsg)
                 continue
 
             print("[Title      ]       %s" % (aVideoInfo['title']))
@@ -249,9 +256,9 @@ class Download(object):
                 index = index + 1
             print("--------------------")
             while True:
-                index = myinput("Enter ResolutionIndex:")
+                index = printChoice("Enter ResolutionIndex:", True, 0)
                 if index == '' or index == None or int(index) >= len(resolutionList):
-                    print("[Err] " + "ResolutionIndex is err")
+                    printErr(0, "ResolutionIndex is err")
                     continue
                 break
 
@@ -261,22 +268,22 @@ class Download(object):
                 os.remove(path)
 
             if self.ffmpeg.mergerByM3u8_Multithreading(urlList[int(index)], path, True):
-                print('{:<14}'.format("[SUCCESS]") + aVideoInfo['title'])
+                printSUCCESS(14, aVideoInfo['title'])
             else:
-                print('{:<14}'.format("[ERR]") + aVideoInfo['title'])
+                printErr(14, aVideoInfo['title'])
         return
 
     def downloadPlaylist(self):
         while True:
             targetDir = self.config.outputdir + "/Playlist/"
             print("--------------PLAYLIST-----------------")
-            sID = myinput("Enter PlayListID(Enter '0' go back):")
+            sID = printChoice("Enter PlayListID(Enter '0' go back):")
             if sID == '0':
                 return
 
             aPlaylistInfo,aItemInfo = self.tool.getPlaylist(sID)
             if self.tool.errmsg != "":
-                print("Get PlaylistInfo Err! " + self.tool.errmsg)
+                printErr(0,"Get PlaylistInfo Err! " + self.tool.errmsg)
                 return
 
             print("[Title]                %s" % (aPlaylistInfo['title']))
@@ -314,7 +321,7 @@ class Download(object):
 
                     streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                     if self.tool.errmsg != "":
-                        print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                        printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                         continue
 
                     fileType = self._getSongExtension(streamInfo['url'])
@@ -331,7 +338,7 @@ class Download(object):
                 # check
                 isErr, errIndex = self.check.checkPaths()
                 if isErr:
-                    check = myinput("[Err]\t\t" + len(errIndex) + " Tracks Download Failed.Try Again?(y/n):")
+                    check = printChoice("[Err]\t\t" + len(errIndex) + " Tracks Download Failed.Try Again?(y/n):")
                     if check == 'y' or check == 'Y':
                         bBreakFlag = False
 
@@ -350,9 +357,9 @@ class Download(object):
                 videoID = item['id']
                 resolutionList, urlList = self.tool.getVideoResolutionList(videoID)
                 if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
-                    print('{:<14}'.format("[SUCCESS]") + item['title'])
+                    printSUCCESS(14, item['title'])
                 else:
-                    print('{:<14}'.format("[ERR]") + item['title'])
+                    printErr(14, item['title'])
         return
 
     def downloadFavorite(self):
@@ -361,7 +368,7 @@ class Download(object):
         
         trackList,videoList = self.tool.getFavorite(self.config.userid)
         if self.tool.errmsg != "":
-            print("Get FavoriteList Err! " + self.tool.errmsg)
+            printErr(0, "Get FavoriteList Err! " + self.tool.errmsg)
             return
         
         print("[NumberOfTracks]       %s" % (len(trackList)))
@@ -371,7 +378,7 @@ class Download(object):
             item = item['item']
             streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
             if self.tool.errmsg != "":
-                print("[Err]\t\t" + item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
+                printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
@@ -391,9 +398,9 @@ class Download(object):
 
             resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
             if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
-                print('{:<14}'.format("[SUCCESS]") + item['title'])
+                printSUCCESS(14, item['title'])
             else:
-                print('{:<14}'.format("[ERR]") + item['title'])
+                printErr(14, item['title'])
         return
 
 
