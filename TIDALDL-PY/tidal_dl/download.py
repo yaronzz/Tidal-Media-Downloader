@@ -146,7 +146,7 @@ class Download(object):
         while True:
             print("----------------ALBUM------------------")
             sID = printChoice("Enter AlbumID(Enter '0' go back):", True, 0)
-            if sID == '0':
+            if sID == 0:
                 return
 
             aAlbumInfo = self.tool.getAlbum(sID)
@@ -204,7 +204,7 @@ class Download(object):
             targetDir = self.config.outputdir + "/Track/"
             print("----------------TRACK------------------")
             sID = printChoice("Enter TrackID(Enter '0' go back):", True, 0)
-            if sID == '0':
+            if sID == 0:
                 return
 
             aTrackInfo = self.tool.getTrack(sID)
@@ -235,7 +235,7 @@ class Download(object):
             targetDir = self.config.outputdir + "/Video/"
             print("----------------VIDEO------------------")
             sID = printChoice("Enter VideoID(Enter '0' go back):", True, 0)
-            if sID == '0':
+            if sID == 0:
                 return
             aVideoInfo = self.tool.getVideo(sID)
             if self.tool.errmsg != "":
