@@ -41,6 +41,7 @@ class Download(object):
         pathHelper.mkdirs(self.config.outputdir + "/Track/")
         pathHelper.mkdirs(self.config.outputdir + "/Playlist/")
         pathHelper.mkdirs(self.config.outputdir + "/Video/")
+        pathHelper.mkdirs(self.config.outputdir + "/Favorite/")
 
     def __isNeedDownload(self, path, url):
         curSize = fileHelper.getFileSize(path)
@@ -197,6 +198,7 @@ class Download(object):
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
+            self.tool.removeTmpFile(targetDir)
         return
 
     def downloadTrack(self):
@@ -228,6 +230,7 @@ class Download(object):
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
+            self.tool.removeTmpFile(targetDir)
         return
 
     def downloadVideo(self):
@@ -331,7 +334,8 @@ class Download(object):
                     if not os.path.isfile(filePath):
                         self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
-            
+                self.tool.removeTmpFile(targetDir)
+                
                 bBreakFlag = True
                 bFirstTime = False
             

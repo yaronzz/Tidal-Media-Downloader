@@ -41,6 +41,7 @@ class TidalTool(object):
     def __init__(self):
         self.config = TidalConfig()
         self.errmsg = ""
+        self.tmpfileFlag = 'TIDAL_TMP_'
     def _get(self, url, params={}):
         retry = 3
         while retry > 0:
@@ -69,7 +70,7 @@ class TidalTool(object):
         path = pathHelper.getDirName(file_path)
         name = pathHelper.getFileNameWithoutExtension(file_path)
         exte = pathHelper.getFileExtension(file_path)
-        tmpfile = path + '/' + name + 'TMP' + exte
+        tmpfile = path + '/' + self.tmpfileFlag + name  + exte
         try:
             # 备份一下文件
             pathHelper.copyFile(file_path, tmpfile)
@@ -90,6 +91,12 @@ class TidalTool(object):
             pass
         if os.access(tmpfile, 0):
             pathHelper.remove(tmpfile)
+
+    def removeTmpFile(self, path):
+        for root, dirs, files in os.walk(path):
+            for name in files:
+                if self.tmpfileFlag in name:
+                    pathHelper.remove(os.path.join(root, name))
 
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})

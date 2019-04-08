@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.4.8.0"
+TIDAL_DL_VERSION="2019.4.8.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -32,21 +32,21 @@ def setting():
     cf = TidalConfig()
     print("----------------Setting----------------")
     while True:
-        outputdir = myinput("outputdir:")
+        outputdir = myinput("Outputdir:".ljust(12))
         if os.path.isdir(outputdir) == False:
             printErr(0, "Path is Err!")
             continue
         break
     while True:
-        quality = myinput("quality  :")
+        quality = myinput("Quality:".ljust(12))
         if cf.valid_quality(quality) == False:
             printErr(0, "Quality Err,Only Have " + str(tidal.QUALITY))
             continue
         break
     while True:
-        threadnum = myinput("threadnum :")
+        threadnum = myinput("ThreadNum:".ljust(12))
         if cf.valid_threadnum(threadnum) == False:
-            printErr(0, "threadnum Err")
+            printErr(0, "ThreadNum Err")
             continue
         break
 
@@ -58,6 +58,7 @@ def setting():
     pathHelper.mkdirs(outputdir + "/Track/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
     pathHelper.mkdirs(outputdir + "/Video/")
+    pathHelper.mkdirs(outputdir + "/Favorite/")
     return
 
 def main(argv=None):
