@@ -143,7 +143,7 @@ class TidalTool(object):
     def getVideoResolutionList(self, video_id):
         info = self._get('videos/' + str(video_id) + '/streamurl')
         if self.errmsg != "":
-            return None
+            return None, None
 
         content   = netHelper.downloadString(info['url'], None)
         resolutionList, urlList = self.__parseVideoMasterAll(str(content))

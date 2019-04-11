@@ -360,10 +360,13 @@ class Download(object):
 
                 videoID = item['id']
                 resolutionList, urlList = self.tool.getVideoResolutionList(videoID)
-                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
-                    printSUCCESS(14, item['title'])
+                if urlList is None:
+                    printErr(14, item['title'] + '(' + self.tool.errmsg + ')')
                 else:
-                    printErr(14, item['title'])
+                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
+                        printSUCCESS(14, item['title'])
+                    else:
+                        printErr(14, item['title'] + "(Download Or Merger Err!)")
         return
 
     def downloadFavorite(self):
