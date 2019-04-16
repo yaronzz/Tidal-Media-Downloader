@@ -107,6 +107,7 @@ class Download(object):
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
         author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
         targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
+        targetDir = os.path.abspath(targetDir)
         pathHelper.mkdirs(targetDir)
         # creat volumes dir
         count = 0
@@ -301,6 +302,7 @@ class Download(object):
 
             # Creat OutputDir
             targetDir = targetDir + pathHelper.replaceLimitChar(aPlaylistInfo['title'],'-')
+            targetDir = os.path.abspath(targetDir)
             pathHelper.mkdirs(targetDir)
             # write msg
             string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)

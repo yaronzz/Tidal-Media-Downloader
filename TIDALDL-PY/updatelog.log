@@ -1,6 +1,7 @@
 ======2019-04-16=============================
 1\ Change Album TargetDir
 2\ Add 'ReleaseDate' to Track Metadata
+3\ Remove BUG:Playlist Path
 
 ======2019-04-11=============================
 1\ Remove BUG:Download Playlist Video
