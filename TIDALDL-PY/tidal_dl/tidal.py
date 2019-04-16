@@ -66,24 +66,26 @@ class TidalTool(object):
                     return None
         
 
-    def setTrackMetadata(self, track_info, file_path):
+    def setTrackMetadata(self, track_info, file_path, album_info):
         path = pathHelper.getDirName(file_path)
         name = pathHelper.getFileNameWithoutExtension(file_path)
         exte = pathHelper.getFileExtension(file_path)
         tmpfile = path + '/' + self.tmpfileFlag + name  + exte
         try:
-            # 备份一下文件
-            pathHelper.copyFile(file_path, tmpfile)
-            # 设置信息
-            ext   = os.path.splitext(tmpfile)[1][1:]
-            data  = AudioSegment.from_file(tmpfile, ext)
-            check = data.export(tmpfile, format=ext, tags={
-                'Artist': track_info['artist']['name'],
+            tag = {'Artist': track_info['artist']['name'],
                 'Album': track_info['album']['title'],
                 'Title': track_info['title'],
                 'CopyRight': track_info['copyright'],
-                'TrackNum':track_info['trackNumber']})
-            # 检查文件大小
+                'TrackNum': track_info['trackNumber']}
+            if album_info is not None:
+                tag['ReleaseDate'] = album_info['releaseDate']
+            # tmp file
+            pathHelper.copyFile(file_path, tmpfile)
+            # set metadata
+            ext   = os.path.splitext(tmpfile)[1][1:]
+            data  = AudioSegment.from_file(tmpfile, ext)
+            check = data.export(tmpfile, format=ext, tags=tag)
+            # check file size
             if fileHelper.getFileSize(tmpfile) > 0:
                 pathHelper.remove(file_path)
                 pathHelper.copyFile(tmpfile, file_path)

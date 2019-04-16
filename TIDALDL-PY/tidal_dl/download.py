@@ -60,14 +60,17 @@ class Download(object):
         redownload = True
         needDl     = True
         bIsSuccess = False
+        albumInfo  = None
         if 'redownload' in paraList:
             redownload = paraList['redownload']
         if 'retry' in paraList:
             count = count + paraList['retry']
         if 'show' in paraList:
             printRet = paraList['show']
+        if 'album' in paraList:
+            albumInfo = paraList['album']
 
-        if redownload == False:
+        if redownload is False:
             needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
         
         if needDl:
@@ -75,14 +78,14 @@ class Download(object):
                 while count > 0:
                     count = count - 1
                     check = netHelper.downloadFile(paraList['url'], paraList['path'])
-                    if check == True:
+                    if check is True:
                         if paraList['key'] == '':
                             break
                         key,nonce = decrypt_security_token(paraList['key'])
                         decrypt_file(paraList['path'],key,nonce)
                         break
                 if check:
-                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'])
+                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo)
                     pstr = paraList['title']
                     bIsSuccess = True
             except:
@@ -102,7 +105,8 @@ class Download(object):
     def __creatAlbumDir(self, albumInfo):
         # creat outputdir
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
-        targetDir = self.config.outputdir + "/Album/" + title
+        author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
+        targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
         pathHelper.mkdirs(targetDir)
         # creat volumes dir
         count = 0
@@ -194,7 +198,7 @@ class Download(object):
 
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
-                paraList = {'redownload': redownload, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                paraList = {'album':aAlbumInfo, 'redownload': redownload, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
