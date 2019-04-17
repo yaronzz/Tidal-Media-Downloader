@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.4.16.1"
+TIDAL_DL_VERSION="2019.4.17.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":

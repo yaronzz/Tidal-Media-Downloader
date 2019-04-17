@@ -76,9 +76,10 @@ class TidalTool(object):
                 'Album': track_info['album']['title'],
                 'Title': track_info['title'],
                 'CopyRight': track_info['copyright'],
-                'TrackNum': track_info['trackNumber']}
+                'Track': track_info['trackNumber']}
             if album_info is not None:
-                tag['ReleaseDate'] = album_info['releaseDate']
+                tag['Date'] = album_info['releaseDate']
+                tag['Year'] = album_info['releaseDate'].split('-')[0]
             # tmp file
             pathHelper.copyFile(file_path, tmpfile)
             # set metadata
@@ -123,7 +124,7 @@ class TidalTool(object):
         count   = ret['totalNumberOfItems']
         offset  = 0
         limit   = 100
-        retList = None
+        retList = []
         while offset < count:
             items = self._get(url, {'offset': offset,'limit': limit})
             if self.errmsg != "":
