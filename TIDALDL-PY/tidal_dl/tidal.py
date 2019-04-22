@@ -108,7 +108,13 @@ class TidalTool(object):
         list   = self.__getItemsList('playlists/' + playlist_id + '/items')
         return info, list
     def getAlbumTracks(self, album_id):
-        return self._get('albums/' + str(album_id) + '/tracks')
+        info = self._get('albums/' + str(album_id) + '/tracks')
+        if self.errmsg != "":
+            return info
+        for item in info['items']:
+            if item['version'] is not None:
+                item['title'] = item['title'] + '(' + item['version']+')'
+        return info
     def getTrack(self, track_id):
         return self._get('tracks/' + str(track_id))
     def getAlbum(self, album_id):

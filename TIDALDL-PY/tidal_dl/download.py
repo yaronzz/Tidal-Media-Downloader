@@ -258,6 +258,9 @@ class Download(object):
             # get resolution
             index = 0
             resolutionList, urlList = self.tool.getVideoResolutionList(sID)
+            if self.tool.errmsg != "":
+                printErr(14, self.tool.errmsg)
+                continue
             print("-Index--Resolution--")
             for item in resolutionList:
                 print('   ' + str(index) + "    " + resolutionList[index])
