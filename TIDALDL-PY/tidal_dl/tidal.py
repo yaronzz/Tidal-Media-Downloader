@@ -24,6 +24,7 @@ from pydub import AudioSegment
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
+RESOLUTION = ['1080','720','480','360','240']
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -66,7 +67,7 @@ class TidalTool(object):
                     return None
         
 
-    def setTrackMetadata(self, track_info, file_path, album_info):
+    def setTrackMetadata(self, track_info, file_path, album_info, index):
         path = pathHelper.getDirName(file_path)
         name = pathHelper.getFileNameWithoutExtension(file_path)
         exte = pathHelper.getFileExtension(file_path)
@@ -77,6 +78,8 @@ class TidalTool(object):
                 'Title': track_info['title'],
                 'CopyRight': track_info['copyright'],
                 'Track': track_info['trackNumber']}
+            if index is not None:
+                tag['Track'] = str(index)
             if album_info is not None:
                 tag['Date'] = album_info['releaseDate']
                 tag['Year'] = album_info['releaseDate'].split('-')[0]
@@ -282,6 +285,7 @@ class TidalConfig(object):
         self.sessionid   = configHelper.GetValue("base", "sessionid", "", self.FILE_NAME)
         self.countrycode = configHelper.GetValue("base", "countrycode", "", self.FILE_NAME)
         self.quality     = configHelper.GetValue("base", "quality", "LOSSLESS", self.FILE_NAME)
+        self.resolution  = configHelper.GetValue("base", "resolution", "720", self.FILE_NAME)
         self.username    = configHelper.GetValue("base", "username", "", self.FILE_NAME)
         self.password    = configHelper.GetValue("base", "password", "", self.FILE_NAME)
         self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
@@ -298,6 +302,10 @@ class TidalConfig(object):
     def set_quality(self, quality):
         self.quality = quality
         configHelper.SetValue("base", "quality", quality, self.FILE_NAME)
+
+    def set_resolution(self, resolution):
+        self.resolution = resolution
+        configHelper.SetValue("base", "resolution", resolution, self.FILE_NAME)
 
     def set_account(self, username, password, sessionid, countrycode, userid):
         self.username    = username

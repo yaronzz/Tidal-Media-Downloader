@@ -61,6 +61,8 @@ class Download(object):
         needDl     = True
         bIsSuccess = False
         albumInfo  = None
+        index      = None
+
         if 'redownload' in paraList:
             redownload = paraList['redownload']
         if 'retry' in paraList:
@@ -69,6 +71,8 @@ class Download(object):
             printRet = paraList['show']
         if 'album' in paraList:
             albumInfo = paraList['album']
+        if 'index' in paraList:
+            index = paraList['index']
 
         if redownload is False:
             needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
@@ -85,7 +89,7 @@ class Download(object):
                         decrypt_file(paraList['path'],key,nonce)
                         break
                 if check:
-                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo)
+                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index)
                     pstr = paraList['title']
                     bIsSuccess = True
             except:
@@ -147,6 +151,18 @@ class Download(object):
                 ret.append(item)
         return ret
 
+    def __getVideoResolutionIndex(self, reslist):
+        array = []
+        for item in reslist:
+            subs = item.split('x')
+            array.append(int(subs[1]))
+        cmp = int(self.config.resolution)
+        ret = 0
+        for item in array:
+            if cmp >= item:
+                return ret
+            ret += 1
+        return len(array) - 1
 
     def downloadAlbum(self):
         while True:
@@ -261,18 +277,18 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(14, self.tool.errmsg)
                 continue
-            print("-Index--Resolution--")
-            for item in resolutionList:
-                print('   ' + str(index) + "    " + resolutionList[index])
-                index = index + 1
-            print("--------------------")
-            while True:
-                index = printChoice("Enter ResolutionIndex:", True, 0)
-                if index == '' or index == None or int(index) >= len(resolutionList):
-                    printErr(0, "ResolutionIndex is err")
-                    continue
-                break
-
+            # print("-Index--Resolution--")
+            # for item in resolutionList:
+            #     print('   ' + str(index) + "    " + resolutionList[index])
+            #     index = index + 1
+            # print("--------------------")
+            # while True:
+            #     index = printChoice("Enter ResolutionIndex:", True, 0)
+            #     if index == '' or index == None or int(index) >= len(resolutionList):
+            #         printErr(0, "ResolutionIndex is err")
+            #         continue
+            #     break
+            index=self.__getVideoResolutionIndex(resolutionList)
             path = targetDir + "/" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-')+ ".mp4"
             path = os.path.abspath(path)
             if os.access(path, 0):
@@ -318,16 +334,17 @@ class Download(object):
             errIndex   = []
             index      = 0
 
-            while bBreakFlag == False:
+            while bBreakFlag is False:
                 self.check.clear()
+                index = 0
                 for item in aItemInfo:
                     type  = item['type']
                     item  = item['item']
                     if type != 'track':
                         continue
-
+                    
                     index = index + 1
-                    if bFirstTime == False:
+                    if bFirstTime is False:
                         if self.check.isInErr(index - 1, errIndex) == False:
                             continue
 
@@ -338,7 +355,7 @@ class Download(object):
 
                     fileType = self._getSongExtension(streamInfo['url'])
                     filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                    paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+                    paraList = {'index': index, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                     self.check.addPath(filePath)
                     if not os.path.isfile(filePath):
                         self.thread.start(self.__thradfunc_dl, paraList)
@@ -372,7 +389,8 @@ class Download(object):
                 if urlList is None:
                     printErr(14, item['title'] + '(' + self.tool.errmsg + ')')
                 else:
-                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
+                    selectIndex=self.__getVideoResolutionIndex(resolutionList)
+                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
                         printSUCCESS(14, item['title'])
                     else:
                         printErr(14, item['title'] + "(Download Or Merger Err!)")
@@ -396,7 +414,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                 continue
-
+            
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
             paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
@@ -413,7 +431,8 @@ class Download(object):
                 os.remove(filePath)
 
             resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[0], filePath, showprogress=False):
+            selectIndex = self.__getVideoResolutionIndex(resolutionList)
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
                 printSUCCESS(14, item['title'])
             else:
                 printErr(14, item['title'])

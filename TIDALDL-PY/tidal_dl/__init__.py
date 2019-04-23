@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.4.22.0"
+TIDAL_DL_VERSION="2019.4.23.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -31,17 +31,46 @@ def logIn(username = "", password = ""):
 def setting():
     cf = TidalConfig()
     print("----------------Setting----------------")
+    print("OutputDir    :\t" + cf.outputdir)
+    print("SoundQuality :\t" + cf.quality)
+    print("Resolution   :\t" + cf.resolution)
+    print("ThreadNum    :\t" + cf.threadnum)
     while True:
-        outputdir = myinput("Outputdir:".ljust(12))
+        outputdir = myinput("Outputdir(Enter '0' Unchanged):".ljust(12))
+        if outputdir == '0':
+            outputdir = cf.outputdir
+            break
         if os.path.isdir(outputdir) == False:
             printErr(0, "Path is Err!")
             continue
         break
     while True:
-        quality = myinput("Quality:".ljust(12))
-        if cf.valid_quality(quality) == False:
-            printErr(0, "Quality Err,Only Have " + str(tidal.QUALITY))
+        index = myinputInt("Quality(0-LOW,1-HIGH,2-LOSSLESS):".ljust(12), 999)
+        if index > 2 or index < 0:
+            printErr(0, "Quality Err!")
             continue
+        if index == 0:
+            quality = 'LOW'
+        if index == 1:
+            quality = 'HIGH'
+        if index == 2:
+            quality = 'LOSSLESS'
+        break
+    while True:
+        index = myinputInt("Resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12),99)
+        if index > 4 or index < 0:
+            printErr(0, "ThreadNum Err")
+            continue
+        if index == 0:
+            resolution = '1080'
+        if index == 1:
+            resolution = '720'
+        if index == 2:
+            resolution = '480'
+        if index == 3:
+            resolution = '360'
+        if index == 4:
+            resolution = '240'
         break
     while True:
         threadnum = myinput("ThreadNum:".ljust(12))
@@ -52,6 +81,7 @@ def setting():
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
+    cf.set_resolution(resolution)
     cf.set_threadnum(threadnum)
 
     pathHelper.mkdirs(outputdir + "/Album/")
@@ -73,6 +103,7 @@ def main(argv=None):
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
+    print("Resulotion   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
