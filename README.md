@@ -11,11 +11,18 @@
   - **Release**(Only Windows) : [tidal-dl.exe]  
   - **By PIP** :
   ``` python
+  (Google:How to install python and pip?)
   root:~# pip install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
 # ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 
   
+ ### Feature
+ - Download Track or Video
+ - Download Album or Playlist
+ - Download Favorite 
+ - Download Artist Albums
+ - Multithreading  
 
 ## **C# (UI)**
 ### Reference
