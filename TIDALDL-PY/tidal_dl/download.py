@@ -163,13 +163,14 @@ class Download(object):
             ret += 1
         return len(array) - 1
 
-    def downloadAlbum(self, sID=None):
+    def downloadAlbum(self, album_id=None):
         while_count = 9999
         while while_count > 0:
             while_count -= 1
 
-            if sID is not None:
+            if album_id is not None:
                 while_count = 0
+                sID = album_id
             else:
                 print("----------------ALBUM------------------")
                 sID = printChoice("Enter AlbumID(Enter '0' go back):", True, 0)
