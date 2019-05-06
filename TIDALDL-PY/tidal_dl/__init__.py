@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.5.6.0"
+TIDAL_DL_VERSION="2019.5.6.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -102,7 +102,7 @@ def main(argv=None):
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
-    print("Resulotion   :\t" + cf.resolution)
+    print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
@@ -131,6 +131,8 @@ def main(argv=None):
             dl.downloadVideo()
         elif choice == 7:
             dl.downloadFavorite()
+        elif choice == 8:
+            dl.downloadArtistAlbum()
 
 # if __name__ == '__main__':
 #     main(sys.argv)

@@ -42,6 +42,8 @@ def printMenu():
         print("Download Video.")
         cmdHelper.myprint(" Enter '7': ", cmdHelper.TextColor.Green, None)
         print("Download Favorite.")
+        cmdHelper.myprint(" Enter '8': ", cmdHelper.TextColor.Green, None)
+        print("Download ArtistAlbum.")
         print("====================================================")
     else:
         print("=====================Choice=========================")
@@ -53,4 +55,5 @@ def printMenu():
         print(" Enter '5' : Download PlayList.")
         print(" Enter '6' : Download Video")
         print(" Enter '7' : Download Favorite")
+        print(" Enter '8' : Download ArtistAlbum")
         print("====================================================")

@@ -10,7 +10,6 @@
 '''
 import os
 import re
-import json
 import uuid
 import requests
 
@@ -128,6 +127,8 @@ class TidalTool(object):
         trackList = self.__getItemsList('users/' + str(user_id) + '/favorites/tracks')
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
+    def getArtistAlbum(self, artist_id):
+        return self.__getItemsList('artists/' + str(artist_id) + '/albums')
     def __getItemsList(self, url):
         ret     = self._get(url, {'limit':0})
         count   = ret['totalNumberOfItems']
@@ -335,5 +336,5 @@ class TidalConfig(object):
 
 # if __name__ == '__main__':
 #     tool = TidalTool()
-#     tool.getVideoStreamUrl(97246192)
+#     tool.getArtistAlbum('3529466')
 

@@ -163,12 +163,18 @@ class Download(object):
             ret += 1
         return len(array) - 1
 
-    def downloadAlbum(self):
-        while True:
-            print("----------------ALBUM------------------")
-            sID = printChoice("Enter AlbumID(Enter '0' go back):", True, 0)
-            if sID == 0:
-                return
+    def downloadAlbum(self, sID=None):
+        while_count = 9999
+        while while_count > 0:
+            while_count -= 1
+
+            if sID is not None:
+                while_count = 0
+            else:
+                print("----------------ALBUM------------------")
+                sID = printChoice("Enter AlbumID(Enter '0' go back):", True, 0)
+                if sID == 0:
+                    return
 
             aAlbumInfo = self.tool.getAlbum(sID)
             if self.tool.errmsg != "":
@@ -182,7 +188,7 @@ class Download(object):
             aAlbumTracks = self.tool.getAlbumTracks(sID)
             if self.tool.errmsg != "":
                 printErr(0,"Get AlbumTracks Err!" + self.tool.errmsg)
-                return
+                continue
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
@@ -220,6 +226,22 @@ class Download(object):
             self.thread.waitAll()
             self.tool.removeTmpFile(targetDir)
         return
+
+    def downloadArtistAlbum(self):
+        while True:
+            print("-------------ARTIST ALBUM--------------")
+            sID = printChoice("Enter ArtistID(Enter '0' go back):", True, 0)
+            if sID == 0:
+                return
+
+            array = self.tool.getArtistAlbum(sID)
+            if self.tool.errmsg != "":
+                printErr(0, "Get AlbumList Err! " + self.tool.errmsg)
+                continue
+
+            for index, item in enumerate(array):
+                print("----Album[{0}/{1}]----".format(index, len(array)))
+                self.downloadAlbum(item['id'])
 
     def downloadTrack(self):
         while True:
