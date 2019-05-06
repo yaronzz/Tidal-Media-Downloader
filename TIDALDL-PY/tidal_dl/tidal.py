@@ -152,6 +152,8 @@ class TidalTool(object):
         return self._get('tracks/' + str(track_id) + '/contributors')
     def getAlbumArtworkUrl(self, coverid, size=1280):
         return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size)
+    def getPlaylistArtworkUrl(self, playlist_uuid, size=1280):
+        return 'http://images.tidalhifi.com/im/im?w={1}&h={2}&uuid={0}&rows=2&cols=3&noph'.format(playlist_uuid, size, size)
     def getVideoResolutionList(self, video_id):
         info = self._get('videos/' + str(video_id) + '/streamurl')
         if self.errmsg != "":

@@ -38,7 +38,6 @@ class Download(object):
         self.check    = CheckTool()
 
         pathHelper.mkdirs(self.config.outputdir + "/Album/")
-        pathHelper.mkdirs(self.config.outputdir + "/Track/")
         pathHelper.mkdirs(self.config.outputdir + "/Playlist/")
         pathHelper.mkdirs(self.config.outputdir + "/Video/")
         pathHelper.mkdirs(self.config.outputdir + "/Favorite/")
@@ -234,11 +233,24 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
                 return
+            aAlbumInfo = self.tool.getAlbum(aTrackInfo['album']['id'])
+            if self.tool.errmsg != "":
+                printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
+                return
 
+            print("[AlbumTitle ]       %s" % (aAlbumInfo['title']))
             print("[TrackTitle ]       %s" % (aTrackInfo['title']))
             print("[Duration   ]       %s" % (aTrackInfo['duration']))
             print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
             print("[Version    ]       %s\n" % (aTrackInfo['version']))
+
+            # Creat OutputDir
+            targetDir = self.__creatAlbumDir(aAlbumInfo)
+            # download cover
+            coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
+            coverUrl  = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
+            netHelper.downloadFile(coverUrl, coverPath)
+
             # download
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
             if self.tool.errmsg != "":
@@ -247,7 +259,7 @@ class Download(object):
 
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
-            paraList = {'title': aTrackInfo['title'], 'trackinfo':aTrackInfo, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            paraList = {'album':aAlbumInfo, 'title': aTrackInfo['title'], 'trackinfo':aTrackInfo, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -327,6 +339,11 @@ class Download(object):
             string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
             with open(targetDir + "/PlaylistInfo.txt", 'w', encoding = 'utf-8') as fd:
                 fd.write(string)
+            # download cover
+            coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aPlaylistInfo['title'], '-') + '.jpg'
+            coverUrl  = self.tool.getPlaylistArtworkUrl(aPlaylistInfo['uuid'])
+            check     = netHelper.downloadFile(coverUrl, coverPath)
+
 
             # download track
             bBreakFlag = False

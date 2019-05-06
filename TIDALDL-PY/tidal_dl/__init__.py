@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.4.23.0"
+TIDAL_DL_VERSION="2019.5.6.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -85,7 +85,6 @@ def setting():
     cf.set_threadnum(threadnum)
 
     pathHelper.mkdirs(outputdir + "/Album/")
-    pathHelper.mkdirs(outputdir + "/Track/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
     pathHelper.mkdirs(outputdir + "/Video/")
     pathHelper.mkdirs(outputdir + "/Favorite/")
