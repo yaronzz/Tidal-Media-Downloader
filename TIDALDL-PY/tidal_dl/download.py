@@ -154,7 +154,8 @@ class Download(object):
         array = []
         for item in reslist:
             subs = item.split('x')
-            array.append(int(subs[1]))
+            subs = subs[1].split(',')
+            array.append(int(subs[0]))
         cmp = int(self.config.resolution)
         ret = 0
         for item in array:

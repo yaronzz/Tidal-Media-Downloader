@@ -12,7 +12,7 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = "any",
-    install_requires=["aigpy>=2019.4.11.2", "requests",
+    install_requires=["aigpy>=2019.5.8.0", "requests",
                       "ffmpeg", "futures", "pycryptodome", "pydub"],
 
     entry_points={'console_scripts': [
