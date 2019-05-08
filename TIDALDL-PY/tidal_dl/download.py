@@ -33,7 +33,7 @@ class Download(object):
         self.config   = TidalConfig()
         self.tool     = TidalTool()
         self.thread   = ThreadTool(int(threadNum))
-        self.ffmpeg   = FFmpegTool()
+        self.ffmpeg   = FFmpegTool(mergerTimeout=45)
         self.progress = ProgressTool(100)
         self.check    = CheckTool()
 
@@ -313,17 +313,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(14, self.tool.errmsg)
                 continue
-            # print("-Index--Resolution--")
-            # for item in resolutionList:
-            #     print('   ' + str(index) + "    " + resolutionList[index])
-            #     index = index + 1
-            # print("--------------------")
-            # while True:
-            #     index = printChoice("Enter ResolutionIndex:", True, 0)
-            #     if index == '' or index == None or int(index) >= len(resolutionList):
-            #         printErr(0, "ResolutionIndex is err")
-            #         continue
-            #     break
+
             index=self.__getVideoResolutionIndex(resolutionList)
             path = targetDir + "/" + pathHelper.replaceLimitChar(aVideoInfo['title'],'-')+ ".mp4"
             path = os.path.abspath(path)
