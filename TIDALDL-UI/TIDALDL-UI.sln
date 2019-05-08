@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIDALDL-UI", "TIDALDL-UI.csproj", "{62B2C787-C900-4493-803C-8E13EE013E6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIDALDL-UI", "TIDALDL-UI\TIDALDL-UI.csproj", "{87F39F78-056F-4747-A835-12BA03FE575A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGS", "..\..\AIGS\trunk\AIGS.csproj", "{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGS", "..\..\AIGS\AIGS.csproj", "{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{62B2C787-C900-4493-803C-8E13EE013E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62B2C787-C900-4493-803C-8E13EE013E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62B2C787-C900-4493-803C-8E13EE013E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62B2C787-C900-4493-803C-8E13EE013E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87F39F78-056F-4747-A835-12BA03FE575A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F39F78-056F-4747-A835-12BA03FE575A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F39F78-056F-4747-A835-12BA03FE575A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F39F78-056F-4747-A835-12BA03FE575A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
