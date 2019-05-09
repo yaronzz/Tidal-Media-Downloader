@@ -123,14 +123,18 @@ namespace TIDALDL_UI.Else
                 return;
             }
 
-            //Set MetaData
-            var tfile              = TagLib.File.Create(FilePath);
-            tfile.Tag.Album        = TidalTrack.Album.Title;
-            tfile.Tag.Track        = (uint)Index;
-            tfile.Tag.Title        = TidalTrack.Title;
-            tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
-            tfile.Tag.Copyright    = TidalTrack.CopyRight;
-            tfile.Save();
+            try
+            {
+                //Set MetaData
+                var tfile = TagLib.File.Create(FilePath);
+                tfile.Tag.Album = TidalTrack.Album.Title;
+                tfile.Tag.Track = (uint)Index;
+                tfile.Tag.Title = TidalTrack.Title;
+                tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
+                tfile.Tag.Copyright = TidalTrack.CopyRight;
+                tfile.Save();
+            }
+            catch { }
         }
 
         public bool UpdateDownloadNotify(long lTotalSize, long lAlreadyDownloadSize, long lIncreSize, object data)

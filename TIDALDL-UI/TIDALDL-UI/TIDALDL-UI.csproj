@@ -188,9 +188,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UpdateLog.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </Resource>
