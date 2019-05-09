@@ -1,6 +1,1 @@
-aigpy==2019.5.8.1
-requests==2.21.0
-ffmpeg==1.4
-futures==0.17.1
-pycryptodome==3.7.0
-pydub==0.23.1
+aigpy == 2019.5.9.2 requests == 2.21.0 ffmpeg == 1.4 futures == 0.17.1 pycryptodome == 3.7.0 pydub == 0.23.1

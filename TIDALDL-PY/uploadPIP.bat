@@ -20,5 +20,8 @@ ren __main__.exe tidal-dl.exe
 move tidal-dl.exe ../exe/
 cd ..
 
+pip uninstall -y tidal-dl
+python setup.py install
+
 REM upload version to pip server
 twine upload dist/*

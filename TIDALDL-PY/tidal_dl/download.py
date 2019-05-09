@@ -15,6 +15,7 @@ from aigpy import pathHelper
 from aigpy import netHelper
 from aigpy import fileHelper
 
+# from tidal_dl.ffmpegHelper import FFmpegTool
 from aigpy.ffmpegHelper import FFmpegTool
 from aigpy.cmdHelper import myinput,myinputInt
 from aigpy.threadHelper import ThreadTool
@@ -290,13 +291,19 @@ class Download(object):
             self.tool.removeTmpFile(targetDir)
         return
 
-    def downloadVideo(self):
-        while True:
+    def downloadVideo(self, video_id = None):
+        flag = True
+        while flag:
             targetDir = self.config.outputdir + "/Video/"
-            print("----------------VIDEO------------------")
-            sID = printChoice("Enter VideoID(Enter '0' go back):", True, 0)
-            if sID == 0:
-                return
+            if video_id is None:
+                print("----------------VIDEO------------------")
+                sID = printChoice("Enter VideoID(Enter '0' go back):", True, 0)
+                if sID == 0:
+                    return
+            else:
+                flag = False
+                sID = video_id
+
             aVideoInfo = self.tool.getVideo(sID)
             if self.tool.errmsg != "":
                 printErr(0,"Get VideoInfo Err! " + self.tool.errmsg)
