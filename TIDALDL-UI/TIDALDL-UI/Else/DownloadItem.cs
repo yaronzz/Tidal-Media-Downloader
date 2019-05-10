@@ -125,7 +125,8 @@ namespace TIDALDL_UI.Else
 
             try
             {
-                //Set MetaData
+                //Decrypt / Set MetaData
+                Tool.DecryptTrackFile(TidalStream, FilePath);
                 var tfile = TagLib.File.Create(FilePath);
                 tfile.Tag.Album = TidalTrack.Album.Title;
                 tfile.Tag.Track = (uint)Index;
@@ -134,7 +135,12 @@ namespace TIDALDL_UI.Else
                 tfile.Tag.Copyright = TidalTrack.CopyRight;
                 tfile.Save();
             }
-            catch { }
+            catch {
+                Errlabel = "Decrypt-SetMetaData Failed!";
+                Progress.IsErr = true;
+                Progress.Errlabel = Errlabel;
+                return;
+            }
         }
 
         public bool UpdateDownloadNotify(long lTotalSize, long lAlreadyDownloadSize, long lIncreSize, object data)
