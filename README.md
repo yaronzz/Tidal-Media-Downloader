@@ -1,49 +1,42 @@
-# **Welcome to Tidal-Media-Downloader**  
-## **PYTHON**
-### Requirements
-|Require|Desc|
-|:----|:----|
-|**python**| version > 3.0|
-|**ffmpeg**| download video / set metadata|
-|**else**| please read 'TIDALDL-PY/requirements.txt'|
+# Tidal-Media-Downloader
 
-### Install
-  - **Release**(Only Windows) : [tidal-dl.exe]  
-  - **By PIP** :
+Tidal-Media-Downloader is an application that lets you download videos and tracks from Tidal. You can just copy-paste ID of any videos, tracks, playlists or albums and download them directly to a format of your choice. It supports two version: tidal-dl(python) and tidal-gui(C#-Only Windows)   
+
+## Download
+
+- [tidal-dl.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-PY/exe)
+- [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/TIDALDL-UI/bin/Debug)
+- tidal-dl by pip 
   ``` python
-  (Google:How to install python and pip?)
   root:~# pip install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
-# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/cmd.png) 
-  
- ### Feature
- - Download Track or Video
- - Download Album or Playlist
- - Download Favorite 
- - Download Artist Albums
- - Multithreading  
+## Features
+### Python(cmd)
+- Supports single videos, playlists, tracks, artist-albums and albums
+- Selectable video resolution and track quality
+- Multiple downloads
+### C#(gui)
+- Supports single videos, tracks and albums
+- Selectable video resolution and track quality
+- Multiple downloads
 
-## **C# (UI)**
-### Reference
-* **[TidalApi]** - Unofficial API for TIDAL music streaming service. 
-* **[AIGS]** - C# Common Tool Lib
-* **[MaterialDesignInXamlToolkit]** - WPF UI Design
+## Screenshots
+### Python
+![](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/Screenshots/tidal-dl.png)
+### C#(gui)
+![](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/Screenshots/tidal-gui-login.png)
+![](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/Screenshots/tidal-gui-setting.png)
+![](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/Screenshots/tidal-gui-info.png)
+![](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/Screenshots/tidal-gui-dl.png)
 
-### UI-Login
-Get sessionid by username and password 
-# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/login.png) 
-### UI-Setting
-Change outputdir/quality/threadnum 
-# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/setting.png) 
-### UI-Search Album
-Show albuminfo
-# ![Image text](https://github.com/yaronzz/Tidal-Media-Downloader/raw/master/TIDALDL-UI/res/search.png) 
-### UI-Main Windows
-In development...
+## Libraries used
 
+- [AIGS](https://github.com/yaronzz/AIGS)
+- [Stylet](https://github.com/canton7/Stylet)
+- [PropertyChanged.Fody](https://github.com/Fody/PropertyChanged)
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 
-   [tidal-dl.exe]: <https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-PY/exe>
-   [TidalApi]: <https://pypi.org/project/tidalapi/>
-   [AIGS]: <https://github.com/yaronzz/AIGS>
-   [MaterialDesignInXamlToolkit]: <https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit>
+## Donate
+
+If you really like my projects and want to support me, consider donating to me on [BuyMeACoffee](https://buymeacoffee.com/yaronzz). All donations are optional and are greatly appreciated.
