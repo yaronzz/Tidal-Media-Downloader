@@ -38,6 +38,23 @@ namespace TIDALDL_UI.Else
             return SetOrGet("quality", Setvalue, "HIGH");
         }
 
+        public static Dictionary<int, string> QualityList()
+        {
+            return AIGS.Common.Convert.ConverEnumToDictionary(typeof(Tidal.eSoundQuality));
+        }
+
+        public static int QualityIndex()
+        {
+            string sValue = Config.Quality();
+            Dictionary<int, string> pList = QualityList();
+            for (int i = 0; i < pList.Count; i++)
+            {
+                if (sValue.ToUpper() == pList.ElementAt(i).Value)
+                    return i;
+            }
+            return 0;
+        }
+
         public static string ThreadNum(string Setvalue = null)
         {
             return SetOrGet("threadnum", Setvalue, "3");
@@ -82,6 +99,11 @@ namespace TIDALDL_UI.Else
             if (sRet.IsNotBlank() && sRet.ToLower() == "true")
                 return true;
             return false;
+        }
+
+        public static string Resolution(string Setvalue = null)
+        {
+            return SetOrGet("resolution", Setvalue, "720");
         }
         #endregion
 

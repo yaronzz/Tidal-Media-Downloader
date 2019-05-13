@@ -21,9 +21,9 @@ namespace TIDALDL_UI.Pages
     /// <summary>
     /// AlbumInfo.xaml 的交互逻辑
     /// </summary>
-    public partial class AlbumInfoView : Window
+    public partial class InfoView : Window
     {
-        public AlbumInfoView()
+        public InfoView()
         {
             InitializeComponent();
         }

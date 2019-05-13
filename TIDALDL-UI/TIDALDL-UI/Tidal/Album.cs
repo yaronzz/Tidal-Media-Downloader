@@ -101,5 +101,12 @@ namespace Tidal
             get { return tracks; }
             set { tracks = value; }
         }
+
+        private ObservableCollection<Video> videos;
+        public ObservableCollection<Video> Videos
+        {
+            get { return videos; }
+            set { videos = value; }
+        }
     }
 }

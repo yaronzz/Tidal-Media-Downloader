@@ -47,19 +47,19 @@ namespace TIDALDL_UI.Pages
         private SettingViewModel VMSetting;
         private AboutViewModel VMAbout;
         private WaitViewModel VMWait;
-        private AlbumInfoViewModel VMAlbumInfo;
+        private InfoViewModel VMInfo;
 
         public MainViewModel(IWindowManager manager,
                             SettingViewModel setting,
                             AboutViewModel about,
                             WaitViewModel wait,
-                            AlbumInfoViewModel albuminfo)
+                            InfoViewModel albuminfo)
         {
             Manager     = manager;
             VMSetting   = setting;
             VMAbout     = about;
             VMWait      = wait;
-            VMAlbumInfo = albuminfo;
+            VMInfo = albuminfo;
             SearchList  = Config.HistorySearchs();
             SearchStr   = "79412401";
             return;
@@ -159,7 +159,8 @@ namespace TIDALDL_UI.Pages
         #endregion 
 
 
-        #region Thread
+
+        #region Search Thread
         /// <summary>
         /// Login Thread
         /// </summary>
@@ -170,6 +171,8 @@ namespace TIDALDL_UI.Pages
             string sType   = null;
             Album aAlbum   = null;
             Track aTrack   = null;
+            Video aVideo   = null;
+            object oRecord = null;
 
             //Search Album
             aAlbum = Tool.GetAlbum(sID, out sErrmsg);
@@ -192,7 +195,28 @@ namespace TIDALDL_UI.Pages
                 }
             }
 
-        SEARCH_POINT:
+            //Search Video
+            aVideo = Tool.GetVideo(sID, out sErrmsg);
+            if (aVideo != null)
+            {
+                if (aVideo.Album != null)
+                {
+                    aAlbum = Tool.GetAlbum(aVideo.Album.ID.ToString(), out sErrmsg, false);
+                    if (aAlbum != null)
+                    {
+                        aAlbum.Videos.Add(aVideo);
+                        sType = "Album";
+                        goto SEARCH_POINT;
+                    }
+                }
+                else
+                {
+                    sType = "Video";
+                    goto SEARCH_POINT;
+                }
+            }
+
+            SEARCH_POINT:
             if (sType.IsNotBlank() && Application.Current != null)
             {
                 Config.AddHistorySearch(SearchStr);
@@ -201,15 +225,16 @@ namespace TIDALDL_UI.Pages
                 Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     if (sType == "Album")
+                        oRecord = VMInfo.Load(aAlbum);
+                    else if(sType == "Video")
+                        oRecord = VMInfo.Load(aVideo);
+
+                    Manager.ShowDialog(VMInfo);
+                    if(VMInfo.Result)
                     {
-                        VMAlbumInfo.Init(aAlbum);
-                        Manager.ShowDialog(VMAlbumInfo);
-                        if(VMAlbumInfo.Result)
-                        {
-                            MainListItemViewModel newNode = new MainListItemViewModel(aAlbum, VMAlbumInfo.QualityList[VMAlbumInfo.SelectQualityIndex], VMAlbumInfo.OutputDir);
-                            ItemList.Add(newNode);
-                            newNode.StartWork();
-                        }
+                        MainListItemViewModel newNode = new MainListItemViewModel(oRecord, VMInfo.OutputDir, VMInfo.QualityList[VMInfo.SelectQualityIndex], Config.Resolution());
+                        ItemList.Add(newNode);
+                        newNode.StartWork();
                     }
                     CloseWaitView();
                 });

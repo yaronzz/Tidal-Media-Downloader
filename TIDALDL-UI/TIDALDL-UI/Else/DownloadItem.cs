@@ -8,6 +8,7 @@ using AIGS.Common;
 using AIGS.Helper;
 using Stylet;
 using TagLib;
+using System.IO;
 
 namespace TIDALDL_UI.Else
 {
@@ -19,6 +20,7 @@ namespace TIDALDL_UI.Else
         public Track TidalTrack { get; set; }
         public Video TidalVideo { get; set; }
         public StreamUrl TidalStream { get; set; }
+        public string[] TidalVideoUrls { get; set; }
 
         /// <summary>
         /// Item Para - BasePath | FilePath | Track Quality | Title | Duration | Type
@@ -26,6 +28,7 @@ namespace TIDALDL_UI.Else
         public string BasePath { get; set; }
         public string FilePath { get; set; }
         public string Quality { get; set; }
+        public string Resolution { get; set; }
         public int    Index { get; set; }
         public string Title { get; set; }
         public string Duration { get; set; }
@@ -47,18 +50,30 @@ namespace TIDALDL_UI.Else
         public delegate void UpdateNotify(DownloadItem item);
         public UpdateNotify UpdataFunc { get; set; }
 
-        public DownloadItem(int index, Track track, string quality, string basePath, UpdateNotify Func)
+        public DownloadItem(int index, string basePath, UpdateNotify Func, Track track = null, string quality = "LOW", Video video = null, string resolution = "720")
         {
+            TidalVideo       = video;
             TidalTrack       = track;
             Quality          = quality;
-            Title            = track.Title;
-            Duration         = track.SDuration;
+            Resolution       = resolution;
             BasePath         = basePath;
-            sType            = "Track";
             Index            = index;
             Errlabel         = "";
             Progress         = new ProgressHelper();
             UpdataFunc       = Func;
+
+            if (TidalTrack != null)
+            {
+                Title = track.Title;
+                Duration = track.SDuration;
+                sType = "Track";
+            }
+            else
+            {
+                Title = video.Title;
+                Duration = video.SDuration;
+                sType = "Video";
+            }
         }
 
         /// <summary>
@@ -73,6 +88,13 @@ namespace TIDALDL_UI.Else
                 if (Errmsg.IsNotBlank())
                     return Errmsg;
                 FilePath = BasePath + '\\' + Tool.GetTrackFileName(TidalTrack, TidalStream);
+            }
+            if(sType == "Video")
+            {
+                TidalVideoUrls = Tool.GetVideoDLUrls(TidalVideo.ID, Resolution, out Errmsg);
+                if (Errmsg.IsNotBlank())
+                    return Errmsg;
+                FilePath = BasePath + '\\' + Tool.GetVideoFileName(TidalVideo);
             }
             return null;
         }
@@ -107,15 +129,61 @@ namespace TIDALDL_UI.Else
                 return;
             }
 
+            if (sType == "Track")
+                DownloadTrack();
+            if (sType == "Video")
+                DownloadVideo();
+
+
+        }
+
+        public void DownloadVideo()
+        {
+            string sTmpDir = BasePath + '\\' + PathHelper.ReplaceLimitChar(TidalVideo.Title, "-") + "TMP";
+            if(Directory.Exists(sTmpDir))
+                Directory.Delete(sTmpDir, true);
+            PathHelper.Mkdirs(sTmpDir);
+
+            long lCount = TidalVideoUrls.Count();
+            for (int i = 0; i < lCount; i++)
+            {
+                string sUrl  = TidalVideoUrls[i];
+                string sName = sTmpDir + '\\' + (100000 + i + 1).ToString() + ".ts";
+                bool bFlag = (bool)DownloadFileHepler.Start(sUrl, sName, RetryNum: 3);
+                if (bFlag == false)
+                    goto ERR_POINT;
+
+                Progress.Update(i + 1, lCount);
+                UpdataFunc(this);
+
+                if (Progress.IsCancle)
+                    goto CANCLE_POINT;
+            }
+
+            Progress.Update(lCount, lCount);
+            Progress.IsComplete = true;
+            UpdataFunc(this);
+        CANCLE_POINT:
+            Directory.Delete(sTmpDir, true);
+            return;
+
+        ERR_POINT:
+            Progress.IsErr = true;
+            UpdataFunc(this);
+            Directory.Delete(sTmpDir, true);
+        }
+
+        public void DownloadTrack()
+        {
             //Download
             bool bFlag = (bool)DownloadFileHepler.Start(TidalStream.Url,
                                 FilePath,
-                                RetryNum:3,
+                                RetryNum: 3,
                                 UpdateFunc: UpdateDownloadNotify,
                                 CompleteFunc: CompleteDownloadNotify,
                                 ErrFunc: ErrDownloadNotify);
             //Err
-            if(!bFlag)
+            if (!bFlag)
             {
                 Errlabel = "Download Failed!";
                 Progress.IsErr = true;
@@ -135,7 +203,8 @@ namespace TIDALDL_UI.Else
                 tfile.Tag.Copyright = TidalTrack.CopyRight;
                 tfile.Save();
             }
-            catch {
+            catch
+            {
                 Errlabel = "Decrypt-SetMetaData Failed!";
                 Progress.IsErr = true;
                 Progress.Errlabel = Errlabel;

@@ -27,6 +27,8 @@ namespace TIDALDL_UI.Pages
         public BitmapImage Cover { get; private set; }
         public string BasePath { get; private set; }
         public string Quality { get; private set; }
+        public string CoverPath { get; private set; }
+        public Byte[] CoverData { get; private set; }
 
         /// <summary>
         /// Item Objec - Album|Playlist|Track|Video
@@ -47,25 +49,47 @@ namespace TIDALDL_UI.Pages
         public ProgressHelper Progress { get; set; }
 
 
-        public MainListItemViewModel(Album album, string quality, string path)
+        public MainListItemViewModel(object data, string path, string quality = "HIGH", string resolution = "720")
         {
-            TidalAlbum = album;
-            Title      = album.Title;
-            Type       = "Album";
-            Quality    = quality;
-            BasePath   = path + "\\Album\\" + Tool.GetAlbumFolderName(album);
-            Cover      = AIGS.Common.Convert.ConverByteArrayToBitmapImage(album.CoverData);
-            Author     = album.Artist.Name;
             Progress   = new ProgressHelper();
+            DLItemList = new ObservableCollection<DownloadItem>();
+
+            if (data.GetType() == typeof(Album))
+            {
+                Album album = (Album)data;
+                TidalAlbum = album;
+                Title      = album.Title;
+                Type       = "Album";
+                Quality    = quality;
+                BasePath   = path + "\\Album\\" + Tool.GetAlbumFolderName(album);
+                Author     = album.Artist.Name;
+                CoverPath  = BasePath + '\\' + Tool.GetAlbumCoverName(album);
+                CoverData  = album.CoverData;
+
+                //init DownloadList
+                if(album.Tracks != null)
+                    foreach (Track item in album.Tracks)
+                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, item, quality));
+                if(album.Videos != null)
+                    foreach (Video item in album.Videos)
+                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, item, resolution));
+            }
+            else if(data.GetType() == typeof(Video))
+            {
+                Video video = (Video)data;
+                TidalVideo  = video;
+                Title       = video.Title;
+                Type        = "Video";
+                BasePath    = path + "\\Video\\";
+                Author      = video.Artist.Name;
+                CoverPath   = BasePath + '\\' + Tool.GetVideoCoverName(video);
+                CoverData   = video.CoverData;
+                DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, video, resolution));
+            }
 
             //Save Cover
-            string CoverPath = BasePath + '\\' + Tool.GetAlbumCoverName(album);
-            FileHelper.Write(album.CoverData, true, CoverPath);
-
-            //init DownloadList
-            DLItemList = new ObservableCollection<DownloadItem>();
-            foreach (Track item in album.Tracks)
-                DLItemList.Add(new DownloadItem(DLItemList.Count, item, quality, BasePath, Update));
+            Cover = AIGS.Common.Convert.ConverByteArrayToBitmapImage(CoverData);
+            FileHelper.Write(CoverData, true, CoverPath);
         }
 
         /// <summary>

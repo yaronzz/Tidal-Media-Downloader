@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIGS.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,8 +24,40 @@ namespace Tidal
         public int Duration
         {
             get { return duration; }
-            set { duration = value; }
+            set { duration = value;
+                SDuration = TimeHelper.ConverIntToString(value);
+            }
         }
+
+        private string sduration;
+        public string SDuration
+        {
+            get { return sduration; }
+            set { sduration = value; }
+        }
+        //专辑封面编码
+        private string imageID;
+        public string ImageID
+        {
+            get { return imageID; }
+            set { imageID = value; }
+        }
+        //专辑封面链接
+        private string coverurl;
+        public string CoverUrl
+        {
+            get { return coverurl; }
+            set { coverurl = value; }
+        }
+        //封面数据
+        private Byte[] coverdata;
+        public Byte[] CoverData
+        {
+            get { return coverdata; }
+            set { coverdata = value; }
+        }
+
+
         private int tracknumber;
         public int TrackNumber
         {

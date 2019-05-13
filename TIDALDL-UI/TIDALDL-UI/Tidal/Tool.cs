@@ -12,8 +12,8 @@ namespace Tidal
 {
     public class Tool
     {
-        static string URL     = "https://api.tidalhifi.com/v1/";
-        static string TOKEN   = "4zx46pyr9o8qZNRw";
+        static string URL = "https://api.tidalhifi.com/v1/";
+        static string TOKEN = "4zx46pyr9o8qZNRw";
         static string VERSION = "1.9.1";
 
         #region Account - Login
@@ -37,7 +37,7 @@ namespace Tidal
 
         public static bool LogIn(string user, string password, out string errmsg)
         {
-            string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out errmsg, new Dictionary<string, string>() { 
+            string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out errmsg, new Dictionary<string, string>() {
                 {"username", user},
                 {"password", password},
                 {"token", TOKEN},
@@ -48,10 +48,10 @@ namespace Tidal
             if (!string.IsNullOrEmpty(errmsg))
                 return false;
 
-            m_User      = JsonHelper.ConverStringToObject<Account>(sRet);
+            m_User = JsonHelper.ConverStringToObject<Account>(sRet);
             m_User.User = user;
-            m_User.Pwd  = password;
-            m_isLogin   = true;
+            m_User.Pwd = password;
+            m_isLogin = true;
             return true;
         }
         #endregion
@@ -61,7 +61,7 @@ namespace Tidal
         {
             Errmsg = null;
 
-            if(!IsLogin())
+            if (!IsLogin())
             {
                 Errmsg = "Need Login!";
                 return null;
@@ -76,7 +76,7 @@ namespace Tidal
                 return null;
             return sRet;
         }
-       
+
         #endregion
 
         #region Album
@@ -86,7 +86,7 @@ namespace Tidal
             if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
                 return null;
             Album aRet = JsonHelper.ConverStringToObject<Album>(sRet);
-            
+
             //get cover
             aRet.CoverUrl = "https://resources.tidal.com/images/" + aRet.Cover.Replace('-', '/') + "/1280x1280.jpg";
             aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CoverUrl, out Errmsg, IsRetByte: true, Timeout: 5000);
@@ -118,6 +118,76 @@ namespace Tidal
         }
         #endregion
 
+        #region Video Urls
+
+        public static Dictionary<string, string> GetVideoResolutionList(string sID, out string Errmsg)
+        {
+            Dictionary<string, string> pHash = new Dictionary<string, string>();
+            string sRet = Get("videos/" + sID + "/streamUrl", out Errmsg, RetryNum:3);
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return pHash;
+
+            string sUrl = JsonHelper.GetValue(sRet, "url");
+            string sTxt = NetHelper.DownloadString(sUrl);
+
+            string[] sArray = sTxt.Split("#EXT-X-STREAM-INF");
+            foreach (string item in sArray)
+            {
+                if (item.IndexOf("RESOLUTION=") < 0)
+                    continue;
+                string sKey   = StringHelper.GetSubString(item, "RESOLUTION=", "\n");
+                string sValue = "http" + StringHelper.GetSubString(item, "http", "\n");
+                if (sKey.IndexOf(',') >= 0)
+                    sKey = StringHelper.GetSubString(sKey, null, ",");
+
+                pHash.Add(sKey, sValue);
+            }
+            return pHash;
+        }
+
+        public static string[] ParseM3u8Url(string sUrl)
+        {
+            string sTxt = NetHelper.DownloadString(sUrl);
+            List<string> pList = new List<string>();
+            string[] sArray = sTxt.Split("#EXTINF");
+            foreach (string item in sArray)
+            {
+                if (item.IndexOf("http") < 0)
+                    continue;
+                string sValue = "http" + StringHelper.GetSubString(item, "http", "\n");
+                pList.Add(sValue);
+            }
+            return pList.ToArray();
+        }
+
+        public static string[] GetVideoDLUrls(string sID, string sResolution, out string Errmsg)
+        {
+            int iCmp = AIGS.Common.Convert.ConverStringToInt(sResolution, 0);
+            Dictionary<string, string> pHash = GetVideoResolutionList(sID, out Errmsg);
+            if (pHash.Count <= 0)
+                return null;
+
+            List<int> aRes = new List<int>();
+            for (int i = 0; i < pHash.Count; i++)
+            {
+                string item = StringHelper.GetSubString(pHash.ElementAt(i).Key, "x", null);
+                aRes.Add(int.Parse(item));
+            }
+
+            int iIndex = aRes.Count - 1;
+            for (int i = 0; i < aRes.Count; i++)
+            {
+                if(iCmp >= aRes[i])
+                {
+                    iIndex = i;
+                    break;
+                }
+            }
+
+            return ParseM3u8Url(pHash.ElementAt(iIndex).Value);
+        }
+        #endregion
+
         #region Track
         public static Track GetTrack(string sID, out string Errmsg)
         {
@@ -138,6 +208,12 @@ namespace Tidal
                 return null;
 
             Video aRet = JsonHelper.ConverStringToObject<Video>(sRet);
+            //get cover
+            aRet.CoverUrl = "https://resources.tidal.com/images/" + aRet.ImageID.Replace('-', '/') + "/1280x1280.jpg";
+            aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CoverUrl, out Errmsg, IsRetByte: true, Timeout: 5000);
+
+            //aRet.CoverUrl = "http://images.tidalhifi.com/im/im?w=1280&h=1280&uuid=" + sID + "&rows=2&cols=3&noph";
+            //aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CoverUrl, out Errmsg, IsRetByte: true, Timeout: 5000);
             return aRet;
         }
         #endregion
@@ -223,6 +299,11 @@ namespace Tidal
         {
             string sRet = PathHelper.ReplaceLimitChar(video.Title, "-");
             return sRet.Trim() + ".mp4";
+        }
+        public static string GetVideoCoverName(Video video)
+        {
+            string sRet = PathHelper.ReplaceLimitChar(video.Title, "-");
+            return sRet.Trim() + ".jpg";
         }
 
         public static string GetPlaylistFolderName(Playlist playlist)

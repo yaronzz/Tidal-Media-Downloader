@@ -9,7 +9,7 @@
     <ProjectGuid>{87F39F78-056F-4747-A835-12BA03FE575A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TIDALDL_UI</RootNamespace>
-    <AssemblyName>tidal-ui-dl</AssemblyName>
+    <AssemblyName>tidal-gui</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -104,10 +104,10 @@
     <Compile Include="Else\ThreadTool.cs" />
     <Compile Include="Else\DownloadItem.cs" />
     <Compile Include="Pages\AboutViewModel.cs" />
-    <Compile Include="Pages\AlbumInfoView.xaml.cs">
-      <DependentUpon>AlbumInfoView.xaml</DependentUpon>
+    <Compile Include="Pages\InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AlbumInfoViewModel.cs" />
+    <Compile Include="Pages\InfoViewModel.cs" />
     <Compile Include="Pages\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -158,7 +158,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Pages\AlbumInfoView.xaml">
+    <Page Include="Pages\InfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

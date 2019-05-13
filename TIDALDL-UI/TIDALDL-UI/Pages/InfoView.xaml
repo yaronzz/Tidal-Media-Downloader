@@ -1,4 +1,4 @@
-﻿<Window x:Class="TIDALDL_UI.Pages.AlbumInfoView"
+﻿<Window x:Class="TIDALDL_UI.Pages.InfoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,7 +21,7 @@
              AllowsTransparency="True"
              Height="540"
              ShowInTaskbar="False"
-             d:DataContext="{d:DesignInstance pages:AlbumInfoViewModel}">
+             d:DataContext="{d:DesignInstance pages:InfoViewModel}">
 
     <materialDesign:Card Name="m_CMainCard" materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
@@ -34,7 +34,7 @@
                     
                 </Grid.RowDefinitions>
 
-                <Label Content="ALBUMINFO" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
+                <Label Content="{Binding Header}" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
                 <Button Name="m_CClose"
                         Padding="0"
                         Style="{DynamicResource MaterialDesignToolForegroundButton}"
@@ -50,12 +50,15 @@
                     <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Column="1" Height="40" FontWeight="ExtraBlack" />
                     <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="10,40,0,0" Grid.Column="1" Height="25" />
                     <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="10,65,0,0" Grid.Column="1" Height="25" />
+
                     <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="Search" 
                               materialDesign:HintAssist.HintOpacity=".26"
                               ItemsSource="{Binding QualityList}"
+                              DisplayMemberPath="Value"
+                              Width="{Binding QualityWidth}"
                               SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
                               Margin="20,115,222,7"></ComboBox>
-                        <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
+                    <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"
                             Content="Download" 
                             Height="27" VerticalAlignment="Bottom" Margin="152,0,105,7"/>
@@ -63,15 +66,16 @@
                             Command="{s:Action Cancle}"
                             Content="Cancle" 
                             Height="27" VerticalAlignment="Bottom" Margin="252,0,10,8"/>
+
                 </Grid>
 
-                <ListView Grid.Row="3" ItemsSource="{Binding Record.Tracks}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                <ListView Grid.Row="3" ItemsSource="{Binding ItemList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding TrackNumber}"/>
+                            <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}"/>
                             <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="ALBUM" Width="130" DisplayMemberBinding="{Binding Album.Title}"/>
-                            <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding SDuration}"/>
+                            <GridViewColumn Header="ALBUM" Width="130" DisplayMemberBinding="{Binding AlbumTitle}"/>
+                            <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
