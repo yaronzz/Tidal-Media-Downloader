@@ -94,7 +94,12 @@ namespace Tidal
             get { return artist; }
             set { artist = value; }
         }
-
+        private ObservableCollection<Artist> artists;
+        public ObservableCollection<Artist> Artists
+        {
+            get { return artists; }
+            set { artists = value; }
+        }
         private ObservableCollection<Track> tracks;
         public ObservableCollection<Track> Tracks
         {

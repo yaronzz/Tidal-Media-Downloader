@@ -40,7 +40,6 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-
                                         <ComboBox Grid.Column="0" Margin="8 0 0 0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="195" HorizontalAlignment="Left" 
                                               Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="{Binding SelectIndex, UpdateSourceTrigger=PropertyChanged}"
@@ -55,7 +54,7 @@
                             </StackPanel>
                         </DockPanel>
                     </materialDesign:ColorZone>
-                    
+
                     <!--Content-->
                     <Grid Height="518" VerticalAlignment="Bottom">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
@@ -70,6 +69,11 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </Grid>
+
+                    <!--Err Label IsActive="{Binding ShowErrlabel}"-->
+                    <materialDesign:Snackbar IsActive='{Binding ShowErrlabel}' Margin="0,0,0,0" Width="560">
+                        <materialDesign:SnackbarMessage Content="{Binding Errlabel}" ActionContent="OK" ActionClick="{s:Action CloseErrlabel}"/>
+                    </materialDesign:Snackbar>
                 </Grid>
             </materialDesign:DialogHost>
         </materialDesign:Card>

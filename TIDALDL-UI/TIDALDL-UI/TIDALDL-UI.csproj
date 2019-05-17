@@ -65,6 +65,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resource\Tidal.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AIGS">
       <HintPath>..\..\..\AIGS\Debug\AIGS.dll</HintPath>
@@ -89,6 +92,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -116,11 +120,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Pages\SearchView.xaml.cs">
+      <DependentUpon>SearchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SearchViewModel.cs" />
     <Compile Include="Tidal\Account.cs" />
     <Compile Include="Tidal\Album.cs" />
     <Compile Include="Tidal\Artist.cs" />
     <Compile Include="Tidal\Enum.cs" />
     <Compile Include="Tidal\Playlist.cs" />
+    <Compile Include="Tidal\SearchResult.cs" />
     <Compile Include="Tidal\StreamUrl.cs" />
     <Compile Include="Tidal\Tool.cs" />
     <Compile Include="Tidal\Track.cs" />
@@ -187,6 +196,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Pages\SearchView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\InfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -235,6 +248,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\tidal.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cover.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Tidal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

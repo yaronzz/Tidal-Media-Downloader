@@ -60,7 +60,6 @@ namespace Tidal
         private static string Get(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 0)
         {
             Errmsg = null;
-
             if (!IsLogin())
             {
                 Errmsg = "Need Login!";
@@ -77,6 +76,15 @@ namespace Tidal
             return sRet;
         }
 
+        private static T Get<T>(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 0)
+        {
+            string sRet = Get(Path, out Errmsg, Paras, RetryNum);
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return default(T);
+
+            T aRet = JsonHelper.ConverStringToObject<T>(sRet);
+            return aRet;
+        }
         #endregion
 
         #region Album
@@ -395,5 +403,92 @@ namespace Tidal
 
         #endregion
 
+        #region Search
+        public static SearchResult Search(string sQuery, int iLimit, out string Errmsg)
+        {
+            string sRet = Get("search", out Errmsg, new Dictionary<string, string>() {
+                { "query", sQuery },
+                { "offset", "0" },
+                { "limit", iLimit.ToString()},
+            });
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return null;
+
+            SearchResult pRet = new SearchResult();
+            pRet.Albums     = JsonHelper.ConverStringToObject<ObservableCollection<Album>>(sRet, "albums", "items");
+            pRet.Tracks     = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet, "tracks", "items");
+            pRet.Videos     = JsonHelper.ConverStringToObject<ObservableCollection<Video>>(sRet, "videos", "items");
+            pRet.Playlists  = JsonHelper.ConverStringToObject<ObservableCollection<Playlist>>(sRet, "playlists", "items");
+            if (pRet.Albums.Count == 0 && pRet.Tracks.Count == 0 && pRet.Videos.Count == 0)
+                return null;
+
+            pRet.Albums     = pRet.Albums == null ? new ObservableCollection<Album>() : pRet.Albums;
+            pRet.Tracks     = pRet.Tracks == null ? new ObservableCollection<Track>() : pRet.Tracks;
+            pRet.Videos     = pRet.Videos == null ? new ObservableCollection<Video>() : pRet.Videos;
+            pRet.Playlists  = pRet.Playlists == null ? new ObservableCollection<Playlist>() : pRet.Playlists;
+            return pRet;
+        }
+        #endregion
+
+        #region TryGet
+        public static object TryGet(string sID, out string sType)
+        {
+            string sErrmsg;
+
+            //Search Album
+            Album aAlbum = Tool.GetAlbum(sID, out sErrmsg);
+            if (aAlbum != null)
+            {
+                sType = "Album";
+                return aAlbum;
+            }
+
+            //Search Track
+            Track aTrack = Tool.GetTrack(sID, out sErrmsg);
+            if (aTrack != null)
+            {
+                aAlbum = Tool.GetAlbum(aTrack.Album.ID.ToString(), out sErrmsg, false);
+                if (aAlbum != null)
+                {
+                    aAlbum.Tracks.Add(aTrack);
+                    sType = "Album";
+                    return aAlbum;
+                }
+            }
+
+            //Search Video
+            Video aVideo = Tool.GetVideo(sID, out sErrmsg);
+            if (aVideo != null)
+            {
+                if (aVideo.Album != null)
+                {
+                    aAlbum = Tool.GetAlbum(aVideo.Album.ID.ToString(), out sErrmsg, false);
+                    if (aAlbum != null)
+                    {
+                        aAlbum.Videos.Add(aVideo);
+                        sType = "Album";
+                        return aAlbum;
+                    }
+                }
+                else
+                {
+                    sType = "Video";
+                    return aVideo;
+                }
+            }
+
+            //Search All
+            SearchResult aResult = Tool.Search(sID, 10, out sErrmsg);
+            if (aResult != null)
+            {
+                sType = "Search";
+                return aResult;
+            }
+
+            sType = null;
+            return null;
+        }
+
+        #endregion
     }
 }

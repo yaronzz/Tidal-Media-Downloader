@@ -150,8 +150,10 @@ namespace TIDALDL_UI.Pages
 
             //Set Config
             Config.AddHistoryAccount(Username, Password);
-
-            Tool.GetVideoDLUrls("25747558", "720", out Errmsg);
+            
+            //Test
+            //Tool.GetVideoDLUrls("25747558", "720", out Errmsg);
+            //Tool.Search("Rolling", 10, out Errmsg);
 
             //Open MainWindow
             if (Application.Current != null)

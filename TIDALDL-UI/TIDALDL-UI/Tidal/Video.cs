@@ -1,6 +1,7 @@
 ﻿using AIGS.Helper;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -90,6 +91,12 @@ namespace Tidal
         {
             get { return artist; }
             set { artist = value; }
+        }
+        private ObservableCollection<Artist> artists;
+        public ObservableCollection<Artist> Artists
+        {
+            get { return artists; }
+            set { artists = value; }
         }
         //专辑
         private Album album;

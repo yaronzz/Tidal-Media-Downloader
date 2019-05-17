@@ -20,8 +20,8 @@ namespace TIDALDL_UI.Pages
         /// <summary>
         /// Errmsg
         /// </summary>
-        public string Errlabel { get; set; }
-
+        public string Errlabel { get; set; } = "";
+        public bool ShowErrlabel { get; set; } = false;
         /// <summary>
         /// Search Text/List/Thread 
         /// </summary>
@@ -48,18 +48,21 @@ namespace TIDALDL_UI.Pages
         private AboutViewModel VMAbout;
         private WaitViewModel VMWait;
         private InfoViewModel VMInfo;
+        private SearchViewModel VMSearch;
 
         public MainViewModel(IWindowManager manager,
                             SettingViewModel setting,
                             AboutViewModel about,
                             WaitViewModel wait,
-                            InfoViewModel albuminfo)
+                            InfoViewModel albuminfo,
+                            SearchViewModel search)
         {
             Manager     = manager;
             VMSetting   = setting;
             VMAbout     = about;
             VMWait      = wait;
-            VMInfo = albuminfo;
+            VMInfo      = albuminfo;
+            VMSearch    = search;
             SearchList  = Config.HistorySearchs();
             SearchStr   = "79412401";
             return;
@@ -96,7 +99,7 @@ namespace TIDALDL_UI.Pages
                 Errlabel = "Somethig is in Searching!";
             if (Errlabel.IsNotBlank())
             {
-                Manager.ShowMessageBox(Errlabel);
+                ShowErrlabel = true;
                 return;
             }
 
@@ -136,6 +139,14 @@ namespace TIDALDL_UI.Pages
         {
             NetHelper.OpenWeb("https://github.com/yaronzz/Tidal-Media-Downloader/issues");
         }
+
+        /// <summary>
+        /// Close Errlabel Box
+        /// </summary>
+        public void CloseErrlabel()
+        {
+            ShowErrlabel = false;
+        }
         #endregion
 
         #region WaitForm
@@ -166,84 +177,50 @@ namespace TIDALDL_UI.Pages
         /// </summary>
         public void ThreadFuncSearch(object[] data)
         {
-            string sID     = SearchStr;
-            string sErrmsg = null;
-            string sType   = null;
-            Album aAlbum   = null;
-            Track aTrack   = null;
-            Video aVideo   = null;
-            object oRecord = null;
+            string sID           = SearchStr;
+            string sType         = null;
+            object oRecord       = null;
 
-            //Search Album
-            aAlbum = Tool.GetAlbum(sID, out sErrmsg);
-            if(aAlbum != null)
+            oRecord = Tool.TryGet(sID, out sType);
+            if (Application.Current != null)
             {
-                sType = "Album";
-                goto SEARCH_POINT;
-            }
-
-            //Search Track
-            aTrack = Tool.GetTrack(sID, out sErrmsg);
-            if(aTrack != null)
-            {
-                aAlbum = Tool.GetAlbum(aTrack.Album.ID.ToString(), out sErrmsg, false);
-                if(aAlbum != null)
-                {
-                    aAlbum.Tracks.Add(aTrack);
-                    sType = "Album";
-                    goto SEARCH_POINT;
-                }
-            }
-
-            //Search Video
-            aVideo = Tool.GetVideo(sID, out sErrmsg);
-            if (aVideo != null)
-            {
-                if (aVideo.Album != null)
-                {
-                    aAlbum = Tool.GetAlbum(aVideo.Album.ID.ToString(), out sErrmsg, false);
-                    if (aAlbum != null)
-                    {
-                        aAlbum.Videos.Add(aVideo);
-                        sType = "Album";
-                        goto SEARCH_POINT;
-                    }
-                }
-                else
-                {
-                    sType = "Video";
-                    goto SEARCH_POINT;
-                }
-            }
-
-            SEARCH_POINT:
-            if (sType.IsNotBlank() && Application.Current != null)
-            {
-                Config.AddHistorySearch(SearchStr);
-                SearchList = Config.HistorySearchs();
-
                 Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                 {
-                    if (sType == "Album")
-                        oRecord = VMInfo.Load(aAlbum);
-                    else if(sType == "Video")
-                        oRecord = VMInfo.Load(aVideo);
-
-                    Manager.ShowDialog(VMInfo);
-                    if(VMInfo.Result)
+                    if (sType.IsNotBlank())
                     {
-                        MainListItemViewModel newNode = new MainListItemViewModel(oRecord, VMInfo.OutputDir, VMInfo.QualityList[VMInfo.SelectQualityIndex], Config.Resolution());
-                        ItemList.Add(newNode);
-                        newNode.StartWork();
+                        Config.AddHistorySearch(SearchStr);
+                        SearchList = Config.HistorySearchs();
+                        if (sType == "Search")
+                        {
+                            VMSearch.Load((SearchResult)oRecord);
+                            Manager.ShowDialog(VMSearch);
+                            if (VMSearch.ResultID.IsNotBlank())
+                            {
+                                sID = VMSearch.ResultID;
+                                oRecord = Tool.TryGet(sID, out sType);
+                            }
+                        }
+
+                        if (sType.IsNotBlank() && sType != "Search")
+                        {
+                            oRecord = VMInfo.Load(oRecord);
+                            Manager.ShowDialog(VMInfo);
+                            if (VMInfo.Result)
+                            {
+                                MainListItemViewModel newNode = new MainListItemViewModel(oRecord, VMInfo.OutputDir, VMInfo.QualityList[VMInfo.SelectQualityIndex], Config.Resolution());
+                                ItemList.Add(newNode);
+                                newNode.StartWork();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Errlabel = "Search Err!";
+                        ShowErrlabel = true;
                     }
                     CloseWaitView();
                 });
-                return;
             }
-
-            Errlabel = "Search Err!";
-            CloseWaitView();
-            return;
         }
 
         /// <summary>

@@ -13,4 +13,13 @@ namespace Tidal
         LOSSLESS,
     }
 
+    public enum eObjectType
+    {
+        ALBUMS,
+        ARTISTS,
+        PLAYLISTS,
+        TRACKS,
+        VIDEOS,
+    }
+
 }

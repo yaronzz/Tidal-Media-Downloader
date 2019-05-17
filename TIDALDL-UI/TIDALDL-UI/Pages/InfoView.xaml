@@ -30,26 +30,19 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="150" />
-                    <RowDefinition Height="47*"/>
-                    
+                    <RowDefinition Height="47*" />
                 </Grid.RowDefinitions>
 
                 <Label Content="{Binding Header}" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
-                <Button Name="m_CClose"
-                        Padding="0"
-                        Style="{DynamicResource MaterialDesignToolForegroundButton}"
-                        Command="{s:Action RequestClose}" Margin="520,-17,-14,35">
-                    <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
-                </Button>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="144"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Image Source="{Binding Cover}"  Margin="0,10,0,7"></Image>
-                    <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Column="1" Height="40" FontWeight="ExtraBlack" />
-                    <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="10,40,0,0" Grid.Column="1" Height="25" />
-                    <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="10,65,0,0" Grid.Column="1" Height="25" />
+                    <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Column="1" Height="45" FontWeight="ExtraBlack" />
+                    <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="10,45,0,0" Grid.Column="1" Height="25" />
+                    <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="10,70,0,0" Grid.Column="1" Height="25" />
 
                     <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="Search" 
                               materialDesign:HintAssist.HintOpacity=".26"
