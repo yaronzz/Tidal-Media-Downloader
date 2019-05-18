@@ -196,11 +196,12 @@ namespace TIDALDL_UI.Else
                 //Decrypt / Set MetaData
                 Tool.DecryptTrackFile(TidalStream, FilePath);
                 var tfile = TagLib.File.Create(FilePath);
-                tfile.Tag.Album = TidalTrack.Album.Title;
-                tfile.Tag.Track = (uint)Index;
-                tfile.Tag.Title = TidalTrack.Title;
+                tfile.Tag.Album        = TidalTrack.Album.Title;
+                tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
+                tfile.Tag.Title        = TidalTrack.Title;
                 tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
-                tfile.Tag.Copyright = TidalTrack.CopyRight;
+                tfile.Tag.Copyright    = TidalTrack.CopyRight;
+                tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
                 tfile.Save();
             }
             catch

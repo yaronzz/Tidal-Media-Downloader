@@ -44,15 +44,15 @@
                 </materialDesign:ColorZone>
 
                 <Grid Grid.Row="2" Background="WhiteSmoke">
-                <ListView Grid.Row="2" ItemsSource="{Binding BindList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="ARTIST" Width="130" DisplayMemberBinding="{Binding Artist}"/>
-                            <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                    <ListView Grid.Row="2" ItemsSource="{Binding BindList}" SelectedIndex="{Binding SelectIndex}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionMode="Single" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
+                                <GridViewColumn Header="ARTIST" Width="130" DisplayMemberBinding="{Binding Artist}"/>
+                                <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
                 <Grid Grid.Row="3">
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"

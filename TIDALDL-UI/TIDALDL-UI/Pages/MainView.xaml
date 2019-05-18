@@ -14,7 +14,7 @@
         Title="MainView" Height="610" Width="780" 
         d:DataContext="{d:DesignInstance pages:MainViewModel}">
     <Grid>
-        <materialDesign:Card Name="m_CMainCard" materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
                 <Grid>
                     <!--Head Part-->
@@ -33,14 +33,14 @@
                             </materialDesign:PopupBox>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
-                                <TextBlock Text="TIDAL-DL" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone Mode="Standard" Padding="4 0 4 0" CornerRadius="15" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
+                                <materialDesign:ColorZone Mode="Standard" Padding="4 0 4 0" CornerRadius="12" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <ComboBox Grid.Column="0" Margin="8 0 0 0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="195" HorizontalAlignment="Left" 
+                                        <ComboBox Grid.Column="0" Margin="19,0,0,0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="184" HorizontalAlignment="Left" 
                                               Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="{Binding SelectIndex, UpdateSourceTrigger=PropertyChanged}"
                                               SelectionChanged="{s:Action SelectChange}"
