@@ -88,6 +88,8 @@ namespace Tidal
         #endregion
 
         #region Album
+
+
         public static Album GetAlbum(string sID, out string Errmsg, bool GetTracks = true)
         {
             string sRet = Get("albums/" + sID, out Errmsg);
@@ -100,16 +102,42 @@ namespace Tidal
             aRet.CoverData = (byte[])HttpHelper.GetOrPost(aRet.CoverUrl, out Errmsg, IsRetByte: true, Timeout: 5000);
 
             //get tracklist
-            if (GetTracks)
+            if (GetTracks == false)
             {
-                string sRet2 = Get("albums/" + sID + "/tracks", out Errmsg);
-                if (string.IsNullOrEmpty(sRet2) || !string.IsNullOrEmpty(Errmsg))
-                    return null;
-                aRet.Tracks = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet2, "items");
-            }
-            else
                 aRet.Tracks = new ObservableCollection<Track>();
+                return aRet;
+            }
 
+            string sRet2 = Get("albums/" + sID + "/tracks", out Errmsg);
+            if (string.IsNullOrEmpty(sRet2) || !string.IsNullOrEmpty(Errmsg))
+                return null;
+            aRet.Tracks = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet2, "items");
+
+            //change track title
+            for (int i = 0; i < aRet.Tracks.Count; i++)
+            {
+                if (string.IsNullOrWhiteSpace(aRet.Tracks[i].Version))
+                    continue;
+                if (aRet.Tracks[i].Title.IndexOf(aRet.Tracks[i].Version) >= 0)
+                    continue;
+                aRet.Tracks[i].Title += '(' + aRet.Tracks[i].Version + ')';
+            }
+
+            //remove same title
+            List<int> pSameIndex = new List<int>();
+            for (int i = 0; i < aRet.Tracks.Count; i++)
+            {
+                pSameIndex.Clear();
+                for (int j  = 0; j < aRet.Tracks.Count; j++)
+                    if (aRet.Tracks[i].Title == aRet.Tracks[j].Title)
+                        pSameIndex.Add(j);
+
+                if (pSameIndex.Count <= 1)
+                    continue;
+
+                for (int j = 0; j < pSameIndex.Count; j++)
+                    aRet.Tracks[pSameIndex[j]].Title += (j + 1).ToString();
+            }
             return aRet;
         }
         #endregion
@@ -291,11 +319,8 @@ namespace Tidal
         public static string GetTrackFileName(Track track, StreamUrl stream)
         {
             string sName = track.Title;
-            if (!string.IsNullOrWhiteSpace(track.Version))
-                sName += '(' + track.Version + ')';
-
-            string sRet = PathHelper.ReplaceLimitChar(sName, "-");
-            string sExt = ".m4a";
+            string sRet  = PathHelper.ReplaceLimitChar(sName, "-");
+            string sExt  = ".m4a";
             if (stream.Url.IndexOf(".flac?") > 0)
                 sExt = ".flac";
             if (stream.Url.IndexOf(".mp4?") > 0)
