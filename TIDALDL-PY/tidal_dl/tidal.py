@@ -65,8 +65,7 @@ class TidalTool(object):
                     self.errmsg = 'Function `Http-Get` Err!'
                     return None
         
-
-    def setTrackMetadata(self, track_info, file_path, album_info, index):
+    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
         path = pathHelper.getDirName(file_path)
         name = pathHelper.getFileNameWithoutExtension(file_path)
         exte = pathHelper.getFileExtension(file_path)
@@ -87,7 +86,10 @@ class TidalTool(object):
             # set metadata
             ext   = os.path.splitext(tmpfile)[1][1:]
             data  = AudioSegment.from_file(tmpfile, ext)
-            check = data.export(tmpfile, format=ext, tags=tag)
+            if coverpath is None:
+                check = data.export(tmpfile, format=ext, tags=tag)
+            else:
+                check = data.export(tmpfile, format=ext, tags=tag, cover=coverpath)
             # check file size
             if fileHelper.getFileSize(tmpfile) > 0:
                 pathHelper.remove(file_path)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from aigpy import cmdHelper
 from aigpy import systemHelper
 
