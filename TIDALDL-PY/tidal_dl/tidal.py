@@ -113,9 +113,23 @@ class TidalTool(object):
         info = self._get('albums/' + str(album_id) + '/tracks')
         if self.errmsg != "":
             return info
+        same = {}
         for item in info['items']:
             if item['version'] is not None:
                 item['title'] = item['title'] + '(' + item['version']+')'
+            if item['title'] in same:
+                same[item['title']] += 1
+            else:
+                same[item['title']] = 1
+        for item in same:
+            if same[item] <= 1:
+                continue
+            index = 1
+            for track in info['items']:
+                if track['title'] != item:
+                    continue
+                track['title'] += str(index)
+                index += 1
         return info
     def getTrack(self, track_id):
         return self._get('tracks/' + str(track_id))
@@ -159,15 +173,15 @@ class TidalTool(object):
         info = self._get('videos/' + str(video_id) + '/streamurl')
         if self.errmsg != "":
             return None, None
-
         content   = netHelper.downloadString(info['url'], None)
         resolutionList, urlList = self.__parseVideoMasterAll(str(content))
         return resolutionList, urlList
-
     def getVideoMediaPlaylist(self, url):
         urlList = self.__parseVideoMediaPlaylist(url)
         return urlList
-
+    def searchTrack(self, query):
+        ret = self._get('search/tracks', {'query': query, 'offset': 0, 'limit': 99})
+        return ret
     def __parseVideoMasterAll(self, content):
         pattern        = re.compile(r"(?<=RESOLUTION=).+?(?=\\n)")
         resolutionList = pattern.findall(content)
