@@ -77,7 +77,7 @@ namespace TIDALDL_UI.Pages
             foreach (Track item in SearchInfo.Tracks)
                 TrackList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
             foreach (Video item in SearchInfo.Videos)
-                TrackList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                VideoList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
         }
 
     }

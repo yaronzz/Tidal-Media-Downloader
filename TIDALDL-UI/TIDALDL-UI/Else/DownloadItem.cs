@@ -33,6 +33,8 @@ namespace TIDALDL_UI.Else
         public string Title { get; set; }
         public string Duration { get; set; }
         public string sType { get; set; }
+        public byte[] Cover { get; set; }
+        public string CoverPath { get; set; }
 
         /// <summary>
         /// Errmsg
@@ -50,7 +52,7 @@ namespace TIDALDL_UI.Else
         public delegate void UpdateNotify(DownloadItem item);
         public UpdateNotify UpdataFunc { get; set; }
 
-        public DownloadItem(int index, string basePath, UpdateNotify Func, Track track = null, string quality = "LOW", Video video = null, string resolution = "720")
+        public DownloadItem(int index, string basePath, UpdateNotify Func, Track track = null, string quality = "LOW", Video video = null, string resolution = "720", byte[] cover = null, string coverPath = null)
         {
             TidalVideo       = video;
             TidalTrack       = track;
@@ -61,6 +63,8 @@ namespace TIDALDL_UI.Else
             Errlabel         = "";
             Progress         = new ProgressHelper();
             UpdataFunc       = Func;
+            Cover            = cover;
+            CoverPath        = coverPath;
 
             if (TidalTrack != null)
             {
@@ -202,6 +206,13 @@ namespace TIDALDL_UI.Else
                 tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
                 tfile.Tag.Copyright    = TidalTrack.CopyRight;
                 tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
+                if (CoverPath != null)
+                {
+                    var pictures = new Picture[1];
+                    pictures[0]  = new Picture(CoverPath);
+                    //pictures[0]  = new Picture(new ByteVector(Cover, Cover.Length));
+                    tfile.Tag.Pictures = pictures;
+                }
                 tfile.Save();
             }
             catch
