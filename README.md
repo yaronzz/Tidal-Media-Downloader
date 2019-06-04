@@ -5,7 +5,7 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 ## Download
 
 - [tidal-dl.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-PY/exe)
-- [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/TIDALDL-UI/bin/Debug)
+- [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/TIDALDL-UI/bin/Release)
 - tidal-dl by pip(Only Python 3.7)
   ``` python
   root:~# pip install tidal-dl --upgrade
@@ -37,6 +37,6 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 - [PropertyChanged.Fody](https://github.com/Fody/PropertyChanged)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 
-## Donate
+## Support
 
-If you really like my projects and want to support me, consider donating to me on [BuyMeACoffee](https://buymeacoffee.com/yaronzz). All donations are optional and are greatly appreciated.
+If you really like my projects and want to support me, you can star this project. 

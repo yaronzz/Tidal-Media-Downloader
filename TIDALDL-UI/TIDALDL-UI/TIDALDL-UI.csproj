@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>41C5BD3C2EF36190D4084F88C90B92280D7120B3</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>189295AAC05DCDCE0DE4264F39557198996B200A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>TIDALDL-UI_TemporaryKey.pfx</ManifestKeyFile>
@@ -194,6 +194,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="TIDALDL-UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
