@@ -69,7 +69,7 @@ class TidalTool(object):
         path = pathHelper.getDirName(file_path)
         name = pathHelper.getFileNameWithoutExtension(file_path)
         exte = pathHelper.getFileExtension(file_path)
-        tmpfile = path + '/' + self.tmpfileFlag + name  + exte
+        tmpfile = path + '/' + self.tmpfileFlag + name + exte
         try:
             tag = {'Artist': track_info['artist']['name'],
                 'Album': track_info['album']['title'],
@@ -85,16 +85,13 @@ class TidalTool(object):
             pathHelper.copyFile(file_path, tmpfile)
             # set metadata
             ext   = os.path.splitext(tmpfile)[1][1:]
-            data  = AudioSegment.from_file(tmpfile, ext)
-            if coverpath is None:
-                check = data.export(tmpfile, format=ext, tags=tag)
-            else:
-                check = data.export(tmpfile, format=ext, tags=tag, cover=coverpath)
+            data  = AudioSegment.from_file(tmpfile, format=ext)
+            check = data.export(tmpfile, format=ext, tags=tag)
             # check file size
             if fileHelper.getFileSize(tmpfile) > 0:
                 pathHelper.remove(file_path)
                 pathHelper.copyFile(tmpfile, file_path)
-        except:
+        except Exception as e:
             pass
         if os.access(tmpfile, 0):
             pathHelper.remove(tmpfile)
