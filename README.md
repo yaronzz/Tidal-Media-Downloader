@@ -6,11 +6,16 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 
 - [tidal-dl.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-PY/exe)
 - [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-UI/TIDALDL-UI/bin/Release)
-- tidal-dl by pip(Only Python 3.7)
+- tidal-dl by pip
   ``` python
   root:~# pip install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
+
+## Requirement
+- Python 3.7 : If you install tidal-dl by pip
+- FFmpeg : If you want to download video or set tarck metadata
+
 ## Features
 ### Python(cmd)
 - Supports single videos, playlists, tracks, artist-albums and albums
