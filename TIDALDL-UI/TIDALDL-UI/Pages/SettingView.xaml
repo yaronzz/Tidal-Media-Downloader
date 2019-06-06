@@ -9,7 +9,7 @@
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d" 
              Width="438" 
-             Height="243"
+             Height="275"
              WindowStartupLocation="CenterOwner"
              WindowStyle="None"
              Background="{x:Null}"
@@ -31,7 +31,8 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="OutputDir:" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
                     <Label Content="Quality:" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,30,0,0" />
-                    <Label Content="ThreadNum:" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,60,0,0" Height="30" />
+                    <Label Content="Resolution:" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,60,0,0" Height="30" />
+                    <Label Content="ThreadNum:" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,90,0,0" Height="30" />
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
                             Grid.Column="1"
                             Name="m_CPath"
@@ -46,9 +47,15 @@
                               materialDesign:HintAssist.HintOpacity=".26"
                               ItemsSource="{Binding QualityList}"
                               SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
-                              Margin="10,31,0,31">
+                              Margin="10,31,0,0" VerticalAlignment="Top" Height="28">
                     </ComboBox>
-                    <materialDesign:RatingBar Grid.Column="1" Max="10" Value="{Binding ThreadNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="10,60,0,0" />
+                    <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="Search" 
+                              materialDesign:HintAssist.HintOpacity=".26"
+                              ItemsSource="{Binding ResolutionList}"
+                              SelectedIndex="{Binding SelectResolutionIndex , UpdateSourceTrigger=PropertyChanged}"
+                              Margin="10,59,0,0" VerticalAlignment="Top" Height="28">
+                    </ComboBox>
+                    <materialDesign:RatingBar Grid.Column="1" Max="10" Value="{Binding ThreadNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="10,90,0,0" Height="30" VerticalAlignment="Top" />
                 </Grid>
                 <Button Command="{s:Action Confirm}" s:View.ActionTarget="{Binding}" Grid.Row="2" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}" Content="OK" Margin="10,0,10,10" Height="27" VerticalAlignment="Bottom"/>
             </Grid>

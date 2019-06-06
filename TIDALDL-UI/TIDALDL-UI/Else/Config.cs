@@ -103,7 +103,7 @@ namespace TIDALDL_UI.Else
 
         public static string Resolution(string Setvalue = null)
         {
-            return SetOrGet("resolution", Setvalue, "720");
+            return SetOrGet("resolution", Setvalue, "e720P");
         }
         #endregion
 

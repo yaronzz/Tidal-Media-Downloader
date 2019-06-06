@@ -102,7 +102,7 @@ namespace TIDALDL_UI.Pages
                 ShowErrlabel = true;
                 return;
             }
-
+            
             SearchTread = ThreadHelper.Start(ThreadFuncSearch);
             ShowWaitView(ThreadSearchClose);
         }

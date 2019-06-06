@@ -43,6 +43,12 @@ namespace Tidal
             get { return sessionid; }
             set { sessionid = value; }
         }
+        private string sessionid_phone;
+        public string SessionID_Phone
+        {
+            get { return sessionid_phone; }
+            set { sessionid_phone = value; }
+        }
         private string countrycode;
         public string CountryCode
         {

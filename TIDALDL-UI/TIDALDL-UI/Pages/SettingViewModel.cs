@@ -35,11 +35,15 @@ namespace TIDALDL_UI.Pages
         public int SelectQualityIndex { get; set; }
         public ObservableCollection<string> QualityList { get; set; }
 
+        public int SelectResolutionIndex { get; set; }
+        public ObservableCollection<string> ResolutionList { get; set; }
+
 
         public SettingViewModel()
         {
-            OutputDir     = Config.OutputDir();
-            QualityList   = new ObservableCollection<string>();
+            OutputDir      = Config.OutputDir();
+            QualityList    = new ObservableCollection<string>();
+            ResolutionList = new ObservableCollection<string>();
 
             //Set ThreadNum
             string sValue = Config.ThreadNum();
@@ -57,6 +61,25 @@ namespace TIDALDL_UI.Pages
                 int iIndex = QualityList.IndexOf(sValue.ToUpper());
                 if(iIndex >= 0 && iIndex < QualityList.Count)
                     SelectQualityIndex = iIndex;
+            }
+
+            //Init ResolutionList
+            Dictionary<int, string> pArray2 = AIGS.Common.Convert.ConverEnumToDictionary(typeof(Tidal.eResolution));
+            for (int i = 0; i < pArray2.Count; i++)
+                ResolutionList.Add(pArray2.ElementAt(i).Value);
+
+            //Set ResolutionList
+            sValue = Config.Resolution();
+            if (sValue.IsNotBlank())
+            {
+                int iIndex = -1;
+                for (int i = 0; i < ResolutionList.Count; i++)
+                {
+                    if (ResolutionList.ElementAt(i).Contains(sValue))
+                        iIndex = i;
+                }
+                if (iIndex >= 0 && iIndex < ResolutionList.Count)
+                    SelectResolutionIndex = iIndex;
             }
         }
 
@@ -83,6 +106,7 @@ namespace TIDALDL_UI.Pages
         
             Config.ThreadNum(ThreadNum.ToString());
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
+            Config.Resolution(ResolutionList[SelectResolutionIndex].ToLower().Substring(1, ResolutionList[SelectResolutionIndex].Length-2));
             Config.OutputDir(OutputDir);
             ThreadTool.SetThreadNum(ThreadNum);
             RequestClose();                                                                 

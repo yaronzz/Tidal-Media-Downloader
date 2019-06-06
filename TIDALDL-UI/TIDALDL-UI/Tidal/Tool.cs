@@ -14,6 +14,7 @@ namespace Tidal
     {
         static string URL = "https://api.tidalhifi.com/v1/";
         static string TOKEN = "4zx46pyr9o8qZNRw";
+        static string PHONE_TOKEN = "kgsOOmYk3zShYrNP";
         static string VERSION = "1.9.1";
 
         #region Account - Login
@@ -37,21 +38,31 @@ namespace Tidal
 
         public static bool LogIn(string user, string password, out string errmsg)
         {
-            string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out errmsg, new Dictionary<string, string>() {
-                {"username", user},
-                {"password", password},
-                {"token", TOKEN},
-                {"clientVersion", VERSION},
-                {"clientUniqueKey", GetUID()}
-            });
+            errmsg = null;
+            string sPhonesessionid = null;
+            for (int i = 0; i < 2; i++)
+            {
+                string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out errmsg, new Dictionary<string, string>() {
+                    {"username", user},
+                    {"password", password},
+                    {"token", i== 0 ? PHONE_TOKEN : TOKEN},
+                    {"clientVersion", VERSION},
+                    {"clientUniqueKey", GetUID()}
+                });
+                if (!string.IsNullOrEmpty(errmsg))
+                    return false;
+                if (i == 0)
+                    sPhonesessionid = JsonHelper.GetValue(sRet, "sessionId");
+                else
+                {
+                    m_User = JsonHelper.ConverStringToObject<Account>(sRet);
+                    m_User.SessionID_Phone = sPhonesessionid;
+                }
+            }
 
-            if (!string.IsNullOrEmpty(errmsg))
-                return false;
-
-            m_User = JsonHelper.ConverStringToObject<Account>(sRet);
             m_User.User = user;
-            m_User.Pwd = password;
-            m_isLogin = true;
+            m_User.Pwd  = password;
+            m_isLogin   = true;
             return true;
         }
         #endregion
@@ -70,7 +81,14 @@ namespace Tidal
             for (int i = 0; Paras != null && i < Paras.Count; i++)
                 sParams += "&" + Paras.ElementAt(i).Key + "=" + Paras.ElementAt(i).Value;
 
-            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + m_User.SessionID, Retry: RetryNum);
+            string sSessionID = m_User.SessionID;
+            if(Paras != null && Paras.ContainsKey("soundQuality"))
+            {
+                if (Paras["soundQuality"].ToLower() == "lossless")
+                    sSessionID = m_User.SessionID_Phone;
+            }
+
+            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum);
             if (!string.IsNullOrEmpty(Errmsg))
                 return null;
             return sRet;

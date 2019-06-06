@@ -57,7 +57,7 @@
                 <Grid Grid.Row="3">
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"
-                            Content="Search" 
+                            Content="Confirm" 
                             Height="27" VerticalAlignment="Bottom" Margin="204,0,155,8"/>
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Cancle}"
