@@ -65,36 +65,47 @@ class TidalTool(object):
                     self.errmsg = 'Function `Http-Get` Err!'
                     return None
         
-    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
-        path = pathHelper.getDirName(file_path)
-        name = pathHelper.getFileNameWithoutExtension(file_path)
-        exte = pathHelper.getFileExtension(file_path)
-        tmpfile = path + '/' + self.tmpfileFlag + name + exte
+
+    def setTag(self, tag, srcfile, coverpath=None):
+        path = pathHelper.getDirName(srcfile)
+        name = pathHelper.getFileNameWithoutExtension(srcfile)
+        ext = pathHelper.getFileExtension(srcfile)
+        oext = ext
+
+        if 'm4a' in ext:
+            oext = '.mp3'
+        if 'mp3' not in oext:
+            coverpath = None
+        tmpfile = path + '/' + 'TMP' + name + oext
+
         try:
-            tag = {'Artist': track_info['artist']['name'],
-                'Album': track_info['album']['title'],
-                'Title': track_info['title'],
-                'CopyRight': track_info['copyright'],
-                'Track': track_info['trackNumber']}
-            if index is not None:
-                tag['Track'] = str(index)
-            if album_info is not None:
-                tag['Date'] = album_info['releaseDate']
-                tag['Year'] = album_info['releaseDate'].split('-')[0]
-            # tmp file
-            pathHelper.copyFile(file_path, tmpfile)
-            # set metadata
-            ext   = os.path.splitext(tmpfile)[1][1:]
-            data  = AudioSegment.from_file(tmpfile, format=ext)
-            check = data.export(tmpfile, format=ext, tags=tag)
-            # check file size
-            if fileHelper.getFileSize(tmpfile) > 0:
-                pathHelper.remove(file_path)
-                pathHelper.copyFile(tmpfile, file_path)
+            data = AudioSegment.from_file(srcfile, format=ext[1:])
+            check = data.export(
+                tmpfile, format=oext[1:], tags=tag, cover=coverpath)
+            check.close()
         except Exception as e:
-            pass
-        if os.access(tmpfile, 0):
             pathHelper.remove(tmpfile)
+            return
+
+        if fileHelper.getFileSize(tmpfile) > 0:
+            pathHelper.remove(srcfile)
+            os.rename(tmpfile, path + '/' + name + oext)
+        else:
+            pathHelper.remove(tmpfile)
+
+    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
+        tag = {'Artist': track_info['artist']['name'],
+            'Album': track_info['album']['title'],
+            'Title': track_info['title'],
+            'CopyRight': track_info['copyright'],
+            'Track': track_info['trackNumber']}
+        if index is not None:
+            tag['Track'] = str(index)
+        if album_info is not None:
+            tag['Date'] = album_info['releaseDate']
+            tag['Year'] = album_info['releaseDate'].split('-')[0]
+
+        self.setTag(tag, file_path, coverpath)
 
     def removeTmpFile(self, path):
         for root, dirs, files in os.walk(path):
