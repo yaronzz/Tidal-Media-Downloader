@@ -194,6 +194,8 @@ namespace Tidal
                 if (sKey.IndexOf(',') >= 0)
                     sKey = StringHelper.GetSubString(sKey, null, ",");
 
+                if (pHash.ContainsKey(sKey))
+                    continue;
                 pHash.Add(sKey, sValue);
             }
             return pHash;
