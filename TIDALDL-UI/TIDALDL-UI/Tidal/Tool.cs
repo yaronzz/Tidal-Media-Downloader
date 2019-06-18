@@ -103,6 +103,15 @@ namespace Tidal
             T aRet = JsonHelper.ConverStringToObject<T>(sRet);
             return aRet;
         }
+
+        private static string GetString(string sUrl, out string Errmsg)
+        {
+            string sRet = (string)HttpHelper.GetOrPost(sUrl, out Errmsg, Retry: 5);
+            if (!string.IsNullOrEmpty(Errmsg))
+                return null;
+            return sRet;
+
+        }
         #endregion
 
         #region Album
@@ -182,8 +191,9 @@ namespace Tidal
                 return pHash;
 
             string sUrl = JsonHelper.GetValue(sRet, "url");
-            string sTxt = NetHelper.DownloadString(sUrl);
-
+            string sTxt = GetString(sUrl, out Errmsg);
+            if (sTxt.IsBlank())
+                return pHash;
             string[] sArray = sTxt.Split("#EXT-X-STREAM-INF");
             foreach (string item in sArray)
             {
@@ -203,7 +213,8 @@ namespace Tidal
 
         public static string[] ParseM3u8Url(string sUrl)
         {
-            string sTxt = NetHelper.DownloadString(sUrl);
+            string Errmsg;
+            string sTxt = GetString(sUrl, out Errmsg);
             List<string> pList = new List<string>();
             string[] sArray = sTxt.Split("#EXTINF");
             foreach (string item in sArray)

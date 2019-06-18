@@ -98,6 +98,8 @@ namespace TIDALDL_UI.Else
                 TidalVideoUrls = Tool.GetVideoDLUrls(TidalVideo.ID, Resolution, out Errmsg);
                 if (Errmsg.IsNotBlank())
                     return Errmsg;
+                else if (TidalVideoUrls == null)
+                    return "Get DownloadUrl Err!";
                 FilePath = BasePath + '\\' + Tool.GetVideoFileName(TidalVideo);
             }
             return null;
@@ -114,6 +116,20 @@ namespace TIDALDL_UI.Else
             if (ThreadTool.GetThreadNum() <= 0)
                 ThreadTool.SetThreadNum(int.Parse(Config.ThreadNum()));
             ThreadTool.AddWork(ThreadFuncDownlaod);
+        }
+
+        public bool MergerTsFiles(string sPath, string sToFile)
+        {
+            string[] sFileNames = PathHelper.GetFileNames(sPath);
+            List<string> sList  = new List<string>();
+            foreach (string item in sFileNames)
+            {
+                if (item.IndexOf(".ts") < 0)
+                    continue;
+                sList.Add(item);
+            }
+
+            return FFmpegHelper.MergerByFiles(sList.ToArray(), sToFile);
         }
         #endregion
 
@@ -153,7 +169,7 @@ namespace TIDALDL_UI.Else
             {
                 string sUrl  = TidalVideoUrls[i];
                 string sName = sTmpDir + '\\' + (100000 + i + 1).ToString() + ".ts";
-                bool bFlag = (bool)DownloadFileHepler.Start(sUrl, sName, RetryNum: 3);
+                bool bFlag   = (bool)DownloadFileHepler.Start(sUrl, sName, RetryNum: 3);
                 if (bFlag == false)
                     goto ERR_POINT;
 
@@ -163,9 +179,10 @@ namespace TIDALDL_UI.Else
                 if (Progress.IsCancle)
                     goto CANCLE_POINT;
             }
+            bool bSuccess = MergerTsFiles(sTmpDir + '\\', FilePath);
 
             Progress.Update(lCount, lCount);
-            Progress.IsComplete = true;
+            Progress.IsComplete = bSuccess;
             UpdataFunc(this);
         CANCLE_POINT:
             Directory.Delete(sTmpDir, true);
@@ -176,7 +193,7 @@ namespace TIDALDL_UI.Else
             UpdataFunc(this);
             Directory.Delete(sTmpDir, true);
         }
-
+        
         public void DownloadTrack()
         {
             //Download
