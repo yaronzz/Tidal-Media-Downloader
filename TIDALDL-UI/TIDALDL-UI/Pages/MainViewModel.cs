@@ -64,7 +64,7 @@ namespace TIDALDL_UI.Pages
             VMInfo      = albuminfo;
             VMSearch    = search;
             SearchList  = Config.HistorySearchs();
-            SearchStr   = "79412401";
+            SearchStr   = SearchList.Count > 0 ? SearchList[0] : null;
             return;
         }
 

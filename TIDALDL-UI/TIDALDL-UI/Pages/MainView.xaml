@@ -34,18 +34,26 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone Mode="Standard" Padding="4 0 4 0" CornerRadius="12" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                <materialDesign:ColorZone Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <ComboBox Grid.Column="0" Margin="19,0,0,0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="184" HorizontalAlignment="Left" 
+                                        <!--<ComboBox Grid.Column="0" Margin="19,0,0,0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="184" HorizontalAlignment="Left" 
                                               Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="{Binding SelectIndex, UpdateSourceTrigger=PropertyChanged}"
                                               SelectionChanged="{s:Action SelectChange}"
                                               ItemsSource="{Binding SearchList, UpdateSourceTrigger=PropertyChanged}" 
-                                              BorderThickness="0" />
+                                              BorderThickness="0" />-->
+                                        <TextBox Grid.Column="0"
+                                                Margin="8 0 0 0"
+                                                Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
+                                                materialDesign:HintAssist.Hint="Search..."
+                                                materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                                BorderThickness="0"
+                                                MinWidth="200"
+                                                VerticalAlignment="Center" />
                                         <Button Grid.Column="1" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                                         </Button>
