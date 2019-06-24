@@ -424,7 +424,7 @@ class Download(object):
                 # check
                 isErr, errIndex = self.check.checkPaths()
                 if isErr:
-                    check = printChoice("[Err]\t\t" + len(errIndex) + " Tracks Download Failed.Try Again?(y/n):")
+                    check = printChoice("[Err]\t\t" + str(len(errIndex)) + " Tracks Download Failed.Try Again?(y/n):")
                     if check == 'y' or check == 'Y':
                         bBreakFlag = False
 

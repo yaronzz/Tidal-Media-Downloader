@@ -80,8 +80,7 @@ class TidalTool(object):
 
         try:
             data = AudioSegment.from_file(srcfile, format=ext[1:])
-            check = data.export(
-                tmpfile, format=oext[1:], tags=tag, cover=coverpath)
+            check = data.export(tmpfile, format=oext[1:], tags=tag, cover=coverpath)
             check.close()
         except Exception as e:
             pathHelper.remove(tmpfile)
@@ -115,16 +114,11 @@ class TidalTool(object):
 
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
-    def getPlaylist(self, playlist_id):
-        info   = self._get('playlists/' + playlist_id)
-        list   = self.__getItemsList('playlists/' + playlist_id + '/items')
-        return info, list
-    def getAlbumTracks(self, album_id):
-        info = self._get('albums/' + str(album_id) + '/tracks')
-        if self.errmsg != "":
-            return info
+    def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}
-        for item in info['items']:
+        for item in tracks:
+            if isOnLayer2:
+                item = item['item']
             if item['version'] is not None:
                 item['title'] = item['title'] + '(' + item['version']+')'
             if item['title'] in same:
@@ -135,11 +129,24 @@ class TidalTool(object):
             if same[item] <= 1:
                 continue
             index = 1
-            for track in info['items']:
+            for track in tracks:
+                if track:
+                    track = track['item']
                 if track['title'] != item:
                     continue
                 track['title'] += str(index)
                 index += 1
+        return tracks
+    def getPlaylist(self, playlist_id):
+        info   = self._get('playlists/' + playlist_id)
+        list   = self.__getItemsList('playlists/' + playlist_id + '/items')
+        list   = self._fixSameTrackName(list,True)
+        return info, list
+    def getAlbumTracks(self, album_id):
+        info = self._get('albums/' + str(album_id) + '/tracks')
+        if self.errmsg != "":
+            return info
+        info['items'] = self._fixSameTrackName(info['items'])
         return info
     def getTrack(self, track_id):
         return self._get('tracks/' + str(track_id))
