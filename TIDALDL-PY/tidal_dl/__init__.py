@@ -12,20 +12,24 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.6.24.0"
+TIDAL_DL_VERSION="2019.7.1.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
         password = myinput("password:")
-    account = TidalAccount(username, password)
+    account  = TidalAccount(username, password)
+    account2 = TidalAccount(username, password,True)
     if account.errmsg != "":
         printErr(0, account.errmsg)
         return False
+    if account2.errmsg != "":
+        printErr(0, account2.errmsg)
+        return False
 
     cf = TidalConfig()
-    cf.set_account(username, password, account.session_id, account.country_code, account.user_id)
+    cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
     return True
 
 
@@ -46,7 +50,7 @@ def setting():
             continue
         break
     while True:
-        index = myinputInt("Quality(0-LOW,1-HIGH,2-LOSSLESS):".ljust(12), 999)
+        index = myinputInt("Quality(0-LOW,1-HIGH,2-LOSSLESS,3-HI_RES):".ljust(12), 999)
         if index > 2 or index < 0:
             printErr(0, "Quality Err!")
             continue
@@ -56,6 +60,8 @@ def setting():
             quality = 'HIGH'
         if index == 2:
             quality = 'LOSSLESS'
+        if index == 3:
+            quality = 'HI_RES'
         break
     while True:
         index = myinputInt("Resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12),99)

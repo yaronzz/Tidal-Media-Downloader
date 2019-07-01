@@ -44,6 +44,10 @@ class TidalTool(object):
         self.tmpfileFlag = 'TIDAL_TMP_'
     def _get(self, url, params={}):
         retry = 3
+        sessionid = self.config.sessionid
+        if 'soundQuality' in params and params['soundQuality'] == 'LOSSLESS':
+            sessionid = self.config.sessionid2
+
         while retry > 0:
             retry -= 1
             try:
@@ -51,7 +55,7 @@ class TidalTool(object):
                 params['countryCode'] = self.config.countrycode
                 resp = requests.get(
                     URL_PRE + url,
-                    headers={'X-Tidal-SessionId': self.config.sessionid},
+                    headers={'X-Tidal-SessionId': sessionid},
                     params=params).json()
 
                 if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
@@ -324,6 +328,7 @@ class TidalConfig(object):
         self.password    = configHelper.GetValue("base", "password", "", self.FILE_NAME)
         self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
         self.threadnum   = configHelper.GetValue("base", "threadnum", "3", self.FILE_NAME)
+        self.sessionid2  = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
 
     def set_threadnum(self, threadnum):
         self.threadnum = threadnum
@@ -341,14 +346,16 @@ class TidalConfig(object):
         self.resolution = resolution
         configHelper.SetValue("base", "resolution", resolution, self.FILE_NAME)
 
-    def set_account(self, username, password, sessionid, countrycode, userid):
+    def set_account(self, username, password, sessionid, countrycode, userid, sessionid2):
         self.username    = username
         self.password    = password
         self.sessionid   = sessionid
+        self.sessionid2  = sessionid2
         self.countrycode = countrycode
         configHelper.SetValue("base", "username", username, self.FILE_NAME)
         configHelper.SetValue("base", "password", password, self.FILE_NAME)
         configHelper.SetValue("base", "sessionid", sessionid, self.FILE_NAME)
+        configHelper.SetValue("base", "sessionid2", sessionid2, self.FILE_NAME)
         configHelper.SetValue("base", "countrycode",countrycode, self.FILE_NAME)
         configHelper.SetValue("base", "userid",str(userid), self.FILE_NAME)
 
