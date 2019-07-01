@@ -69,10 +69,10 @@ namespace TIDALDL_UI.Pages
                 //init DownloadList
                 if(album.Tracks != null)
                     foreach (Track item in album.Tracks)
-                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, item, quality, cover:CoverData, coverPath: CoverPath));
+                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, item, quality, cover:CoverData, coverPath: CoverPath, album:album));
                 if(album.Videos != null)
                     foreach (Video item in album.Videos)
-                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, item, resolution));
+                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, item, resolution, album: album));
             }
             else if(data.GetType() == typeof(Video))
             {

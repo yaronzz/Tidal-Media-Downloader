@@ -17,6 +17,7 @@ namespace TIDALDL_UI.Else
         /// <summary>
         /// Item Object - Track | Videp
         /// </summary>
+        public Album TidalAlbum { get; set; }
         public Track TidalTrack { get; set; }
         public Video TidalVideo { get; set; }
         public StreamUrl TidalStream { get; set; }
@@ -52,8 +53,9 @@ namespace TIDALDL_UI.Else
         public delegate void UpdateNotify(DownloadItem item);
         public UpdateNotify UpdataFunc { get; set; }
 
-        public DownloadItem(int index, string basePath, UpdateNotify Func, Track track = null, string quality = "LOW", Video video = null, string resolution = "720", byte[] cover = null, string coverPath = null)
+        public DownloadItem(int index, string basePath, UpdateNotify Func, Track track = null, string quality = "LOW", Video video = null, string resolution = "720", byte[] cover = null, string coverPath = null, Album album = null)
         {
+            TidalAlbum       = album;
             TidalVideo       = video;
             TidalTrack       = track;
             Quality          = quality;
@@ -217,12 +219,16 @@ namespace TIDALDL_UI.Else
                 //Decrypt / Set MetaData
                 Tool.DecryptTrackFile(TidalStream, FilePath);
                 var tfile = TagLib.File.Create(FilePath);
-                tfile.Tag.Album        = TidalTrack.Album.Title;
+                tfile.Tag.Album        = TidalAlbum != null ? TidalAlbum.Title : "";
                 tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
                 tfile.Tag.Title        = TidalTrack.Title;
                 tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
                 tfile.Tag.Copyright    = TidalTrack.CopyRight;
                 tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
+
+                if(TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
+                    tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
+              
                 if (CoverPath != null)
                 {
                     var pictures = new Picture[1];

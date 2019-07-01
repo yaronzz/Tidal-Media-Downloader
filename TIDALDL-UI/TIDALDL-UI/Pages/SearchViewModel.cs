@@ -71,6 +71,9 @@ namespace TIDALDL_UI.Pages
 
         public void Load(SearchResult SearchInfo)
         {
+            AlbumList = new List<SearchItem>();
+            TrackList = new List<SearchItem>();
+            VideoList = new List<SearchItem>();
             this.SearchInfo = SearchInfo;
             foreach (Album item in SearchInfo.Albums)
                 AlbumList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
