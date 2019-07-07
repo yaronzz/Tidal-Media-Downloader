@@ -88,9 +88,18 @@ namespace Tidal
                     sSessionID = m_User.SessionID_Phone;
             }
 
-            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum);
+            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum,IsErrResponse:true);
             if (!string.IsNullOrEmpty(Errmsg))
+            {
+                string sStatus = JsonHelper.GetValue(Errmsg, "status");
+                string sSubStatus = JsonHelper.GetValue(Errmsg, "subStatus");
+                string sMessage = JsonHelper.GetValue(Errmsg, "userMessage");
+                if (sStatus.IsNotBlank() && sStatus == "404" && sSubStatus == "2001")
+                    Errmsg = sMessage + ". This might be region-locked.";
+                else if (sStatus.IsNotBlank() && sStatus != "200")
+                    Errmsg = sMessage + ". Get operation err!";
                 return null;
+            }
             return sRet;
         }
 

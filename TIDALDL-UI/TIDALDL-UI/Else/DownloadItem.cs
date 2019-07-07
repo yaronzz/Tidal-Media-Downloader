@@ -122,16 +122,23 @@ namespace TIDALDL_UI.Else
 
         public bool MergerTsFiles(string sPath, string sToFile)
         {
-            string[] sFileNames = PathHelper.GetFileNames(sPath);
-            List<string> sList  = new List<string>();
-            foreach (string item in sFileNames)
+            try
             {
-                if (item.IndexOf(".ts") < 0)
-                    continue;
-                sList.Add(item);
-            }
+                string[] sFileNames = PathHelper.GetFileNames(sPath);
+                List<string> sList = new List<string>();
+                foreach (string item in sFileNames)
+                {
+                    if (item.IndexOf(".ts") < 0)
+                        continue;
+                    sList.Add(item);
+                }
 
-            return FFmpegHelper.MergerByFiles(sList.ToArray(), sToFile);
+                return FFmpegHelper.MergerByFiles(sList.ToArray(), sToFile);
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
 
@@ -148,6 +155,7 @@ namespace TIDALDL_UI.Else
             {
                 Progress.Errlabel = Errlabel;
                 Progress.IsErr    = true;
+                UpdataFunc(this);
                 return;
             }
 
@@ -173,18 +181,23 @@ namespace TIDALDL_UI.Else
                 string sName = sTmpDir + '\\' + (100000 + i + 1).ToString() + ".ts";
                 bool bFlag   = (bool)DownloadFileHepler.Start(sUrl, sName, RetryNum: 3);
                 if (bFlag == false)
+                {
+                    Progress.Errlabel = "Download failed!";
                     goto ERR_POINT;
+                }
 
                 Progress.Update(i + 1, lCount);
-                UpdataFunc(this);
-
                 if (Progress.IsCancle)
                     goto CANCLE_POINT;
             }
-            bool bSuccess = MergerTsFiles(sTmpDir + '\\', FilePath);
+            if (!MergerTsFiles(sTmpDir + '\\', FilePath))
+            {
+                Progress.Errlabel = "FFmpeg merger err!";
+                goto ERR_POINT;
+            }
 
             Progress.Update(lCount, lCount);
-            Progress.IsComplete = bSuccess;
+            Progress.IsComplete = true;
             UpdataFunc(this);
         CANCLE_POINT:
             Directory.Delete(sTmpDir, true);
@@ -202,16 +215,17 @@ namespace TIDALDL_UI.Else
             bool bFlag = (bool)DownloadFileHepler.Start(TidalStream.Url,
                                 FilePath,
                                 RetryNum: 3,
+                                Timeout: 8 * 1000,
                                 UpdateFunc: UpdateDownloadNotify,
                                 CompleteFunc: CompleteDownloadNotify,
                                 ErrFunc: ErrDownloadNotify);
             //Err
             if (!bFlag)
             {
-                Errlabel = "Download Failed!";
+                Errlabel = "Download failed!";
                 Progress.IsErr = true;
                 Progress.Errlabel = Errlabel;
-                return;
+                goto UPDATE_RETURN;
             }
 
             try
@@ -237,20 +251,22 @@ namespace TIDALDL_UI.Else
                     tfile.Tag.Pictures = pictures;
                 }
                 tfile.Save();
+                Progress.IsComplete = true;
             }
             catch
             {
                 Errlabel = "Decrypt-SetMetaData Failed!";
                 Progress.IsErr = true;
                 Progress.Errlabel = Errlabel;
-                return;
             }
+
+        UPDATE_RETURN:
+            UpdataFunc(this);
         }
 
         public bool UpdateDownloadNotify(long lTotalSize, long lAlreadyDownloadSize, long lIncreSize, object data)
         {
             Progress.Update(lAlreadyDownloadSize, lTotalSize);
-            UpdataFunc(this);
             if (Progress.IsCancle)
                 return false;
             return true;
@@ -259,14 +275,11 @@ namespace TIDALDL_UI.Else
         public void CompleteDownloadNotify(long lTotalSize, object data)
         {
             Progress.Update(lTotalSize, lTotalSize);
-            Progress.IsComplete = true;
-            UpdataFunc(this);
         }
 
         public void ErrDownloadNotify(long lTotalSize, long lAlreadyDownloadSize, string sErrMsg, object data)
         {
             Progress.IsErr = true;
-            UpdataFunc(this);
         }
         #endregion
     }

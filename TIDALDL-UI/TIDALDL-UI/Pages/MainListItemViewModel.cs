@@ -99,9 +99,16 @@ namespace TIDALDL_UI.Pages
         public void Update(DownloadItem item)
         {
             if (item.Progress.IsErr)
-                this.Progress.IsErr = true;
-            if (item.Progress.IsComplete)
+                this.Progress.UpdateErr(this.Progress.ErrSize + 1, DLItemList.Count);
+            else if (item.Progress.IsComplete)
                 this.Progress.Update(this.Progress.CurSize + 1, DLItemList.Count);
+
+            if (this.Progress.ErrSize >= DLItemList.Count)
+                this.Progress.IsErr = true;
+            else if (this.Progress.CurSize >= DLItemList.Count)
+                this.Progress.IsComplete = true;
+            else if (this.Progress.CurSize + this.Progress.ErrSize >= DLItemList.Count)
+                this.Progress.IsSomeErr = true;
         }
 
         /// <summary>

@@ -43,29 +43,37 @@
                 </Grid>
             </Expander.Header>
             <!-- Download List -->
-            <Grid MaxHeight="300" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" >
+            <Grid Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" >
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Visibility="{Binding DLItemList.Count, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                     <ItemsControl ItemsSource="{Binding DLItemList}" Grid.IsSharedSizeScope="True">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate >
                                 <Border Padding="0" BorderThickness="0 1 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding Index}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding sType}" VerticalAlignment="Center" Padding="5,0"/>
-                                        <ProgressBar Grid.Column="3" Width="150" Height="10" Margin="0,14,0,15" 
-                                                     Maximum="{Binding Progress.ProgressMaxValue, UpdateSourceTrigger=PropertyChanged}"
-                                                     Value="{Binding Progress.ProgressCurValue,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        <TextBlock Grid.Column="4" Margin="4" Width="80" VerticalAlignment="Center"
-                                                   Text="{Binding Progress.Status,UpdateSourceTrigger=PropertyChanged}"
-                                                   Foreground="{Binding Progress.StatusColor,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="39*"/>
+                                            <RowDefinition Height="{Binding Progress.HeightOfErrlable,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <!--<RowDefinition Height="18"/>-->
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Index}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding sType}" VerticalAlignment="Center" Padding="5,0"/>
+                                            <ProgressBar Grid.Column="3" Width="150" Height="10" Margin="0,14,0,15" 
+                                                            Maximum="{Binding Progress.ProgressMaxValue, UpdateSourceTrigger=PropertyChanged}"
+                                                            Value="{Binding Progress.ProgressCurValue,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Grid.Column="4" Margin="4" Width="80" VerticalAlignment="Center"
+                                                        Text="{Binding Progress.Status,UpdateSourceTrigger=PropertyChanged}"
+                                                        Foreground="{Binding Progress.StatusColor,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Grid>
+                                        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding Progress.Errlabel,UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,157,0" Foreground="#FFF72A2A"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

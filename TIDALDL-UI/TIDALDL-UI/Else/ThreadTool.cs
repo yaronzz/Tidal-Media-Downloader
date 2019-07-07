@@ -46,7 +46,7 @@ namespace TIDALDL_UI.Else
         {
             if (Pool == null)
                 return;
-            Pool.CloseAll();
+            Pool.CloseAll(true);
         }
     }
 }

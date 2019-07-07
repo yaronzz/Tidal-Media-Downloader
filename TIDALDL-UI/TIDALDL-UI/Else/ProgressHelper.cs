@@ -20,6 +20,7 @@ namespace TIDALDL_UI.Else
 
         public long AllSize { get; set; }
         public long CurSize { get; set; }
+        public long ErrSize { get; set; }
 
         /// <summary>
         /// Flag
@@ -27,7 +28,13 @@ namespace TIDALDL_UI.Else
         public bool IsComplete { get;  set; }
         public bool IsCancle { get;  set; }
         public bool IsErr { get;  set; }
+        public bool IsSomeErr { get; set; }
         public string Errlabel { get; set; }
+        public int HeightOfErrlable
+        {
+            get { if (Errlabel.IsBlank()) return 0;return 18; }
+            set { }
+        }
 
         /// <summary>
         /// Status
@@ -45,6 +52,11 @@ namespace TIDALDL_UI.Else
                 {
                     StatusColor = System.Windows.Media.Brushes.DarkRed;
                     return "[ERR]";
+                }
+                if(IsSomeErr)
+                {
+                    StatusColor = System.Windows.Media.Brushes.DarkRed;
+                    return "[SOME-ERR]";
                 }
                 if (IsCancle)
                 {
@@ -74,6 +86,12 @@ namespace TIDALDL_UI.Else
 
             this.ProgressCurValue = (int)(lCurSize * this.ProgressMaxValue / lAllSize);
             this.ProgressPercent  = this.ProgressCurValue.ToString() + "%";
+        }
+
+        public void UpdateErr(long lErrSize, long lAllSize)
+        {
+            this.AllSize = lAllSize;
+            this.ErrSize = lErrSize;
         }
     }
 }
