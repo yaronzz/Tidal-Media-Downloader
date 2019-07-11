@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice,printErr
 
-TIDAL_DL_VERSION="2019.7.1.0"
+TIDAL_DL_VERSION="2019.7.11.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -118,7 +118,7 @@ def main(argv=None):
     print("====================================================")
     while True:
         printMenu()
-        choice = printChoice("Enter Choice:", True, 99)
+        choice = printChoice("Enter Choice:", False, 99)
         if choice == 0:
             return
         elif choice == 1:
@@ -139,13 +139,15 @@ def main(argv=None):
             dl.downloadFavorite()
         elif choice == 8:
             dl.downloadArtistAlbum()
+        else:
+            dl.downloadUrl(choice)
 
 def debug():
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
     #     pass
     dl = Download()
-    dl.downloadAlbum(110751576)
+    dl.downloadAlbum(49820183)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
 # if __name__ == '__main__':

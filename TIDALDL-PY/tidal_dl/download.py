@@ -494,8 +494,16 @@ class Download(object):
                 printErr(14, item['title'])
         return
 
-
-
-
-
-
+    def downloadUrl(self, link):
+        stype,sid=self.tool.parseLink(link)
+        if stype is None or sid is None:
+            return
+        if stype == "album":
+            print("----------------ALBUM------------------")
+            self.downloadAlbum(sid)
+        elif stype == "track":
+            print("----------------TRACK------------------")
+            self.downloadTrack(sid)
+        elif stype == "video":
+            print("----------------VIDEO------------------")
+            self.downloadVideo(sid)

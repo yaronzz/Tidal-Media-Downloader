@@ -23,6 +23,7 @@ from pydub import AudioSegment
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
+TYPE_ARR= ['album', 'track', 'video']
 RESOLUTION = ['1080','720','480','360','240']
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -275,8 +276,21 @@ class TidalTool(object):
 
             i = i + 1
             str += '{:<8}'.format("[%d]" % i) + item['title'] + '\n'
-
         return str
+
+    def parseLink(self, link):
+        if link.find('http') < 0:
+            return None,None
+        stype = re.findall(r"tidal.com/(.+?)/", link)
+        if len(stype) <= 0 or stype[0] not in TYPE_ARR:
+            return None, None
+        sid = re.findall(r"tidal.com/"+stype[0]+"/(.+)/", link)
+        if len(sid) <= 0:
+            sid = re.findall(r"tidal.com/"+stype[0]+"/(.+)", link)
+        if len(sid) <= 0:
+            return None, None
+        return stype[0], sid[0]
+        
 
 # LogIn and Get SessionID
 class TidalAccount(object):

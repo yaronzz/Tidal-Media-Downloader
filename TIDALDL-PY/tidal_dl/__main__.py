@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-
 sys.path.append('./')
 import tidal_dl
 if __name__ == '__main__':
