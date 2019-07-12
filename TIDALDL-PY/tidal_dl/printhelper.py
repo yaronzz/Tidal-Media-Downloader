@@ -24,6 +24,13 @@ def printChoice(string, isInt=False, default=None):
         return cmdHelper.myinput(tmpstr)
     else:
         return cmdHelper.myinputInt(tmpstr, default)
+def printChoice2(string, default=None):
+    ret = printChoice(string, False, default)
+    try:
+        iret = int(ret)
+        return ret, iret
+    except:
+        return ret, default
 def printMenu():
     if systemHelper.isLinux():
         print("=====================Choice=========================")
