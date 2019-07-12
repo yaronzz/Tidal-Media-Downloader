@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr
 
-TIDAL_DL_VERSION="2019.7.12.0"
+TIDAL_DL_VERSION="2019.7.12.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -51,7 +51,7 @@ def setting():
         break
     while True:
         index = myinputInt("Quality(0-LOW,1-HIGH,2-LOSSLESS,3-HI_RES):".ljust(12), 999)
-        if index > 2 or index < 0:
+        if index > 3 or index < 0:
             printErr(0, "Quality Err!")
             continue
         if index == 0:
