@@ -14,7 +14,7 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 
 ## Requirement
 - Python 3.7 : If you install tidal-dl by pip
-- FFmpeg : If you want to download video or set tarck metadata
+- FFmpeg : If you want to download video or set track metadata
 
 ## Features
 ### Python(cmd)
