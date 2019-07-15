@@ -9,6 +9,7 @@ namespace Tidal
 {
     public class SearchResult
     {
+        public ObservableCollection<Artist> Artists { get; set; }
         public ObservableCollection<Album> Albums { get; set; }
         public ObservableCollection<Track> Tracks { get; set; }
         public ObservableCollection<Video> Videos { get; set; }

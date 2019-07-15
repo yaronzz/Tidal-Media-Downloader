@@ -215,7 +215,7 @@ namespace TIDALDL_UI.Else
             bool bFlag = (bool)DownloadFileHepler.Start(TidalStream.Url,
                                 FilePath,
                                 RetryNum: 3,
-                                Timeout: 8 * 1000,
+                                Timeout: 99999 * 1000,
                                 UpdateFunc: UpdateDownloadNotify,
                                 CompleteFunc: CompleteDownloadNotify,
                                 ErrFunc: ErrDownloadNotify);
@@ -236,11 +236,15 @@ namespace TIDALDL_UI.Else
                 tfile.Tag.Album        = TidalAlbum != null ? TidalAlbum.Title : "";
                 tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
                 tfile.Tag.Title        = TidalTrack.Title;
-                tfile.Tag.AlbumArtists = new string[1] { TidalTrack.Artist.Name };
                 tfile.Tag.Copyright    = TidalTrack.CopyRight;
                 tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
 
-                if(TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
+                List<string> pArtist = new List<string>();
+                for (int i = 0; i < TidalTrack.Artists.Count; i++)
+                    pArtist.Add(TidalTrack.Artists[i].Name);
+                tfile.Tag.AlbumArtists = pArtist.ToArray();
+
+                if (TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
                     tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
               
                 if (CoverPath != null)

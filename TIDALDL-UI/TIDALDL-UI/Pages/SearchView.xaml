@@ -60,8 +60,8 @@
                             Content="Confirm" 
                             Height="27" VerticalAlignment="Bottom" Margin="204,0,155,8"/>
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
-                            Command="{s:Action Cancle}"
-                            Content="Cancle" 
+                            Command="{s:Action Cancel}"
+                            Content="Cancel" 
                             Height="27" VerticalAlignment="Bottom" Margin="354,0,10,8"/>
                 </Grid>
             </Grid>

@@ -480,13 +480,15 @@ namespace Tidal
                 return null;
 
             SearchResult pRet = new SearchResult();
+            pRet.Artists    = JsonHelper.ConverStringToObject<ObservableCollection<Artist>>(sRet, "artists", "items");
             pRet.Albums     = JsonHelper.ConverStringToObject<ObservableCollection<Album>>(sRet, "albums", "items");
             pRet.Tracks     = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet, "tracks", "items");
             pRet.Videos     = JsonHelper.ConverStringToObject<ObservableCollection<Video>>(sRet, "videos", "items");
             pRet.Playlists  = JsonHelper.ConverStringToObject<ObservableCollection<Playlist>>(sRet, "playlists", "items");
-            if (pRet.Albums.Count == 0 && pRet.Tracks.Count == 0 && pRet.Videos.Count == 0)
+            if (pRet.Artists.Count == 0 && pRet.Albums.Count == 0 && pRet.Tracks.Count == 0 && pRet.Videos.Count == 0)
                 return null;
 
+            pRet.Artists    = pRet.Artists == null ? new ObservableCollection<Artist>() : pRet.Artists;
             pRet.Albums     = pRet.Albums == null ? new ObservableCollection<Album>() : pRet.Albums;
             pRet.Tracks     = pRet.Tracks == null ? new ObservableCollection<Track>() : pRet.Tracks;
             pRet.Videos     = pRet.Videos == null ? new ObservableCollection<Video>() : pRet.Videos;

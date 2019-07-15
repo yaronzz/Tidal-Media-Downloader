@@ -68,7 +68,7 @@
                             <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}"/>
                             <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
                             <GridViewColumn Header="ALBUM" Width="130" DisplayMemberBinding="{Binding AlbumTitle}"/>
-                            <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
+                            <GridViewColumn Header="TIME"  DisplayMemberBinding="{Binding Duration}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

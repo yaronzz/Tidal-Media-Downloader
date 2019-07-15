@@ -12,6 +12,8 @@ using MaterialDesignThemes.Wpf;
 using System.Threading;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace TIDALDL_UI.Pages
 {
@@ -41,6 +43,11 @@ namespace TIDALDL_UI.Pages
         private IWindowManager Manager;
 
         /// <summary>
+        /// Update Thread
+        /// </summary>
+        private Thread UpdateThread;
+
+        /// <summary>
         /// All Windows
         /// </summary>
         private LoginViewModel VMLogin;
@@ -65,6 +72,10 @@ namespace TIDALDL_UI.Pages
             VMSearch    = search;
             SearchList  = Config.HistorySearchs();
             SearchStr   = SearchList.Count > 0 ? SearchList[0] : null;
+
+            UpdateThread = new Thread(ThreadUpdateFunc);
+            UpdateThread.IsBackground = true;
+            UpdateThread.Start();
             return;
         }
 
@@ -232,5 +243,64 @@ namespace TIDALDL_UI.Pages
             SearchTread = null;
         }
         #endregion
+
+        #region Version Update Thread
+        public void ThreadUpdateFunc()
+        {
+            string PATH = Path.GetFullPath("./tidal_new/");
+            string VERF = PATH + "version";
+            string BATF = PATH + "update.bat";
+            string sSelfVer = VersionHelper.GetSelfVersion();
+
+            //Get Already Download Ver
+            string sDlVer = FileHelper.Read(VERF);
+            if(sDlVer.IsNotBlank() && VersionHelper.Compare(sSelfVer, sDlVer) < 0 && File.Exists(PATH + "tidal-gui.exe") && File.Exists(BATF))
+            {
+                MessageBoxResult ret = MessageBox.Show("Update New Version?", "Info", MessageBoxButton.YesNo);
+                if (ret == MessageBoxResult.No)
+                    return;
+
+                if (Application.Current != null)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        CmdHelper.StartExe(BATF, null, IsShowWindow: false);
+                        RequestClose();
+                    });
+                }
+                return;
+            }
+
+            //Get Github Last Ver
+            string sLastVer = githubHelper.getLastReleaseVersion("yaronzz", "Tidal-Media-Downloader");
+            if (VersionHelper.Compare(sSelfVer, sLastVer) >= 0)
+                return;
+
+            if (Directory.Exists(PATH))
+                Directory.Delete(PATH, true);
+            PathHelper.Mkdirs(PATH);
+            if (githubHelper.getLastReleaseFile("yaronzz", "Tidal-Media-Downloader", "tidal-gui.zip", PATH + "tidal-gui.zip"))
+            {
+                FastZip fz = new FastZip();
+                try
+                {
+                    fz.ExtractZip(PATH + "tidal-gui.zip", PATH, null);
+                    if (File.Exists(PATH + "tidal-gui.exe"))
+                    {
+                        string sBat = "ping -n 5 127.0.0.1\n";
+                        sBat += string.Format("move {0}tidal-gui.exe {0}..\\tidal-gui.exe\n", PATH);
+                        sBat += string.Format("start {0}..\\tidal-gui.exe\n", PATH);
+                        FileHelper.Write(sBat, true, BATF);
+                        FileHelper.Write(sLastVer, true, VERF);
+                    }
+                }
+                catch (Exception e)
+                {
+                   return;
+                }
+            }
+        }
+        #endregion
+
     }
 }
