@@ -62,7 +62,7 @@ namespace TIDALDL_UI.Pages
             RequestClose();
         }
 
-        public void Cancle()
+        public void Cancel()
         {
             ResultID = null;
             RequestClose();
