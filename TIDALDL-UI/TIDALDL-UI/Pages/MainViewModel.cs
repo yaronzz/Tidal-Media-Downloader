@@ -152,6 +152,14 @@ namespace TIDALDL_UI.Pages
         }
 
         /// <summary>
+        /// FeedBack In Telegram
+        /// </summary>
+        public void FeedBackOnTelegram()
+        {
+            NetHelper.OpenWeb("https://t.me/tidal_group");
+        }
+
+        /// <summary>
         /// Close Errlabel Box
         /// </summary>
         public void CloseErrlabel()

@@ -224,47 +224,68 @@ namespace TIDALDL_UI.Else
             {
                 Errlabel = "Download failed!";
                 Progress.IsErr = true;
-                Progress.Errlabel = Errlabel;
                 goto UPDATE_RETURN;
             }
 
-            try
+            if(!Tool.DecryptTrackFile(TidalStream, FilePath))
             {
-                //Decrypt / Set MetaData
-                Tool.DecryptTrackFile(TidalStream, FilePath);
-                var tfile = TagLib.File.Create(FilePath);
-                tfile.Tag.Album        = TidalAlbum != null ? TidalAlbum.Title : "";
-                tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
-                tfile.Tag.Title        = TidalTrack.Title;
-                tfile.Tag.Copyright    = TidalTrack.CopyRight;
-                tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
-
-                List<string> pArtist = new List<string>();
-                for (int i = 0; i < TidalTrack.Artists.Count; i++)
-                    pArtist.Add(TidalTrack.Artists[i].Name);
-                tfile.Tag.AlbumArtists = pArtist.ToArray();
-
-                if (TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
-                    tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
-              
-                if (CoverPath != null)
-                {
-                    var pictures = new Picture[1];
-                    pictures[0]  = new Picture(CoverPath);
-                    //pictures[0]  = new Picture(new ByteVector(Cover, Cover.Length));
-                    tfile.Tag.Pictures = pictures;
-                }
-                tfile.Save();
-                Progress.IsComplete = true;
-            }
-            catch
-            {
-                Errlabel = "Decrypt-SetMetaData Failed!";
+                Errlabel = "Decrypt Failed!";
                 Progress.IsErr = true;
-                Progress.Errlabel = Errlabel;
+                goto UPDATE_RETURN;
             }
+
+            string sLabel = Tool.SetMetaData(FilePath, TidalAlbum, TidalTrack, CoverPath);
+            if(sLabel.IsNotBlank())
+            {
+                Errlabel = "SetMetaData Failed! " + sLabel;
+                Progress.IsErr = true;
+                goto UPDATE_RETURN;
+            }
+
+            //try
+            //{
+            //    //Set MetaData
+            //    var tfile = TagLib.File.Create(FilePath);
+            //    tfile.Tag.Album        = TidalAlbum != null ? TidalAlbum.Title : "";
+            //    tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
+            //    tfile.Tag.Title        = TidalTrack.Title;
+            //    tfile.Tag.Copyright    = TidalTrack.CopyRight;
+            //    tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
+
+            //    List<string> pArrayStr = new List<string>();
+            //    for (int i = 0; i < TidalAlbum.Artists.Count; i++)
+            //        pArrayStr.Add(TidalAlbum.Artists[i].Name);
+            //    tfile.Tag.AlbumArtists = pArrayStr.ToArray();
+
+            //    pArrayStr.Clear();
+            //    for (int i = 0; i < TidalTrack.Artists.Count; i++)
+            //        pArrayStr.Add(TidalTrack.Artists[i].Name);
+            //    tfile.Tag.Performers = pArrayStr.ToArray();
+
+            //    if (TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
+            //        tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
+              
+            //    if (CoverPath != null)
+            //    {
+            //        var pictures = new Picture[1];
+            //        pictures[0]  = new Picture(CoverPath);
+            //        //pictures[0]  = new Picture(new ByteVector(Cover, Cover.Length));
+            //        tfile.Tag.Pictures = pictures;
+            //    }
+            //    tfile.Save();
+            //    Progress.IsComplete = true;
+            //}
+            //catch(Exception e)
+            //{
+            //    Errlabel = "SetMetaData Failed! " + e.Message;
+            //    Progress.IsErr = true;
+            //}
 
         UPDATE_RETURN:
+            if(!Progress.IsErr)
+                Progress.IsComplete = true;
+
+            Progress.Errlabel = Errlabel;
             UpdataFunc(this);
         }
 
