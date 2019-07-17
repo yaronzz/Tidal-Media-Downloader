@@ -81,17 +81,25 @@ namespace TIDALDL_UI.Else
 
         public void Update(long lCurSize, long lAllSize)
         {
-            this.AllSize = lAllSize;
-            this.CurSize = lCurSize;
+            try
+            {
+                this.AllSize = lAllSize;
+                this.CurSize = lCurSize;
 
-            this.ProgressCurValue = (int)(lCurSize * this.ProgressMaxValue / lAllSize);
-            this.ProgressPercent  = this.ProgressCurValue.ToString() + "%";
+                this.ProgressCurValue = (int)(lCurSize * this.ProgressMaxValue / lAllSize);
+                this.ProgressPercent = this.ProgressCurValue.ToString() + "%";
+            }
+            catch { }
         }
 
         public void UpdateErr(long lErrSize, long lAllSize)
         {
-            this.AllSize = lAllSize;
-            this.ErrSize = lErrSize;
+            try
+            {
+                this.AllSize = lAllSize;
+                this.ErrSize = lErrSize;
+            }
+            catch { }
         }
     }
 }

@@ -152,14 +152,6 @@ namespace TIDALDL_UI.Pages
         }
 
         /// <summary>
-        /// FeedBack In Telegram
-        /// </summary>
-        public void FeedBackOnTelegram()
-        {
-            NetHelper.OpenWeb("https://t.me/tidal_group");
-        }
-
-        /// <summary>
         /// Close Errlabel Box
         /// </summary>
         public void CloseErrlabel()
@@ -213,11 +205,8 @@ namespace TIDALDL_UI.Pages
                         {
                             VMSearch.Load((SearchResult)oRecord);
                             Manager.ShowDialog(VMSearch);
-                            if (VMSearch.ResultID.IsNotBlank())
-                            {
-                                sID = VMSearch.ResultID;
-                                oRecord = Tool.TryGet(sID, out sType);
-                            }
+                            sType   = VMSearch.ResultType;
+                            oRecord = VMSearch.ResultObject;
                         }
 
                         if (sType.IsNotBlank() && sType != "Search")
@@ -241,7 +230,7 @@ namespace TIDALDL_UI.Pages
                 });
             }
         }
-
+        
         /// <summary>
         /// Close Login Thread
         /// </summary>

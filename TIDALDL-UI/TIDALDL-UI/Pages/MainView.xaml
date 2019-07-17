@@ -28,8 +28,7 @@
                                     <Button Content="Logout" Click="{s:Action Logout}"></Button>
                                     <Button Content="Setting" Click="{s:Action Setting}"></Button>
                                     <Button Content="About" Click="{s:Action About}"></Button>
-                                    <Button Content="FeedBackOnGithub" Click="{s:Action FeedBack}"></Button>
-                                    <Button Content="FeedBackOnTelegram" Click="{s:Action FeedBackOnTelegram}"></Button>
+                                    <Button Content="FeedBack" Click="{s:Action FeedBack}"></Button>
                                 </StackPanel>
                             </materialDesign:PopupBox>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">

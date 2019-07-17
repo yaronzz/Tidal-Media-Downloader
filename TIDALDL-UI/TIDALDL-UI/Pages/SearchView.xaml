@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:TIDALDL_UI"
              xmlns:pages="clr-namespace:TIDALDL_UI.Pages"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:aigsc="clr-namespace:AIGS.Control;assembly=AIGS"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
@@ -63,6 +64,10 @@
                             Command="{s:Action Cancel}"
                             Content="Cancel" 
                             Height="27" VerticalAlignment="Bottom" Margin="354,0,10,8"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.RowSpan="2" Background="White" Visibility="{Binding ShowWait}">
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"  Value="60" Height="Auto" Margin="200,130,202,177" Width="Auto"/>
                 </Grid>
             </Grid>
         </materialDesign:DialogHost>

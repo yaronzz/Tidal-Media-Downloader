@@ -10,6 +10,8 @@ using AIGS.Common;
 using System.Collections.ObjectModel;
 using TIDALDL_UI.Else;
 using Stylet;
+using System.Windows;
+
 namespace TIDALDL_UI.Pages
 {
     public class SearchItem
@@ -32,6 +34,7 @@ namespace TIDALDL_UI.Pages
         public bool bCheckAlbum { get; set; } = true;
         public bool bCheckTrack { get; set; } = false;
         public bool bCheckVideo { get; set; } = false;
+        public Visibility ShowWait { get; set; } = Visibility.Hidden;
         public List<SearchItem> AlbumList { get; set; } = new List<SearchItem>();
         public List<SearchItem> TrackList { get; set; } = new List<SearchItem>();
         public List<SearchItem> VideoList { get; set; } = new List<SearchItem>();
@@ -44,10 +47,13 @@ namespace TIDALDL_UI.Pages
             }
         }
         public SearchResult SearchInfo = null;
+
         public string ResultID = null;
+        public string ResultType = null;
+        public object ResultObject = null;
 
         #region Button
-        public void Confirm()
+        public async void Confirm()
         {
             ResultID = null;
             if (SelectIndex >= 0)
@@ -58,6 +64,12 @@ namespace TIDALDL_UI.Pages
                     ResultID = SearchInfo.Tracks[SelectIndex].ID;
                 if (bCheckVideo && SearchInfo.Videos.Count > 0)
                     ResultID = SearchInfo.Videos[SelectIndex].ID;
+
+                ShowWait = Visibility.Visible;
+                await Task.Run(() =>
+                {
+                    ResultObject = Tool.TryGet(ResultID, out ResultType);
+                });
             }
             RequestClose();
         }
@@ -71,6 +83,7 @@ namespace TIDALDL_UI.Pages
 
         public void Load(SearchResult SearchInfo)
         {
+            ShowWait = Visibility.Hidden;
             AlbumList = new List<SearchItem>();
             TrackList = new List<SearchItem>();
             VideoList = new List<SearchItem>();
@@ -82,6 +95,5 @@ namespace TIDALDL_UI.Pages
             foreach (Video item in SearchInfo.Videos)
                 VideoList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
         }
-
     }
 }

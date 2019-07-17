@@ -169,44 +169,54 @@ namespace TIDALDL_UI.Else
 
         public void DownloadVideo()
         {
-            string sTmpDir = BasePath + '\\' + PathHelper.ReplaceLimitChar(TidalVideo.Title, "-") + "TMP";
-            if(Directory.Exists(sTmpDir))
-                Directory.Delete(sTmpDir, true);
-            PathHelper.Mkdirs(sTmpDir);
-
-            long lCount = TidalVideoUrls.Count();
-            for (int i = 0; i < lCount; i++)
+            string sTmpDir = BasePath + '\\' + PathHelper.ReplaceLimitChar(TidalVideo.Title, "-") + "TMP" + RandHelper.GetIntRandom(5, 9, 0);
+            try
             {
-                string sUrl  = TidalVideoUrls[i];
-                string sName = sTmpDir + '\\' + (100000 + i + 1).ToString() + ".ts";
-                bool bFlag   = (bool)DownloadFileHepler.Start(sUrl, sName, RetryNum: 3);
-                if (bFlag == false)
+                if (Directory.Exists(sTmpDir))
+                    Directory.Delete(sTmpDir, true);
+                PathHelper.Mkdirs(sTmpDir);
+
+                long lCount = TidalVideoUrls.Count();
+                for (int i = 0; i < lCount; i++)
                 {
-                    Progress.Errlabel = "Download failed!";
+                    string sUrl = TidalVideoUrls[i];
+                    string sName = sTmpDir + '\\' + (100000 + i + 1).ToString() + ".ts";
+                    bool bFlag = (bool)DownloadFileHepler.Start(sUrl, sName, Timeout:9999*1000);
+                    if (bFlag == false)
+                    {
+                        Progress.Errlabel = "Download failed!";
+                        goto ERR_POINT;
+                    }
+
+                    Progress.Update(i + 1, lCount);
+                    if (Progress.IsCancle)
+                        goto CANCLE_POINT;
+                }
+                if (!MergerTsFiles(sTmpDir + '\\', FilePath))
+                {
+                    Progress.Errlabel = "FFmpeg merger err!";
                     goto ERR_POINT;
                 }
 
-                Progress.Update(i + 1, lCount);
-                if (Progress.IsCancle)
-                    goto CANCLE_POINT;
-            }
-            if (!MergerTsFiles(sTmpDir + '\\', FilePath))
-            {
-                Progress.Errlabel = "FFmpeg merger err!";
-                goto ERR_POINT;
-            }
+                Progress.Update(lCount, lCount);
+                Progress.IsComplete = true;
+                UpdataFunc(this);
 
-            Progress.Update(lCount, lCount);
-            Progress.IsComplete = true;
-            UpdataFunc(this);
-        CANCLE_POINT:
-            Directory.Delete(sTmpDir, true);
-            return;
+            CANCLE_POINT:
+                if (Directory.Exists(sTmpDir))
+                    Directory.Delete(sTmpDir, true);
+                return;
+            }
+            catch(Exception e)
+            {
+                Progress.Errlabel = "Err!" + e.Message;
+            }
 
         ERR_POINT:
             Progress.IsErr = true;
             UpdataFunc(this);
-            Directory.Delete(sTmpDir, true);
+            if (Directory.Exists(sTmpDir))
+                Directory.Delete(sTmpDir, true);
         }
         
         public void DownloadTrack()
@@ -241,45 +251,6 @@ namespace TIDALDL_UI.Else
                 Progress.IsErr = true;
                 goto UPDATE_RETURN;
             }
-
-            //try
-            //{
-            //    //Set MetaData
-            //    var tfile = TagLib.File.Create(FilePath);
-            //    tfile.Tag.Album        = TidalAlbum != null ? TidalAlbum.Title : "";
-            //    tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
-            //    tfile.Tag.Title        = TidalTrack.Title;
-            //    tfile.Tag.Copyright    = TidalTrack.CopyRight;
-            //    tfile.Tag.Performers   = new string[1] { TidalTrack.Artist.Name };
-
-            //    List<string> pArrayStr = new List<string>();
-            //    for (int i = 0; i < TidalAlbum.Artists.Count; i++)
-            //        pArrayStr.Add(TidalAlbum.Artists[i].Name);
-            //    tfile.Tag.AlbumArtists = pArrayStr.ToArray();
-
-            //    pArrayStr.Clear();
-            //    for (int i = 0; i < TidalTrack.Artists.Count; i++)
-            //        pArrayStr.Add(TidalTrack.Artists[i].Name);
-            //    tfile.Tag.Performers = pArrayStr.ToArray();
-
-            //    if (TidalAlbum != null && TidalAlbum.ReleaseDate.IsNotBlank())
-            //        tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
-              
-            //    if (CoverPath != null)
-            //    {
-            //        var pictures = new Picture[1];
-            //        pictures[0]  = new Picture(CoverPath);
-            //        //pictures[0]  = new Picture(new ByteVector(Cover, Cover.Length));
-            //        tfile.Tag.Pictures = pictures;
-            //    }
-            //    tfile.Save();
-            //    Progress.IsComplete = true;
-            //}
-            //catch(Exception e)
-            //{
-            //    Errlabel = "SetMetaData Failed! " + e.Message;
-            //    Progress.IsErr = true;
-            //}
 
         UPDATE_RETURN:
             if(!Progress.IsErr)
