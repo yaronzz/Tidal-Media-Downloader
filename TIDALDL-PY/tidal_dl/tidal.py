@@ -18,7 +18,10 @@ from aigpy import pathHelper
 from aigpy import configHelper
 from aigpy import netHelper
 from aigpy import systemHelper
+from aigpy import tagHelper
 from pydub import AudioSegment
+
+
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
@@ -77,7 +80,7 @@ class TidalTool(object):
         ext = pathHelper.getFileExtension(srcfile)
         oext = ext
 
-        if 'm4a' in ext:
+        if 'm4a' in ext or 'mp4' in ext:
             oext = '.mp3'
         if 'mp3' not in oext:
             coverpath = None
@@ -97,7 +100,7 @@ class TidalTool(object):
         else:
             pathHelper.remove(tmpfile)
 
-    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
+    def setTrackMetadata_old(self, track_info, file_path, album_info, index, coverpath):
         tag = {'Artist': track_info['artist']['name'],
             'Album': track_info['album']['title'],
             'Title': track_info['title'],
@@ -108,8 +111,24 @@ class TidalTool(object):
         if album_info is not None:
             tag['Date'] = album_info['releaseDate']
             tag['Year'] = album_info['releaseDate'].split('-')[0]
-
         self.setTag(tag, file_path, coverpath)
+        return
+
+    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
+        obj = tagHelper.TagTool(file_path)
+        obj.album = track_info['album']['title']
+        obj.title = track_info['title']
+        obj.artist = self._getArtists(track_info['artists'])
+        obj.copyright = track_info['copyright']
+        obj.tracknumber = track_info['trackNumber']
+        obj.discnum = track_info['volumeNumber']
+        if index is not None:
+            obj.tracknumber = str(index)
+        if album_info is not None:
+            obj.albumartist = self._getArtists(album_info['artists'])
+            obj.date = album_info['releaseDate']
+        obj.save(coverpath)
+        return
 
     def removeTmpFile(self, path):
         for root, dirs, files in os.walk(path):
@@ -119,6 +138,11 @@ class TidalTool(object):
 
     def getStreamUrl(self, track_id, quality):
         return self._get('tracks/' + str(track_id) + '/streamUrl',{'soundQuality': quality})
+    def _getArtists(self, pHash):
+        ret = []
+        for item in pHash:
+            ret.append(item['name'])
+        return ret
     def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}
         for item in tracks:
@@ -341,7 +365,7 @@ class TidalConfig(object):
         self.username    = configHelper.GetValue("base", "username", "", self.FILE_NAME)
         self.password    = configHelper.GetValue("base", "password", "", self.FILE_NAME)
         self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
-        self.threadnum   = configHelper.GetValue("base", "threadnum", "3", self.FILE_NAME)
+        self.threadnum   = configHelper.GetValue("base", "threadnum", "1", self.FILE_NAME)
         self.sessionid2  = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
 
     def set_threadnum(self, threadnum):

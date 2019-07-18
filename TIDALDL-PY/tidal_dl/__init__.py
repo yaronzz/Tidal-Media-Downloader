@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr
 
-TIDAL_DL_VERSION="2019.7.12.1"
+TIDAL_DL_VERSION="2019.7.18.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -147,7 +147,7 @@ def debug():
     # while logIn(cf.username, cf.password) == False:
     #     pass
     dl = Download()
-    dl.downloadAlbum(49820183)
+    dl.downloadAlbum(110157601)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
 # if __name__ == '__main__':
