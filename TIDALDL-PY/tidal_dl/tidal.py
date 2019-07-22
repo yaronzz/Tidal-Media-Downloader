@@ -144,6 +144,15 @@ class TidalTool(object):
         for item in pHash:
             ret.append(item['name'])
         return ret
+    def _getIndexStr(self, index, sum):
+        pre="0"
+        if sum > 99:
+            pre = "00"
+        if index<10:
+            return pre+str(index)
+        if index < 99 and sum > 99:
+            return "0"+str(index)
+            
     def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}
         for item in tracks:
@@ -176,7 +185,11 @@ class TidalTool(object):
         info = self._get('albums/' + str(album_id) + '/tracks')
         if self.errmsg != "":
             return info
-        info['items'] = self._fixSameTrackName(info['items'])
+        sum = info['totalNumberOfItems']
+        for item in info['items']:
+            indexs = self._getIndexStr(item['trackNumber'],sum)
+            item['title'] = indexs + " " + item['title']
+        # info['items'] = self._fixSameTrackName(info['items'])
         return info
     def getTrack(self, track_id):
         return self._get('tracks/' + str(track_id))
