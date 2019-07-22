@@ -1,8 +1,7 @@
 from setuptools import setup, find_packages
-import tidal_dl.__init__ as init
 setup(
     name = 'tidal-dl',
-    version=init.TIDAL_DL_VERSION,
+    version="2019.7.22.0",
     license = "MIT Licence",
     description = "Tidal Music Download.",
 
@@ -12,7 +11,7 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = "any",
-    install_requires=["aigpy>=2019.7.18.0", "requests",
+    install_requires=["aigpy>=2019.7.22.0", "requests",
                       "ffmpeg", "futures", "pycryptodome", "pydub"],
 
     entry_points={'console_scripts': [

@@ -79,7 +79,7 @@ class Download(object):
 
         if redownload is False:
             needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
-        
+
         if needDl:
             try:
                 while count > 0:

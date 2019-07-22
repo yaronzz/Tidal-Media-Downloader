@@ -1,4 +1,4 @@
-aigpy==2019.7.18.0
+aigpy==2019.7.22.0
 requests==2.21.0
 ffmpeg==1.4
 futures
