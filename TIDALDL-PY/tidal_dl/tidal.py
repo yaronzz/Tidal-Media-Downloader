@@ -152,6 +152,7 @@ class TidalTool(object):
             return pre+str(index)
         if index < 99 and sum > 99:
             return "0"+str(index)
+        return str(index)
             
     def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}

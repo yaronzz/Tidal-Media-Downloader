@@ -113,11 +113,12 @@ class Download(object):
         # creat outputdir
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
         author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
-        targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
+        targetDir = self.config.outputdir + "/Album/" + author + '/' + title
+        # targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
         targetDir = os.path.abspath(targetDir)
         pathHelper.mkdirs(targetDir)
         # creat volumes dir
-        count = 0
+        count = 1
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes > 1:
             while count < numOfVolumes:
@@ -144,7 +145,7 @@ class Download(object):
             filePath = targetDir + "/" + pathHelper.replaceLimitChar(item['title'],'-') + extension
         else:
             index = item['volumeNumber']
-            filePath = targetDir + "/Volume" + str(index-1) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
+            filePath = targetDir + "/Volume" + str(index) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
     def __getExistFiles(self, paths):
