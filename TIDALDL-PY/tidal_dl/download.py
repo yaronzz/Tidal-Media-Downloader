@@ -121,7 +121,7 @@ class Download(object):
         count = 1
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes > 1:
-            while count < numOfVolumes:
+            while count < numOfVolumes + 1:
                 volumeDir = targetDir + "/Volume" + str(count)
                 pathHelper.mkdirs(volumeDir)
                 count = count + 1

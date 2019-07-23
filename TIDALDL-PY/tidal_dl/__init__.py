@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr
 
-TIDAL_DL_VERSION="2019.7.23.0"
+TIDAL_DL_VERSION="2019.7.23.1"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -106,6 +106,7 @@ def main(argv=None):
 
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
+    print("Username     :\t" + cf.username)
     print("OutputDir    :\t" + cf.outputdir)
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
