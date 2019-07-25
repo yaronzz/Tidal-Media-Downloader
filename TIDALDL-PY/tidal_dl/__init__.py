@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr
 
-TIDAL_DL_VERSION="2019.7.23.1"
+TIDAL_DL_VERSION = "2019.7.25.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -147,6 +147,10 @@ def debug():
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
     #     pass
+# add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
+# https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
+
+
     dl = Download()
     dl.downloadAlbum(91166670)
     # dl.downloadVideo(57261945) #1hours

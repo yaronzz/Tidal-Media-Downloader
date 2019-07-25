@@ -116,18 +116,22 @@ class TidalTool(object):
         return
 
     def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
+        # isrc,replayGain,releasedate
         obj = tagHelper.TagTool(file_path)
         obj.album = track_info['album']['title']
         obj.title = track_info['title']
         obj.artist = self._getArtists(track_info['artists'])
         obj.copyright = track_info['copyright']
         obj.tracknumber = track_info['trackNumber']
-        obj.discnum = track_info['volumeNumber']
+        obj.discnumber = track_info['volumeNumber']
         if index is not None:
             obj.tracknumber = str(index)
         if album_info is not None:
             obj.albumartist = self._getArtists(album_info['artists'])
             obj.date = album_info['releaseDate']
+            obj.totaldisc = album_info['numberOfVolumes']
+            if obj.totaldisc <= 1:
+                obj.totaltrack = album_info['numberOfTracks']
         obj.save(coverpath)
         return
 

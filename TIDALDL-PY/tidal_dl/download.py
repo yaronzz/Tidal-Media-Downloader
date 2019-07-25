@@ -80,6 +80,9 @@ class Download(object):
         if redownload is False:
             needDl = self.__isNeedDownload(paraList['path'], paraList['url'])
 
+        # DEBUG
+        # self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath)
+
         if needDl:
             try:
                 while count > 0:
