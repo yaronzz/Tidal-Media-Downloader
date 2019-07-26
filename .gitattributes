@@ -1,0 +1,3 @@
+*.xaml linguist-language=csharp
+*.cs linguist-language=csharp
+*.py linguist-language=python
