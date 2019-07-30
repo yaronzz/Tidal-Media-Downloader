@@ -19,6 +19,7 @@ from aigpy import configHelper
 from aigpy import netHelper
 from aigpy import systemHelper
 from aigpy import tagHelper
+from aigpy.ffmpegHelper import FFmpegTool
 # from tidal_dl import tagHelper
 from pydub import AudioSegment
 
@@ -47,6 +48,7 @@ class TidalTool(object):
         self.config = TidalConfig()
         self.errmsg = ""
         self.tmpfileFlag = 'TIDAL_TMP_'
+        self.ffmpeg = FFmpegTool(1)
     def _get(self, url, params={}):
         retry = 3
         sessionid = self.config.sessionid
@@ -62,7 +64,7 @@ class TidalTool(object):
                     URL_PRE + url,
                     headers={'X-Tidal-SessionId': sessionid},
                     params=params).json()
-
+                
                 if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
                     self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
                 elif 'status' in resp and not resp['status'] == 200:
@@ -114,6 +116,21 @@ class TidalTool(object):
             tag['Year'] = album_info['releaseDate'].split('-')[0]
         self.setTag(tag, file_path, coverpath)
         return
+    def covertMp4toM4a(self, file_path):
+        if self.config.onlym4a != "True":
+            return file_path
+        if '.mp4' not in file_path:
+            return file_path
+        if not self.ffmpeg.enable:
+            return file_path
+        new_path = str.replace(file_path, '.mp4', '.m4a', 1)
+
+        pathHelper.remove(new_path)
+        if self.ffmpeg.covertFile(file_path, new_path):
+            pathHelper.remove(file_path)
+            return new_path
+        else:
+            return file_path
 
     def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
         # isrc,replayGain,releasedate
@@ -386,6 +403,14 @@ class TidalConfig(object):
         self.userid      = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
         self.threadnum   = configHelper.GetValue("base", "threadnum", "1", self.FILE_NAME)
         self.sessionid2  = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
+        self.onlym4a     = configHelper.GetValue("base", "onlym4a", "False", self.FILE_NAME)
+
+    def set_onlym4a(self, status):
+        if status == 0:
+            self.onlym4a = "False"
+        else:
+            self.onlym4a = "True"
+        configHelper.SetValue("base", "onlym4a", self.onlym4a, self.FILE_NAME)
 
     def set_threadnum(self, threadnum):
         self.threadnum = threadnum

@@ -10,9 +10,9 @@ import tidal_dl.tidal as tidal
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu,printChoice2,printErr
+from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring
 
-TIDAL_DL_VERSION = "2019.7.25.0"
+TIDAL_DL_VERSION = "2019.7.30.2"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -40,6 +40,7 @@ def setting():
     print("SoundQuality :\t" + cf.quality)
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
+    print("OnlyM4a      :\t" + cf.onlym4a)
     while True:
         outputdir = myinput("Outputdir(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -66,7 +67,7 @@ def setting():
     while True:
         index = myinputInt("Resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12),99)
         if index > 4 or index < 0:
-            printErr(0, "ThreadNum Err")
+            printErr(0, "Resolution Err")
             continue
         if index == 0:
             resolution = '1080'
@@ -85,11 +86,13 @@ def setting():
             printErr(0, "ThreadNum Err")
             continue
         break
+    status = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
     cf.set_resolution(resolution)
     cf.set_threadnum(threadnum)
+    cf.set_onlym4a(status)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -98,11 +101,14 @@ def setting():
     return
 
 def main(argv=None):
-    cf = TidalConfig()
-    dl = Download()
     print(tidal.LOG)
+
+    cf = TidalConfig()
     while logIn(cf.username, cf.password) == False:
         pass
+    
+    if cf.username == "" or cf.password == "":
+        cf = TidalConfig()
 
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
@@ -113,10 +119,15 @@ def main(argv=None):
     print("SoundQuality :\t" + cf.quality)
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
+    print("OnlyM4a      :\t" + cf.onlym4a)
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)
     print("====================================================")
+    
+    dl = Download()
+    if not dl.ffmpeg.enable:
+        printWarring(0, "Couldn't find ffmpeg!\n")
     while True:
         printMenu()
         strchoice,choice = printChoice2("Enter Choice:", 99)

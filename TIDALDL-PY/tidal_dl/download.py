@@ -12,6 +12,7 @@ import sys
 import os
 
 from aigpy import pathHelper
+# from tidal_dl import netHelper
 from aigpy import netHelper
 from aigpy import fileHelper
 
@@ -95,6 +96,7 @@ class Download(object):
                         decrypt_file(paraList['path'],key,nonce)
                         break
                 if check:
+                    paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
                     self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath)
                     pstr = paraList['title']
                     bIsSuccess = True

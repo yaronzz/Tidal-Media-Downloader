@@ -1,3 +1,8 @@
+======2019-07-30=============================
+1\ Add Setting-OnlyM4a(auto covert mp4 To m4a)
+2\ Fix some bug when first login
+3\ Check ffmpeg status
+
 ======2019-07-23=============================
 1\ CLI: add a serial number before the file name
 
