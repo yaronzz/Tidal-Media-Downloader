@@ -10,7 +10,7 @@
 '''
 import sys
 import os
-
+import codecs
 from aigpy import pathHelper
 # from tidal_dl import netHelper
 from aigpy import netHelper
@@ -96,10 +96,10 @@ class Download(object):
                         decrypt_file(paraList['path'],key,nonce)
                         break
                 if check:
+                    bIsSuccess = True
                     paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
                     self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath)
                     pstr = paraList['title']
-                    bIsSuccess = True
             except:
                 pass
         else:
@@ -205,7 +205,7 @@ class Download(object):
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
             string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
-            with open(targetDir + "/AlbumInfo.txt", 'w', encoding='utf-8') as fd:
+            with codecs.open(targetDir + "/AlbumInfo.txt", 'w', 'utf-8') as fd:
                 fd.write(string)
             # download cover
             coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
@@ -382,7 +382,7 @@ class Download(object):
             pathHelper.mkdirs(targetDir)
             # write msg
             string = self.tool.convertPlaylistInfoToString(aPlaylistInfo, aItemInfo)
-            with open(targetDir + "/PlaylistInfo.txt", 'w', encoding = 'utf-8') as fd:
+            with codecs.open(targetDir + "/PlaylistInfo.txt", 'w','utf-8') as fd:
                 fd.write(string)
             # download cover
             coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aPlaylistInfo['title'], '-') + '.jpg'

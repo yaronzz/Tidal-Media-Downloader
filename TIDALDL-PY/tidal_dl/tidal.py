@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 # -*- encoding: utf-8 -*-
 '''
 @File    :   tidal.py
@@ -12,6 +13,7 @@ import os
 import re
 import uuid
 import requests
+import json
 
 from aigpy import fileHelper
 from aigpy import pathHelper
@@ -49,6 +51,7 @@ class TidalTool(object):
         self.errmsg = ""
         self.tmpfileFlag = 'TIDAL_TMP_'
         self.ffmpeg = FFmpegTool(1)
+
     def _get(self, url, params={}):
         retry = 3
         sessionid = self.config.sessionid
@@ -64,7 +67,6 @@ class TidalTool(object):
                     URL_PRE + url,
                     headers={'X-Tidal-SessionId': sessionid},
                     params=params).json()
-                
                 if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
                     self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
                 elif 'status' in resp and not resp['status'] == 200:
@@ -123,7 +125,7 @@ class TidalTool(object):
             return file_path
         if not self.ffmpeg.enable:
             return file_path
-        new_path = str.replace(file_path, '.mp4', '.m4a', 1)
+        new_path = file_path.replace('.mp4', '.m4a')
 
         pathHelper.remove(new_path)
         if self.ffmpeg.covertFile(file_path, new_path):
