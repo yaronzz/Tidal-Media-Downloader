@@ -51,7 +51,7 @@
                                   ItemsSource="{Binding PersonList, UpdateSourceTrigger=PropertyChanged}" Padding="2,6,0,6" BorderBrush="#899C9494"/>
                         <PasswordBox Margin="115,38,0,0" materialDesign:HintAssist.Hint="  Password" Background="White" Height="28" Width="195" aigsc:PasswordBoxHelper.Attach="True" aigsc:PasswordBoxHelper.Password="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#899C9494" />
                         <CheckBox Content="Remember" Margin="115,66,0,56" HorizontalAlignment="Left" Width="90" IsChecked="{Binding Remember,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Content="AutoLongin" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="Auto Login" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <materialDesign:Badged Badge="{Binding Errlabel, UpdateSourceTrigger=PropertyChanged}" Margin="115,96,0,0">
                             <Button Command="{s:Action Confirm}" s:View.ActionTarget="{Binding}" Name="m_CLogin" Content="LOG IN" HorizontalAlignment="Left" Width="195" Height="30"  IsDefault="True"/>
                         </materialDesign:Badged>
