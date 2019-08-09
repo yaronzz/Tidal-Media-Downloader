@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -87,6 +88,14 @@ namespace Tidal
             get { return numberofvolumes; }
             set { numberofvolumes = value; }
         }
+        //"audioQuality": "LOSSLESS",
+        [JsonProperty("audioQuality")]
+        public string AudioQuality { get; set; }
+        //"explicit": true,
+        [JsonProperty("explicit")]
+        public bool ExplicitLyrics { get; set; }
+        [JsonProperty("version")]
+        public string Version { get; set; }
         //歌手
         private Artist artist;
         public Artist Artist

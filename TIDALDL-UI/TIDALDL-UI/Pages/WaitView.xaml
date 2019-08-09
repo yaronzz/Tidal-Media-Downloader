@@ -26,7 +26,7 @@
                               IsIndeterminate="True" Height="Auto" Margin="28,10,29,5" Width="Auto" />
                 <Button Grid.Row="1" 
                         IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                        Content="CANCLE" 
+                        Content="CANCEL" 
                         Margin="-2,9,0,0"
                         Command="{s:Action Close}"
                         Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>

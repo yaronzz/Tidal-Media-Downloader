@@ -108,16 +108,16 @@ namespace TIDALDL_UI.Else
         }
 
         #region Method
-        public void Cancle()
+        public void Cancel()
         {
-            Progress.IsCancle = true;
+            Progress.IsCanceled = true;
         }
             
         public void Start()
         {
             if (ThreadTool.GetThreadNum() <= 0)
                 ThreadTool.SetThreadNum(int.Parse(Config.ThreadNum()));
-            ThreadTool.AddWork(ThreadFuncDownlaod);
+            ThreadTool.AddWork(ThreadFuncDownload);
         }
 
         public bool MergerTsFiles(string sPath, string sToFile)
@@ -144,9 +144,9 @@ namespace TIDALDL_UI.Else
 
 
         #region Thread
-        public void ThreadFuncDownlaod(object data)
+        public void ThreadFuncDownload(object data)
         {
-            if (Progress.IsCancle)
+            if (Progress.IsCanceled)
                 return;
 
             //Prepare
@@ -189,8 +189,8 @@ namespace TIDALDL_UI.Else
                     }
 
                     Progress.Update(i + 1, lCount);
-                    if (Progress.IsCancle)
-                        goto CANCLE_POINT;
+                    if (Progress.IsCanceled)
+                        goto CANCEL_POINT;
                 }
                 if (!MergerTsFiles(sTmpDir + '\\', FilePath))
                 {
@@ -202,7 +202,7 @@ namespace TIDALDL_UI.Else
                 Progress.IsComplete = true;
                 UpdataFunc(this);
 
-            CANCLE_POINT:
+            CANCEL_POINT:
                 if (Directory.Exists(sTmpDir))
                     Directory.Delete(sTmpDir, true);
                 return;
@@ -221,6 +221,14 @@ namespace TIDALDL_UI.Else
         
         public void DownloadTrack()
         {
+            // Check if the track was existing
+            if (System.IO.File.Exists(FilePath))
+            {
+                Errlabel = "Existing";
+                goto UPDATE_RETURN;
+            }
+                
+
             //Download
             bool bFlag = (bool)DownloadFileHepler.Start(TidalStream.Url,
                                 FilePath,
@@ -263,7 +271,7 @@ namespace TIDALDL_UI.Else
         public bool UpdateDownloadNotify(long lTotalSize, long lAlreadyDownloadSize, long lIncreSize, object data)
         {
             Progress.Update(lAlreadyDownloadSize, lTotalSize);
-            if (Progress.IsCancle)
+            if (Progress.IsCanceled)
                 return false;
             return true;
         }

@@ -12,7 +12,7 @@ namespace TIDALDL_UI.Else
     public class ProgressHelper:Screen
     {
         /// <summary>
-        /// Progress Para
+        /// Progress Bar
         /// </summary>
         public string ProgressPercent { get; private set; }
         public int    ProgressMaxValue { get; private set; }
@@ -26,7 +26,7 @@ namespace TIDALDL_UI.Else
         /// Flag
         /// </summary>
         public bool IsComplete { get;  set; }
-        public bool IsCancle { get;  set; }
+        public bool IsCanceled { get;  set; }
         public bool IsErr { get;  set; }
         public bool IsSomeErr { get; set; }
         public string Errlabel { get; set; }
@@ -58,7 +58,7 @@ namespace TIDALDL_UI.Else
                     StatusColor = System.Windows.Media.Brushes.DarkRed;
                     return "[SOME-ERR]";
                 }
-                if (IsCancle)
+                if (IsCanceled)
                 {
                     StatusColor = System.Windows.Media.Brushes.DarkRed;
                     return "[CANCEL]";
@@ -75,7 +75,7 @@ namespace TIDALDL_UI.Else
             ProgressPercent  = "0%";
 
             IsComplete       = false;
-            IsCancle         = false;
+            IsCanceled       = false;
             IsErr            = false;
         }
 

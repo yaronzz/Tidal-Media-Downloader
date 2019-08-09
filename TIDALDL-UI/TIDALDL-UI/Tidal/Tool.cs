@@ -125,6 +125,119 @@ namespace Tidal
         }
         #endregion
 
+        #region ArtistFull
+        public static ArtistAlbumList GetArtistAlbumList(string sID, out string Errmsg, bool GetAlbums = true)
+        {
+            string sRet = Get("artists/" + sID + "/albums", out Errmsg, new Dictionary<string, string>() {
+                { "offset", "0" },
+                { "limit", "200"},// Get it all at once
+            });
+            if (string.IsNullOrEmpty(sRet) || !string.IsNullOrEmpty(Errmsg))
+                return null;
+            ArtistAlbumList aRet = JsonHelper.ConverStringToObject<ArtistAlbumList>(sRet);
+
+            //get Ablums            
+            if (GetAlbums == false)
+            {
+                return aRet;
+            }
+
+            // We already have a list of albums lets try to filter it so we don't get things we don't want!
+            for (int i = 0; i < aRet.Albums.Count; ++i)
+            {
+                // Matching Titles
+                var matching = aRet.Albums.Select(x => x).Where(album => album.Title.CompareTo(aRet.Albums[i].Title) == 0).ToList();
+                // Check for dups and remove all matching 
+                if (matching.Count() > 1)
+                {
+                    foreach (var album in matching)
+                        aRet.Albums.Remove(album);
+                    // Move our index
+                    i -= (matching.Count() - 1);
+                    // Clamp
+                    if (i < 0)
+                        i = 0;
+                }
+                else
+                    // Skip anything we dont have duplicates for
+                    continue;
+                // Find if we have one that has the master flag
+                var masterMatching = matching.Select(album => album).Where(album => String.Compare(album.AudioQuality,"lossless",true) == 0).ToList();
+                if (masterMatching.Count() > 0)
+                {
+                    // Has master flag lets check if there is also one with the explicit flag
+                    var explicitMatching = masterMatching.Select(a => a).Where(album => album.ExplicitLyrics).ToList();
+                    if (explicitMatching.Count() > 0)
+                        aRet.Albums.Insert(i, explicitMatching.ElementAt(0));
+                    else
+                    {
+                        // Nothing had the explicit flag set lets check the version for pa or ammended
+                        explicitMatching = masterMatching.Select(a => a).Where(album => album.Version.ToLower().Contains("pa version") || album.Version.ToLower().Contains("amended version")).ToList();
+                        if (explicitMatching.Count > 0)
+                            aRet.Albums.Insert(i, explicitMatching.ElementAt(0));
+                        else
+                            aRet.Albums.Insert(i, masterMatching.ElementAt(0));
+                    }
+                    
+                }
+                else
+                {
+                    // No Master Check Explicit
+                    var explicitMatching = matching.Select(a => a).Where(album => album.ExplicitLyrics).ToList();
+                    if (explicitMatching.Count() > 0)
+                        aRet.Albums.Insert(i, explicitMatching.ElementAt(0));
+                    else
+                    { 
+                        // Nothing had the explicit flag set lets check the version for pa or ammended
+                        explicitMatching = matching.Select(a => a).Where(album => album.Version.ToLower().Contains("pa") || album.Version.ToLower().Contains("ammended")).ToList();
+                        if (explicitMatching.Count > 0)
+                            aRet.Albums.Insert(i, explicitMatching.ElementAt(0));
+                        else
+                            aRet.Albums.Insert(i, matching.ElementAt(0));
+                    }
+                }
+            }
+
+
+            // For each album get the track list
+            for (int albumIndex = 0; albumIndex < aRet.Albums.Count; ++albumIndex)
+            {
+                string sRet2 = Get("albums/" + aRet.Albums[albumIndex].ID + "/tracks", out Errmsg);
+                if (string.IsNullOrEmpty(sRet2) || !string.IsNullOrEmpty(Errmsg))
+                    return null;
+                aRet.Albums[albumIndex].Tracks = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet2, "items");
+                if (aRet.Artist == null)
+                    aRet.Artist = aRet.Albums[albumIndex].Artist;
+                //change track title
+                for (int i = 0; i < aRet.Albums[albumIndex].Tracks.Count; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(aRet.Albums[albumIndex].Tracks[i].Version))
+                        continue;
+                    if (aRet.Albums[albumIndex].Tracks[i].Title.IndexOf(aRet.Albums[albumIndex].Tracks[i].Version) >= 0)
+                        continue;
+                    aRet.Albums[albumIndex].Tracks[i].Title += '(' + aRet.Albums[albumIndex].Tracks[i].Version + ')';
+                }
+
+                //remove same title
+                List<int> pSameIndex = new List<int>();
+                for (int i = 0; i < aRet.Albums[albumIndex].Tracks.Count; i++)
+                {
+                    pSameIndex.Clear();
+                    for (int j = 0; j < aRet.Albums[albumIndex].Tracks.Count; j++)
+                        if (aRet.Albums[albumIndex].Tracks[i].Title == aRet.Albums[albumIndex].Tracks[j].Title)
+                            pSameIndex.Add(j);
+
+                    if (pSameIndex.Count <= 1)
+                        continue;
+
+                    for (int j = 0; j < pSameIndex.Count; j++)
+                        aRet.Albums[albumIndex].Tracks[pSameIndex[j]].Title += (j + 1).ToString();
+                }
+            }
+            return aRet;
+        }
+        #endregion
+
         #region Album
 
 
@@ -278,7 +391,7 @@ namespace Tidal
         }
         #endregion
 
-        #region Vide
+        #region Video
         public static Video GetVideo(string sID, out string Errmsg)
         {
             string sRet = Get("videos/" + sID, out Errmsg);
@@ -349,7 +462,10 @@ namespace Tidal
         public static string GetAlbumFolderName(Album album)
         {
             string sRet = PathHelper.ReplaceLimitChar(album.Title, "-");
-            return sRet.Trim();
+            sRet.Trim();
+            if (StringHelper.IsEnglish(sRet))                
+                sRet = sRet.Insert(0, StringHelper.PrettyFormatArray(album.Artists.Select(x => x.Name).ToArray()) + " - ");
+            return sRet;
         }
         
         public static string GetAlbumCoverName(Album album)
@@ -553,6 +669,14 @@ namespace Tidal
         public static object TryGet(string sID, out string sType)
         {
             string sErrmsg;
+
+            //Search Artist (Custom Download Everything From Them)
+            ArtistAlbumList aArtist = Tool.GetArtistAlbumList(sID, out sErrmsg);
+            if (aArtist != null)
+            {
+                sType = "ArtistAlbumList";
+                return aArtist;
+            }
 
             //Search Album
             Album aAlbum = Tool.GetAlbum(sID, out sErrmsg);

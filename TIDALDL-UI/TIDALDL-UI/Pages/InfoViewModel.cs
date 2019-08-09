@@ -76,7 +76,7 @@ namespace TIDALDL_UI.Pages
             RequestClose();
         }
 
-        public void Cancle()
+        public void Cancel()
         {
             Result = false;
             RequestClose();
@@ -87,7 +87,22 @@ namespace TIDALDL_UI.Pages
 
         public object Load(object data)
         {
-            if(data.GetType() == typeof(Album))
+            if (data.GetType() == typeof(ArtistAlbumList)) {
+                ArtistAlbumList artistAlbumList = (ArtistAlbumList)data;
+                Header = "ARTISTALBUMLIST";
+                Title = artistAlbumList.Albums[0].Artist.Name;
+                Intro = string.Format("Albums {0}", artistAlbumList.TotalAlbums);
+                ReleaseDate = "";
+
+                ItemList = new ObservableCollection<InfoItem>();
+                QualityWidth = 90;
+                // Add every track from every album!
+                foreach (Album album in artistAlbumList.Albums)
+                    if (album.Tracks != null)
+                        foreach (Track item in album.Tracks)
+                            ItemList.Add(new InfoItem(item.TrackNumber, item.Title, item.SDuration, item.Album.Title));
+            }
+            else if(data.GetType() == typeof(Album))
             { 
                 Album album = (Album)data;
                 Header      = "ALBUMINFO";
