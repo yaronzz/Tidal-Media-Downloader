@@ -174,7 +174,7 @@ namespace Tidal
                     else
                     {
                         // Nothing had the explicit flag set lets check the version for pa or ammended
-                        explicitMatching = masterMatching.Select(a => a).Where(album => album.Version.ToLower().Contains("pa version") || album.Version.ToLower().Contains("amended version")).ToList();
+                        explicitMatching = masterMatching.Select(a => a).Where(album => album.Version != null && (album.Version.ToLower().Contains("pa version") || album.Version.ToLower().Contains("amended version"))).ToList();
                         if (explicitMatching.Count > 0)
                             aRet.Albums.Insert(i, explicitMatching.ElementAt(0));
                         else
