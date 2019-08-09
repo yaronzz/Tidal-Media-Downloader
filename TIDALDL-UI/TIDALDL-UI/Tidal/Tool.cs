@@ -136,6 +136,8 @@ namespace Tidal
                 return null;
             ArtistAlbumList aRet = JsonHelper.ConverStringToObject<ArtistAlbumList>(sRet);
 
+            if (aRet.TotalAlbums == 0)
+                return null;
             //get Ablums            
             if (GetAlbums == false)
             {

@@ -32,7 +32,7 @@ namespace TIDALDL_UI.Pages
         public string Header    { get; private set; } = "SEARCH";
         public int  SelectIndex { get; set; } = 0;
         public bool bCheckArtist { get; set; } = true;
-        public bool bCheckAlbum { get; set; } = true;
+        public bool bCheckAlbum { get; set; } = false;
         public bool bCheckTrack { get; set; } = false;
         public bool bCheckVideo { get; set; } = false;
         public Visibility ShowWait { get; set; } = Visibility.Hidden;
