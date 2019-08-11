@@ -167,15 +167,15 @@ class TidalTool(object):
         for item in pHash:
             ret.append(item['name'])
         return ret
-    def _getIndexStr(self, index, sum):
+    def getIndexStr(self, index, sum):
         pre="0"
         if sum > 99:
             pre = "00"
         if index<10:
-            return pre+str(index)
+            return pre+str(index) + " "
         if index < 99 and sum > 99:
-            return "0"+str(index)
-        return str(index)
+            return "0"+str(index) + " "
+        return str(index) + " "
             
     def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}
@@ -209,12 +209,22 @@ class TidalTool(object):
         info = self._get('albums/' + str(album_id) + '/tracks')
         if self.errmsg != "":
             return info
-        sum = info['totalNumberOfItems']
-        for item in info['items']:
-            indexs = self._getIndexStr(item['trackNumber'],sum)
-            item['title'] = indexs + " " + item['title']
+        # sum = info['totalNumberOfItems']
+        # for item in info['items']:
+        #     indexs = self._getIndexStr(item['trackNumber'],sum)
+        #     item['title'] = indexs + " " + item['title']
         # info['items'] = self._fixSameTrackName(info['items'])
         return info
+    def getAlbumVideos(self, album_id):
+        # info = self._get('albums/' + str(album_id) + '/items')
+        info = self.__getItemsList('albums/' + str(album_id) + '/items')
+        if self.errmsg != "":
+            return []
+        ret = []
+        for item in info:
+            if item['type'] == 'video':
+                ret.append(item)
+        return ret
     def getTrack(self, track_id):
         return self._get('tracks/' + str(track_id))
     def getAlbum(self, album_id):
@@ -379,7 +389,7 @@ class TidalAccount(object):
         re = requests.post(URL_PRE + 'login/username', data=postParams).json()
         if 'status' in re:
             if re['status'] == 401:
-                self.errmsg = "Uername or password err!"
+                self.errmsg = "Username or password err!"
             else:
                 self.errmsg = "Get sessionid err!"
         else:

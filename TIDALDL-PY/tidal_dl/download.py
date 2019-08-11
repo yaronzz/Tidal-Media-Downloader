@@ -144,13 +144,14 @@ class Download(object):
     def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
         if extension == None:
             extension = ".m4a"
-
+        
+        seq = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes <= 1:
-            filePath = targetDir + "/" + pathHelper.replaceLimitChar(item['title'],'-') + extension
+            filePath = targetDir + "/" + seq + pathHelper.replaceLimitChar(item['title'],'-') + extension
         else:
             index = item['volumeNumber']
-            filePath = targetDir + "/Volume" + str(index) + "/" + pathHelper.replaceLimitChar(item['title'], '-') + extension
+            filePath = targetDir + "/Volume" + str(index) + "/" + seq + pathHelper.replaceLimitChar(item['title'], '-') + extension
         return filePath
 
     def __getExistFiles(self, paths):
@@ -201,6 +202,8 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0,"Get AlbumTracks Err!" + self.tool.errmsg)
                 continue
+            aAlbumVideos = self.tool.getAlbumVideos(sID)
+            
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
@@ -223,6 +226,7 @@ class Download(object):
                 if check != 'y' and check != 'yes':
                     redownload = False
                 break
+
             # download album tracks
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
@@ -245,6 +249,24 @@ class Download(object):
             # wait all download thread
             self.thread.waitAll()
             self.tool.removeTmpFile(targetDir)
+
+            # download video
+            for item in aAlbumVideos:
+                item = item['item']
+                filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
+                filePath = os.path.abspath(filePath)
+                if os.access(filePath, 0):
+                    os.remove(filePath)
+
+                resolutionList, urlList = self.tool.getVideoResolutionList(
+                    item['id'])
+                selectIndex = self.__getVideoResolutionIndex(resolutionList)
+                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
+                    printSUCCESS(14, item['title'])
+                else:
+                    printErr(14, item['title'])
+            return
+
         return
 
     def downloadArtistAlbum(self):
@@ -263,14 +285,19 @@ class Download(object):
                 print("----Album[{0}/{1}]----".format(index, len(array)))
                 self.downloadAlbum(item['id'])
 
-    def downloadTrack(self):
-        while True:
-            targetDir = self.config.outputdir + "/Track/"
-            print("----------------TRACK------------------")
-            sID = printChoice("Enter TrackID(Enter '0' go back):", True, 0)
-            if sID == 0:
-                return
+    def downloadTrack(self, track_id=None):
+        while_count = 9999
+        while while_count > 0:
+            while_count -= 1
 
+            if track_id is not None:
+                while_count = 0
+                sID = track_id
+            else:
+                print("----------------TRACK------------------")
+                sID = printChoice("Enter TrackID(Enter '0' go back):", True, 0)
+                if sID == 0:
+                    return
             aTrackInfo = self.tool.getTrack(sID)
             if self.tool.errmsg != "":
                 printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
@@ -279,6 +306,8 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
                 return
+            
+            # t = self.tool.getTrackContributors(sID)
 
             print("[AlbumTitle ]       %s" % (aAlbumInfo['title']))
             print("[TrackTitle ]       %s" % (aTrackInfo['title']))
@@ -300,7 +329,8 @@ class Download(object):
                 continue
 
             fileType = self._getSongExtension(streamInfo['url'])
-            filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
+            filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, aTrackInfo, fileType)
+            # filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
             paraList = {'album':aAlbumInfo, 
                         'title': aTrackInfo['title'], 
                         'trackinfo':aTrackInfo, 

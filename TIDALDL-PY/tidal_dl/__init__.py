@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring
 
-TIDAL_DL_VERSION = "2019.8.5.0"
+TIDAL_DL_VERSION = "2019.8.11.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -102,14 +102,12 @@ def setting():
 
 def main(argv=None):
     print(tidal.LOG)
-
     cf = TidalConfig()
-    while logIn(cf.username, cf.password) == False:
-        pass
+    if logIn(cf.username, cf.password) == False:
+        while logIn("", "") == False:
+            pass
     
-    if cf.username == "" or cf.password == "":
-        cf = TidalConfig()
-
+    cf = TidalConfig()
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
     print("Username     :\t" + cf.username)
@@ -125,7 +123,7 @@ def main(argv=None):
         print("LastVer      :\t" + onlineVer)
     print("====================================================")
     
-    dl = Download()
+    dl = Download(cf.threadnum)
     if not dl.ffmpeg.enable:
         printWarring(0, "Couldn't find ffmpeg!\n")
     while True:
@@ -135,9 +133,11 @@ def main(argv=None):
             return
         elif choice == 1:
             logIn()
+            cf = TidalConfig()
             dl = Download(cf.threadnum)
         elif choice == 2:
             setting()
+            cf = TidalConfig()
             dl = Download(cf.threadnum)
         elif choice == 3:
             dl.downloadAlbum()
@@ -163,7 +163,8 @@ def debug():
 
 
     dl = Download()
-    dl.downloadAlbum(91166670)
+    # dl.downloadTrack(108046180)
+    dl.downloadAlbum(108046179)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
 # if __name__ == '__main__':
