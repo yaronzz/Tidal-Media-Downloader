@@ -125,9 +125,9 @@ namespace TIDALDL_UI.Pages
         }
 
         /// <summary>
-        /// Cancle Login
+        /// Cancel Login
         /// </summary>
-        public void Cancle()
+        public void Cancel()
         {
             LoginThread.Abort();
             ShowMainPage(true);

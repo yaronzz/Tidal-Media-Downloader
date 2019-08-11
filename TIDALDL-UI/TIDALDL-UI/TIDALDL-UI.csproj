@@ -134,6 +134,7 @@
     <Compile Include="Tidal\Account.cs" />
     <Compile Include="Tidal\Album.cs" />
     <Compile Include="Tidal\Artist.cs" />
+    <Compile Include="Tidal\ArtistAlbumList.cs" />
     <Compile Include="Tidal\Enum.cs" />
     <Compile Include="Tidal\Playlist.cs" />
     <Compile Include="Tidal\SearchResult.cs" />

@@ -56,8 +56,8 @@
                             Content="Download" 
                             Height="27" VerticalAlignment="Bottom" Margin="152,0,105,7"/>
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
-                            Command="{s:Action Cancle}"
-                            Content="Cancle" 
+                            Command="{s:Action Cancel}"
+                            Content="Cancel" 
                             Height="27" VerticalAlignment="Bottom" Margin="252,0,10,8"/>
 
                 </Grid>

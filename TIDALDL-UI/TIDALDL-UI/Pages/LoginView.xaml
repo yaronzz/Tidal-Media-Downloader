@@ -67,7 +67,7 @@
                                 <materialDesign:PackIcon Kind="AccountCircle" Height="25" Width="30" />
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
-                        <Button Command="{s:Action Cancle}" Content="CANCLE" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
+                        <Button Command="{s:Action Cancel}" Content="CANCEL" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <materialDesign:Snackbar HorizontalAlignment="Stretch" x:Name="SnackbarFive" IsActive="False" Grid.Row="1" Height="29" Grid.ColumnSpan="2">

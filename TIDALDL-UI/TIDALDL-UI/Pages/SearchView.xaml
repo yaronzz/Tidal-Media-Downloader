@@ -38,6 +38,7 @@
                 <Label Content="{Binding Header}" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
                 <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1">
                     <StackPanel Orientation="Horizontal" Margin="2">
+                        <RadioButton Content="ARTIST" IsChecked="{Binding bCheckArtist}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="ALBUM" IsChecked="{Binding bCheckAlbum}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="TRACK" IsChecked="{Binding bCheckTrack}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="VIDEO" IsChecked="{Binding bCheckVideo}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>

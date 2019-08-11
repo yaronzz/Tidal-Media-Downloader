@@ -33,6 +33,7 @@ namespace TIDALDL_UI.Pages
         /// <summary>
         /// Item Objec - Album|Playlist|Track|Video
         /// </summary>
+        public ArtistAlbumList TidalArtistAlbumList { get; private set; }
         public Album TidalAlbum { get; private set; }
         public Playlist TidalPlaylist { get; private set; }
         public Track TidalTrack { get; private set; }
@@ -54,7 +55,26 @@ namespace TIDALDL_UI.Pages
             Progress   = new ProgressHelper();
             DLItemList = new ObservableCollection<DownloadItem>();
 
-            if (data.GetType() == typeof(Album))
+            if(data.GetType() == typeof(ArtistAlbumList))
+            {
+                ArtistAlbumList artistAlbumList = (ArtistAlbumList)data;
+                TidalArtistAlbumList = artistAlbumList;
+                Title                = String.Format("{0} Total Albums:{1}", artistAlbumList.Artist.Name, artistAlbumList.TotalAlbums);
+                Type                 = "Album List";
+                Quality              = quality;
+                BasePath             = path + "\\Album\\";
+                Author               = "";
+                foreach(Album album in artistAlbumList.Albums)
+                {
+                    if (album.Tracks != null)
+                    {
+                        String fullBasePath = BasePath + Tool.GetAlbumFolderName(album);
+                        foreach (Track item in album.Tracks)
+                            DLItemList.Add(new DownloadItem(DLItemList.Count, fullBasePath, Update, item, quality, album: album));
+                    }
+                }
+            }
+            else if (data.GetType() == typeof(Album))
             {
                 Album album = (Album)data;
                 TidalAlbum = album;
@@ -122,13 +142,13 @@ namespace TIDALDL_UI.Pages
 
         #region Button
         /// <summary>
-        /// Cancle Work
+        /// Cancel Work
         /// </summary>
         public void Cancel()
         {
             foreach (DownloadItem item in DLItemList)
-                item.Cancle();
-            this.Progress.IsCancle = true;
+                item.Cancel();
+            this.Progress.IsCanceled = true;
         }
 
         /// <summary>
