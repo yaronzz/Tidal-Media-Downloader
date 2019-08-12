@@ -11,7 +11,7 @@ Tidal-Media-Downloader is an application that lets you download videos and track
   root:~# pip install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
-- [Install on Mobils](https://t.me/TidalDownloader)
+- [Install on Android](https://t.me/TidalDownloader)
   
 
 ## Requirement
