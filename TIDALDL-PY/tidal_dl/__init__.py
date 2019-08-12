@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring
 
-TIDAL_DL_VERSION = "2019.8.11.1"
+TIDAL_DL_VERSION = "2019.8.12.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -86,13 +86,15 @@ def setting():
             printErr(0, "ThreadNum Err")
             continue
         break
-    status = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
+    status  = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
+    status2 = myinputInt("ShowProgress(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
     cf.set_resolution(resolution)
     cf.set_threadnum(threadnum)
     cf.set_onlym4a(status)
+    cf.set_showprogress(status2)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -118,6 +120,7 @@ def main(argv=None):
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
     print("OnlyM4a      :\t" + cf.onlym4a)
+    print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)
@@ -162,9 +165,9 @@ def debug():
 # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
 
 
-    dl = Download()
+    dl = Download(1)
     # dl.downloadTrack(108046180)
-    dl.downloadAlbum(108046179)
+    dl.downloadAlbum(90521280)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
 # if __name__ == '__main__':

@@ -39,6 +39,10 @@ class Download(object):
         self.progress = ProgressTool(100)
         self.check    = CheckTool()
 
+        self.showpro = False
+        if self.config.showprogress == 'True':
+            self.showpro = True
+
         pathHelper.mkdirs(self.config.outputdir + "/Album/")
         pathHelper.mkdirs(self.config.outputdir + "/Playlist/")
         pathHelper.mkdirs(self.config.outputdir + "/Video/")
@@ -83,12 +87,15 @@ class Download(object):
 
         # DEBUG
         # self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath)
+        showprogress = False
+        if int(self.config.threadnum) <= 1 and self.showpro:
+            showprogress = True
 
         if needDl:
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path'])
+                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=True)
                     if check is True:
                         if paraList['key'] == '':
                             break
@@ -251,6 +258,7 @@ class Download(object):
             self.tool.removeTmpFile(targetDir)
 
             # download video
+            
             for item in aAlbumVideos:
                 item = item['item']
                 filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
@@ -258,10 +266,9 @@ class Download(object):
                 if os.access(filePath, 0):
                     os.remove(filePath)
 
-                resolutionList, urlList = self.tool.getVideoResolutionList(
-                    item['id'])
+                resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
                 selectIndex = self.__getVideoResolutionIndex(resolutionList)
-                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
+                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
                     printSUCCESS(14, item['title'])
                 else:
                     printErr(14, item['title'])
@@ -482,7 +489,7 @@ class Download(object):
                     printErr(14, item['title'] + '(' + self.tool.errmsg + ')')
                 else:
                     selectIndex=self.__getVideoResolutionIndex(resolutionList)
-                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
+                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
                         printSUCCESS(14, item['title'])
                     else:
                         printErr(14, item['title'] + "(Download Or Merger Err!)")
@@ -524,7 +531,7 @@ class Download(object):
 
             resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
             selectIndex = self.__getVideoResolutionIndex(resolutionList)
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=False):
+            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
                 printSUCCESS(14, item['title'])
             else:
                 printErr(14, item['title'])
