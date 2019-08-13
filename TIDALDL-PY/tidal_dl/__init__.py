@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring
 
-TIDAL_DL_VERSION = "2019.8.12.0"
+TIDAL_DL_VERSION = "2019.8.14.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -163,14 +163,17 @@ def debug():
     #     pass
 # add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
 # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
-
+    print('\nThis is the debug version!!\n')
+    # os.system("pip install aigpy --upgrade")
 
     dl = Download(1)
     # dl.downloadTrack(108046180)
     dl.downloadAlbum(90521280)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
+    
 # if __name__ == '__main__':
 #     main(sys.argv)
 
-__all__ = ['main', 'tidal', 'download']
+
+__all__ = ['debug', 'main', 'tidal', 'download']
