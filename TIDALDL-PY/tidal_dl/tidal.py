@@ -236,15 +236,23 @@ class TidalTool(object):
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
     def getArtistAlbum(self, artist_id):
-        return self.__getItemsList('artists/' + str(artist_id) + '/albums')
-    def __getItemsList(self, url):
-        ret     = self._get(url, {'limit':0})
+        items1 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'EPSANDSINGLES'})
+        # items2 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'COMPILATIONS'})
+        items3 = self.__getItemsList('artists/' + str(artist_id) + '/albums')
+        itemall = items1 + items3
+        return itemall
+
+    def __getItemsList(self, url, in_dirs={}):
+        in_dirs['limit'] = 0
+        ret     = self._get(url, in_dirs)
         count   = ret['totalNumberOfItems']
         offset  = 0
         limit   = 100
         retList = []
         while offset < count:
-            items = self._get(url, {'offset': offset,'limit': limit})
+            in_dirs['limit'] = limit
+            in_dirs['offset'] = offset
+            items = self._get(url, in_dirs)
             if self.errmsg != "":
                 if self.errmsg.find('Too big page') >= 0:
                     limit = limit - 10
