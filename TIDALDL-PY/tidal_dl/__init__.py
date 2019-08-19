@@ -32,10 +32,24 @@ def logIn(username = "", password = ""):
     cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
     return True
 
+def showConfig():
+    cf = TidalConfig()
+    print("----------------Config------------------")
+    print("Username     :\t" + cf.username)
+    print("OutputDir    :\t" + cf.outputdir)
+    print("SessionID    :\t" + cf.sessionid)
+    print("CountryCode  :\t" + cf.countrycode)
+    print("SoundQuality :\t" + cf.quality)
+    print("Resolution   :\t" + cf.resolution)
+    print("ThreadNum    :\t" + cf.threadnum)
+    print("OnlyM4a      :\t" + cf.onlym4a)
+    print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
+    print("Version      :\t" + TIDAL_DL_VERSION)
+    myinput("Enter to return.")
 
 def setting():
     cf = TidalConfig()
-    print("----------------Setting----------------")
+    print("----------------Settings----------------")
     print("OutputDir    :\t" + cf.outputdir)
     print("SoundQuality :\t" + cf.quality)
     print("Resolution   :\t" + cf.resolution)
@@ -112,10 +126,10 @@ def main(argv=None):
     cf = TidalConfig()
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
-    print("Username     :\t" + cf.username)
+    # print("Username     :\t" + cf.username)
     print("OutputDir    :\t" + cf.outputdir)
-    print("SessionID    :\t" + cf.sessionid)
-    print("CountryCode  :\t" + cf.countrycode)
+    # print("SessionID    :\t" + cf.sessionid)
+    # print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
@@ -154,6 +168,8 @@ def main(argv=None):
             dl.downloadFavorite()
         elif choice == 8:
             dl.downloadArtistAlbum()
+        elif choice == 9:
+            showConfig()
         else:
             dl.downloadUrl(strchoice)
 

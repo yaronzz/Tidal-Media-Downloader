@@ -48,6 +48,8 @@ def printMenu():
     print("Download Favorite.")
     cmdHelper.myprint(" Enter '8': ", cmdHelper.TextColor.Green, None)
     print("Download ArtistAlbum.")
+    cmdHelper.myprint(" Enter '9': ", cmdHelper.TextColor.Green, None)
+    print("Show Config.")
     cmdHelper.myprint(" Enter URL: ", cmdHelper.TextColor.Green, None)
     print("Download By Url.")
     print("====================================================")
