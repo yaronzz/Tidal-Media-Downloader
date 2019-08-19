@@ -91,6 +91,7 @@ class Download(object):
         if int(self.config.threadnum) <= 1 and self.showpro:
             showprogress = True
 
+        Contributors = self.tool.getTrackContributors(paraList['trackinfo']['id'])
         if needDl:
             try:
                 while count > 0:
@@ -105,7 +106,7 @@ class Download(object):
                 if check:
                     bIsSuccess = True
                     paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
-                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath)
+                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath, Contributors)
                     pstr = paraList['title']
             except:
                 pass

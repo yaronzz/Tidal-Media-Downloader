@@ -134,7 +134,18 @@ class TidalTool(object):
         else:
             return file_path
 
-    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath):
+    def _parseContributors(self, roleType, Contributors):
+        if Contributors is None:
+            return None
+        try:
+            ret = []
+            for item in Contributors['items']:
+                if item['role'] == roleType:
+                    ret.append(item['name'])
+            return ret
+        except:
+            return None
+    def setTrackMetadata(self, track_info, file_path, album_info, index, coverpath, Contributors):
         # isrc,replayGain,releasedate
         obj = tagHelper.TagTool(file_path)
         obj.album = track_info['album']['title']
@@ -143,6 +154,7 @@ class TidalTool(object):
         obj.copyright = track_info['copyright']
         obj.tracknumber = track_info['trackNumber']
         obj.discnumber = track_info['volumeNumber']
+        obj.composer = self._parseContributors('Composer', Contributors)
         if index is not None:
             obj.tracknumber = str(index)
         if album_info is not None:
