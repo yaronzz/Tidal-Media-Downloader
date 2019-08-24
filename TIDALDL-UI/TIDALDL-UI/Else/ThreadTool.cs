@@ -11,14 +11,11 @@ namespace TIDALDL_UI.Else
 {
     public class ThreadTool
     {
-        private static ThreadPoolManager Pool = null;
+        private static ThreadPoolManager Pool = new ThreadPoolManager(1);
 
         public static void SetThreadNum(int iNum)
         {
-            if (Pool == null)
-                Pool = new ThreadPoolManager(iNum);
-            else
-                Pool.SetPoolSize(iNum);
+            Pool.SetPoolSize(iNum);
         }
 
         public static int GetThreadNum()

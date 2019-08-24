@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Tidal;
 using AIGS.Helper;
 using AIGS.Common;
 using System.Collections.ObjectModel;
 using TIDALDL_UI.Else;
 using Stylet;
 using System.Windows;
+using Tidal;
 
 namespace TIDALDL_UI.Pages
 {
@@ -19,20 +19,22 @@ namespace TIDALDL_UI.Pages
         public string Title { get; set; }
         public string Artist { get; set; }
         public string Duration { get; set; }
-        public SearchItem(string title, string artist, string duration)
+        public int Index { get; set; }
+        public SearchItem(int index, string title, string artist, string duration)
         {
+            Index = index;
             Title = title;
             Artist = artist;
             Duration = duration;
         }
     }
 
-    public class SearchViewModel:Screen
+    public class SearchViewModel : Screen
     {
-        public string Header    { get; private set; } = "SEARCH";
-        public int  SelectIndex { get; set; } = 0;
-        public bool bCheckArtist { get; set; } = true;
-        public bool bCheckAlbum { get; set; } = false;
+        public string Header { get; private set; } = "SEARCH";
+        public int SelectIndex { get; set; } = 0;
+        public bool bCheckArtist { get; set; } = false;
+        public bool bCheckAlbum { get; set; } = true;
         public bool bCheckTrack { get; set; } = false;
         public bool bCheckVideo { get; set; } = false;
         public Visibility ShowWait { get; set; } = Visibility.Hidden;
@@ -40,9 +42,11 @@ namespace TIDALDL_UI.Pages
         public List<SearchItem> AlbumList { get; set; } = new List<SearchItem>();
         public List<SearchItem> TrackList { get; set; } = new List<SearchItem>();
         public List<SearchItem> VideoList { get; set; } = new List<SearchItem>();
-        public List<SearchItem> BindList {
+        public List<SearchItem> BindList
+        {
             set { return; }
-            get {
+            get
+            {
                 if (bCheckArtist) return ArtistList;
                 if (bCheckAlbum) return AlbumList;
                 if (bCheckTrack) return TrackList;
@@ -50,30 +54,40 @@ namespace TIDALDL_UI.Pages
             }
         }
         public SearchResult SearchInfo = null;
-
-        public string ResultID = null;
-        public string ResultType = null;
+        public eObjectType ResultType = eObjectType.None;
         public object ResultObject = null;
 
         #region Button
         public async void Confirm()
         {
-            ResultID = null;
+            string ResultID = null;
             if (SelectIndex >= 0)
             {
                 if (bCheckArtist && SearchInfo.Artists.Count > 0)
-                    ResultID = SearchInfo.Artists[SelectIndex].ID;
+                {
+                    ResultID = SearchInfo.Artists[SelectIndex].ID.ToString();
+                    ResultType = eObjectType.ARTIST;
+                }
                 if (bCheckAlbum && SearchInfo.Albums.Count > 0)
+                {
                     ResultID = SearchInfo.Albums[SelectIndex].ID.ToString();
+                    ResultType = eObjectType.ALBUM;
+                }
                 if (bCheckTrack && SearchInfo.Tracks.Count > 0)
-                    ResultID = SearchInfo.Tracks[SelectIndex].ID;
+                {
+                    ResultID = SearchInfo.Tracks[SelectIndex].ID.ToString();
+                    ResultType = eObjectType.TRACK;
+                }
                 if (bCheckVideo && SearchInfo.Videos.Count > 0)
-                    ResultID = SearchInfo.Videos[SelectIndex].ID;
+                {
+                    ResultID = SearchInfo.Videos[SelectIndex].ID.ToString();
+                    ResultType = eObjectType.VIDEO;
+                }
 
                 ShowWait = Visibility.Visible;
                 await Task.Run(() =>
                 {
-                    ResultObject = Tool.TryGet(ResultID, out ResultType);
+                    ResultObject = TidalTool.tryGet(ResultID, out ResultType, ResultType);
                 });
             }
             RequestClose();
@@ -81,7 +95,7 @@ namespace TIDALDL_UI.Pages
 
         public void Cancel()
         {
-            ResultID = null;
+            ResultType = eObjectType.None;
             RequestClose();
         }
         #endregion
@@ -95,13 +109,13 @@ namespace TIDALDL_UI.Pages
             VideoList = new List<SearchItem>();
             this.SearchInfo = SearchInfo;
             foreach (Artist item in SearchInfo.Artists)
-                ArtistList.Add(new SearchItem(item.Name, item.ID, ""));
+                ArtistList.Add(new SearchItem(SearchInfo.Artists.IndexOf(item) + 1, item.Name, item.Name, ""));
             foreach (Album item in SearchInfo.Albums)
-                AlbumList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                AlbumList.Add(new SearchItem(SearchInfo.Albums.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
             foreach (Track item in SearchInfo.Tracks)
-                TrackList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                TrackList.Add(new SearchItem(SearchInfo.Tracks.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
             foreach (Video item in SearchInfo.Videos)
-                VideoList.Add(new SearchItem(item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                VideoList.Add(new SearchItem(SearchInfo.Videos.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
         }
     }
 }

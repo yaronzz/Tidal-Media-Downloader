@@ -18,122 +18,65 @@ namespace TIDALDL_UI.Pages
 {
     public class MainListItemViewModel : Screen
     {
-        /// <summary>
-        /// Item Name | Type(Album\Track\Video\Playlist) | Cover | SvaePath | Quality
-        /// </summary>
         public string Title { get; private set; }
-        public string Type { get; private set; }
-        public string Author { get; set; }
+        public string Desc { get; set; }
         public BitmapImage Cover { get; private set; }
         public string BasePath { get; private set; }
-        public string Quality { get; private set; }
-        public string CoverPath { get; private set; }
-        public Byte[] CoverData { get; private set; }
-
-        /// <summary>
-        /// Item Objec - Album|Playlist|Track|Video
-        /// </summary>
-        public ArtistAlbumList TidalArtistAlbumList { get; private set; }
-        public Album TidalAlbum { get; private set; }
-        public Playlist TidalPlaylist { get; private set; }
-        public Track TidalTrack { get; private set; }
-        public Video TidalVideo { get; private set; }
-
-        /// <summary>
-        /// Item DowmloadList
-        /// </summary>
         public ObservableCollection<DownloadItem> DLItemList { get; set; }
+        private BindableCollection<MainListItemViewModel> Parents { get; set; }
 
-        /// <summary>
-        /// Progress
-        /// </summary>
-        public ProgressHelper Progress { get; set; }
+        public string ButtonKind { get; set; } = "CloseCircle";
+        public string ButtonTip { get; set; } = "Cancel";
 
-
-        public MainListItemViewModel(object data, string path, string quality = "HIGH", string resolution = "720")
+        public MainListItemViewModel(object data, BindableCollection<MainListItemViewModel> parents)
         {
-            Progress   = new ProgressHelper();
+            Parents    = parents;
             DLItemList = new ObservableCollection<DownloadItem>();
-
-            if(data.GetType() == typeof(ArtistAlbumList))
-            {
-                ArtistAlbumList artistAlbumList = (ArtistAlbumList)data;
-                TidalArtistAlbumList = artistAlbumList;
-                Title                = String.Format("{0} Total Albums:{1}", artistAlbumList.Artist.Name, artistAlbumList.TotalAlbums);
-                Type                 = "Album List";
-                Quality              = quality;
-                BasePath             = path + "\\Album\\";
-                Author               = "";
-                foreach(Album album in artistAlbumList.Albums)
-                {
-                    if (album.Tracks != null)
-                    {
-                        String fullBasePath = BasePath + Tool.GetAlbumFolderName(album);
-                        foreach (Track item in album.Tracks)
-                            DLItemList.Add(new DownloadItem(DLItemList.Count, fullBasePath, Update, item, quality, album: album));
-                    }
-                }
-            }
-            else if (data.GetType() == typeof(Album))
+            if (data.GetType() == typeof(Album))
             {
                 Album album = (Album)data;
-                TidalAlbum = album;
-                Title      = album.Title;
-                Type       = "Album";
-                Quality    = quality;
-                BasePath   = path + "\\Album\\" + Tool.GetAlbumFolderName(album);
-                Author     = album.Artist.Name;
-                CoverPath  = BasePath + '\\' + Tool.GetAlbumCoverName(album);
-                CoverData  = album.CoverData;
+                Title       = album.Title;
+                BasePath    = TidalTool.getAlbumFolder(Config.OutputDir(), album);
+                Desc        = string.Format("by {0}-{1} Tracks-{2} Videos-{3}", album.Artist.Name, TimeHelper.ConverIntToString(album.Duration), album.NumberOfTracks, album.NumberOfVideos);
+                Cover       = AIGS.Common.Convert.ConverByteArrayToBitmapImage(album.CoverData);
 
-                //init DownloadList
-                if(album.Tracks != null)
-                    foreach (Track item in album.Tracks)
-                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, item, quality, cover:CoverData, coverPath: CoverPath, album:album));
-                if(album.Videos != null)
-                    foreach (Video item in album.Videos)
-                        DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, item, resolution, album: album));
+                AddAlbum(album);
             }
-            else if(data.GetType() == typeof(Video))
+            else if (data.GetType() == typeof(Video))
             {
                 Video video = (Video)data;
-                TidalVideo  = video;
                 Title       = video.Title;
-                Type        = "Video";
-                BasePath    = path + "\\Video\\";
-                Author      = video.Artist.Name;
-                CoverPath   = BasePath + '\\' + Tool.GetVideoCoverName(video);
-                CoverData   = video.CoverData;
-                DLItemList.Add(new DownloadItem(DLItemList.Count, BasePath, Update, null, null, video, resolution));
+                BasePath    = TidalTool.getVideoFolder(Config.OutputDir());
+                Desc        = string.Format("by {0}-{1}", video.Artist.Name, TimeHelper.ConverIntToString(video.Duration));
+                Cover       = AIGS.Common.Convert.ConverByteArrayToBitmapImage(video.CoverData);
+                DLItemList.Add(new DownloadItem(DLItemList.Count + 1, null, video, null));
+            }
+            else if(data.GetType() == typeof(Artist))
+            {
+                Artist artist = (Artist)data;
+                Title         = artist.Name;
+                BasePath      = TidalTool.getArtistFolder(Config.OutputDir(), artist);
+                Desc          = string.Format("by {0} Albums-{1}", artist.Name, artist.Albums.Count);
+                Cover         = AIGS.Common.Convert.ConverByteArrayToBitmapImage(artist.CoverData);
+
+                foreach (var item in artist.Albums)
+                    AddAlbum(item);
             }
 
-            //Save Cover
-            Cover = AIGS.Common.Convert.ConverByteArrayToBitmapImage(CoverData);
-            FileHelper.Write(CoverData, true, CoverPath);
+            PathHelper.Mkdirs(BasePath);
         }
 
-        /// <summary>
-        /// Update Progress
-        /// </summary>
-        /// <param name="item"></param>
-        public void Update(DownloadItem item)
+        private void AddAlbum(Album album)
         {
-            if (item.Progress.IsErr)
-                this.Progress.UpdateErr(this.Progress.ErrSize + 1, DLItemList.Count);
-            else if (item.Progress.IsComplete)
-                this.Progress.Update(this.Progress.CurSize + 1, DLItemList.Count);
+            string CoverPath = TidalTool.getAlbumCoverPath(Config.OutputDir(), album);
+            FileHelper.Write(album.CoverData, true, CoverPath);
 
-            if (this.Progress.ErrSize >= DLItemList.Count)
-                this.Progress.IsErr = true;
-            else if (this.Progress.CurSize >= DLItemList.Count)
-                this.Progress.IsComplete = true;
-            else if (this.Progress.CurSize + this.Progress.ErrSize >= DLItemList.Count)
-                this.Progress.IsSomeErr = true;
+            foreach (Track item in album.Tracks)
+                DLItemList.Add(new DownloadItem(DLItemList.Count +1, item, null, album: album));
+            foreach (Video item in album.Videos)
+                DLItemList.Add(new DownloadItem(DLItemList.Count + 1, null, item, album: album));
         }
 
-        /// <summary>
-        /// Start All Download List Items
-        /// </summary>
         public void StartWork()
         {
             foreach (DownloadItem item in DLItemList)
@@ -141,19 +84,31 @@ namespace TIDALDL_UI.Pages
         }
 
         #region Button
-        /// <summary>
-        /// Cancel Work
-        /// </summary>
-        public void Cancel()
+        public void CancelAndRestart()
+        {
+            if (ButtonKind == "CloseCircle")
+            {
+                foreach (DownloadItem item in DLItemList)
+                    item.Cancel();
+                ButtonKind = "Restart";
+                ButtonTip = "Restart";
+            }
+            else
+            {
+                foreach (DownloadItem item in DLItemList)
+                    item.Restart();
+                ButtonKind = "CloseCircle";
+                ButtonTip = "Cancel";
+            }
+        }
+
+        public void Delete()
         {
             foreach (DownloadItem item in DLItemList)
                 item.Cancel();
-            this.Progress.IsCanceled = true;
+            Parents.Remove(this);
         }
 
-        /// <summary>
-        /// Open BasePath
-        /// </summary>
         public void OpenBasePath()
         {
             Process.Start(BasePath);

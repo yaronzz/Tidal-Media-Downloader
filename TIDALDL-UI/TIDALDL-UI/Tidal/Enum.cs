@@ -16,19 +16,21 @@ namespace Tidal
 
     public enum eObjectType
     {
-        ALBUMS,
-        ARTISTS,
-        PLAYLISTS,
-        TRACKS,
-        VIDEOS,
+        ALBUM,
+        ARTIST,
+        PLAYLIST,
+        TRACK,
+        VIDEO,
+        SEARCH,
+        None,
     }
 
     public enum eResolution
     {
-        e240P = 0,
-        e360P = 1,
-        e480P = 2,
-        e720P = 3,
-        e1080P = 4
+        e240P = 240,
+        e360P = 360,
+        e480P = 480,
+        e720P = 720,
+        e1080P = 1080
     }
 }

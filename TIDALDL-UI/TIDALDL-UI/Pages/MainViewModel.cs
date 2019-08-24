@@ -19,61 +19,37 @@ namespace TIDALDL_UI.Pages
 {
     public class MainViewModel : Screen
     {
-        /// <summary>
-        /// Errmsg
-        /// </summary>
-        public string Errlabel { get; set; } = "";
-        public bool ShowErrlabel { get; set; } = false;
-        /// <summary>
-        /// Search Text/List/Thread 
-        /// </summary>
+        public string Errlabel { get; set; }
         public string SearchStr { get; set; }
-        public int SelectIndex { get; set; }
-        public ObservableCollection<string> SearchList { get; set; }
-        private Thread SearchTread;
+        public bool   InSearch { get; set; }
 
         /// <summary>
         /// Download Items
         /// </summary>
         public BindableCollection<MainListItemViewModel> ItemList { get; } = new BindableCollection<MainListItemViewModel>();
 
-        /// <summary>
-        /// Open Window Tool
-        /// </summary>
-        private IWindowManager Manager;
 
-        /// <summary>
-        /// Update Thread
-        /// </summary>
-        private Thread UpdateThread;
-
-        /// <summary>
-        /// All Windows
-        /// </summary>
+        private IWindowManager Manager; 
         private LoginViewModel VMLogin;
         private SettingViewModel VMSetting;
         private AboutViewModel VMAbout;
-        private WaitViewModel VMWait;
         private InfoViewModel VMInfo;
         private SearchViewModel VMSearch;
 
         public MainViewModel(IWindowManager manager,
                             SettingViewModel setting,
                             AboutViewModel about,
-                            WaitViewModel wait,
                             InfoViewModel albuminfo,
                             SearchViewModel search)
         {
-            Manager     = manager;
-            VMSetting   = setting;
-            VMAbout     = about;
-            VMWait      = wait;
-            VMInfo      = albuminfo;
-            VMSearch    = search;
-            SearchList  = Config.HistorySearchs();
-            SearchStr   = SearchList.Count > 0 ? SearchList[0] : null;
+            Manager   = manager;
+            VMSetting = setting;
+            VMAbout   = about;
+            VMInfo    = albuminfo;
+            VMSearch  = search;
+            ThreadTool.SetThreadNum(int.Parse(Config.ThreadNum()));
 
-            UpdateThread = new Thread(ThreadUpdateFunc);
+            Thread UpdateThread = new Thread(ThreadUpdateFunc);
             UpdateThread.IsBackground = true;
             UpdateThread.Start();
             return;
@@ -90,43 +66,56 @@ namespace TIDALDL_UI.Pages
             RequestClose();
         }
 
-        public void SelectChange()
-        {
-            if (SelectIndex < 0 || SelectIndex >= SearchList.Count)
-                return;
-            SearchStr = SearchList[SelectIndex];
-        }
 
         #region Button
-        /// <summary>
-        /// Search Func
-        /// </summary>
-        public void Search()
+        public async void Search()
         {
-            Errlabel = "";
+            if (InSearch)
+                return;
             if (SearchStr.IsBlank())
-                Errlabel = "Search String is Err!";
-            if(SearchTread != null)
-                Errlabel = "Somethig is in Searching!";
-            if (Errlabel.IsNotBlank())
             {
-                ShowErrlabel = true;
+                Errlabel = "Search String is Empty!";
                 return;
             }
-            
-            SearchTread = ThreadHelper.Start(ThreadFuncSearch);
-            ShowWaitView(ThreadSearchClose);
+
+            //Search
+            InSearch               = true;
+            eObjectType SearchType = eObjectType.None;
+            object SearchObj       = await Task.Run(() => { return TidalTool.tryGet(SearchStr, out SearchType); });
+            InSearch               = false;
+
+            if (SearchType == eObjectType.None)
+            {
+                Errlabel = "Search Err!";
+                return;
+            }
+            if (SearchType == Tidal.eObjectType.SEARCH)
+            {
+                VMSearch.Load((Tidal.SearchResult)SearchObj);
+                Manager.ShowDialog(VMSearch);
+                SearchType = VMSearch.ResultType;
+                SearchObj  = VMSearch.ResultObject;
+                if (SearchType == eObjectType.None)
+                    return;
+            }
+
+            SearchObj = VMInfo.Load(SearchObj);
+            Manager.ShowDialog(VMInfo);
+            if (VMInfo.Result)
+            {
+                MainListItemViewModel newNode = new MainListItemViewModel(SearchObj, ItemList);
+                ItemList.Add(newNode);
+                newNode.StartWork();
+            }
         }
 
         public void Logout()
         {
+            TidalTool.logout();
             Manager.ShowWindow(VMLogin);
             WindowClose();
         }
 
-        /// <summary>
-        /// Show Setting Window
-        /// </summary>
         public void Setting()
         {
             Manager.ShowDialog(VMSetting);
@@ -135,111 +124,24 @@ namespace TIDALDL_UI.Pages
             ThreadTool.SetThreadNum(int.Parse(sValue));
         }
 
-        /// <summary>
-        /// Show About Window
-        /// </summary>
         public void About()
         {
             Manager.ShowDialog(VMAbout);
         }
 
-        /// <summary>
-        /// FeedBack In Project Page
-        /// </summary>
         public void FeedBack()
         {
             NetHelper.OpenWeb("https://github.com/yaronzz/Tidal-Media-Downloader/issues");
         }
 
-        /// <summary>
-        /// Close Errlabel Box
-        /// </summary>
         public void CloseErrlabel()
         {
-            ShowErrlabel = false;
+            Errlabel = null;
         }
         #endregion
 
-        #region WaitForm
-        /// <summary>
-        /// Show Wait Window
-        /// </summary>
-        public void ShowWaitView(WaitViewModel.CloseFunc Func)
-        {
-            VMWait.Init(Func);
-            Manager.ShowDialog(VMWait);
-        }
-
-        /// <summary>
-        /// Close Wait Window
-        /// </summary>
-        public void CloseWaitView()
-        {
-            VMWait.Close();
-        }
-
-        #endregion 
 
 
-
-        #region Search Thread
-        /// <summary>
-        /// Login Thread
-        /// </summary>
-        public void ThreadFuncSearch(object[] data)
-        {
-            string sID           = SearchStr;
-            string sType         = null;
-            object oRecord       = null;
-
-            oRecord = Tool.TryGet(sID, out sType);
-            if (Application.Current != null)
-            {
-                Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    if (sType.IsNotBlank())
-                    {
-                        Config.AddHistorySearch(SearchStr);
-                        SearchList = Config.HistorySearchs();
-                        if (sType == "Search")
-                        {
-                            VMSearch.Load((SearchResult)oRecord);
-                            Manager.ShowDialog(VMSearch);
-                            sType   = VMSearch.ResultType;
-                            oRecord = VMSearch.ResultObject;
-                        }
-
-                        if (sType.IsNotBlank() && sType != "Search")
-                        {
-                            oRecord = VMInfo.Load(oRecord);
-                            Manager.ShowDialog(VMInfo);
-                            if (VMInfo.Result)
-                            {
-                                MainListItemViewModel newNode = new MainListItemViewModel(oRecord, VMInfo.OutputDir, VMInfo.QualityList[VMInfo.SelectQualityIndex], Config.Resolution());
-                                ItemList.Add(newNode);
-                                newNode.StartWork();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Errlabel = "Search Err!";
-                        ShowErrlabel = true;
-                    }
-                    CloseWaitView();
-                });
-            }
-        }
-        
-        /// <summary>
-        /// Close Login Thread
-        /// </summary>
-        public void ThreadSearchClose()
-        {
-            SearchTread.Abort();
-            SearchTread = null;
-        }
-        #endregion
 
         #region Version Update Thread
         public void ThreadUpdateFunc()
@@ -251,9 +153,9 @@ namespace TIDALDL_UI.Pages
 
             //Get Already Download Ver
             string sDlVer = FileHelper.Read(VERF);
-            if(sDlVer.IsNotBlank() && VersionHelper.Compare(sSelfVer, sDlVer) < 0 && File.Exists(PATH + "tidal-gui.exe") && File.Exists(BATF))
+            if (sDlVer.IsNotBlank() && VersionHelper.Compare(sSelfVer, sDlVer) < 0 && File.Exists(PATH + "tidal-gui.exe") && File.Exists(BATF))
             {
-                MessageBoxResult ret = MessageBox.Show("Update New Version?", "Info", MessageBoxButton.YesNo);
+                MessageBoxResult ret = MessageBox.Show("Update new version?", "Info", MessageBoxButton.YesNo);
                 if (ret == MessageBoxResult.No)
                     return;
 
@@ -262,21 +164,21 @@ namespace TIDALDL_UI.Pages
                     Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                     {
                         CmdHelper.StartExe(BATF, null, IsShowWindow: false);
-                        RequestClose();
+                        WindowClose();
                     });
                 }
                 return;
             }
 
             //Get Github Last Ver
-            string sLastVer = githubHelper.getLastReleaseVersion("yaronzz", "Tidal-Media-Downloader");
+            string sLastVer = GithubHelper.getLastReleaseVersion("yaronzz", "Tidal-Media-Downloader");
             if (VersionHelper.Compare(sSelfVer, sLastVer) >= 0)
                 return;
 
             if (Directory.Exists(PATH))
                 Directory.Delete(PATH, true);
             PathHelper.Mkdirs(PATH);
-            if (githubHelper.getLastReleaseFile("yaronzz", "Tidal-Media-Downloader", "tidal-gui.zip", PATH + "tidal-gui.zip"))
+            if (GithubHelper.getLastReleaseFile("yaronzz", "Tidal-Media-Downloader", "tidal-gui.zip", PATH + "tidal-gui.zip"))
             {
                 FastZip fz = new FastZip();
                 try
@@ -291,9 +193,9 @@ namespace TIDALDL_UI.Pages
                         FileHelper.Write(sLastVer, true, VERF);
                     }
                 }
-                catch (Exception e)
+                catch
                 {
-                   return;
+                    return;
                 }
             }
         }

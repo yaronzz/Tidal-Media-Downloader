@@ -33,6 +33,14 @@ namespace TIDALDL_UI.Else
             return SetOrGet("outputdir", Setvalue, "./");
         }
 
+        public static bool OnlyM4a(string Setvalue = null)
+        {
+            string sValue = SetOrGet("onlym4a", Setvalue, "./");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
         public static string Quality(string Setvalue = null)
         {
             return SetOrGet("quality", Setvalue, "HIGH");
@@ -57,7 +65,7 @@ namespace TIDALDL_UI.Else
 
         public static string ThreadNum(string Setvalue = null)
         {
-            return SetOrGet("threadnum", Setvalue, "3");
+            return SetOrGet("threadnum", Setvalue, "1");
         }
 
         public static string Username(string Setvalue = null)

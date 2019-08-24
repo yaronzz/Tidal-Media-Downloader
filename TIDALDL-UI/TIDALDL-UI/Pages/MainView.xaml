@@ -6,13 +6,20 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TIDALDL_UI"
         xmlns:pages="clr-namespace:TIDALDL_UI.Pages"
+        xmlns:aigs="clr-namespace:AIGS.Common;assembly=AIGS"
         xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
         WindowStyle="None"
         Background="{x:Null}"
         AllowsTransparency="True"
-        Title="MainView" Height="610" Width="780" 
+        Title="Tidal-gui" Height="710" Width="1060" 
         d:DataContext="{d:DesignInstance pages:MainViewModel}">
+
+    <Window.Resources>
+        <aigs:UnBoolConverter x:Key="ConverterUnbool" />
+        <aigs:StringNotEmptyToBallConverter x:Key="ConverterStringNotEmpty" />
+    </Window.Resources>
+
     <Grid>
         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
@@ -34,37 +41,32 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="428">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <!--<ComboBox Grid.Column="0" Margin="19,0,0,0" materialDesign:HintAssist.Hint="  Enter ID" Background="White" IsEditable="True" VerticalAlignment="Top" Height="32" Width="184" HorizontalAlignment="Left" 
-                                              Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedIndex="{Binding SelectIndex, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectionChanged="{s:Action SelectChange}"
-                                              ItemsSource="{Binding SearchList, UpdateSourceTrigger=PropertyChanged}" 
-                                              BorderThickness="0" />-->
                                         <TextBox Grid.Column="0"
-                                                Margin="8 0 0 0"
+                                                Margin="2,4,26,4"
                                                 Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
-                                                materialDesign:HintAssist.Hint="Search..."
+                                                materialDesign:HintAssist.Hint="Enter ID\Title\Url"
                                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                 BorderThickness="0"
                                                 MinWidth="200"
-                                                VerticalAlignment="Center" />
-                                        <Button Grid.Column="1" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True">
+                                                VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                        <Button Grid.Column="1" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,0,1,0">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                                         </Button>
                                     </Grid>
                                 </materialDesign:ColorZone>
+                                <ProgressBar  Style="{StaticResource MaterialDesignCircularProgressBar}"  Visibility="{Binding InSearch, Converter={x:Static s:BoolToVisibilityConverter.Instance}}" Value="0" IsIndeterminate="True" Height="22" Width="20" Foreground="#FFFDFEFF" Margin="5,0,0,0" BorderBrush="#FFF9F7F7" />
                             </StackPanel>
                         </DockPanel>
                     </materialDesign:ColorZone>
 
                     <!--Content-->
-                    <Grid Height="518" VerticalAlignment="Bottom">
+                    <Grid Margin="0,52,0,0">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                                 Visibility="{Binding ItemList.Count, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                             <ItemsControl Padding="8" Background="{DynamicResource MaterialDesignCardBackground}"
@@ -79,7 +81,7 @@
                     </Grid>
 
                     <!--Err Label IsActive="{Binding ShowErrlabel}"-->
-                    <materialDesign:Snackbar IsActive='{Binding ShowErrlabel}' Margin="0,0,0,0" Width="560">
+                    <materialDesign:Snackbar IsActive='{Binding Path=Errlabel, Converter={StaticResource ConverterStringNotEmpty}}' Margin="0,0,0,0" Width="560">
                         <materialDesign:SnackbarMessage Content="{Binding Errlabel}" ActionContent="OK" ActionClick="{s:Action CloseErrlabel}"/>
                     </materialDesign:Snackbar>
                 </Grid>

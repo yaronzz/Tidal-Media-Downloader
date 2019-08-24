@@ -15,19 +15,19 @@
              TextOptions.TextFormattingMode="Ideal" 
              TextOptions.TextRenderingMode="Auto"    
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-             Width="568" 
+             Width="850" 
              WindowStartupLocation="CenterOwner"
              WindowStyle="None"
              Background="{x:Null}"
              AllowsTransparency="True"
-             Height="540"
+             Height="575"
              ShowInTaskbar="False"
              d:DataContext="{d:DesignInstance pages:SearchViewModel}">
 
     <materialDesign:Card Name="m_CMainCard" materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
 
-            <Grid Margin="16">
+            <Grid Margin="16,16,16,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="44" />
@@ -38,10 +38,10 @@
                 <Label Content="{Binding Header}" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
                 <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1">
                     <StackPanel Orientation="Horizontal" Margin="2">
-                        <RadioButton Content="ARTIST" IsChecked="{Binding bCheckArtist}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="ALBUM" IsChecked="{Binding bCheckAlbum}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="TRACK" IsChecked="{Binding bCheckTrack}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="VIDEO" IsChecked="{Binding bCheckVideo}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
+                        <RadioButton Content="ARTIST" IsChecked="{Binding bCheckArtist}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                     </StackPanel>
                 </materialDesign:ColorZone>
 
@@ -49,8 +49,9 @@
                     <ListView Grid.Row="2" ItemsSource="{Binding BindList}" SelectedIndex="{Binding SelectIndex}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionMode="Single" >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="TITLE" Width="230" DisplayMemberBinding="{Binding Title}"/>
-                                <GridViewColumn Header="ARTIST" Width="130" DisplayMemberBinding="{Binding Artist}"/>
+                                <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Index}"/>
+                                <GridViewColumn Header="TITLE" Width="380" DisplayMemberBinding="{Binding Title}"/>
+                                <GridViewColumn Header="ARTIST" Width="260" DisplayMemberBinding="{Binding Artist}"/>
                                 <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
                             </GridView>
                         </ListView.View>
@@ -60,15 +61,15 @@
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"
                             Content="Confirm" 
-                            Height="27" VerticalAlignment="Bottom" Margin="204,0,155,8"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="380,0,214,7"/>
                     <Button IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Cancel}"
                             Content="Cancel" 
-                            Height="27" VerticalAlignment="Bottom" Margin="354,0,10,8"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="584,0,10,7"/>
                 </Grid>
 
                 <Grid Grid.Row="2" Grid.RowSpan="2" Background="White" Visibility="{Binding ShowWait}">
-                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"  Value="60" Height="Auto" Margin="200,130,202,177" Width="Auto"/>
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"  Value="60" Height="Auto" Margin="280,98,284,209" Width="Auto"/>
                 </Grid>
             </Grid>
         </materialDesign:DialogHost>

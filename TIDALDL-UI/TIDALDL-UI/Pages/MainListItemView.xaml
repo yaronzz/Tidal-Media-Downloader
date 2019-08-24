@@ -11,9 +11,9 @@
              Background="Red"
              d:DataContext="{d:DesignInstance pages:MainListItemViewModel}">
     <Border Padding="0" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-        <Expander ExpandDirection="Down" Padding="0">
+        <Expander ExpandDirection="Down" Padding="0" IsExpanded="True">
             <Expander.Header>
-                <Grid Height="35">
+                <Grid Height="64" Margin="-20,-8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -21,27 +21,31 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <!--  Thumbnail  -->
-                    <Image Grid.Column="0" Source="{Binding Cover}" Width="45" Margin="4,0,0,0"/>
+                    <Image Grid.Column="0" Source="{Binding Cover}" Width="64" Margin="0"/>
                     <!--  Title  -->
                     <StackPanel Margin="8 0 0 0" Grid.Column="1">
                         <TextBlock Text="{Binding Title}" FontSize="15"  FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Author}" FontSize="12" />
+                        <TextBlock Text="{Binding Desc}" FontSize="12" />
                     </StackPanel>
                     <!--  Progress and completion status  -->
-                    <TextBlock Grid.Column="2" Margin="4" Width="80" VerticalAlignment="Center"
+                    <!--<TextBlock Grid.Column="2" Margin="4" Width="80" VerticalAlignment="Center"
                                Text="{Binding Progress.Status, UpdateSourceTrigger=PropertyChanged}"
-                               Foreground="{Binding Progress.StatusColor,UpdateSourceTrigger=PropertyChanged}"/>
+                               Foreground="{Binding Progress.StatusColor,UpdateSourceTrigger=PropertyChanged}"/>-->
                     <!-- Button -->
                     <StackPanel Grid.Column="3" Margin="4" VerticalAlignment="Center" Orientation="Horizontal">
-                        <Button Command="{s:Action Cancel}" Padding="4,0,4,0" ToolTip="Cancel download" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}">
-                            <materialDesign:PackIcon Width="24" Height="24" Kind="CloseCircle" />
+                        <Button Command="{s:Action CancelAndRestart}" Padding="4,0,4,0" ToolTip="{Binding ButtonTip}" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}">
+                            <materialDesign:PackIcon Width="24" Height="24" Kind="{Binding ButtonKind}" />
                         </Button>
-                        <Button Command="{s:Action OpenBasePath}" Padding="4,0,4,0" VerticalAlignment="Center" ToolTip="Navigate to file" Style="{DynamicResource MaterialDesignFlatButton}">
+                        <Button Command="{s:Action Delete}" Padding="4,0,4,0" ToolTip="Delete" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}">
+                            <materialDesign:PackIcon Width="24" Height="24" Kind="TrashCircle" />
+                        </Button>
+                        <Button Command="{s:Action OpenBasePath}" Padding="4,0,4,0" VerticalAlignment="Center" ToolTip="Open" Style="{DynamicResource MaterialDesignFlatButton}">
                             <materialDesign:PackIcon Width="24" Height="24 " Kind="FileFind" />
                         </Button>
                     </StackPanel>
                 </Grid>
             </Expander.Header>
+            
             <!-- Download List -->
             <Grid Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" >
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Visibility="{Binding DLItemList.Count, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
@@ -52,8 +56,7 @@
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="39*"/>
-                                            <RowDefinition Height="{Binding Progress.HeightOfErrlable,UpdateSourceTrigger=PropertyChanged}"/>
-                                            <!--<RowDefinition Height="18"/>-->
+                                            <RowDefinition Height="{Binding ErrlabelHeight,UpdateSourceTrigger=PropertyChanged}"/>
                                         </Grid.RowDefinitions>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -62,18 +65,21 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding Index}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
                                             <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding sType}" VerticalAlignment="Center" Padding="5,0"/>
-                                            <ProgressBar Grid.Column="3" Width="150" Height="10" Margin="0,14,0,15" 
-                                                            Maximum="{Binding Progress.ProgressMaxValue, UpdateSourceTrigger=PropertyChanged}"
-                                                            Value="{Binding Progress.ProgressCurValue,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            <TextBlock Grid.Column="4" Margin="4" Width="80" VerticalAlignment="Center"
-                                                        Text="{Binding Progress.Status,UpdateSourceTrigger=PropertyChanged}"
+                                            <TextBlock Grid.Column="2" Text="{Binding Own}" VerticalAlignment="Center" Padding="5,0" FontStretch="Expanded" FontStyle="Italic"/>
+                                            <!--<TextBlock Grid.Column="3" Text="{Binding sType}" VerticalAlignment="Center" Padding="5,0"/>-->
+                                            <materialDesign:PackIcon Grid.Column="3" Width="24" Height="24" Kind="{Binding sType}" VerticalAlignment="Center" Margin="5,0"/>
+                                            <ProgressBar Grid.Column="4" Width="200" Height="10" Margin="0,13,0,13" 
+                                                            Maximum="100"
+                                                            Value="{Binding Progress.Value,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Grid.Column="5" Margin="4" Width="80" VerticalAlignment="Center"
+                                                        Text="{Binding Progress.StatusMsg,UpdateSourceTrigger=PropertyChanged}"
                                                         Foreground="{Binding Progress.StatusColor,UpdateSourceTrigger=PropertyChanged}"/>
                                         </Grid>
-                                        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding Progress.Errlabel,UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,157,0" Foreground="#FFF72A2A"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Progress.Errmsg,UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,157,0" Foreground="#FFF72A2A"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

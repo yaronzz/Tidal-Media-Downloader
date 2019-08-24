@@ -15,7 +15,7 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"    
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        Title="Tidal-dl" 
+        Title="Tidal-gui" 
         Width="515"
         Height="415" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}"
         d:DataContext="{d:DesignInstance pages:LoginViewModel}">
@@ -41,7 +41,7 @@
                     </Grid>
 
                     <!--Login Page-->
-                    <Grid Grid.Row="1" Background="White" Visibility="{Binding MainVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="1" Background="White"  Grid.ColumnSpan="2">
                         <ComboBox Margin="115,10,0,0" materialDesign:HintAssist.Hint="  UserName" Background="White" IsEditable="True" VerticalAlignment="Top" BorderThickness="1" Height="28" Width="195" HorizontalAlignment="Left" 
                                   Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayMemberPath="Key" 
@@ -51,7 +51,7 @@
                                   ItemsSource="{Binding PersonList, UpdateSourceTrigger=PropertyChanged}" Padding="2,6,0,6" BorderBrush="#899C9494"/>
                         <PasswordBox Margin="115,38,0,0" materialDesign:HintAssist.Hint="  Password" Background="White" Height="28" Width="195" aigsc:PasswordBoxHelper.Attach="True" aigsc:PasswordBoxHelper.Password="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#899C9494" />
                         <CheckBox Content="Remember" Margin="115,66,0,56" HorizontalAlignment="Left" Width="90" IsChecked="{Binding Remember,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Content="Auto Login" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="AutoLongin" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <materialDesign:Badged Badge="{Binding Errlabel, UpdateSourceTrigger=PropertyChanged}" Margin="115,96,0,0">
                             <Button Command="{s:Action Confirm}" s:View.ActionTarget="{Binding}" Name="m_CLogin" Content="LOG IN" HorizontalAlignment="Left" Width="195" Height="30"  IsDefault="True"/>
                         </materialDesign:Badged>
@@ -60,6 +60,7 @@
                     <!--Wait Page-->
                     <Grid Grid.Row="1" Background="White" Name="m_CWaitPage" Visibility="{Binding WaitVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
                         <materialDesign:Chip
+                              Background="LightGray"
                               Content="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                               IconBackground="{DynamicResource PrimaryHueDarkBrush}"
                               IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}" Margin="105,38,0,74" Height="Auto" Width="215">
@@ -67,7 +68,7 @@
                                 <materialDesign:PackIcon Kind="AccountCircle" Height="25" Width="30" />
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
-                        <Button Command="{s:Action Cancel}" Content="CANCEL" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
+                        <Button Command="{s:Action Cancle}" Content="CANCLE" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <materialDesign:Snackbar HorizontalAlignment="Stretch" x:Name="SnackbarFive" IsActive="False" Grid.Row="1" Height="29" Grid.ColumnSpan="2">

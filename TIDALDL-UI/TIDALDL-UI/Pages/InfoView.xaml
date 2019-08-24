@@ -29,36 +29,29 @@
             <Grid Margin="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
-                    <RowDefinition Height="150" />
+                    <RowDefinition Height="180" />
                     <RowDefinition Height="47*" />
                 </Grid.RowDefinitions>
 
                 <Label Content="{Binding Header}" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="144"/>
+                        <ColumnDefinition Width="180"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding Cover}"  Margin="0,10,0,7"></Image>
-                    <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Column="1" Height="45" FontWeight="ExtraBlack" />
-                    <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="10,45,0,0" Grid.Column="1" Height="25" />
-                    <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="10,70,0,0" Grid.Column="1" Height="25" />
+                    <Image Source="{Binding Cover}" Margin="0,10,0,0"/>
+                    <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Grid.Column="1" Height="45" FontWeight="ExtraBlack" />
+                    <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="0,45,0,0" Grid.Column="1" Height="25" />
+                    <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="0,70,0,0" Grid.Column="1" Height="25" />
 
-                    <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="Search" 
-                              materialDesign:HintAssist.HintOpacity=".26"
-                              ItemsSource="{Binding QualityList}"
-                              DisplayMemberPath="Value"
-                              Width="{Binding QualityWidth}"
-                              SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
-                              Margin="20,115,222,7"></ComboBox>
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"
                             Content="Download" 
-                            Height="27" VerticalAlignment="Bottom" Margin="152,0,105,7"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="5,0,177,8"/>
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Cancel}"
                             Content="Cancel" 
-                            Height="27" VerticalAlignment="Bottom" Margin="252,0,10,8"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="159,0,23,8"/>
 
                 </Grid>
 
@@ -77,3 +70,6 @@
         </materialDesign:DialogHost>
     </materialDesign:Card>
 </Window>
+    
+    
+    

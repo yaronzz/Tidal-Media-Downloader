@@ -18,50 +18,26 @@ namespace TIDALDL_UI.Pages
 {
     public class LoginViewModel: Screen
     {
-        /// <summary>
-        /// Show ErrMsg In LoginButton
-        /// </summary>
         public string Errlabel { get; set; }
-
-        /// <summary>
-        /// Account
-        /// </summary>
         public string Username { get; set; }
         public string Password { get; set; }
-
+        public bool   Remember { get; set; }
+        public bool   AutoLogin { get; set; }
         /// <summary>
         /// History AccountList
         /// </summary>
         public ObservableCollection<Property> PersonList { get; private set; }
-
-        /// <summary>
-        /// Select History-Account Index
-        /// </summary>
         public int SelectIndex { get; set; }
 
         /// <summary>
-        /// Thread Handle
+        /// Show Wait Page
         /// </summary>
-        public Thread LoginThread;
-
-        /// <summary>
-        /// Show Main or Wait Page
-        /// </summary>
-        public Visibility MainVisibility { get; set; }
         public Visibility WaitVisibility { get; set; }
 
-        /// <summary>
-        /// Check Control - Remember & AutoLogin 
-        /// </summary>
-        public bool Remember { get; set; }
-        public bool AutoLogin { get; set; }
 
         private IWindowManager Manager;
         private MainViewModel VMMain;
 
-        /// <summary>
-        /// Init
-        /// </summary>
         public LoginViewModel(IWindowManager manager, MainViewModel vmmain)
         {
             Manager    = manager;
@@ -88,30 +64,20 @@ namespace TIDALDL_UI.Pages
         }
 
         #region Common
-        /// <summary>
-        /// Select History-User
-        /// </summary>
         public void SelectChange()
         {
             if (SelectIndex >= 0 && SelectIndex <= PersonList.Count)
                 Password = PersonList[SelectIndex].Value.ToString();
         }
 
-        /// <summary>
-        /// Show Main or Wait Page
-        /// </summary>
         public void ShowMainPage(bool bFlag)
         {
-            MainVisibility = bFlag ? Visibility.Visible : Visibility.Hidden;
             WaitVisibility = bFlag ? Visibility.Hidden : Visibility.Visible;
         }
         #endregion 
 
         #region Button
-        /// <summary>
-        /// Login
-        /// </summary>
-        public void Confirm()
+        public async void Confirm()
         {
             Errlabel = "";
             if (Username.IsBlank() || Password.IsBlank())
@@ -119,57 +85,27 @@ namespace TIDALDL_UI.Pages
                 Errlabel = "Username or password is err!";
                 return;
             }
+            Config.AddHistoryAccount(Username, Password);
+
             ShowMainPage(false);
-            LoginThread = ThreadHelper.Start(ThreadFuncLogin);
+            bool bRet = await Task.Run(() => { return TidalTool.login(Username, Password);});
+            if (!bRet)
+                Errlabel = "Login Err!";
+            else
+            {
+                VMMain.SetLogViewModel(this);
+                Manager.ShowWindow(VMMain);
+                RequestClose();
+            }
+            ShowMainPage(true);
             return;
         }
 
-        /// <summary>
-        /// Cancel Login
-        /// </summary>
-        public void Cancel()
+        public void Cancle()
         {
-            LoginThread.Abort();
             ShowMainPage(true);
         }
         #endregion
-
-        #region Thread
-        /// <summary>
-        /// Login Thread
-        /// </summary>
-        public void ThreadFuncLogin(object[] data)
-        {
-            string Errmsg = ""; 
-            if (!Tool.LogIn(Username, Password, out Errmsg))
-            {
-                Errlabel = "Login Err!";
-                ShowMainPage(true);
-                return;
-            }
-
-            //Set Config
-            Config.AddHistoryAccount(Username, Password);
-            
-            //Test
-            //Tool.GetVideoDLUrls("25747558", "720", out Errmsg);
-            //Tool.Search("Rolling", 10, out Errmsg);
-
-            //Open MainWindow
-            if (Application.Current != null)
-            {
-                Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    VMMain.SetLogViewModel(this);
-                    Manager.ShowWindow(VMMain);
-                    RequestClose();
-                    ShowMainPage(true);
-                });
-            }
-        }
-        #endregion
     }
-
-
 
 }

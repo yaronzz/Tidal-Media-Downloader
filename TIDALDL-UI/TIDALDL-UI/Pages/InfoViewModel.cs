@@ -14,7 +14,7 @@ namespace TIDALDL_UI.Pages
 {
     public class InfoItem : Screen
     {
-        public int Number { get; set; }
+        public int    Number { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public string Duration { get; set; }
@@ -30,44 +30,19 @@ namespace TIDALDL_UI.Pages
         }
     }
 
-
     public class InfoViewModel:Screen
     {
         public string Header { get; private set; }
-
-        /// <summary>
-        /// Common Info
-        /// </summary>
         public string Title { get; private set; }
         public string Intro { get; private set; }
         public string ReleaseDate { get; private set; }
-
-        /// <summary>
-        /// Conver
-        /// </summary>
         public BitmapImage Cover { get; private set; }
+        public bool   Result { get; set; }
 
         /// <summary>
         /// Item List
         /// </summary>
         public ObservableCollection<InfoItem> ItemList { get; private set; }
-
-        /// <summary>
-        /// Quality 
-        /// </summary>
-        public int SelectQualityIndex { get; set; }
-        public Dictionary<int, string> QualityList { get; set; }
-        public int QualityWidth { get; set; }
-
-        /// <summary>
-        /// Download Path
-        /// </summary>
-        public string OutputDir { get; set; }
-
-        /// <summary>
-        /// Is Download
-        /// </summary>
-        public bool Result { get; set; }
 
         #region Button
         public void Confirm()
@@ -83,26 +58,24 @@ namespace TIDALDL_UI.Pages
         }
         #endregion
 
-
-
         public object Load(object data)
         {
-            if (data.GetType() == typeof(ArtistAlbumList)) {
-                ArtistAlbumList artistAlbumList = (ArtistAlbumList)data;
-                Header = "ARTISTALBUMLIST";
-                Title = artistAlbumList.Albums[0].Artist.Name;
-                Intro = string.Format("Albums {0}", artistAlbumList.TotalAlbums);
-                ReleaseDate = "";
-
-                ItemList = new ObservableCollection<InfoItem>();
-                QualityWidth = 90;
-                // Add every track from every album!
-                foreach (Album album in artistAlbumList.Albums)
-                    if (album.Tracks != null)
-                        foreach (Track item in album.Tracks)
-                            ItemList.Add(new InfoItem(item.TrackNumber, item.Title, item.SDuration, item.Album.Title));
+            if(data.GetType() == typeof(Artist))
+            {
+                Artist artist = (Artist)data;
+                Header        = "ARTISTINFO";
+                Title         = artist.Name;
+                Intro         = string.Format("by {0} Albums-{1}", artist.Name, artist.Albums.Count);
+                Cover         = AIGS.Common.Convert.ConverByteArrayToBitmapImage(artist.CoverData);
+                ReleaseDate   = "";
+                ItemList      = new ObservableCollection<InfoItem>();
+                if (artist.Albums != null)
+                {
+                    foreach (Album item in artist.Albums)
+                        ItemList.Add(new InfoItem(artist.Albums.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Title));
+                }
             }
-            else if(data.GetType() == typeof(Album))
+            if (data.GetType() == typeof(Album))
             { 
                 Album album = (Album)data;
                 Header      = "ALBUMINFO";
@@ -111,36 +84,28 @@ namespace TIDALDL_UI.Pages
                 Cover       = AIGS.Common.Convert.ConverByteArrayToBitmapImage(album.CoverData);
                 ReleaseDate = "Release date " + album.ReleaseDate;
                 ItemList    = new ObservableCollection<InfoItem>();
-                if (album.Tracks.Count > 0)
-                    QualityWidth = 90;
-
-                if(album.Tracks != null)
+                if (album.Tracks != null)
+                {
                     foreach (Track item in album.Tracks)
-                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, item.SDuration, item.Album.Title));
+                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title));
+                }
                 if (album.Videos != null)
+                {
                     foreach (Video item in album.Videos)
-                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, item.SDuration, item.Album.Title, "VIDEO"));
+                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, "VIDEO"));
+                }
             }
             else if (data.GetType() == typeof(Video))
             {
                 Video video = (Video)data;
                 Header      = "VIDEOINFO";
                 Title       = video.Title;
-                Intro       = string.Format("by {0}-{1}", video.Artist.Name, video.SDuration);
                 Cover       = AIGS.Common.Convert.ConverByteArrayToBitmapImage(video.CoverData);
+                Intro       = string.Format("by {0}-{1}", video.Artist.Name, TimeHelper.ConverIntToString(video.Duration));
                 ReleaseDate = "Release date " + video.ReleaseDate;
                 ItemList    = new ObservableCollection<InfoItem>();
-                QualityWidth = 0;
-                ItemList.Add(new InfoItem(0, video.Title, video.SDuration, video.Album == null? "" : video.Album.Title, "VIDEO"));
+                ItemList.Add(new InfoItem(0, video.Title, TimeHelper.ConverIntToString(video.Duration), video.Album == null ? "" : video.Album.Title, "VIDEO"));
             }
-
-            //Init QualityList
-            QualityList = Config.QualityList();
-            SelectQualityIndex = Config.QualityIndex();
-
-            //Read OutputPath
-            OutputDir = Config.OutputDir();
-
             return data;
         }
     }
