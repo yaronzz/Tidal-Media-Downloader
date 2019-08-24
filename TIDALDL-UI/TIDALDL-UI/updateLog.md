@@ -8,7 +8,7 @@
 - Download by url
 - Download artist albums
 - Download album videos
-- Modify ui
+- Modify ui  
 
 #### v1.1.0.4
 - Fix bug of metadata
