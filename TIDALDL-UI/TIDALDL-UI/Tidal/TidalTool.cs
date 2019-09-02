@@ -345,6 +345,37 @@ namespace Tidal
         }
         #endregion
 
+        #region Filelist
+        private static ObservableCollection<T> listToObser(List<T> pRecords)
+        {
+            ObservableCollection<T> pRet = new ObservableCollection<T>();
+            foreach (T item in pRecords)
+                pRet.Add(item);
+            return pRet;
+        }
+
+        public static Filelist getFilelist(string sFilePath)
+        {
+            if(!File.Exists(sFilePath))
+                return null;
+            Dictionary<string, List<string>> pHash = ConfigHelper.ParseNoEqual(sFilePath);
+            Filelist pRet = new Filelist();
+            pRet.AlbumIds = new ObservableCollection<string>();
+            pRet.TrackIds = new ObservableCollection<string>();
+            pRet.VideoIds = new ObservableCollection<string>();
+            pRet.Urls     = new ObservableCollection<string>();
+            if(pHash.ContainsKey("album"))
+                pRet.AlbumIds = listToObser(pHash['album']);
+            if(pHash.ContainsKey("track"))
+                pRet.TrackIds = listToObser(pHash['track']);
+            if(pHash.ContainsKey("video"))
+                pRet.VideoIds = listToObser(pHash['video']);
+            if(pHash.ContainsKey("url"))
+                pRet.Urls = listToObser(pHash['url']);
+            return pRet;
+        } 
+        #endregion   
+
         #region Convert Mp4 to M4a
         public static bool ConvertMp4ToM4a(string sFilePath, out string sNewFilePath)
         {

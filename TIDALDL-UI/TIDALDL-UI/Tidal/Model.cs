@@ -135,5 +135,11 @@ namespace Tidal
         public ObservableCollection<Playlist> Playlists { get; set; }
     }
 
-
+    public class Filelist
+    {
+        public ObservableCollection<string> AlbumIds{get;set;}
+        public ObservableCollection<string> TrackIds{get;set;}
+        public ObservableCollection<string> VideoIds{get;set;}
+        public ObservableCollection<string> Urls{get;set;}
+    }
 }
