@@ -6,13 +6,12 @@ from aigpy import pipHelper
 from aigpy import pathHelper
 from aigpy.cmdHelper import myinput,myinputInt
 
-import tidal_dl.tidal as tidal
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring
+from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring,LOG
 
-TIDAL_DL_VERSION = "2019.8.19.0"
+TIDAL_DL_VERSION = "2019.9.2.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -117,7 +116,7 @@ def setting():
     return
 
 def main(argv=None):
-    print(tidal.LOG)
+    print(LOG)
     cf = TidalConfig()
     if logIn(cf.username, cf.password) == False:
         while logIn("", "") == False:
@@ -172,6 +171,7 @@ def main(argv=None):
             showConfig()
         else:
             dl.downloadUrl(strchoice)
+            dl.downloadByFile(strchoice)
 
 def debug():
     # cf = TidalConfig()
@@ -183,8 +183,8 @@ def debug():
     # os.system("pip install aigpy --upgrade")
 
     dl = Download(1)
-    # dl.downloadTrack(79232385)
-    dl.downloadAlbum(90521280)
+    dl.downloadTrack(66214149)
+    # dl.downloadAlbum(90521280)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(92418079)
     

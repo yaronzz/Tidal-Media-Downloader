@@ -290,7 +290,7 @@ class Download(object):
                 continue
 
             for index, item in enumerate(array):
-                print("----Album[{0}/{1}]----".format(index, len(array)))
+                print("----Album[{0}/{1}]----".format(index+1, len(array)))
                 self.downloadAlbum(item['id'])
 
     def downloadTrack(self, track_id=None):
@@ -551,3 +551,42 @@ class Download(object):
         elif stype == "video":
             print("----------------VIDEO------------------")
             self.downloadVideo(sid)
+    
+    def downloadByFile(self, path):
+        if not os.path.exists(path):
+            return
+        arr = self.tool.parseFile(path)
+        print("----------------FILE------------------")
+        print("[NumOfAlbum]       %s" % (len(arr['album'])))
+        print("[NumOfTrack]       %s" % (len(arr['track'])))
+        print("[NumOfVideo]       %s" % (len(arr['video'])))
+        print("[NumOfUrl]         %s" % (len(arr['url'])))
+        for index, item in enumerate(arr['album']):
+            print("----Album[{0}/{1}]----".format(index+1, len(arr['album'])))
+            print("[ID]          %s" % (item))
+            self.downloadAlbum(item)
+        for index, item in enumerate(arr['track']):
+            print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
+            print("[ID]                %s" % (item))
+            self.downloadTrack(item)
+        for index, item in enumerate(arr['video']):
+            print("----Video[{0}/{1}]----".format(index+1, len(arr['video'])))
+            print("[ID]                %s" % (item))
+            self.downloadVideo(item)
+        for index, item in enumerate(arr['url']):
+            print("----Url[{0}/{1}]----".format(index+1, len(arr['url'])))
+            print("[link]        %s" % (item))
+            stype, sid = self.tool.parseLink(item)
+            if stype is None or sid is None:
+                printErr(14,'Link can`t parse!')
+                continue
+            print("[ID]          %s" % (sid))
+            if stype == "album":
+                print("[Type]        %s" % ("album"))
+                self.downloadAlbum(sid)
+            if stype == "track":
+                print("[Type]        %s" % ("track"))
+                self.downloadTrack(sid)
+            if stype == "video":
+                print("[Type]        %s" % ("video"))
+                self.downloadVideo(sid)

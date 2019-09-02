@@ -52,5 +52,20 @@ def printMenu():
     print("Show Config.")
     cmdHelper.myprint(" Enter URL: ", cmdHelper.TextColor.Green, None)
     print("Download By Url.")
+    cmdHelper.myprint(" Enter Path: ", cmdHelper.TextColor.Green, None)
+    print("Download By File.")
     print("====================================================")
     
+
+LOG = '''
+ /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
+|__  $$__/|__/      | $$          | $$              | $$| $$
+   | $$    /$$  /$$$$$$$  /$$$$$$ | $$          /$$$$$$$| $$
+   | $$   | $$ /$$__  $$ |____  $$| $$ /$$$$$$ /$$__  $$| $$
+   | $$   | $$| $$  | $$  /$$$$$$$| $$|______/| $$  | $$| $$
+   | $$   | $$| $$  | $$ /$$__  $$| $$        | $$  | $$| $$
+   | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
+   |__/   |__/ \_______/ \_______/|__/         \_______/|__/
+   
+       https://github.com/yaronzz/Tidal-Media-Downloader 
+'''

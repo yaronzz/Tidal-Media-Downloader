@@ -21,29 +21,16 @@ from aigpy import configHelper
 from aigpy import netHelper
 from aigpy import systemHelper
 from aigpy import tagHelper
+from aigpy import configHelper
 from aigpy.ffmpegHelper import FFmpegTool
 # from tidal_dl import tagHelper
 from pydub import AudioSegment
-
-
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
 TYPE_ARR= ['album', 'track', 'video']
 RESOLUTION = ['1080','720','480','360','240']
-LOG = '''
- /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
-|__  $$__/|__/      | $$          | $$              | $$| $$
-   | $$    /$$  /$$$$$$$  /$$$$$$ | $$          /$$$$$$$| $$
-   | $$   | $$ /$$__  $$ |____  $$| $$ /$$$$$$ /$$__  $$| $$
-   | $$   | $$| $$  | $$  /$$$$$$$| $$|______/| $$  | $$| $$
-   | $$   | $$| $$  | $$ /$$__  $$| $$        | $$  | $$| $$
-   | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
-   |__/   |__/ \_______/ \_______/|__/         \_______/|__/
-   
-       https://github.com/yaronzz/Tidal-Media-Downloader 
-'''
 
 class TidalTool(object):
     def __init__(self):
@@ -371,6 +358,7 @@ class TidalTool(object):
         return str
 
     def parseLink(self, link):
+        link = link.strip()
         if link.find('http') < 0:
             return None,None
         stype = re.findall(r"tidal.com/(.+?)/", link)
@@ -382,7 +370,19 @@ class TidalTool(object):
         if len(sid) <= 0:
             return None, None
         return stype[0], sid[0]
-        
+
+    def parseFile(self, path):
+        cfp = configHelper.ParseNoEqual(path)
+        ret = cfp
+        if 'album' not in ret:
+            ret['album'] = []
+        if 'track' not in ret:
+            ret['track'] = []
+        if 'video' not in ret:
+            ret['video'] = []
+        if 'url' not in ret:
+            ret['url'] = []
+        return ret
 
 # LogIn and Get SessionID
 class TidalAccount(object):
