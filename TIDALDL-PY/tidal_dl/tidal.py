@@ -182,7 +182,7 @@ class TidalTool(object):
             if isOnLayer2:
                 item = item['item']
             if item['version'] is not None:
-                item['title'] = item['title'] + '(' + item['version']+')'
+                item['title'] = item['title'] + ' - ' + item['version']
             if item['title'] in same:
                 same[item['title']] += 1
             else:
@@ -209,7 +209,9 @@ class TidalTool(object):
         if self.errmsg != "":
             return info
         # sum = info['totalNumberOfItems']
-        # for item in info['items']:
+        for item in info['items']:
+            if item['version'] is not None:
+                item['title'] += ' - ' + item['version']
         #     indexs = self._getIndexStr(item['trackNumber'],sum)
         #     item['title'] = indexs + " " + item['title']
         # info['items'] = self._fixSameTrackName(info['items'])
@@ -225,7 +227,10 @@ class TidalTool(object):
                 ret.append(item)
         return ret
     def getTrack(self, track_id):
-        return self._get('tracks/' + str(track_id))
+        item = self._get('tracks/' + str(track_id))
+        if item['version'] is not None:
+            item['title'] += ' - '+ item['version']
+        return item
     def getAlbum(self, album_id):
         return self._get('albums/' + str(album_id))
     def getVideo(self, video_id):

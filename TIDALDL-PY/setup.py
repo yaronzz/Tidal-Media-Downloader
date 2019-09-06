@@ -11,9 +11,6 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = "any",
-    install_requires=["aigpy>=2019.9.2.0", "requests",
-                      "ffmpeg", "pycryptodome", "pydub", ],
-
-    entry_points={'console_scripts': [
-        'tidal-dl = tidal_dl:main', ]}
+    install_requires=["aigpy>=2019.9.6.1", "requests", "ffmpeg", "pycryptodome", "pydub", ],
+    entry_points={'console_scripts': [ 'tidal-dl = tidal_dl:main', ]}
 )

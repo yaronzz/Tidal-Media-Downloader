@@ -150,16 +150,20 @@ class Download(object):
         return '.m4a'
 
     def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
-        if extension == None:
+        if extension is None:
             extension = ".m4a"
         
-        seq = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
-        numOfVolumes = int(albumInfo['numberOfVolumes'])
-        if numOfVolumes <= 1:
-            filePath = targetDir + "/" + seq + pathHelper.replaceLimitChar(item['title'],'-') + extension
-        else:
-            index = item['volumeNumber']
-            filePath = targetDir + "/Volume" + str(index) + "/" + seq + pathHelper.replaceLimitChar(item['title'], '-') + extension
+        seq  = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
+        name = seq + pathHelper.replaceLimitChar(item['title'], '-')
+        # if item['version'] is not None:
+        #     name += ' - ' + item['version']
+
+        seq  = item['volumeNumber']
+        path = targetDir + "/"
+        if int(albumInfo['numberOfVolumes']) > 1:
+            path += 'Volume' + str(seq) + "/"
+        
+        filePath = path + name + extension
         return filePath
 
     def __getExistFiles(self, paths):
@@ -389,7 +393,7 @@ class Download(object):
             if os.access(path, 0):
                 os.remove(path)
 
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[int(index)], path, True):
+            if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(index)], path, True):
                 printSUCCESS(14, aVideoInfo['title'])
             else:
                 printErr(14, aVideoInfo['title'])

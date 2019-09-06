@@ -184,9 +184,9 @@ def debug():
 
     dl = Download(1)
     dl.downloadTrack(66214149)
-    # dl.downloadAlbum(90521280)
+    # dl.downloadAlbum(96633947)
     # dl.downloadVideo(57261945) #1hours
-    # dl.downloadVideo(92418079)
+    # dl.downloadVideo(84094460)
     
 # if __name__ == '__main__':
 #     main(sys.argv)

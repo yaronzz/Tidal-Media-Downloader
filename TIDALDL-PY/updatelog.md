@@ -1,3 +1,6 @@
+- Fix bug of download videos
+- Add version to title
+
 #### v2019-09-02
 - Fix bug of parse link
 - Download by file
@@ -11,8 +14,7 @@
 
 #### v2019-08-12
 - Fix bug of tag
-- Add setting-showprogress
-   Only enable when threadnum=1
+- Add setting-showprogress (Only enable when threadnum=1)
 
 #### v2019-08-11
 - Fix tag of title
