@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring,LOG
 
-TIDAL_DL_VERSION = "2019.9.9.0"
+TIDAL_DL_VERSION = "2019.9.10.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -43,6 +43,7 @@ def showConfig():
     print("ThreadNum    :\t" + cf.threadnum)
     print("OnlyM4a      :\t" + cf.onlym4a)
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
+    print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     myinput("Enter to return.")
 
@@ -54,6 +55,8 @@ def setting():
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
     print("OnlyM4a      :\t" + cf.onlym4a)
+    print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
+    print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     while True:
         outputdir = myinput("Outputdir(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -101,6 +104,7 @@ def setting():
         break
     status  = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
     status2 = myinputInt("ShowProgress(0-False,1-True):".ljust(12), 0)
+    status3 = myinputInt("AddHyphen(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
@@ -108,6 +112,7 @@ def setting():
     cf.set_threadnum(threadnum)
     cf.set_onlym4a(status)
     cf.set_showprogress(status2)
+    cf.set_addhyphen(status3)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -134,6 +139,7 @@ def main(argv=None):
     print("ThreadNum    :\t" + cf.threadnum)
     print("OnlyM4a      :\t" + cf.onlym4a)
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
+    print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)
@@ -183,8 +189,8 @@ def debug():
     # os.system("pip install aigpy --upgrade")
 
     dl = Download(1)
-    dl.downloadTrack(66214149)
-    # dl.downloadAlbum(96633947)
+    # dl.downloadTrack(66214149)
+    dl.downloadAlbum(96633947)
     # dl.downloadVideo(57261945) #1hours
     # dl.downloadVideo(84094460)
     

@@ -155,8 +155,8 @@ class Download(object):
         
         seq  = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
         name = seq + pathHelper.replaceLimitChar(item['title'], '-')
-        # if item['version'] is not None:
-        #     name += ' - ' + item['version']
+        if self.config.addhyphen == 'True':
+            name = seq + '- ' + pathHelper.replaceLimitChar(item['title'], '-')
 
         seq  = item['volumeNumber']
         path = targetDir + "/"

@@ -442,6 +442,7 @@ class TidalConfig(object):
         self.sessionid2  = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
         self.onlym4a     = configHelper.GetValue("base", "onlym4a", "False", self.FILE_NAME)
         self.showprogress= configHelper.GetValue("base", "showprogress", "False", self.FILE_NAME)
+        self.addhyphen   = configHelper.GetValue("base", "addhyphen", "False", self.FILE_NAME)
 
     def set_onlym4a(self, status):
         if status == 0:
@@ -456,6 +457,13 @@ class TidalConfig(object):
         else:
             self.showprogress = "True"
         configHelper.SetValue("base", "showprogress", self.showprogress, self.FILE_NAME)
+
+    def set_addhyphen(self, status):
+        if status == 0:
+            self.addhyphen = "False"
+        else:
+            self.addhyphen = "True"
+        configHelper.SetValue("base", "addhyphen", self.addhyphen, self.FILE_NAME)
 
     def set_threadnum(self, threadnum):
         self.threadnum = threadnum

@@ -1,6 +1,7 @@
-#### v2019-09-09
+#### v2019-09-10
 - Fix bug of download videos
 - Add version to title
+- Add hyphen between number and title(settings)
 
 #### v2019-09-02
 - Fix bug of parse link
