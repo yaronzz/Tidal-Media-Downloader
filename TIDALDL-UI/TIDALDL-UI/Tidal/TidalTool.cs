@@ -528,23 +528,26 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
 
-        public static string getAlbumTrackPath(string basePath, Album album, Track track, string sdlurl)
+        public static string getAlbumTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false)
         {
             string sRet;
+            string sChar = hyphen ? "- " : ""; 
             if(album.NumberOfVolumes <= 1)
-                sRet = string.Format("{0}/Album/{1}/{2}/{3} {4}",
+                sRet = string.Format("{0}/Album/{1}/{2}/{3} {4}{5}",
                     basePath, 
                     formatPath(album.Artist.Name), 
                     formatPath(album.Title),
                     track.TrackNumber.ToString().PadLeft(2, '0'),
+                    sChar,
                     formatPath(track.Title)+getExtension(sdlurl));
             else
-                sRet = string.Format("{0}/Album/{1}/{2}/Volume{3}/{4} {5}",
+                sRet = string.Format("{0}/Album/{1}/{2}/Volume{3}/{4} {5}{6}",
                         basePath,
                         formatPath(album.Artist.Name),
                         formatPath(album.Title),
                         album.NumberOfVolumes.ToString(),
                         track.TrackNumber.ToString().PadLeft(2, '0'),
+                        sChar,
                         formatPath(track.Title)+getExtension(sdlurl));
             return Path.GetFullPath(sRet);
         }

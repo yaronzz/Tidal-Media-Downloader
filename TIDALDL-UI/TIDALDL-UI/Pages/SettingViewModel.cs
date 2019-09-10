@@ -20,6 +20,7 @@ namespace TIDALDL_UI.Pages
         public int    SelectQualityIndex { get; set; }
         public int    SelectResolutionIndex { get; set; }
         public bool   OnlyM4a { get; set; }
+        public bool   AddHyphen { get; set; } //between number and title(settings)
 
         public bool CheckCommon { get; set; } = true;
         public bool CheckTrack { get; set; } = false;
@@ -32,6 +33,7 @@ namespace TIDALDL_UI.Pages
         {
             OutputDir             = Config.OutputDir();
             OnlyM4a               = Config.OnlyM4a();
+            AddHyphen             = Config.AddHyphen();
             ThreadNum             = AIGS.Common.Convert.ConverStringToInt(Config.ThreadNum()) - 1;
             QualityList           = TidalTool.getQualityList();
             ResolutionList        = TidalTool.getResolutionList();
@@ -57,6 +59,7 @@ namespace TIDALDL_UI.Pages
         {
             Config.ThreadNum((ThreadNum + 1).ToString());
             Config.OnlyM4a(OnlyM4a.ToString());
+            Config.AddHyphen(AddHyphen.ToString());
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
             Config.Resolution(ResolutionList[SelectResolutionIndex]);
             Config.OutputDir(OutputDir);

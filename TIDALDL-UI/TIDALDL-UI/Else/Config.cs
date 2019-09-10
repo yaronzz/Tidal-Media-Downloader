@@ -41,6 +41,14 @@ namespace TIDALDL_UI.Else
             return true;
         }
 
+        public static bool AddHyphen(string Setvalue = null)
+        {
+            string sValue = SetOrGet("addhyphen", Setvalue, "./");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
         public static string Quality(string Setvalue = null)
         {
             return SetOrGet("quality", Setvalue, "HIGH");
