@@ -39,7 +39,6 @@ namespace Tidal
         public ObservableCollection<Track> Tracks { get; set; }
         public ObservableCollection<Video> Videos { get; set; }
         public byte[] CoverData { get; set; }
-
     }
 
     public class Artist

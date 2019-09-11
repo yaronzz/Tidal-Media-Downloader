@@ -19,14 +19,18 @@ namespace TIDALDL_UI.Pages
         public string Type { get; set; }
         public string Duration { get; set; }
         public string AlbumTitle { get; set; }
+        public bool   Check { get; set; }
+        public object Data { get; set; }
 
-        public InfoItem(int number, string title, string duration, string albumtitle, string type="TRACK")
+        public InfoItem(int number, string title, string duration, string albumtitle,object data = null, string type="TRACK")
         {
+            Check      = true;
             Number     = number;
             Title      = title;
             Type       = type;
             Duration   = duration;
             AlbumTitle = albumtitle;
+            Data       = data;
         }
     }
 
@@ -38,6 +42,7 @@ namespace TIDALDL_UI.Pages
         public string ReleaseDate { get; private set; }
         public BitmapImage Cover { get; private set; }
         public bool   Result { get; set; }
+        public object Data { get; set; }
 
         /// <summary>
         /// Item List
@@ -47,7 +52,7 @@ namespace TIDALDL_UI.Pages
         #region Button
         public void Confirm()
         {
-            Result = true;
+            Result = RemoveItems();
             RequestClose();
         }
 
@@ -60,7 +65,8 @@ namespace TIDALDL_UI.Pages
 
         public object Load(object data)
         {
-            if(data.GetType() == typeof(Artist))
+            Data = data;
+            if (data.GetType() == typeof(Artist))
             {
                 Artist artist = (Artist)data;
                 Header        = "ARTISTINFO";
@@ -72,7 +78,7 @@ namespace TIDALDL_UI.Pages
                 if (artist.Albums != null)
                 {
                     foreach (Album item in artist.Albums)
-                        ItemList.Add(new InfoItem(artist.Albums.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Title));
+                        ItemList.Add(new InfoItem(artist.Albums.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Title, item, "ALBUM"));
                 }
             }
             if (data.GetType() == typeof(Album))
@@ -87,12 +93,12 @@ namespace TIDALDL_UI.Pages
                 if (album.Tracks != null)
                 {
                     foreach (Track item in album.Tracks)
-                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title));
+                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item));
                 }
                 if (album.Videos != null)
                 {
                     foreach (Video item in album.Videos)
-                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, "VIDEO"));
+                        ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item, "VIDEO"));
                 }
             }
             else if (data.GetType() == typeof(Video))
@@ -104,9 +110,48 @@ namespace TIDALDL_UI.Pages
                 Intro       = string.Format("by {0}-{1}", video.Artist.Name, TimeHelper.ConverIntToString(video.Duration));
                 ReleaseDate = "Release date " + video.ReleaseDate;
                 ItemList    = new ObservableCollection<InfoItem>();
-                ItemList.Add(new InfoItem(0, video.Title, TimeHelper.ConverIntToString(video.Duration), video.Album == null ? "" : video.Album.Title, "VIDEO"));
+                ItemList.Add(new InfoItem(0, video.Title, TimeHelper.ConverIntToString(video.Duration), video.Album == null ? "" : video.Album.Title, data, "VIDEO"));
             }
             return data;
+        }
+
+        private bool RemoveItems()
+        {
+            for (int i = 0; i < ItemList.Count; i++)
+            {
+                if (ItemList[i].Check)
+                    continue;
+
+                if (Data.GetType() == typeof(Video) || Data.GetType() == typeof(Track))
+                    return false;
+                if (Data.GetType() == typeof(Album))
+                {
+                    Album album = (Album)Data;
+                    if (ItemList[i].Type == "TRACK")
+                        album.Tracks.Remove((Track)ItemList[i].Data);
+                    else
+                        album.Videos.Remove((Video)ItemList[i].Data);
+                }
+                if (Data.GetType() == typeof(Artist))
+                {
+                    Artist artist = (Artist)Data;
+                    artist.Albums.Remove((Album)ItemList[i].Data);
+                }
+            }
+
+            if (Data.GetType() == typeof(Album))
+            {
+                Album album = (Album)Data;
+                if (album.Tracks.Count <= 0 && album.Videos.Count <= 0)
+                    return false;
+            }
+            if (Data.GetType() == typeof(Artist))
+            {
+                Artist artist = (Artist)Data;
+                if (artist.Albums.Count <= 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

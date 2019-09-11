@@ -23,11 +23,17 @@ namespace TIDALDL_UI.Pages
         public string SearchStr { get; set; }
         public bool   InSearch { get; set; }
 
+        public string SearchHelperTip { get; set; } =
+            "You can search album\\track\\video\\artist! Example:\n\n" +
+            "ID       : 71121869 (from https://listen.tidal.com/albums/71121869) \n" +
+            "Title    : Adele (or track\\video\\album title) \n" +
+            "Url      : https://listen.tidal.com/albums/71121869 \n" +
+            "Filepath : Download by file.";
+
         /// <summary>
         /// Download Items
         /// </summary>
         public BindableCollection<MainListItemViewModel> ItemList { get; } = new BindableCollection<MainListItemViewModel>();
-
 
         private IWindowManager Manager; 
         private LoginViewModel VMLogin;
@@ -98,6 +104,10 @@ namespace TIDALDL_UI.Pages
                 if (SearchType == eObjectType.None)
                     return;
             }
+            if(SearchType == Tidal.eObjectType.PLAYLIST)
+            {
+                return;
+            }
 
             SearchObj = VMInfo.Load(SearchObj);
             Manager.ShowDialog(VMInfo);
@@ -155,7 +165,7 @@ namespace TIDALDL_UI.Pages
             string sDlVer = FileHelper.Read(VERF);
             if (sDlVer.IsNotBlank() && VersionHelper.Compare(sSelfVer, sDlVer) < 0 && File.Exists(PATH + "tidal-gui.exe") && File.Exists(BATF))
             {
-                MessageBoxResult ret = MessageBox.Show("Update new version?", "Info", MessageBoxButton.YesNo);
+                MessageBoxResult ret = MessageBox.Show("Update new version?", "Info", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (ret == MessageBoxResult.No)
                     return;
 

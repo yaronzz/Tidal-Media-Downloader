@@ -9,12 +9,8 @@ namespace TIDALDL_UI.Pages
 {
     public class AboutViewModel:Screen
     {
-        public string Version { get; set; }
-        public AboutViewModel()
-        {
-            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            return;
-        }
+        public string Version { get; set; } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         public void Confirm()
         {
             RequestClose();

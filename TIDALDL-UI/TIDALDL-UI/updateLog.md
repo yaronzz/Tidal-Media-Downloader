@@ -1,4 +1,10 @@
-﻿#### v1.1.0.5
+﻿- Fix bug of search
+- Download by file
+- Add search question button
+- Select items which want to download
+- Add setting of 'addhyphen'
+
+#### v1.1.0.5
 - Optimized search
 - Fix bug of download
 - Add serial number before file name

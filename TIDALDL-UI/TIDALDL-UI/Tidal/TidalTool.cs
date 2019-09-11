@@ -25,6 +25,7 @@ namespace Tidal
         static string SESSIONID       = null;
         static string SESSIONID_PHONE = null;
         static bool   ISLOGIN         = false;
+        static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/" };
         #endregion
 
         #region Login
@@ -150,6 +151,7 @@ namespace Tidal
                 if (pList.Count() < 50)
                     break;
                 iOffset += pList.Count();
+                Paras["offset"] = iOffset.ToString();
             }
             return pRet;
         }
@@ -174,7 +176,7 @@ namespace Tidal
 
             if(GetItem)
             {
-                if(oObj.NumberOfVideos < 0)
+                if(oObj.NumberOfVideos <= 0)
                     oObj.Tracks = get<ObservableCollection<Track>>("albums/" + ID + "/tracks", out Errmsg, null, 3, "items");
                 else
                 {
@@ -189,7 +191,7 @@ namespace Tidal
                 }
             }
         }
-
+       
         public static string getCoverUrl(string ID, string Size="1280")
         {
             string sRet = string.Format("https://resources.tidal.com/images/{0}/{1}x{1}.jpg", ID.Replace('-', '/'), Size);
@@ -346,17 +348,17 @@ namespace Tidal
         #endregion
 
         #region Filelist
-        private static ObservableCollection<T> listToObser(List<T> pRecords)
+        private static ObservableCollection<string> listToObser(List<string> pRecords)
         {
-            ObservableCollection<T> pRet = new ObservableCollection<T>();
-            foreach (T item in pRecords)
+            ObservableCollection<string> pRet = new ObservableCollection<string>();
+            foreach (string item in pRecords)
                 pRet.Add(item);
             return pRet;
         }
 
         public static Filelist getFilelist(string sFilePath)
         {
-            if(!File.Exists(sFilePath))
+            if(!System.IO.File.Exists(sFilePath))
                 return null;
             Dictionary<string, List<string>> pHash = ConfigHelper.ParseNoEqual(sFilePath);
             Filelist pRet = new Filelist();
@@ -365,13 +367,13 @@ namespace Tidal
             pRet.VideoIds = new ObservableCollection<string>();
             pRet.Urls     = new ObservableCollection<string>();
             if(pHash.ContainsKey("album"))
-                pRet.AlbumIds = listToObser(pHash['album']);
+                pRet.AlbumIds = listToObser(pHash["album"]);
             if(pHash.ContainsKey("track"))
-                pRet.TrackIds = listToObser(pHash['track']);
-            if(pHash.ContainsKey("video"))
-                pRet.VideoIds = listToObser(pHash['video']);
-            if(pHash.ContainsKey("url"))
-                pRet.Urls = listToObser(pHash['url']);
+                pRet.TrackIds = listToObser(pHash["track"]);
+            if (pHash.ContainsKey("video"))
+                pRet.VideoIds = listToObser(pHash["video"]);
+            if (pHash.ContainsKey("url"))
+                pRet.Urls = listToObser(pHash["url"]);
             return pRet;
         } 
         #endregion   
@@ -578,11 +580,11 @@ namespace Tidal
         {
             string sPre = null;
             string sStr = insStr.Trim();
-            sStr = sStr.Trim();
-            if (sStr.IndexOf("https://tidal.com/browse/") >= 0)
-                sPre = "https://tidal.com/browse/";
-            if (sStr.IndexOf("https://listen.tidal.com/") >= 0)
-                sPre = "https://listen.tidal.com/";
+            foreach (string item in LINKPRES)
+            {
+                if (sStr.IndexOf(item) >= 0)
+                    sPre = item;
+            }
             if (sPre.IsBlank())
                 return false;
 
@@ -615,10 +617,25 @@ namespace Tidal
             string sErrmsg = null;
             Track  oTrack  = null;
 
+            //check path
+            if (System.IO.File.Exists(sStr))
+            {
+                oRet = getFilelist(sStr);
+                if (oRet != null)
+                {
+                    eType = eObjectType.FILELIST;
+                    return oRet;
+                }
+                eType = eObjectType.None;
+                return null;
+            }
+
+            //check url
             parseLink(ref sStr, ref inType);
             if (AIGS.Common.Convert.ConverStringToInt(sStr, -1) == -1)
                 goto POINT_SEARCH;
 
+            //jump
             if (inType != eObjectType.None)
             {
                 switch(inType)
@@ -630,6 +647,11 @@ namespace Tidal
                 }
             }
 
+            //if not id, jump search
+            if (sStr.ParseInt(-1) == -1)
+                goto POINT_SEARCH;
+
+            //get
         POINT_ALBUM:
             oRet = getAlbum(sStr, out sErrmsg, true);
             if (oRet != null)

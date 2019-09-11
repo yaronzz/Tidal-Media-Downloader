@@ -41,21 +41,25 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="428">
+                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="468">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="26" />
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0"
+                                        <Button Grid.Column="0" Style="{DynamicResource MaterialDesignToolButton}" ToolTip="{Binding SearchHelperTip}">
+                                            <materialDesign:PackIcon Kind="QuestionMarkCircle" Opacity=".56" />
+                                        </Button>
+                                        <TextBox Grid.Column="1"
                                                 Margin="2,4,26,4"
                                                 Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
-                                                materialDesign:HintAssist.Hint="Enter ID\Title\Url"
+                                                materialDesign:HintAssist.Hint="Enter ID\Title\Url\FilePath"
                                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                 BorderThickness="0"
                                                 MinWidth="200"
                                                 VerticalAlignment="Center" Grid.ColumnSpan="2" />
-                                        <Button Grid.Column="1" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,0,1,0">
+                                        <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,0,1,0">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                                         </Button>
                                     </Grid>

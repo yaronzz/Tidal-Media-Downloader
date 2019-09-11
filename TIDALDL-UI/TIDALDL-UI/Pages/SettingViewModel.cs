@@ -65,7 +65,7 @@ namespace TIDALDL_UI.Pages
             Config.OutputDir(OutputDir);
             ThreadTool.SetThreadNum(ThreadNum + 1);
             RequestClose();                                                                 
-        }
+        }//https//tidal.com/browse/album/79237516
     }
 }
 
