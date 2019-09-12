@@ -347,21 +347,28 @@ namespace Tidal
         }
         #endregion
 
-        #region Filelist
-        private static ObservableCollection<string> listToObser(List<string> pRecords)
+        #region Dllist
+
+        private static ObservableCollection<string> listToObser(List<string> pRecords, bool bIsInt=true)
         {
             ObservableCollection<string> pRet = new ObservableCollection<string>();
             foreach (string item in pRecords)
-                pRet.Add(item);
+            {
+                if (item.IsBlank())
+                    continue;
+                if (bIsInt && item.ParseInt(-1) == -1)
+                    continue;
+                pRet.Add(item.Trim());
+            }
             return pRet;
         }
 
-        public static Filelist getFilelist(string sFilePath)
+        public static Dllist getDllist(string sText)
         {
-            if(!System.IO.File.Exists(sFilePath))
+            if(sText.IsBlank())
                 return null;
-            Dictionary<string, List<string>> pHash = ConfigHelper.ParseNoEqual(sFilePath);
-            Filelist pRet = new Filelist();
+            Dictionary<string, List<string>> pHash = ConfigHelper.ParseNoEqual(null, sText);
+            Dllist pRet = new Dllist();
             pRet.AlbumIds = new ObservableCollection<string>();
             pRet.TrackIds = new ObservableCollection<string>();
             pRet.VideoIds = new ObservableCollection<string>();
@@ -373,9 +380,10 @@ namespace Tidal
             if (pHash.ContainsKey("video"))
                 pRet.VideoIds = listToObser(pHash["video"]);
             if (pHash.ContainsKey("url"))
-                pRet.Urls = listToObser(pHash["url"]);
+                pRet.Urls = listToObser(pHash["url"], true);
             return pRet;
         } 
+
         #endregion   
 
         #region Convert Mp4 to M4a
@@ -532,25 +540,18 @@ namespace Tidal
 
         public static string getAlbumTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false)
         {
-            string sRet;
-            string sChar = hyphen ? "- " : ""; 
-            if(album.NumberOfVolumes <= 1)
-                sRet = string.Format("{0}/Album/{1}/{2}/{3} {4}{5}",
-                    basePath, 
-                    formatPath(album.Artist.Name), 
-                    formatPath(album.Title),
-                    track.TrackNumber.ToString().PadLeft(2, '0'),
-                    sChar,
-                    formatPath(track.Title)+getExtension(sdlurl));
-            else
-                sRet = string.Format("{0}/Album/{1}/{2}/Volume{3}/{4} {5}{6}",
-                        basePath,
-                        formatPath(album.Artist.Name),
-                        formatPath(album.Title),
-                        album.NumberOfVolumes.ToString(),
-                        track.TrackNumber.ToString().PadLeft(2, '0'),
-                        sChar,
-                        formatPath(track.Title)+getExtension(sdlurl));
+            string sAlbumDir = getAlbumFolder(basePath, album);
+            string sTrackDir = sAlbumDir;
+            if(album.NumberOfVolumes > 1)
+                sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
+
+            string sChar = hyphen ? "- " : "";
+            string sName = string.Format("{0} {1}{2}",
+                track.TrackNumber.ToString().PadLeft(2, '0'),
+                sChar,
+                formatPath(track.Title) + getExtension(sdlurl));
+
+            string sRet = sTrackDir + sName;
             return Path.GetFullPath(sRet);
         }
 
@@ -617,19 +618,6 @@ namespace Tidal
             string sErrmsg = null;
             Track  oTrack  = null;
 
-            //check path
-            if (System.IO.File.Exists(sStr))
-            {
-                oRet = getFilelist(sStr);
-                if (oRet != null)
-                {
-                    eType = eObjectType.FILELIST;
-                    return oRet;
-                }
-                eType = eObjectType.None;
-                return null;
-            }
-
             //check url
             parseLink(ref sStr, ref inType);
             if (AIGS.Common.Convert.ConverStringToInt(sStr, -1) == -1)
@@ -659,6 +647,8 @@ namespace Tidal
                 eType = eObjectType.ALBUM;
                 return oRet;
             }
+            if (inType == eObjectType.ALBUM)
+                goto POINT_ERR;
         POINT_TRACK:
             oTrack = getTrack(sStr, out sErrmsg);
             if (oTrack != null)
@@ -668,6 +658,8 @@ namespace Tidal
                 eType = eObjectType.ALBUM;
                 return oRet;
             }
+            if (inType == eObjectType.TRACK)
+                goto POINT_ERR;
         POINT_VIDEO:
             oRet = getVideo(sStr, out sErrmsg);
             if (oRet != null)
@@ -675,6 +667,8 @@ namespace Tidal
                 eType = eObjectType.VIDEO;
                 return oRet;
             }
+            if (inType == eObjectType.VIDEO)
+                goto POINT_ERR;
         POINT_ARTIST:
             oRet = getArtist(sStr, out sErrmsg, true);
             if (oRet != null)
@@ -682,6 +676,8 @@ namespace Tidal
                 eType = eObjectType.ARTIST;
                 return oRet;
             }
+            if (inType == eObjectType.ARTIST)
+                goto POINT_ERR;
         POINT_SEARCH:
             oRet = Search(sStr, 30, out sErrmsg);
             if (oRet != null)
@@ -690,6 +686,7 @@ namespace Tidal
                 return oRet;
             }
 
+        POINT_ERR:
             eType = eObjectType.None;
             return null;
         }

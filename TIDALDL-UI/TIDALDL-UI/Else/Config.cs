@@ -28,6 +28,11 @@ namespace TIDALDL_UI.Else
 
 
         #region Base Config
+        public static string Version(string Setvalue = null)
+        {
+            return SetOrGet("version", Setvalue, "null");
+        }
+
         public static string OutputDir(string Setvalue = null)
         {
             return SetOrGet("outputdir", Setvalue, "./");

@@ -67,7 +67,8 @@
                                   Margin="107,32,22,0" VerticalAlignment="Top" Height="30"/>
                         <Label Content="OnlyM4a" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,67,312,0" Height="30" />
                         <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding OnlyM4a, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="33" VerticalAlignment="Top" Margin="107,64,262,0"/>
-                        <!--<ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="33" VerticalAlignment="Top" Margin="107,64,262,0"/>-->
+                        <Label Content="AddHyphen" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,97,312,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="33" VerticalAlignment="Top" Margin="107,97,262,0"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Visibility="{Binding CheckVideo, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">

@@ -1,0 +1,17 @@
+﻿# ====DLLIST EXAMPLE FORMAT====
+# 1.'#' in the beginning is a comment-line which will be skip
+# 2.Group contains of album/track/video/url
+# EXAMPLE:
+
+[album]
+90521280
+
+[track]
+#66214149  
+#90521281
+
+[video]
+#92418079
+
+[url]
+#https://tidal.com/album/71121869

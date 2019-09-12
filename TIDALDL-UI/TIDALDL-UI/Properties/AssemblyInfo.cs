@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("TIDALDL-GUI")]
 [assembly: AssemblyDescription("Tidal Music Downloader")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Yaron")]
+[assembly: AssemblyCompany("Yaronzz")]
 [assembly: AssemblyProduct("TIDALDL-GUI")]
 [assembly: AssemblyCopyright("Copyright © Yaron 2019")]
 [assembly: AssemblyTrademark("")]

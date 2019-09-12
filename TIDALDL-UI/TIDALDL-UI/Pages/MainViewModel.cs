@@ -25,15 +25,15 @@ namespace TIDALDL_UI.Pages
 
         public string SearchHelperTip { get; set; } =
             "You can search album\\track\\video\\artist! Example:\n\n" +
-            "ID       : 71121869 (from https://listen.tidal.com/albums/71121869) \n" +
-            "Title    : Adele (or track\\video\\album title) \n" +
-            "Url      : https://listen.tidal.com/albums/71121869 \n" +
-            "Filepath : Download by file.";
+            "ID   : 71121869 (from https://listen.tidal.com/albums/71121869) \n" +
+            "Title: Adele (or track\\video\\album title) \n" +
+            "Url  : https://listen.tidal.com/albums/71121869";
 
         /// <summary>
-        /// Download Items
+        /// Download Items 
         /// </summary>
         public BindableCollection<MainListItemViewModel> ItemList { get; } = new BindableCollection<MainListItemViewModel>();
+        public Thread UpdateThread;
 
         private IWindowManager Manager; 
         private LoginViewModel VMLogin;
@@ -41,23 +41,29 @@ namespace TIDALDL_UI.Pages
         private AboutViewModel VMAbout;
         private InfoViewModel VMInfo;
         private SearchViewModel VMSearch;
+        private DllistViewModel VMDllist;
 
         public MainViewModel(IWindowManager manager,
                             SettingViewModel setting,
                             AboutViewModel about,
                             InfoViewModel albuminfo,
-                            SearchViewModel search)
+                            SearchViewModel search,
+                            DllistViewModel dllist)
         {
             Manager   = manager;
             VMSetting = setting;
             VMAbout   = about;
             VMInfo    = albuminfo;
             VMSearch  = search;
+            VMDllist  = dllist;
             ThreadTool.SetThreadNum(int.Parse(Config.ThreadNum()));
 
-            Thread UpdateThread = new Thread(ThreadUpdateFunc);
+            UpdateThread = new Thread(ThreadUpdateFunc);
             UpdateThread.IsBackground = true;
             UpdateThread.Start();
+
+            ////test
+            //VMDllist.Convert();
             return;
         }
 
@@ -69,9 +75,19 @@ namespace TIDALDL_UI.Pages
         public void WindowClose()
         {
             ThreadTool.Close();
+            ThreadHelper.Abort(UpdateThread);
             RequestClose();
         }
 
+        protected override void OnInitialActivate()
+        {
+            //show about page
+            if (Config.Version() != VersionHelper.GetSelfVersion())
+            {
+                Config.Version(VersionHelper.GetSelfVersion());
+                Manager.ShowDialog(VMAbout);
+            }
+        }
 
         #region Button
         public async void Search()
@@ -83,7 +99,7 @@ namespace TIDALDL_UI.Pages
                 Errlabel = "Search String is Empty!";
                 return;
             }
-
+            
             //Search
             InSearch               = true;
             eObjectType SearchType = eObjectType.None;
@@ -104,10 +120,6 @@ namespace TIDALDL_UI.Pages
                 if (SearchType == eObjectType.None)
                     return;
             }
-            if(SearchType == Tidal.eObjectType.PLAYLIST)
-            {
-                return;
-            }
 
             SearchObj = VMInfo.Load(SearchObj);
             Manager.ShowDialog(VMInfo);
@@ -119,39 +131,50 @@ namespace TIDALDL_UI.Pages
             }
         }
 
+        public void OpenDllist()
+        {
+            VMDllist.Items.Clear();
+            Manager.ShowDialog(VMDllist);
+            for (int i = 0; i < VMDllist.Items.Count; i++)
+            {
+                MainListItemViewModel newNode = new MainListItemViewModel(VMDllist.Items[i], ItemList);
+                ItemList.Add(newNode);
+                newNode.StartWork();
+            }
+        }
         public void Logout()
         {
             TidalTool.logout();
             Manager.ShowWindow(VMLogin);
             WindowClose();
         }
-
         public void Setting()
         {
             Manager.ShowDialog(VMSetting);
-
             string sValue = Config.ThreadNum();
             ThreadTool.SetThreadNum(int.Parse(sValue));
         }
-
         public void About()
         {
             Manager.ShowDialog(VMAbout);
         }
-
         public void FeedBack()
         {
             NetHelper.OpenWeb("https://github.com/yaronzz/Tidal-Media-Downloader/issues");
         }
-
         public void CloseErrlabel()
         {
             Errlabel = null;
         }
+        public void WindowMin()
+        {
+            ((MainView)this.View).WindowState = WindowState.Minimized;
+        }
+        public void WindowMax()
+        {
+            ScreenShotHelper.MaxWindow((Window)this.View);
+        }
         #endregion
-
-
-
 
         #region Version Update Thread
         public void ThreadUpdateFunc()
@@ -161,7 +184,7 @@ namespace TIDALDL_UI.Pages
             string BATF = PATH + "update.bat";
             string sSelfVer = VersionHelper.GetSelfVersion();
 
-            //Get Already Download Ver
+            //Replace new version 
             string sDlVer = FileHelper.Read(VERF);
             if (sDlVer.IsNotBlank() && VersionHelper.Compare(sSelfVer, sDlVer) < 0 && File.Exists(PATH + "tidal-gui.exe") && File.Exists(BATF))
             {
@@ -180,7 +203,8 @@ namespace TIDALDL_UI.Pages
                 return;
             }
 
-            //Get Github Last Ver
+           
+            //Get github new version
             string sLastVer = GithubHelper.getLastReleaseVersion("yaronzz", "Tidal-Media-Downloader");
             if (VersionHelper.Compare(sSelfVer, sLastVer) >= 0)
                 return;
@@ -210,6 +234,5 @@ namespace TIDALDL_UI.Pages
             }
         }
         #endregion
-
     }
 }

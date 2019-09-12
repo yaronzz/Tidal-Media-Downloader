@@ -55,7 +55,7 @@
 
                 </Grid>
 
-                <ListView Grid.Row="3" ItemsSource="{Binding ItemList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                <!--<ListView Grid.Row="3" ItemsSource="{Binding ItemList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}"/>
@@ -64,8 +64,19 @@
                             <GridViewColumn Header="TIME"  DisplayMemberBinding="{Binding Duration}"/>
                         </GridView>
                     </ListView.View>
-                </ListView>
-
+                </ListView>-->
+                <DataGrid Grid.Row="3" ItemsSource="{Binding ItemList}" CanUserSortColumns="False" CanUserAddRows="False" AutoGenerateColumns="False" Background="White"
+                          materialDesign:DataGridAssist.CellPadding="12 6 8 4" RowHeight="32" SelectionUnit="FullRow"
+                          materialDesign:DataGridAssist.ColumnHeaderPadding="4" GridLinesVisibility="Horizontal"
+                          VerticalGridLinesBrush="#FFDEDEDE" RowHeaderWidth="80" BorderThickness="0" Height="Auto">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding Check}" Header="Check" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                        <DataGridTextColumn Header="#" Binding="{Binding Number}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="TITLE" Binding="{Binding Title}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="ALBUM" Binding="{Binding AlbumTitle}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="TIME" Binding="{Binding Duration}" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </materialDesign:DialogHost>
     </materialDesign:Card>

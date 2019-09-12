@@ -11,28 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AIGS.Helper;
+
 namespace TIDALDL_UI.Pages
 {
     /// <summary>
-    /// MainView.xaml 的交互逻辑
+    /// DllistView.xaml 的交互逻辑
     /// </summary>
-    public partial class MainView
+    public partial class DllistView : Window
     {
-        public MainView()
+        public DllistView()
         {
             InitializeComponent();
         }
-
-        private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ScreenShotHelper.MaxWindow(this);
-        }
-        
     }
 }

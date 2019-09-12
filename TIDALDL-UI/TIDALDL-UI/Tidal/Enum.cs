@@ -22,7 +22,6 @@ namespace Tidal
         TRACK,
         VIDEO,
         SEARCH,
-        FILELIST,
         None,
     }
 

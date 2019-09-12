@@ -10,6 +10,8 @@ using AIGS.Common;
 using System.Collections.ObjectModel;
 using TIDALDL_UI.Else;
 using Stylet;
+using System.Windows;
+
 namespace TIDALDL_UI.Pages
 {
     public class InfoItem : Screen

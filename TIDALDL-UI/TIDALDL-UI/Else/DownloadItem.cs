@@ -29,7 +29,8 @@ namespace TIDALDL_UI.Else
         public string Title { get; set; }
         public string sType { get; set; }
         public int ErrlabelHeight { get; set; }
-        public bool  OnlyM4a { get; set; }
+        public bool OnlyM4a { get; set; }
+        public bool AddHyphen { get; set; }
         public string Own { get; set; }
 
         ///// <summary>
@@ -48,6 +49,7 @@ namespace TIDALDL_UI.Else
             Index      = index;
             Progress   = new ProgressHelper();
             OnlyM4a    = Config.OnlyM4a();
+            AddHyphen  = Config.AddHyphen();
             Own        = album == null?null : album.Title;
 
             if (TidalTrack != null)
@@ -160,7 +162,7 @@ namespace TIDALDL_UI.Else
             StreamUrl TidalStream = TidalTool.getStreamUrl(TidalTrack.ID.ToString(), Quality, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
-            FilePath = TidalTool.getAlbumTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url);
+            FilePath = TidalTool.getAlbumTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen);
 
             //Download
             Progress.StatusMsg = "Start...";

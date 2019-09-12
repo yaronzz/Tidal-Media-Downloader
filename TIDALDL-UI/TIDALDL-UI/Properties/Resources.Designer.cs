@@ -61,12 +61,47 @@ namespace TIDALDL_UI.Properties {
         }
         
         /// <summary>
+        ///   查找类似 # ====DLLIST EXAMPLE FORMAT====
+        ///# 1.&apos;#&apos; in the beginning is a comment-line which will be skip
+        ///# 2.Group contains of album/track/video/url
+        ///# EXAMPLE:
+        ///
+        ///[album]
+        ///90521280
+        ///
+        ///[track]
+        ///#66214149  
+        ///#90521281
+        ///
+        ///[video]
+        ///#92418079
+        ///
+        ///[url]
+        ///#https://tidal.com/album/71121869 的本地化字符串。
+        /// </summary>
+        internal static string DllistExample {
+            get {
+                return ResourceManager.GetString("DllistExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon Tidal {
             get {
                 object obj = ResourceManager.GetObject("Tidal", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] updateLog {
+            get {
+                object obj = ResourceManager.GetObject("updateLog", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

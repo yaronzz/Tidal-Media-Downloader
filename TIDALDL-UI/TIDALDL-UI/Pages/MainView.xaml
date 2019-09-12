@@ -25,10 +25,16 @@
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
                 <Grid>
                     <!--Head Part-->
-                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown">
+                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" MouseDoubleClick="ColorZone_MouseDoubleClick"> 
                         <DockPanel>
-                            <Button DockPanel.Dock="Right" Command="{s:Action WindowClose}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24">
+                            <Button DockPanel.Dock="Right" Command="{s:Action WindowClose}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24" Background="Red">
                                 <materialDesign:PackIcon Kind="Close" Height="22" Width="22" Foreground="White" />
+                            </Button>
+                            <Button DockPanel.Dock="Right" Command="{s:Action WindowMax}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24" Background="{x:Null}">
+                                <materialDesign:PackIcon Kind="WindowMaximize" Height="22" Width="22" />
+                            </Button>
+                            <Button DockPanel.Dock="Right" Command="{s:Action WindowMin}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24" Background="{x:Null}">
+                                <materialDesign:PackIcon Kind="WindowMinimize" Height="22" Width="22" />
                             </Button>
                             <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" Padding="0" Height="24" Width="35">
                                 <StackPanel>
@@ -41,7 +47,7 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="468">
+                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="488">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="26" />
@@ -54,13 +60,16 @@
                                         <TextBox Grid.Column="1"
                                                 Margin="2,4,26,4"
                                                 Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
-                                                materialDesign:HintAssist.Hint="Enter ID\Title\Url\FilePath"
+                                                materialDesign:HintAssist.Hint="Enter ID\Title\Url"
                                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                 BorderThickness="0"
                                                 MinWidth="200"
                                                 VerticalAlignment="Center" Grid.ColumnSpan="2" />
-                                        <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,0,1,0">
+                                        <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,2,0,2" HorizontalAlignment="Left" Width="29">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{s:Action OpenDllist}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" Margin="423,2,0,2" HorizontalAlignment="Left" Width="31">
+                                            <materialDesign:PackIcon Kind="FileDocumentBoxOutline" Opacity=".56" />
                                         </Button>
                                     </Grid>
                                 </materialDesign:ColorZone>
