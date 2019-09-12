@@ -1,4 +1,5 @@
-﻿- Fix bug of search
+﻿#### v1.1.0.6
+- Fix bug of search
 - Download by file
 - Add search question button
 - Select items which want to download

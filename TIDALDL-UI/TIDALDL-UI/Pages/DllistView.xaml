@@ -16,7 +16,7 @@
         WindowStyle="None"
         Background="{x:Null}"
         AllowsTransparency="True"
-        Width="775" 
+        Width="920" 
         Height="540"
         ShowInTaskbar="False"
         mc:Ignorable="d"
@@ -31,24 +31,24 @@
                     <RowDefinition Height="47" />
                 </Grid.RowDefinitions>
                 <!--head-->
-                <Label Content="FileList" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
+                <Label Content="DownloadList" Grid.Row="0" FontSize="30" VerticalAlignment="Top" Height="50" HorizontalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="#FFDEDEDE"/>
                 <!--body-->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="56*"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="359*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="439*"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Text="{Binding Text}" Grid.Column="0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Gainsboro" VerticalContentAlignment="Top"/>
-                    <Button Command="{s:Action Convert}" Grid.Column="1" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignRaisedButton}" VerticalAlignment="Center" Margin="8,0" Background="{x:Null}" BorderBrush="{x:Null}" Padding="4,0" HorizontalAlignment="Center">
-                        <materialDesign:PackIcon Kind="ArrowRightBold" Foreground="#FF082E54" Height="32" Width="32"/>
+                    <Button Command="{s:Action Convert}" Grid.Column="1" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignRaisedButton}" VerticalAlignment="Center" Margin="3,170,7,169" Padding="2,0" HorizontalAlignment="Center" Width="40">
+                        <materialDesign:PackIcon Kind="ArrowRightBold" Foreground="White" Height="32" Width="32"/>
                     </Button>
                     <DataGrid Grid.Column="2" ItemsSource="{Binding Items}" CanUserSortColumns="False" CanUserAddRows="False" AutoGenerateColumns="False" Background="White"
-                          materialDesign:DataGridAssist.CellPadding="12 6 8 4" RowHeight="32" SelectionUnit="FullRow"
-                          materialDesign:DataGridAssist.ColumnHeaderPadding="4" GridLinesVisibility="Horizontal" BorderBrush="#FFDEDEDE"
+                          materialDesign:DataGridAssist.CellPadding="4 2 2 2" SelectionUnit="FullRow"
+                          materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2" GridLinesVisibility="Horizontal" BorderBrush="#FFDEDEDE"
                           VerticalGridLinesBrush="#FFDEDEDE" RowHeaderWidth="80" BorderThickness="1" Height="Auto">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Binding="{Binding Check}" Header="Check" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                            <!--<DataGridCheckBoxColumn Binding="{Binding Check}" Header="Check" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>-->
                             <DataGridTextColumn Header="#" Binding="{Binding Number}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="ID/URL" Binding="{Binding Name}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True"/>
@@ -58,7 +58,7 @@
 
                 </Grid>
                 <!--button-->
-                <materialDesign:Badged Badge="{Binding Errlabel}" Grid.Row="2" Margin="10,10,0,0" Width="197">
+                <materialDesign:Badged Badge="{Binding Errlabel}" Grid.Row="2" Margin="414,10,0,0" Width="197" BadgePlacementMode="TopLeft">
                     <Button Command="{s:Action Confirm}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignRaisedButton}" Content="OK" Height="27" VerticalAlignment="Bottom" Width="197"/>
                 </materialDesign:Badged>
                 <Button Command="{s:Action Cancel}" s:View.ActionTarget="{Binding}" Grid.Row="2" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}" Content="CANCEL" Margin="0,0,10,10" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="197"/>

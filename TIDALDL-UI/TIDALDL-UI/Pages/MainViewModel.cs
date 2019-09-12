@@ -79,15 +79,15 @@ namespace TIDALDL_UI.Pages
             RequestClose();
         }
 
-        protected override void OnInitialActivate()
-        {
-            //show about page
-            if (Config.Version() != VersionHelper.GetSelfVersion())
-            {
-                Config.Version(VersionHelper.GetSelfVersion());
-                Manager.ShowDialog(VMAbout);
-            }
-        }
+        //protected override void OnInitialActivate()
+        //{
+        //    //show about page
+        //    if (Config.Version() != VersionHelper.GetSelfVersion())
+        //    {
+        //        Config.Version(VersionHelper.GetSelfVersion());
+        //        Manager.ShowDialog(VMAbout);
+        //    }
+        //}
 
         #region Button
         public async void Search()
@@ -137,7 +137,9 @@ namespace TIDALDL_UI.Pages
             Manager.ShowDialog(VMDllist);
             for (int i = 0; i < VMDllist.Items.Count; i++)
             {
-                MainListItemViewModel newNode = new MainListItemViewModel(VMDllist.Items[i], ItemList);
+                if (VMDllist.Items[i].Type == eObjectType.None)
+                    continue;
+                MainListItemViewModel newNode = new MainListItemViewModel(VMDllist.Items[i].Data, ItemList);
                 ItemList.Add(newNode);
                 newNode.StartWork();
             }

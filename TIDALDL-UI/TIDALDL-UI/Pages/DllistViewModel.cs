@@ -105,7 +105,7 @@ namespace TIDALDL_UI.Pages
         {
             for (int i = 0; i < Items.Count; i++)
             {
-                if (sName == Items[i].Name && sType == Items[i].Type)
+                if (sName == Items[i].Name)
                     return;
             }
             Items.Add(new DllistItem(iNumber, sName, sType));

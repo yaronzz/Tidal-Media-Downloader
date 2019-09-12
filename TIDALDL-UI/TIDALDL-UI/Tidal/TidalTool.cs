@@ -617,6 +617,7 @@ namespace Tidal
             object oRet    = null;
             string sErrmsg = null;
             Track  oTrack  = null;
+            sStr = sStr.Trim();
 
             //check url
             parseLink(ref sStr, ref inType);

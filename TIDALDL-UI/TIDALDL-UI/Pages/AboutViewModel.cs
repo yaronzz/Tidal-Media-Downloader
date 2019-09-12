@@ -12,9 +12,7 @@ namespace TIDALDL_UI.Pages
 {
     public class AboutViewModel:Screen
     {
-        public BitmapImage Cover { get; private set; }
         public string Version { get; set; } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public string Updatelog { get; set; } = Resources.updateLog.ToString();
 
         public void Confirm()
         {
