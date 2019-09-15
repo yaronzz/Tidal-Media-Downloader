@@ -13,6 +13,14 @@ namespace Tidal
 {
     public class TidalTool
     {
+        #region CONSTANTS
+
+        const int ALBUM_COVER_SIZE = 1280;
+        const int ARTIST_COVER_SIZE = 480;
+        const int VIDEO_COVER_SIZE = 1280;
+
+        #endregion
+
         #region STATIC
         static string URL             = "https://api.tidalhifi.com/v1/";
         static string TOKEN           = "4zx46pyr9o8qZNRw";
@@ -170,7 +178,7 @@ namespace Tidal
 
         private static void getAlbumData(ref Album oObj, string ID, out string Errmsg, bool GetItem = false)
         {
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(oObj.Cover), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
             oObj.Tracks = new ObservableCollection<Track>();
             oObj.Videos = new ObservableCollection<Video>();
 
@@ -191,12 +199,7 @@ namespace Tidal
                 }
             }
         }
-       
-        public static string getCoverUrl(string ID, string Size="1280")
-        {
-            string sRet = string.Format("https://resources.tidal.com/images/{0}/{1}x{1}.jpg", ID.Replace('-', '/'), Size);
-            return sRet;
-        }
+
         #endregion
 
         #region Track
@@ -220,7 +223,7 @@ namespace Tidal
             Video oObj = get<Video>("videos/" + ID, out Errmsg);
             if (oObj == null)
                 return null;
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(oObj.ImageID), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
             return oObj;
         }
 
@@ -300,7 +303,7 @@ namespace Tidal
             if (oObj == null)
                 return null;
 
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(oObj.Picture, "480"), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
             oObj.Albums = new ObservableCollection<Album>();
 
             if (GetItem)
@@ -314,6 +317,60 @@ namespace Tidal
                 }
             }
             return oObj;
+        }
+
+        #endregion
+
+        #region CoverURLs
+
+        public static string getCoverUrl(ref Album album)
+        {
+            string sRet = string.Empty;
+            if (!string.IsNullOrWhiteSpace(album.Cover))
+                sRet = formatCoverUrl(album.Cover, ALBUM_COVER_SIZE);
+            else if (album.Artist != null)
+                sRet = getFallbackArtistCoverUrl(album.Artist.ID);
+            return sRet;
+        }
+
+        public static string getCoverUrl(ref Artist artist)
+        {
+            string sRet = string.Empty;
+            if (!string.IsNullOrWhiteSpace(artist.Picture))
+                sRet = formatCoverUrl(artist.Picture, ARTIST_COVER_SIZE);
+
+            return sRet;
+        }
+
+        public static string getCoverUrl(ref Video video)
+        {
+            string sRet = string.Empty;
+            if (!string.IsNullOrWhiteSpace(video.ImageID))
+                sRet = formatCoverUrl(video.ImageID, VIDEO_COVER_SIZE);
+            else if (video.Artist != null)
+                sRet = getFallbackArtistCoverUrl(video.Artist.ID);
+            return sRet;
+        }
+
+        private static string formatCoverUrl(string fileName, int Size)
+        {
+            return string.Format("https://resources.tidal.com/images/{0}/{1}x{1}.jpg", fileName.Replace('-', '/'), Size);
+        }
+
+        private static string getFallbackArtistCoverUrl(int artistID)
+        {
+            string fallbackCoverUrl = string.Empty;
+            try
+            {
+                string Errmsg;
+                Artist artistObj = get<Artist>("artists/" + artistID, out Errmsg);
+                fallbackCoverUrl = getCoverUrl(ref artistObj);
+            }
+            catch (Exception)
+            {
+                // No exception handling needed.
+            }
+            return fallbackCoverUrl;
         }
 
         #endregion
