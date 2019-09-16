@@ -2,7 +2,6 @@
 Tidal-Media-Downloader is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl(python-cli) and tidal-gui(csharp-gui).   
 
 ### **Download**
-- [tidal-dl.exe](https://github.com/yaronzz/Tidal-Media-Downloader/tree/master/TIDALDL-PY/exe) : windows
 - [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases) : windows
 - tidal-dl by pip3(python 3.x) : windows\linux\macos
   ``` python
