@@ -42,6 +42,7 @@
                         <RadioButton Content="TRACK" IsChecked="{Binding bCheckTrack}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="VIDEO" IsChecked="{Binding bCheckVideo}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                         <RadioButton Content="ARTIST" IsChecked="{Binding bCheckArtist}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
+                        <RadioButton Content="PLAYLIST" IsChecked="{Binding bCheckPlaylist}" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="4"/>
                     </StackPanel>
                 </materialDesign:ColorZone>
 

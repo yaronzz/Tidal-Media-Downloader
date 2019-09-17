@@ -17,6 +17,7 @@ namespace Tidal
 
         const int ALBUM_COVER_SIZE = 1280;
         const int ARTIST_COVER_SIZE = 480;
+        const int PLAYLIST_COVER_SIZE = 480;
         const int VIDEO_COVER_SIZE = 1280;
 
         #endregion
@@ -34,6 +35,7 @@ namespace Tidal
         static string SESSIONID_PHONE = null;
         static bool   ISLOGIN         = false;
         static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/" };
+        public static HttpHelper.ProxyInfo PROXY = null;
         #endregion
 
         #region Login
@@ -58,7 +60,7 @@ namespace Tidal
                     {"password", Password},
                     {"token", i == 0 ? TOKEN_PHONE : TOKEN},
                     {"clientVersion", VERSION},
-                    {"clientUniqueKey", getUID()}}, IsErrResponse: true, Timeout:10*1000);
+                    {"clientUniqueKey", getUID()}}, IsErrResponse: true, Timeout:10*1000, Proxy: PROXY);
                 if (ISLOGIN)
                     return true;
                 if (Errmsg.IsNotBlank())
@@ -106,7 +108,7 @@ namespace Tidal
             if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
                 sSessionID = SESSIONID_PHONE;
 
-            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true);
+            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);
             if (!string.IsNullOrEmpty(Errmsg))
             {
                 string sStatus = JsonHelper.GetValue(Errmsg, "status");
@@ -132,7 +134,7 @@ namespace Tidal
 
         static string getString(string sUrl, out string Errmsg)
         {
-            string sRet = (string)HttpHelper.GetOrPost(sUrl, out Errmsg, Retry: 5);
+            string sRet = (string)HttpHelper.GetOrPost(sUrl, out Errmsg, Retry: 5, Proxy: PROXY);
             if (Errmsg.IsNotBlank())
                 return null;
             return sRet;
@@ -178,7 +180,7 @@ namespace Tidal
 
         private static void getAlbumData(ref Album oObj, string ID, out string Errmsg, bool GetItem = false)
         {
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000, Proxy: PROXY);
             oObj.Tracks = new ObservableCollection<Track>();
             oObj.Videos = new ObservableCollection<Video>();
 
@@ -223,7 +225,7 @@ namespace Tidal
             Video oObj = get<Video>("videos/" + ID, out Errmsg);
             if (oObj == null)
                 return null;
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000, Proxy: PROXY);
             return oObj;
         }
 
@@ -303,7 +305,7 @@ namespace Tidal
             if (oObj == null)
                 return null;
 
-            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000);
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000, Proxy: PROXY);
             oObj.Albums = new ObservableCollection<Album>();
 
             if (GetItem)
@@ -333,12 +335,19 @@ namespace Tidal
             return sRet;
         }
 
+        public static string getCoverUrl(ref Playlist plist)
+        {
+            string sRet = string.Empty;
+            if (!string.IsNullOrWhiteSpace(plist.Image))
+                sRet = formatCoverUrl(plist.Image, PLAYLIST_COVER_SIZE);
+            return sRet;
+        }
+
         public static string getCoverUrl(ref Artist artist)
         {
             string sRet = string.Empty;
             if (!string.IsNullOrWhiteSpace(artist.Picture))
                 sRet = formatCoverUrl(artist.Picture, ARTIST_COVER_SIZE);
-
             return sRet;
         }
 
@@ -375,6 +384,31 @@ namespace Tidal
 
         #endregion
 
+        #region Playlist
+
+        public static Playlist getPlaylist(string ID, out string Errmsg)
+        {
+            Playlist oObj = get<Playlist>("playlists/" + ID, out Errmsg);
+            if (oObj == null)
+                return null;
+
+            oObj.Tracks = new ObservableCollection<Track>();
+            oObj.Videos = new ObservableCollection<Video>();
+            ObservableCollection<object> pArray = getItems<object>("playlists/" + ID + "/items", out Errmsg, null, 3);
+            foreach (object item in pArray)
+            {
+                if (JsonHelper.GetValue(item.ToString(), "type") == "track")
+                    oObj.Tracks.Add(JsonHelper.ConverStringToObject<Track>(item.ToString(), "item"));
+                else
+                    oObj.Videos.Add(JsonHelper.ConverStringToObject<Video>(item.ToString(), "item"));
+            }
+
+            oObj.CoverData = (byte[])HttpHelper.GetOrPost(getCoverUrl(ref oObj), out Errmsg, IsRetByte: true, Retry: 3, Timeout: 5000, Proxy: PROXY);
+            return oObj;
+        }
+
+        #endregion
+
         #region Search
         public static SearchResult Search(string sQuery, int iLimit, out string Errmsg)
         {
@@ -392,7 +426,7 @@ namespace Tidal
             pRet.Tracks = JsonHelper.ConverStringToObject<ObservableCollection<Track>>(sRet, "tracks", "items");
             pRet.Videos = JsonHelper.ConverStringToObject<ObservableCollection<Video>>(sRet, "videos", "items");
             pRet.Playlists = JsonHelper.ConverStringToObject<ObservableCollection<Playlist>>(sRet, "playlists", "items");
-            if (pRet.Artists.Count == 0 && pRet.Albums.Count == 0 && pRet.Tracks.Count == 0 && pRet.Videos.Count == 0)
+            if (pRet.Artists.Count == 0 && pRet.Albums.Count == 0 && pRet.Tracks.Count == 0 && pRet.Videos.Count == 0 && pRet.Playlists.Count == 0)
                 return null;
 
             pRet.Artists = pRet.Artists == null ? new ObservableCollection<Artist>() : pRet.Artists;
@@ -547,7 +581,10 @@ namespace Tidal
                 if (CoverPath.IsNotBlank())
                 {
                     var pictures = new Picture[1];
-                    pictures[0]  = new Picture(CoverPath);
+                    if(!System.IO.File.Exists(CoverPath))
+                        pictures[0] = new Picture(TidalAlbum.CoverData);
+                    else
+                        pictures[0]  = new Picture(CoverPath);
                     tfile.Tag.Pictures = pictures;
                 }
                 tfile.Save();
@@ -577,6 +614,12 @@ namespace Tidal
             return ".m4a";
         }
 
+        public static string getPlaylistFolder(string basePath, Playlist plist)
+        {
+            string sRet = string.Format("{0}/Playlist/{1}/", basePath, formatPath(plist.Title));
+            return Path.GetFullPath(sRet);
+        }
+
         public static string getArtistFolder(string basePath, Artist artist)
         {
             string sRet = string.Format("{0}/Album/{1}/", basePath, formatPath(artist.Name));
@@ -595,33 +638,60 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
 
-        public static string getAlbumTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false)
+        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null)
         {
-            string sAlbumDir = getAlbumFolder(basePath, album);
-            string sTrackDir = sAlbumDir;
-            if(album.NumberOfVolumes > 1)
-                sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
-
-            string sChar = hyphen ? "- " : "";
-            string sName = string.Format("{0} {1}{2}",
-                track.TrackNumber.ToString().PadLeft(2, '0'),
-                sChar,
-                formatPath(track.Title) + getExtension(sdlurl));
-
-            string sRet = sTrackDir + sName;
-            return Path.GetFullPath(sRet);
-        }
-
-        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4")
-        {
-            if (album == null)
+            if (album != null)
             {
-                string sRet = string.Format("{0}/Video/{1}{2}", basePath, formatPath(video.Title), sExt);
+                string sAlbumDir = getAlbumFolder(basePath, album);
+                string sTrackDir = sAlbumDir;
+                if (album.NumberOfVolumes > 1)
+                    sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
+
+                string sChar = hyphen ? "- " : "";
+                string sName = string.Format("{0} {1}{2}",
+                    track.TrackNumber.ToString().PadLeft(2, '0'),
+                    sChar,
+                    formatPath(track.Title) + getExtension(sdlurl));
+
+                string sRet = sTrackDir + sName;
                 return Path.GetFullPath(sRet);
             }
             else
             {
+                string sPlistDir = getPlaylistFolder(basePath, plist);
+                string sTrackDir = sPlistDir;
+                string sChar = hyphen ? "- " : "";
+                string sName = string.Format("{0} {1}{2}",
+                    plist.Tracks.IndexOf(track).ToString().PadLeft(2, '0'),
+                    sChar,
+                    formatPath(track.Title) + getExtension(sdlurl));
+
+                string sRet = sTrackDir + sName;
+                return Path.GetFullPath(sRet);
+            }
+        }
+
+        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null)
+        {
+            if (album != null)
+            {
                 string sRet = getAlbumFolder(basePath, album) + formatPath(video.Title) + sExt;
+                return Path.GetFullPath(sRet);
+
+            }
+            else if(plist != null)
+            {
+                string sRet = getPlaylistFolder(basePath, plist);
+                string sChar = hyphen ? "- " : "";
+                string sName = string.Format("{0} {1}{2}",
+                    (plist.Tracks.Count + plist.Videos.IndexOf(video)).ToString().PadLeft(2, '0'),
+                    sChar,
+                    sExt);
+                return Path.GetFullPath(sRet);
+            }
+            else
+            { 
+                string sRet = string.Format("{0}/Video/{1}{2}", basePath, formatPath(video.Title), sExt);
                 return Path.GetFullPath(sRet);
             }
         }
@@ -737,6 +807,15 @@ namespace Tidal
             if (inType == eObjectType.ARTIST)
                 goto POINT_ERR;
         POINT_SEARCH:
+            if(sStr.IndexOf('-') >= 0)
+            {
+                oRet = getPlaylist(sStr, out sErrmsg);
+                if (oRet != null)
+                {
+                    eType = eObjectType.PLAYLIST;
+                    return oRet;
+                }
+            }
             oRet = Search(sStr, 30, out sErrmsg);
             if (oRet != null)
             {

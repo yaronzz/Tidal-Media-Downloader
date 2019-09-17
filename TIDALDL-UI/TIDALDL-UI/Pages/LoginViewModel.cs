@@ -23,6 +23,7 @@ namespace TIDALDL_UI.Pages
         public string Password { get; set; }
         public bool   Remember { get; set; }
         public bool   AutoLogin { get; set; }
+
         /// <summary>
         /// History AccountList
         /// </summary>
@@ -34,7 +35,19 @@ namespace TIDALDL_UI.Pages
         /// </summary>
         public Visibility WaitVisibility { get; set; }
 
+        /// <summary>
+        /// Proxy
+        /// </summary>
+        public bool   ProxyViewShow { get;set; } = false;
+        public bool   ProxyEnable { get;set; } = Config.ProxyEnable();
+        public string ProxyHost { get; set; } = Config.ProxyHost();
+        public int    ProxyPort { get; set; } = Config.ProxyPort();
+        public string ProxyUser { get; set; } = Config.ProxyUser();
+        public string ProxyPwd { get; set; } = Config.ProxyPwd();
 
+        /// <summary>
+        /// View
+        /// </summary>
         private IWindowManager Manager;
         private MainViewModel VMMain;
 
@@ -88,15 +101,22 @@ namespace TIDALDL_UI.Pages
             Config.AddHistoryAccount(Username, Password);
 
             ShowMainPage(false);
+            //Proxy
+            TidalTool.PROXY = ProxyEnable ? new HttpHelper.ProxyInfo(ProxyHost, ProxyPort, ProxyUser, ProxyPwd) : null;
             bool bRet = await Task.Run(() => { return TidalTool.login(Username, Password);});
             if (!bRet)
                 Errlabel = "Login Err!";
             else
             {
+                //DEBUG 
+                //eObjectType eType = eObjectType.None;
+                //Tidal.TidalTool.tryGet("36ea71a8-445e-41a4-82ab-6628c581535d", out eType);
+
                 VMMain.SetLogViewModel(this);
                 Manager.ShowWindow(VMMain);
                 RequestClose();
             }
+            
             ShowMainPage(true);
             return;
         }
@@ -105,7 +125,11 @@ namespace TIDALDL_UI.Pages
         {
             ShowMainPage(true);
         }
+
+        public void Setting()
+        {
+            ProxyViewShow = !ProxyViewShow;
+        }
         #endregion
     }
-
 }

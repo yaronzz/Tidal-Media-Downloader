@@ -126,6 +126,35 @@ namespace TIDALDL_UI.Else
         {
             return SetOrGet("resolution", Setvalue, "e720P");
         }
+
+        public static bool ProxyEnable(string Setvalue = null)
+        {
+            string sRet = SetOrGet("proxyenable", Setvalue, "true");
+            if (sRet.IsNotBlank() && sRet.ToLower() == "true")
+                return true;
+            return false;
+        }
+
+        public static string ProxyHost(string Setvalue = null)
+        {
+            return SetOrGet("proxyhost", Setvalue, "");
+        }
+
+        public static int ProxyPort(string Setvalue = null)
+        {
+            string sValue = SetOrGet("proxyport", Setvalue, "");
+            return AIGS.Common.Convert.ConverStringToInt(sValue, 0);
+        }
+
+        public static string ProxyUser(string Setvalue = null)
+        {
+            return SetOrGet("proxyuser", Setvalue, "");
+        }
+
+        public static string ProxyPwd(string Setvalue = null)
+        {
+            return SetOrGet("proxypwd", Setvalue, "");
+        }
         #endregion
 
         #region History Account

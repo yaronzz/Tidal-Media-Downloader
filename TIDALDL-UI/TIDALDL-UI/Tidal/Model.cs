@@ -121,8 +121,13 @@ namespace Tidal
         public string Type { get; set; }
         public string Url { get; set; }
         public string Image { get; set; }
+        public string SquareImage { get; set; }
+        public bool PublicPlaylist { get; set; }
+        public int Popularity { get; set; }
+
         public ObservableCollection<Track> Tracks { get; set; }
         public ObservableCollection<Video> Videos { get; set; }
+        public byte[] CoverData { get; set; }
     }
 
     public class SearchResult

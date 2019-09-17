@@ -68,7 +68,28 @@ namespace TIDALDL_UI.Pages
         public object Load(object data)
         {
             Data = data;
-            if (data.GetType() == typeof(Artist))
+            if (data.GetType() == typeof(Playlist))
+            {
+                Playlist plist = (Playlist)data;
+                Header         = "PLAYLISTINFO";
+                Title          = plist.Title;
+                //Intro          = string.Format("by {0}-{1} Tracks-{2} Videos-{3}", plist.Created, TimeHelper.ConverIntToString(plist.Duration), plist.NumberOfTracks, plist.NumberOfVideos);
+                Intro          = string.Format("{0} Tracks-{1} Videos-{2}", TimeHelper.ConverIntToString(plist.Duration), plist.NumberOfTracks, plist.NumberOfVideos);
+                Cover          = AIGS.Common.Convert.ConverByteArrayToBitmapImage(plist.CoverData);
+                ReleaseDate    = "";
+                ItemList       = new ObservableCollection<InfoItem>();
+                if (plist.Tracks != null)
+                {
+                    foreach (Track item in plist.Tracks)
+                        ItemList.Add(new InfoItem(plist.Tracks.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item));
+                }
+                if (plist.Videos != null)
+                {
+                    foreach (Video item in plist.Videos)
+                        ItemList.Add(new InfoItem(plist.Tracks.Count + plist.Videos.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item, "VIDEO"));
+                }
+            }
+            else if (data.GetType() == typeof(Artist))
             {
                 Artist artist = (Artist)data;
                 Header        = "ARTISTINFO";
@@ -83,7 +104,7 @@ namespace TIDALDL_UI.Pages
                         ItemList.Add(new InfoItem(artist.Albums.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Title, item, "ALBUM"));
                 }
             }
-            if (data.GetType() == typeof(Album))
+            else if (data.GetType() == typeof(Album))
             { 
                 Album album = (Album)data;
                 Header      = "ALBUMINFO";
@@ -133,6 +154,14 @@ namespace TIDALDL_UI.Pages
                         album.Tracks.Remove((Track)ItemList[i].Data);
                     else
                         album.Videos.Remove((Video)ItemList[i].Data);
+                }
+                if (Data.GetType() == typeof(Playlist))
+                {
+                    Playlist plist = (Playlist)Data;
+                    if (ItemList[i].Type == "TRACK")
+                        plist.Tracks.Remove((Track)ItemList[i].Data);
+                    else
+                        plist.Videos.Remove((Video)ItemList[i].Data);
                 }
                 if (Data.GetType() == typeof(Artist))
                 {

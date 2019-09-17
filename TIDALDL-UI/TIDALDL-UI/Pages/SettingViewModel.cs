@@ -10,6 +10,7 @@ using AIGS.Common;
 using System.IO;
 using Tidal;
 using System.Windows.Forms;
+using AIGS.Helper;
 
 namespace TIDALDL_UI.Pages
 {
@@ -20,7 +21,7 @@ namespace TIDALDL_UI.Pages
         public int    SelectQualityIndex { get; set; }
         public int    SelectResolutionIndex { get; set; }
         public bool   OnlyM4a { get; set; }
-        public bool   AddHyphen { get; set; } //between number and title(settings)
+        public bool   AddHyphen { get; set; }
 
         public bool CheckCommon { get; set; } = true;
         public bool CheckTrack { get; set; } = false;
@@ -28,7 +29,7 @@ namespace TIDALDL_UI.Pages
 
         public List<string> QualityList { get; set; }
         public List<string> ResolutionList { get; set; }
-
+        
         public SettingViewModel()
         {
             OutputDir             = Config.OutputDir();
@@ -63,9 +64,10 @@ namespace TIDALDL_UI.Pages
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
             Config.Resolution(ResolutionList[SelectResolutionIndex]);
             Config.OutputDir(OutputDir);
+            
             ThreadTool.SetThreadNum(ThreadNum + 1);
             RequestClose();                                                                 
-        }//https//tidal.com/browse/album/79237516
+        }
     }
 }
 

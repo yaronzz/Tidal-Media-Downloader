@@ -33,11 +33,13 @@ namespace TIDALDL_UI.Pages
     {
         public string Header { get; private set; } = "SEARCH";
         public int SelectIndex { get; set; } = 0;
+        public bool bCheckPlaylist { get; set; } = false;
         public bool bCheckArtist { get; set; } = false;
         public bool bCheckAlbum { get; set; } = true;
         public bool bCheckTrack { get; set; } = false;
         public bool bCheckVideo { get; set; } = false;
         public Visibility ShowWait { get; set; } = Visibility.Hidden;
+        public List<SearchItem> PlayList { get; set; } = new List<SearchItem>();
         public List<SearchItem> ArtistList { get; set; } = new List<SearchItem>();
         public List<SearchItem> AlbumList { get; set; } = new List<SearchItem>();
         public List<SearchItem> TrackList { get; set; } = new List<SearchItem>();
@@ -47,6 +49,7 @@ namespace TIDALDL_UI.Pages
             set { return; }
             get
             {
+                if (bCheckPlaylist) return PlayList;
                 if (bCheckArtist) return ArtistList;
                 if (bCheckAlbum) return AlbumList;
                 if (bCheckTrack) return TrackList;
@@ -63,6 +66,11 @@ namespace TIDALDL_UI.Pages
             string ResultID = null;
             if (SelectIndex >= 0)
             {
+                if (bCheckPlaylist && SearchInfo.Playlists.Count > 0)
+                {
+                    ResultID = SearchInfo.Playlists[SelectIndex].UUID.ToString();
+                    ResultType = eObjectType.PLAYLIST;
+                }
                 if (bCheckArtist && SearchInfo.Artists.Count > 0)
                 {
                     ResultID = SearchInfo.Artists[SelectIndex].ID.ToString();
@@ -103,11 +111,14 @@ namespace TIDALDL_UI.Pages
         public void Load(SearchResult SearchInfo)
         {
             ShowWait = Visibility.Hidden;
+            PlayList = new List<SearchItem>();
             ArtistList = new List<SearchItem>();
             AlbumList = new List<SearchItem>();
             TrackList = new List<SearchItem>();
             VideoList = new List<SearchItem>();
             this.SearchInfo = SearchInfo;
+            foreach (Playlist item in SearchInfo.Playlists)
+                PlayList.Add(new SearchItem(SearchInfo.Playlists.IndexOf(item) + 1, item.Title, item.Title, TimeHelper.ConverIntToString(item.Duration)));
             foreach (Artist item in SearchInfo.Artists)
                 ArtistList.Add(new SearchItem(SearchInfo.Artists.IndexOf(item) + 1, item.Name, item.Name, ""));
             foreach (Album item in SearchInfo.Albums)

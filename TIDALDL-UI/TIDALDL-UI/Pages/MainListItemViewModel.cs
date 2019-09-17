@@ -62,6 +62,19 @@ namespace TIDALDL_UI.Pages
                 foreach (var item in artist.Albums)
                     AddAlbum(item);
             }
+            else if(data.GetType() == typeof(Playlist))
+            {
+                Playlist plist = (Playlist)data;
+                Title          = plist.Title;
+                BasePath       = TidalTool.getPlaylistFolder(Config.OutputDir(), plist);
+                //Desc         = string.Format("by {0}-{1} Tracks-{2} Videos-{3}", plist.Created, TimeHelper.ConverIntToString(plist.Duration), plist.NumberOfTracks, plist.NumberOfVideos);
+                Desc           = string.Format("{0} Tracks-{1} Videos-{2}", TimeHelper.ConverIntToString(plist.Duration), plist.NumberOfTracks, plist.NumberOfVideos);
+                Cover          = AIGS.Common.Convert.ConverByteArrayToBitmapImage(plist.CoverData);
+                foreach (Track item in plist.Tracks)
+                    DLItemList.Add(new DownloadItem(DLItemList.Count + 1, item, null, album: null, plist:plist));
+                foreach (Video item in plist.Videos)
+                    DLItemList.Add(new DownloadItem(DLItemList.Count + 1, null, item, album: null, plist: plist));
+            }
 
             PathHelper.Mkdirs(BasePath);
         }
@@ -91,14 +104,14 @@ namespace TIDALDL_UI.Pages
                 foreach (DownloadItem item in DLItemList)
                     item.Cancel();
                 ButtonKind = "Restart";
-                ButtonTip = "Restart";
+                ButtonTip  = "Restart";
             }
             else
             {
                 foreach (DownloadItem item in DLItemList)
                     item.Restart();
                 ButtonKind = "CloseCircle";
-                ButtonTip = "Cancel";
+                ButtonTip  = "Cancel";
             }
         }
 

@@ -14,6 +14,7 @@ namespace TIDALDL_UI.Else
 {
     public class DownloadItem : Screen
     {
+        public Playlist TidalPlaylist { get; set; }
         public Album TidalAlbum { get; set; }
         public Track TidalTrack { get; set; }
         public Video TidalVideo { get; set; }
@@ -32,14 +33,15 @@ namespace TIDALDL_UI.Else
         public bool OnlyM4a { get; set; }
         public bool AddHyphen { get; set; }
         public string Own { get; set; }
-
+        
         ///// <summary>
         ///// Progress 
         ///// </summary>
         public ProgressHelper Progress { get; set; }
 
-        public DownloadItem(int index, Track track = null, Video video = null, Album album = null)
+        public DownloadItem(int index, Track track = null, Video video = null, Album album = null, Playlist plist = null)
         {
+            TidalPlaylist = plist;
             TidalAlbum = album;
             TidalVideo = video;
             TidalTrack = track;
@@ -128,7 +130,7 @@ namespace TIDALDL_UI.Else
             }
 
             //Convert
-            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum);
+            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist);
             if(!FFmpegHelper.IsExist())
             {
                 Errlabel = "FFmpeg is not exist!";
@@ -162,7 +164,7 @@ namespace TIDALDL_UI.Else
             StreamUrl TidalStream = TidalTool.getStreamUrl(TidalTrack.ID.ToString(), Quality, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
-            FilePath = TidalTool.getAlbumTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen);
+            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist);
 
             //Download
             Progress.StatusMsg = "Start...";
@@ -190,6 +192,11 @@ namespace TIDALDL_UI.Else
                     }
 
                     //SetMetaData
+                    if (TidalAlbum == null && TidalTrack.Album != null)
+                    {
+                        string sErrcode = null;
+                        TidalAlbum = TidalTool.getAlbum(TidalTrack.Album.ID.ToString(), out sErrcode);
+                    }
                     string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum));
                     if (sLabel.IsNotBlank())
                     {
