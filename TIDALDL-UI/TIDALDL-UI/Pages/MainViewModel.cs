@@ -24,7 +24,7 @@ namespace TIDALDL_UI.Pages
         public bool   InSearch { get; set; }
 
         public string SearchHelperTip { get; set; } =
-            "You can search album\\track\\video\\artist! Example:\n\n" +
+            "You can search album\\track\\video\\artist\\playlist! Example:\n\n" +
             "ID   : 71121869 (from https://listen.tidal.com/albums/71121869) \n" +
             "Title: Adele (or track\\video\\album title) \n" +
             "Url  : https://listen.tidal.com/albums/71121869";
@@ -96,7 +96,7 @@ namespace TIDALDL_UI.Pages
                 return;
             if (SearchStr.IsBlank())
             {
-                Errlabel = "Search String is Empty!";
+                Errlabel = "Search string is empty!";
                 return;
             }
             

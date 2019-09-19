@@ -1,4 +1,9 @@
-﻿#### v1.1.0.6
+﻿#### v1.1.0.7
+- Add proxy-setting on login-page
+- Download playlist
+- Use artist cover when no album cover
+
+#### v1.1.0.6
 - Fix bug of search
 - Download by file
 - Add search question button

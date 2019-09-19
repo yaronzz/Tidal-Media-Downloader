@@ -9,6 +9,7 @@
         xmlns:pages="clr-namespace:TIDALDL_UI.Pages"
         xmlns:else="clr-namespace:TIDALDL_UI.Else"
         xmlns:aigsc="clr-namespace:AIGS.Control;assembly=AIGS"
+        xmlns:aigs="clr-namespace:AIGS.Common;assembly=AIGS"
         mc:Ignorable="d"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -19,14 +20,11 @@
         Width="515"
         Height="415" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}"
         d:DataContext="{d:DesignInstance pages:LoginViewModel}">
+
     <Grid>
         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="430" BorderThickness="3" BorderBrush="#FF171616" Margin="45,40,0,0" Height="330">
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
                 <Grid Height="329" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="182"/>
                         <RowDefinition/>
@@ -35,15 +33,12 @@
                     <!--Cover Grid-->
                     <Grid Background="Black" MouseLeftButtonDown="Grid_MouseLeftButtonDown"  Margin="0,-10,0,124" Grid.RowSpan="2" Grid.ColumnSpan="2">
                         <Image Margin="-10,-10,0,0" Source="pack://application:,,,/resource/tidal.jpg" />
-                        <!--<ToggleButton Style="{StaticResource MaterialDesignFlatToggleButton}" Command="{s:Action RequestClose}" s:View.ActionTarget="{Binding}" Margin="404,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Padding="0" Height="25">
-                            <materialDesign:PackIcon Kind="Close" Height="22" Width="26" Foreground="#899C9494" />
-                        </ToggleButton>-->
-                        <Button Command="{s:Action RequestClose}" s:View.ActionTarget="{Binding}" Margin="404,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Padding="0" Height="25" Background="" BorderBrush="{x:Null}">
+                        <!--<Button Command="{s:Action RequestClose}" s:View.ActionTarget="{Binding}" Margin="404,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Padding="0" Height="25" BorderBrush="{x:Null}" Background="{x:Null}">
                             <materialDesign:PackIcon Kind="Close" Height="22" Width="26" Foreground="White" />
                         </Button>
-                        <Button Command="{s:Action Setting}" s:View.ActionTarget="{Binding}" Margin="380,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="24" Padding="0" Height="25" Background="" BorderBrush="{x:Null}">
-                            <materialDesign:PackIcon Kind="AccountCircle" Height="22" Width="26" Foreground="White" />
-                        </Button>
+                        <Button Command="{s:Action Setting}" s:View.ActionTarget="{Binding}" Margin="380,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="24" Padding="0" Height="25" BorderBrush="{x:Null}"  Background="{x:Null}">
+                            <materialDesign:PackIcon Kind="CloudSync" Height="22" Width="26" Foreground="White" />
+                        </Button>-->
                     </Grid>
 
                     <!--Login Page-->
@@ -57,7 +52,7 @@
                                   ItemsSource="{Binding PersonList, UpdateSourceTrigger=PropertyChanged}" Padding="2,6,0,6" BorderBrush="#899C9494"/>
                         <PasswordBox Margin="115,38,0,0" materialDesign:HintAssist.Hint="  Password" Background="White" Height="28" Width="195" aigsc:PasswordBoxHelper.Attach="True" aigsc:PasswordBoxHelper.Password="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderThickness="1,1,1,1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#899C9494" />
                         <CheckBox Content="Remember" Margin="115,66,0,56" HorizontalAlignment="Left" Width="90" IsChecked="{Binding Remember,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Content="AutoLongin" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="AutoLogin" Margin="216,66,0,56" HorizontalAlignment="Left" Width="94" IsChecked="{Binding AutoLogin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <materialDesign:Badged Badge="{Binding Errlabel, UpdateSourceTrigger=PropertyChanged}" Margin="115,96,0,0">
                             <Button Command="{s:Action Confirm}" s:View.ActionTarget="{Binding}" Name="m_CLogin" Content="LOG IN" HorizontalAlignment="Left" Width="195" Height="30"  IsDefault="True"/>
                         </materialDesign:Badged>
@@ -77,9 +72,31 @@
                         <Button Command="{s:Action Cancle}" Content="CANCLE" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
                     </Grid>
 
-                    <materialDesign:Snackbar HorizontalAlignment="Stretch" x:Name="SnackbarFive" IsActive="False" Grid.Row="1" Height="29" Grid.ColumnSpan="2">
-                        <materialDesign:SnackbarMessage Content="Err." ActionContent="OK" />
-                    </materialDesign:Snackbar>
+                    <!--Proxy Page-->
+                    <Grid Grid.RowSpan="2" Background="LightGray" Visibility="{Binding ProxyViewShow,UpdateSourceTrigger=PropertyChanged,Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="29*"/>
+                            <ColumnDefinition Width="57*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="HttpProxy" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Height="30" Margin="0,95,0,0" />
+                        <Label Content="Host" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Height="30" Margin="0,125,0,0" />
+                        <Label Content="Port" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Height="30" Margin="0,155,0,0" />
+                        <Label Content="Username" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Height="30" Margin="0,185,0,0" />
+                        <Label Content="Password" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Height="30" Margin="0,215,0,0" />
+                        <ToggleButton Grid.Column="1" IsChecked="{Binding ProxyEnable}" Style="{StaticResource MaterialDesignSwitchToggleButton}" Margin="0,95,220,204" Height="30"/>
+                        <TextBox Grid.Column="1" Text="{Binding ProxyHost}" IsEnabled="{Binding ProxyEnable}" Margin="10,126,80,173" Height="30"/>
+                        <TextBox Grid.Column="1" Text="{Binding ProxyPort}" IsEnabled="{Binding ProxyEnable}" Margin="10,154,80,145" Height="30"/>
+                        <TextBox Grid.Column="1" Text="{Binding ProxyUser}" IsEnabled="{Binding ProxyEnable}" Margin="10,184,80,115" Height="30"/>
+                        <TextBox Grid.Column="1" Text="{Binding ProxyPwd}" IsEnabled="{Binding ProxyEnable}" Margin="10,214,80,85" Height="30"/>
+                    </Grid>
+
+                    <Button Command="{s:Action RequestClose}" s:View.ActionTarget="{Binding}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Padding="0" Height="25" BorderBrush="{x:Null}" Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="Close" Height="22" Width="26" Foreground="White" />
+                    </Button>
+                    <Button Command="{s:Action Setting}" s:View.ActionTarget="{Binding}" VerticalAlignment="Top" Width="24" Padding="0" Height="25" BorderBrush="{x:Null}" Background="{x:Null}" Margin="375,0,31,0">
+                        <materialDesign:PackIcon Kind="CloudSync" Height="22" Width="26" Foreground="White" />
+                    </Button>
+
                 </Grid>
             </materialDesign:DialogHost>
         </materialDesign:Card>

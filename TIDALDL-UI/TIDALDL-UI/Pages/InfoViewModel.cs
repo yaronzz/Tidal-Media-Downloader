@@ -182,6 +182,12 @@ namespace TIDALDL_UI.Pages
                 if (artist.Albums.Count <= 0)
                     return false;
             }
+            if (Data.GetType() == typeof(Playlist))
+            {
+                Playlist plist = (Playlist)Data;
+                if (plist.Tracks.Count <= 0 && plist.Videos.Count <= 0)
+                    return false;
+            }
             return true;
         }
     }

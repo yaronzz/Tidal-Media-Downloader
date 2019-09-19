@@ -128,7 +128,20 @@ namespace TIDALDL_UI.Pages
 
         public void Setting()
         {
-            ProxyViewShow = !ProxyViewShow;
+            if(!ProxyViewShow)
+            {
+                ProxyViewShow = true;
+                return;
+            }
+            else
+            {
+                ProxyViewShow = false;
+                Config.ProxyEnable(ProxyEnable.ToString());
+                Config.ProxyHost(ProxyHost);
+                Config.ProxyPort(ProxyPort.ToString());
+                Config.ProxyUser(ProxyUser);
+                Config.ProxyPwd(ProxyPwd);
+            }
         }
         #endregion
     }

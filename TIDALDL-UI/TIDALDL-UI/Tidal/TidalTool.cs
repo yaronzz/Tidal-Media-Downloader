@@ -34,7 +34,7 @@ namespace Tidal
         static string SESSIONID       = null;
         static string SESSIONID_PHONE = null;
         static bool   ISLOGIN         = false;
-        static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/" };
+        static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/"};
         public static HttpHelper.ProxyInfo PROXY = null;
         #endregion
 
@@ -337,10 +337,7 @@ namespace Tidal
 
         public static string getCoverUrl(ref Playlist plist)
         {
-            string sRet = string.Empty;
-            if (!string.IsNullOrWhiteSpace(plist.Image))
-                sRet = formatCoverUrl(plist.Image, PLAYLIST_COVER_SIZE);
-            return sRet;
+            return string.Format("http://images.tidalhifi.com/im/im?w={1}&h={1}&uuid={0}&rows=2&cols=3&noph", plist.UUID, PLAYLIST_COVER_SIZE);
         }
 
         public static string getCoverUrl(ref Artist artist)
@@ -730,6 +727,7 @@ namespace Tidal
             if (sArr[0] == "track") sType = eObjectType.TRACK;
             if (sArr[0] == "video") sType = eObjectType.VIDEO;
             if (sArr[0] == "artist") sType = eObjectType.ARTIST;
+            if (sArr[0] == "playlist") sType = eObjectType.PLAYLIST;
             if (sType == eObjectType.None)
                 return false;
 

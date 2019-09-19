@@ -129,7 +129,7 @@ namespace TIDALDL_UI.Else
 
         public static bool ProxyEnable(string Setvalue = null)
         {
-            string sRet = SetOrGet("proxyenable", Setvalue, "true");
+            string sRet = SetOrGet("proxyenable", Setvalue, "false");
             if (sRet.IsNotBlank() && sRet.ToLower() == "true")
                 return true;
             return false;

@@ -187,12 +187,16 @@ def debug():
 # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
-
+    
     dl = Download(1)
     # dl.downloadTrack(66214149)
-    dl.downloadAlbum(96633947)
+    dl.downloadAlbum(90521280,True)
+    # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
+    # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
+    # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
     # dl.downloadVideo(57261945) #1hours
-    # dl.downloadVideo(84094460)
+
+    dl.downloadVideo(84094460)
     
 # if __name__ == '__main__':
 #     main(sys.argv)

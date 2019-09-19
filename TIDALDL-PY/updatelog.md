@@ -1,3 +1,5 @@
+- Add skip switch when download atrist/file
+
 #### v2019-09-10
 - Fix bug of download videos
 - Add version to title

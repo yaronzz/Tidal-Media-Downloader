@@ -123,12 +123,12 @@ namespace TIDALDL_UI.Else
 
             //Download
             Progress.StatusMsg = "Start...";
-            if(!(bool)M3u8Helper.Download(TidalVideoUrls, TsFilePath, ProgressNotify))
+            if(!(bool)M3u8Helper.Download(TidalVideoUrls, TsFilePath, ProgressNotify, Proxy:TidalTool.PROXY))
             {
                 Errlabel = "Download failed!";
                 goto ERR_RETURN;
             }
-
+            
             //Convert
             FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist);
             if(!FFmpegHelper.IsExist())
@@ -170,7 +170,7 @@ namespace TIDALDL_UI.Else
             Progress.StatusMsg = "Start...";
             for (int i = 0; i < 100 && Progress.GetStatus() != ProgressHelper.STATUS.CANCLE; i++)
             {
-                if ((bool)DownloadFileHepler.Start(TidalStream.Url, FilePath, Timeout: 5 * 1000, UpdateFunc: UpdateDownloadNotify, ErrFunc: ErrDownloadNotify))
+                if ((bool)DownloadFileHepler.Start(TidalStream.Url, FilePath, Timeout: 5 * 1000, UpdateFunc: UpdateDownloadNotify, ErrFunc: ErrDownloadNotify, Proxy:TidalTool.PROXY))
                 {
                     //Decrypt
                     if (!TidalTool.DecryptTrackFile(TidalStream, FilePath))
@@ -191,7 +191,7 @@ namespace TIDALDL_UI.Else
                             FilePath = sNewName;
                     }
 
-                    //SetMetaData
+                    //SetMetaData 
                     if (TidalAlbum == null && TidalTrack.Album != null)
                     {
                         string sErrcode = null;
@@ -213,7 +213,7 @@ namespace TIDALDL_UI.Else
             if (Progress.GetStatus() == ProgressHelper.STATUS.CANCLE)
                 return;
 
-            ErrlabelHeight  = 15;
+            ErrlabelHeight = 15;
             Progress.SetStatus(ProgressHelper.STATUS.ERROR);
             Progress.Errmsg = Errlabel;
         }

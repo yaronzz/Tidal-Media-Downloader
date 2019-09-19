@@ -15,6 +15,7 @@ from aigpy import pathHelper
 # from tidal_dl import netHelper
 from aigpy import netHelper
 from aigpy import fileHelper
+from aigpy import cmdHelper
 
 # from tidal_dl.ffmpegHelper import FFmpegTool
 from aigpy.ffmpegHelper import FFmpegTool
@@ -187,7 +188,7 @@ class Download(object):
             ret += 1
         return len(array) - 1
 
-    def downloadAlbum(self, album_id=None):
+    def downloadAlbum(self, album_id=None, redl_flag=None):
         while_count = 9999
         while while_count > 0:
             while_count -= 1
@@ -228,16 +229,19 @@ class Download(object):
             netHelper.downloadFile(coverUrl, coverPath)
             # check exist files
             redownload = True
-            existFiles = pathHelper.getDirFiles(targetDir)
-            for item in existFiles:
-                if '.txt' in item:
-                    continue
-                if '.jpg' in item:
-                    continue
-                check = printChoice("Some TrackFile Exist.Is Redownload?(y/n):")
-                if check != 'y' and check != 'yes':
-                    redownload = False
-                break
+            if redl_flag is None:
+                existFiles = pathHelper.getDirFiles(targetDir)
+                for item in existFiles:
+                    if '.txt' in item:
+                        continue
+                    if '.jpg' in item:
+                        continue
+                    check = printChoice("Some trackFile exist.Is redownload?(y/n):")
+                    if not cmdHelper.isInputYes(check):
+                        redownload = False
+                    break
+            else:
+                redownload = redl_flag
 
             # download album tracks
             for item in aAlbumTracks['items']:
@@ -292,10 +296,15 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0, "Get AlbumList Err! " + self.tool.errmsg)
                 continue
+            
+            redownload = True
+            check = printChoice("Skip downloaded files?(y/n):")
+            if not cmdHelper.isInputYes(check):
+                redownload = False
 
             for index, item in enumerate(array):
                 print("----Album[{0}/{1}]----".format(index+1, len(array)))
-                self.downloadAlbum(item['id'])
+                self.downloadAlbum(item['id'], redownload)
 
     def downloadTrack(self, track_id=None):
         while_count = 9999
@@ -565,10 +574,17 @@ class Download(object):
         print("[NumOfTrack]       %s" % (len(arr['track'])))
         print("[NumOfVideo]       %s" % (len(arr['video'])))
         print("[NumOfUrl]         %s" % (len(arr['url'])))
+        
+        if len(arr['album']) > 0:
+            redownload = True
+            check = printChoice("Skip downloaded files?(y/n):")
+            if not cmdHelper.isInputYes(check):
+                redownload = False
+
         for index, item in enumerate(arr['album']):
             print("----Album[{0}/{1}]----".format(index+1, len(arr['album'])))
             print("[ID]          %s" % (item))
-            self.downloadAlbum(item)
+            self.downloadAlbum(item, redownload)
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))

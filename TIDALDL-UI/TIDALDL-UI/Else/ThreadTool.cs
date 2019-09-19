@@ -15,6 +15,8 @@ namespace TIDALDL_UI.Else
 
         public static void SetThreadNum(int iNum)
         {
+            if (iNum < 1)
+                iNum = 1;
             Pool.SetPoolSize(iNum);
         }
 
