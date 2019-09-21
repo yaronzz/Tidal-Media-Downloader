@@ -108,6 +108,12 @@ namespace Tidal
         public byte[] CoverData { get; set; }
     }
 
+    public class Contributor
+    {
+        public string Name { get; set; }
+        public string Role { get; set; }
+    }
+
     public class Playlist
     {
         public string UUID { get; set; }

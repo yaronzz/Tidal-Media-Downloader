@@ -217,6 +217,12 @@ namespace Tidal
             StreamUrl oObj = get<StreamUrl>("tracks/" + ID + "/streamUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
             return oObj;
         }
+
+        public static ObservableCollection<Contributor> getTrackContributors(string ID, out string Errmsg)
+        {
+            ObservableCollection<Contributor> aObj = get<ObservableCollection<Contributor>>("tracks/" + ID + "/contributors", out Errmsg, null, 3, "items");
+            return aObj;
+        }
         #endregion
 
         #region Video
@@ -554,11 +560,24 @@ namespace Tidal
         {
             List<string> pArrayStr = new List<string>();
             for(int i = 0; i < Artists.Count; i++)
-                    pArrayStr.Add(Artists[i].Name);
+                pArrayStr.Add(Artists[i].Name);
             return pArrayStr.ToArray();
         }
 
-        public static string SetMetaData(string filepath, Album TidalAlbum, Track TidalTrack, string CoverPath)
+        private static string[] GetRoles(ObservableCollection<Contributor> pContributors, eContributorRole eRole)
+        {
+            string sName = AIGS.Common.Convert.ConverEnumToString((int)eRole, typeof(eContributorRole));
+
+            List<string> pArrayStr = new List<string>();
+            for (int i = 0; i < pContributors.Count; i++)
+            {
+                if (pContributors[i].Role.ToUpper().Replace(' ', '_') == sName)
+                    pArrayStr.Add(pContributors[i].Name);
+            }
+            return pArrayStr.ToArray();
+        }
+
+        public static string SetMetaData(string filepath, Album TidalAlbum, Track TidalTrack, string CoverPath, ObservableCollection<Contributor> pContributors)
         {
             try
             {
@@ -572,9 +591,13 @@ namespace Tidal
                 tfile.Tag.Copyright    = TidalTrack.Copyright;
                 tfile.Tag.AlbumArtists = GetArtistNames(TidalAlbum.Artists);
                 tfile.Tag.Performers   = GetArtistNames(TidalTrack.Artists);
+                tfile.Tag.Composers    = GetRoles(pContributors, eContributorRole.COMPOSER);
 
+                //ReleaseDate
                 if (TidalAlbum.ReleaseDate.IsNotBlank())
                     tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
+
+                //Cover
                 if (CoverPath.IsNotBlank())
                 {
                     var pictures = new Picture[1];
@@ -584,6 +607,7 @@ namespace Tidal
                         pictures[0]  = new Picture(CoverPath);
                     tfile.Tag.Pictures = pictures;
                 }
+
                 tfile.Save();
                 return null;
             }
@@ -719,15 +743,18 @@ namespace Tidal
                 return false;
 
             string sID = sArr[1];
-            if (AIGS.Common.Convert.ConverStringToInt(sID, -1) == -1)
-                return false;
-
             eObjectType sType = eObjectType.None;
-            if (sArr[0] == "album") sType = eObjectType.ALBUM;
-            if (sArr[0] == "track") sType = eObjectType.TRACK;
-            if (sArr[0] == "video") sType = eObjectType.VIDEO;
-            if (sArr[0] == "artist") sType = eObjectType.ARTIST;
-            if (sArr[0] == "playlist") sType = eObjectType.PLAYLIST;
+            if (AIGS.Common.Convert.ConverStringToInt(sID, -1) == -1)
+            {
+                if (sArr[0] == "playlist") sType = eObjectType.PLAYLIST;
+            }
+            else
+            {
+                if (sArr[0] == "album") sType = eObjectType.ALBUM;
+                if (sArr[0] == "track") sType = eObjectType.TRACK;
+                if (sArr[0] == "video") sType = eObjectType.VIDEO;
+                if (sArr[0] == "artist") sType = eObjectType.ARTIST;
+            }
             if (sType == eObjectType.None)
                 return false;
 

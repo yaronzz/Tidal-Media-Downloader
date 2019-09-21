@@ -33,4 +33,27 @@ namespace Tidal
         e720P = 720,
         e1080P = 1080
     }
+
+    public enum eContributorRole
+    {
+        PRODUCER,
+        COMPOSER,
+        LYRICIST,
+        ASSOCIATED_PERFORMER,
+        BACKGROUND_VOCAL,
+        BASS,
+        DRUMS,
+        GUITAR,
+        MASTERING_ENGINEER,
+        MIX_ENGINEER,
+        PERCUSSION,
+        SYNTHESIZER,
+        VOCAL,
+        PERFORMER,
+        REMIXER,
+        ENSEMBLE_ORCHESTRA,
+        CHOIR,
+        CONDUCTOR,
+        ELSE,
+    }
 }

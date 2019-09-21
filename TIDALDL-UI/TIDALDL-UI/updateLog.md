@@ -1,7 +1,7 @@
 ﻿#### v1.1.0.7
-- Add proxy-setting on login-page
+- support http-proxy(login-page)
 - Download playlist
-- Use artist cover when no album cover
+- Tag: add composer
 
 #### v1.1.0.6
 - Fix bug of search

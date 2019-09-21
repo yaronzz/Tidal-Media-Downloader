@@ -47,7 +47,7 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
-                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="488">
+                                <materialDesign:ColorZone IsEnabled="{Binding Path=InSearch, Converter={StaticResource ConverterUnbool}}" Mode="Standard" Padding="4 0 4 0" Panel.ZIndex="1" Margin="16 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1" Width="673">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="26" />
@@ -65,10 +65,10 @@
                                                 BorderThickness="0"
                                                 MinWidth="200"
                                                 VerticalAlignment="Center" Grid.ColumnSpan="2" />
-                                        <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="394,2,0,2" HorizontalAlignment="Left" Width="29">
+                                        <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="0,2,31,2" HorizontalAlignment="Right" Width="29">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                                         </Button>
-                                        <Button Grid.Column="2" Command="{s:Action OpenDllist}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" Margin="423,2,0,2" HorizontalAlignment="Left" Width="31">
+                                        <Button Grid.Column="2" Command="{s:Action OpenDllist}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" Margin="0,2" HorizontalAlignment="Right" Width="31">
                                             <materialDesign:PackIcon Kind="FileDocumentBoxOutline" Opacity=".56" />
                                         </Button>
                                     </Grid>

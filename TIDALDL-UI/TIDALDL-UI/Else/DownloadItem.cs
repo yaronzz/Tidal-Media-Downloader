@@ -9,6 +9,7 @@ using AIGS.Helper;
 using Stylet;
 using TagLib;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace TIDALDL_UI.Else
 {
@@ -158,13 +159,19 @@ namespace TIDALDL_UI.Else
         #region DownloadTrack
         public void DownloadTrack()
         {
+            string Errlabel = "";
+
             //GetStream
             Progress.StatusMsg = "GetStream...";
-            string Errlabel = "";
             StreamUrl TidalStream = TidalTool.getStreamUrl(TidalTrack.ID.ToString(), Quality, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
+
+            //Get path
             FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist);
+
+            //Get contributors
+            ObservableCollection<Contributor> pContributors = TidalTool.getTrackContributors(TidalTrack.ID.ToString(), out Errlabel);
 
             //Download
             Progress.StatusMsg = "Start...";
@@ -197,7 +204,7 @@ namespace TIDALDL_UI.Else
                         string sErrcode = null;
                         TidalAlbum = TidalTool.getAlbum(TidalTrack.Album.ID.ToString(), out sErrcode);
                     }
-                    string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum));
+                    string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum), pContributors);
                     if (sLabel.IsNotBlank())
                     {
                         Errlabel = "Set metadata failed!";

@@ -40,7 +40,7 @@
                     </Border>
 
                     <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                        <Label Content="OutputDir" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,33,312,0" />
+                        <Label Content="OutputDir" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                             Name="m_CPath"
                             ToolTip="Choose Path" 
@@ -50,7 +50,7 @@
                             Margin="107,32,22,0" 
                             HorizontalContentAlignment="Left" 
                             VerticalAlignment="Top" Height="30" Padding="0,4,16,4" BorderThickness="0,0,0,1" BorderBrush="#89000000"/>
-                        <Label Content="ThreadNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,67,307,0" Height="30" />
+                        <Label Content="ThreadNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,67,307,0" Height="30" />
                         <ComboBox SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,67,22,168">
                             <ComboBoxItem>1</ComboBoxItem>
                             <ComboBoxItem>2</ComboBoxItem>
@@ -61,21 +61,21 @@
                     </Grid>
 
                     <Grid Grid.Column="1" Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                        <Label Content="Quality" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,33,312,0" />
+                        <Label Content="Quality" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <ComboBox ItemsSource="{Binding QualityList}"
                                   SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="107,32,22,0" VerticalAlignment="Top" Height="30"/>
-                        <Label Content="OnlyM4a" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,67,312,0" Height="30" />
+                                  Margin="107,32,87,0" VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
+                        <Label Content="OnlyM4a" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,67,312,0" Height="30" />
                         <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding OnlyM4a, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="33" VerticalAlignment="Top" Margin="107,64,262,0"/>
-                        <Label Content="AddHyphen" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,97,312,0" Height="30" />
+                        <Label Content="AddHyphen" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,97,312,0" Height="30" />
                         <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="33" VerticalAlignment="Top" Margin="107,97,262,0"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Visibility="{Binding CheckVideo, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                        <Label Content="Resolution" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Left" Margin="10,33,312,0" />
+                        <Label Content="Resolution" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <ComboBox ItemsSource="{Binding ResolutionList}"
                               SelectedIndex="{Binding SelectResolutionIndex , UpdateSourceTrigger=PropertyChanged}"
-                              Margin="107,32,22,0" VerticalAlignment="Top" Height="28">
+                              Margin="107,32,87,0" VerticalAlignment="Top" Height="30" Padding="6,6,0,6">
                         </ComboBox>
                     </Grid>
                 </Grid>
