@@ -62,8 +62,12 @@ namespace TIDALDL_UI.Pages
             UpdateThread.IsBackground = true;
             UpdateThread.Start();
 
+            TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
+
             ////test
-            //VMDllist.Convert();
+            CloudMusicAlbum album = Chinese.matchAlbum("Won't Cry", "Jay Chou");
+            string sName = Chinese.convertSongTitle("Won't Cry", album);
+            VMDllist.Convert();
             return;
         }
 

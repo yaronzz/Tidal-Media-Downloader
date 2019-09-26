@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using TIDALDL_UI.Else;
 
 namespace Tidal
 {
@@ -39,6 +40,7 @@ namespace Tidal
         public ObservableCollection<Track> Tracks { get; set; }
         public ObservableCollection<Video> Videos { get; set; }
         public byte[] CoverData { get; set; }
+
     }
 
     public class Artist
@@ -79,6 +81,7 @@ namespace Tidal
         public Artist Artist { get; set; }
         public ObservableCollection<Artist> Artists { get; set; }
         public Album Album { get; set; }
+
     }
 
     public class StreamUrl

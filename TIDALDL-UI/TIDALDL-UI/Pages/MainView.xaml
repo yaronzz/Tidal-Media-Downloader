@@ -25,7 +25,7 @@
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
                 <Grid>
                     <!--Head Part-->
-                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" MouseDoubleClick="ColorZone_MouseDoubleClick"> 
+                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" > 
                         <DockPanel>
                             <Button DockPanel.Dock="Right" Command="{s:Action WindowClose}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24" Background="Red">
                                 <materialDesign:PackIcon Kind="Close" Height="22" Width="22" Foreground="White" />
@@ -44,6 +44,7 @@
                                     <Button Content="FeedBack" Click="{s:Action FeedBack}"></Button>
                                 </StackPanel>
                             </materialDesign:PopupBox>
+                            
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
@@ -64,6 +65,7 @@
                                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                                 BorderThickness="0"
                                                 MinWidth="200"
+                                                PreviewMouseDoubleClick="TextBox_PreviewMouseDoubleClick"
                                                 VerticalAlignment="Center" Grid.ColumnSpan="2" />
                                         <Button Grid.Column="2" Command="{s:Action Search}" s:View.ActionTarget="{Binding}" Style="{DynamicResource MaterialDesignToolButton}" IsDefault="True" Margin="0,2,31,2" HorizontalAlignment="Right" Width="29">
                                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />

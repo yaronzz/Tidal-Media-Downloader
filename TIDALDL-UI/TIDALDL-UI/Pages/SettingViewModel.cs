@@ -18,10 +18,12 @@ namespace TIDALDL_UI.Pages
     {
         public string OutputDir { get; set; }
         public int    ThreadNum { get; set; }
+        public int    SearchNum { get; set; }
         public int    SelectQualityIndex { get; set; }
         public int    SelectResolutionIndex { get; set; }
         public bool   OnlyM4a { get; set; }
         public bool   AddHyphen { get; set; }
+        public bool   ToChinese { get; set; }
 
         public bool CheckCommon { get; set; } = true;
         public bool CheckTrack { get; set; } = false;
@@ -35,7 +37,9 @@ namespace TIDALDL_UI.Pages
             OutputDir             = Config.OutputDir();
             OnlyM4a               = Config.OnlyM4a();
             AddHyphen             = Config.AddHyphen();
+            ToChinese             = Config.ToChinese();
             ThreadNum             = AIGS.Common.Convert.ConverStringToInt(Config.ThreadNum()) - 1;
+            SearchNum             = AIGS.Common.Convert.ConverStringToInt(Config.SearchNum()) / 10 - 1;
             QualityList           = TidalTool.getQualityList();
             ResolutionList        = TidalTool.getResolutionList();
             SelectQualityIndex    = QualityList.IndexOf(Config.Quality().ToUpper());
@@ -47,6 +51,8 @@ namespace TIDALDL_UI.Pages
                 SelectResolutionIndex = 0;
             if (ThreadNum < 0)
                 ThreadNum = 0;
+            if (SearchNum < 0 || SearchNum > 5)
+                SearchNum = 0;
         }
 
         public void SetOutputDir()
@@ -59,12 +65,15 @@ namespace TIDALDL_UI.Pages
         public void Confirm()
         {
             Config.ThreadNum((ThreadNum + 1).ToString());
+            Config.SearchNum(((SearchNum + 1)*10).ToString());
             Config.OnlyM4a(OnlyM4a.ToString());
+            Config.ToChinese(ToChinese.ToString());
             Config.AddHyphen(AddHyphen.ToString());
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
             Config.Resolution(ResolutionList[SelectResolutionIndex]);
             Config.OutputDir(OutputDir);
-            
+
+            TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
             ThreadTool.SetThreadNum(ThreadNum + 1);
             RequestClose();                                                                 
         }

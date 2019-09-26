@@ -29,10 +29,10 @@ namespace TIDALDL_UI.Pages
             DragMove();
         }
 
-        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void TextBox_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ScreenShotHelper.MaxWindow(this);
+            TextBox ctrl = (TextBox)sender;
+            ctrl.SelectAll();
         }
-        
     }
 }

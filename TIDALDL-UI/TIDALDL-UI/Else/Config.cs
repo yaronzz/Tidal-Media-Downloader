@@ -81,6 +81,11 @@ namespace TIDALDL_UI.Else
             return SetOrGet("threadnum", Setvalue, "1");
         }
 
+        public static string SearchNum(string Setvalue = null)
+        {
+            return SetOrGet("searchnum", Setvalue, "30");
+        }
+
         public static string Username(string Setvalue = null)
         {
             return SetOrGet("username", Setvalue, "");
@@ -109,6 +114,14 @@ namespace TIDALDL_UI.Else
         public static bool Remember(string Setvalue = null)
         {
             string sRet = SetOrGet("remember", Setvalue, "true");
+            if (sRet.IsNotBlank() && sRet.ToLower() == "true")
+                return true;
+            return false;
+        }
+
+        public static bool ToChinese(string Setvalue = null)
+        {
+            string sRet = SetOrGet("tochinese", Setvalue, "false");
             if (sRet.IsNotBlank() && sRet.ToLower() == "true")
                 return true;
             return false;

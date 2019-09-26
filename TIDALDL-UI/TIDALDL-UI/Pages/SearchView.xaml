@@ -21,7 +21,7 @@
              Background="{x:Null}"
              AllowsTransparency="True"
              Height="575"
-             ShowInTaskbar="False"
+             ShowInTaskbar="True"
              d:DataContext="{d:DesignInstance pages:SearchViewModel}">
 
     <materialDesign:Card Name="m_CMainCard" materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Stretch" BorderThickness="3" BorderBrush="#FF171616" Margin="20,20,20,20">

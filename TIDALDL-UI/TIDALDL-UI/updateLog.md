@@ -1,4 +1,8 @@
-﻿#### v1.1.0.7
+﻿- Search box: select all when double click 
+- Settings: search max num
+- Settings: to chinese
+
+#### v1.1.0.7
 - support http-proxy(login-page)
 - Download playlist
 - Tag: add composer

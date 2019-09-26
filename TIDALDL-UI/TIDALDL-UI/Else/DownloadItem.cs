@@ -32,8 +32,9 @@ namespace TIDALDL_UI.Else
         public string sType { get; set; }
         public int ErrlabelHeight { get; set; }
         public bool OnlyM4a { get; set; }
-        public bool AddHyphen { get; set; }
+        public bool AddHyphen { get; set; } 
         public string Own { get; set; }
+        public bool ToChinese { get; set; }
         
         ///// <summary>
         ///// Progress 
@@ -54,6 +55,7 @@ namespace TIDALDL_UI.Else
             OnlyM4a    = Config.OnlyM4a();
             AddHyphen  = Config.AddHyphen();
             Own        = album == null?null : album.Title;
+            ToChinese  = Config.ToChinese();
 
             if (TidalTrack != null)
             {
@@ -209,6 +211,20 @@ namespace TIDALDL_UI.Else
                     {
                         Errlabel = "Set metadata failed!";
                         goto ERR_RETURN;
+                    }
+
+                    //To chinese 
+                    if(ToChinese)
+                    {
+                        CloudMusicAlbum cloalbum = Chinese.matchAlbum(TidalAlbum.Title, TidalAlbum.Artist.Name);
+                        string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
+                        if(chnname != TidalTrack.Title)
+                        {
+                            string sNewPath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
+                            if (OnlyM4a)
+                                sNewPath = sNewPath.Replace(".mp4", ".m4a");
+                            System.IO.File.Move(FilePath, sNewPath);
+                        }
                     }
                     Progress.SetStatus(ProgressHelper.STATUS.COMPLETE);
                     return;

@@ -8,6 +8,7 @@ using AIGS.Helper;
 using System.Collections.ObjectModel;
 using System.IO;
 using TagLib;
+using TIDALDL_UI.Else;
 
 namespace Tidal
 {
@@ -36,6 +37,7 @@ namespace Tidal
         static bool   ISLOGIN         = false;
         static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/"};
         public static HttpHelper.ProxyInfo PROXY = null;
+        static int    SEARCH_NUM      = 30;
         #endregion
 
         #region Login
@@ -413,6 +415,15 @@ namespace Tidal
         #endregion
 
         #region Search
+        public static void SetSearchMaxNum(int iNum)
+        {
+            if (iNum <= 0)
+                return;
+            if (iNum > 50)
+                iNum = 50;
+            SEARCH_NUM = iNum;
+        }
+
         public static SearchResult Search(string sQuery, int iLimit, out string Errmsg)
         {
             string sRet = get("search", out Errmsg, new Dictionary<string, string>() {
@@ -659,7 +670,7 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
 
-        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null)
+        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null, string trackTitle = null)
         {
             if (album != null)
             {
@@ -669,10 +680,11 @@ namespace Tidal
                     sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
 
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}",
+                string sName = string.Format("{0} {1}{2}{3}",
                     track.TrackNumber.ToString().PadLeft(2, '0'),
                     sChar,
-                    formatPath(track.Title) + getExtension(sdlurl));
+                    trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
+                    getExtension(sdlurl));
 
                 string sRet = sTrackDir + sName;
                 return Path.GetFullPath(sRet);
@@ -682,10 +694,11 @@ namespace Tidal
                 string sPlistDir = getPlaylistFolder(basePath, plist);
                 string sTrackDir = sPlistDir;
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}",
-                    plist.Tracks.IndexOf(track).ToString().PadLeft(2, '0'),
+                string sName = string.Format("{0} {1}{2}{3}",
+                    (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0'),
                     sChar,
-                    formatPath(track.Title) + getExtension(sdlurl));
+                    trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
+                    getExtension(sdlurl));
 
                 string sRet = sTrackDir + sName;
                 return Path.GetFullPath(sRet);
@@ -841,7 +854,7 @@ namespace Tidal
                     return oRet;
                 }
             }
-            oRet = Search(sStr, 30, out sErrmsg);
+            oRet = Search(sStr, SEARCH_NUM, out sErrmsg);
             if (oRet != null)
             {
                 eType = eObjectType.SEARCH;
@@ -898,7 +911,6 @@ namespace Tidal
             }
             return eResolution.e1080P;
         }
-
         #endregion
     }
 }

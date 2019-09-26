@@ -18,7 +18,7 @@
         AllowsTransparency="True"
         Width="920" 
         Height="540"
-        ShowInTaskbar="False"
+        ShowInTaskbar="True"
         mc:Ignorable="d"
         Title="FilelistView"
         d:DataContext="{d:DesignInstance local:DllistViewModel}">
