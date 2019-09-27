@@ -1,6 +1,7 @@
 ﻿- Search box: select all when double click 
 - Settings: search max num
 - Settings: to chinese
+- Fix bug of playlist video savepath
 
 #### v1.1.0.7
 - support http-proxy(login-page)

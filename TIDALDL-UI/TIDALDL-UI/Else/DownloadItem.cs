@@ -122,7 +122,7 @@ namespace TIDALDL_UI.Else
             string[] TidalVideoUrls = TidalTool.getVideoDLUrls(TidalVideo.ID.ToString(), Resolution, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
-            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts");
+            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts", hyphen: AddHyphen, plist: TidalPlaylist);
 
             //Download
             Progress.StatusMsg = "Start...";
