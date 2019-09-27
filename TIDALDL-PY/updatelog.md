@@ -1,4 +1,6 @@
+#### v2019-09-27
 - Add skip switch when download atrist/file
+- Fix bug of download playlist
 
 #### v2019-09-10
 - Fix bug of download videos

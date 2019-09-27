@@ -277,7 +277,7 @@ class Download(object):
 
                 resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
                 selectIndex = self.__getVideoResolutionIndex(resolutionList)
-                if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
+                if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro):
                     printSUCCESS(14, item['title'])
                 else:
                     printErr(14, item['title'])
@@ -468,10 +468,11 @@ class Download(object):
 
                     fileType = self._getSongExtension(streamInfo['url'])
                     filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                    paraList = {'index': index, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                    aAlbumInfo = self.tool.getAlbum(item['album']['id'])
+                    paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                     self.check.addPath(filePath)
-                    if not os.path.isfile(filePath):
-                        self.thread.start(self.__thradfunc_dl, paraList)
+                    # if not os.path.isfile(filePath):
+                    self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
                 self.tool.removeTmpFile(targetDir)
                 
@@ -503,7 +504,7 @@ class Download(object):
                     printErr(14, item['title'] + '(' + self.tool.errmsg + ')')
                 else:
                     selectIndex=self.__getVideoResolutionIndex(resolutionList)
-                    if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
+                    if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro):
                         printSUCCESS(14, item['title'])
                     else:
                         printErr(14, item['title'] + "(Download Or Merger Err!)")
@@ -530,7 +531,8 @@ class Download(object):
             
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
-            paraList = {'title': item['title'], 'trackinfo':item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key':streamInfo['encryptionKey']}
+            aAlbumInfo = self.tool.getAlbum(item['album']['id'])
+            paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
             self.thread.start(self.__thradfunc_dl, paraList)
         self.thread.waitAll()
 
@@ -545,7 +547,7 @@ class Download(object):
 
             resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
             selectIndex = self.__getVideoResolutionIndex(resolutionList)
-            if self.ffmpeg.mergerByM3u8_Multithreading(urlList[selectIndex], filePath, showprogress=self.showpro):
+            if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro):
                 printSUCCESS(14, item['title'])
             else:
                 printErr(14, item['title'])

@@ -181,8 +181,9 @@ class TidalTool(object):
         for item in tracks:
             if isOnLayer2:
                 item = item['item']
-            if item['version'] is not None:
-                item['title'] = item['title'] + ' - ' + item['version']
+            if 'version' in item:
+                if item['version'] is not None:
+                    item['title'] = item['title'] + ' - ' + item['version']
             if item['title'] in same:
                 same[item['title']] += 1
             else:
@@ -201,6 +202,8 @@ class TidalTool(object):
         return tracks
     def getPlaylist(self, playlist_id):
         info   = self._get('playlists/' + playlist_id)
+        if self.errmsg != "":
+            return None,None
         list   = self.__getItemsList('playlists/' + playlist_id + '/items')
         list   = self._fixSameTrackName(list,True)
         return info, list
