@@ -108,9 +108,9 @@ namespace TIDALDL_UI.Pages
                 Errlabel = "Login Err!";
             else
             {
-                //DEBUG 
+                //DEBUG
                 //eObjectType eType = eObjectType.None;
-                //Tidal.TidalTool.tryGet("36ea71a8-445e-41a4-82ab-6628c581535d", out eType);
+                //Artist obj = (Artist)Tidal.TidalTool.tryGet("eason chan", out eType, eObjectType.ARTIST);
 
                 VMMain.SetLogViewModel(this);
                 Manager.ShowWindow(VMMain);

@@ -143,10 +143,10 @@ namespace TIDALDL_UI.Else
                 string skey = pClounds[i].name;
                 for (int j = 0; pDoubans != null && j < pDoubans.Count && iIndex1 == -1; j++)
                 {
-                    for (int k = 0; k < pDoubans[j].author.Count; k++)
+                    for (int k = 0; pDoubans[j].author != null && k < pDoubans[j].author.Count; k++)
                     {
                         string stmp = converSimpleChinese(pDoubans[j].author[k].name);
-                        if (skey == stmp || skey.Contains(stmp) || stmp.Contains(skey))
+                        if (skey == stmp || skey.Contains(stmp) || stmp.Contains(skey) || stmp == sArtistName)
                         {
                             iIndex1 = i;
                             iIndex2 = j;
@@ -159,14 +159,16 @@ namespace TIDALDL_UI.Else
             if (iIndex1 < 0)
                 return null;
 
-            string stxt3 = (string)HttpHelper.GetOrPost(string.Format("http://music.163.com/api/search/pc?s={0}&type=10&limit=30&offset=0", pDoubans[iIndex2].title), out serr);
+            string sname = converSimpleChinese(pDoubans[iIndex2].title);
+            string stxt3 = (string)HttpHelper.GetOrPost(string.Format("http://music.163.com/api/search/pc?s={0}&type=10&limit=30&offset=0", sname), out serr);
             List<CloudMusicAlbum> pCloundAlbums = JsonHelper.ConverStringToObject<List<CloudMusicAlbum>>(stxt3, "result", "albums");
 
             //匹配
             int iIndex3 = -1;
             for (int i = 0; pCloundAlbums != null && i < pCloundAlbums.Count; i++)
             {
-                if (pCloundAlbums[i].artist.name == pClounds[iIndex1].name)
+                if (pCloundAlbums[i].artist.name == pClounds[iIndex1].name &&
+                    pCloundAlbums[i].name == sname)
                 {
                     iIndex3 = i;
                     break;

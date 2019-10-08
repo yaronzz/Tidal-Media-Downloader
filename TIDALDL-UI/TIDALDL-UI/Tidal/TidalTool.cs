@@ -319,6 +319,17 @@ namespace Tidal
             if (GetItem)
             {
                 oObj.Albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
+
+                //debug
+                //{
+                //    string sTxt = "";
+                //    for (int i = 0; i < oObj.Albums.Count(); i++)
+                //    {
+                //        sTxt += string.Format("id:{0} name:{1}\n", oObj.Albums[i].ID.ToString(), oObj.Albums[i].Title);
+                //    }
+                //    FileHelper.Write(sTxt, true, "e:\\plist.txt");
+                //}
+
                 for (int i = 0; i < oObj.Albums.Count(); i++)
                 {
                     Album item = oObj.Albums[i];

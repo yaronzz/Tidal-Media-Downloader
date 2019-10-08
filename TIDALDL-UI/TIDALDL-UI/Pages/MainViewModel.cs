@@ -64,9 +64,10 @@ namespace TIDALDL_UI.Pages
 
             TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
 
-            ////test
-            //CloudMusicAlbum album = Chinese.matchAlbum("Won't Cry", "Jay Chou");
-            //string sName = Chinese.convertSongTitle("Won't Cry", album);
+            //test
+            //string stest = "November's Chopin";
+            //CloudMusicAlbum album = Chinese.matchAlbum(stest, "Jay Chou");
+            //string sName = Chinese.convertSongTitle(stest, album);
             //VMDllist.Convert();
             //return;
         }
