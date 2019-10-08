@@ -469,7 +469,10 @@ class Download(object):
                     fileType = self._getSongExtension(streamInfo['url'])
                     filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
                     aAlbumInfo = self.tool.getAlbum(item['album']['id'])
-                    paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                    coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
+                    coverUrl  = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
+                    netHelper.downloadFile(coverUrl, coverPath)
+                    paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item, 'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey'], 'coverpath': coverPath}
                     self.check.addPath(filePath)
                     # if not os.path.isfile(filePath):
                     self.thread.start(self.__thradfunc_dl, paraList)
