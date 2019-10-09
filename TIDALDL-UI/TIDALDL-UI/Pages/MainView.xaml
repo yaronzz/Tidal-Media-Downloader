@@ -25,7 +25,7 @@
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Background="{x:Null}">
                 <Grid>
                     <!--Head Part-->
-                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" > 
+                    <materialDesign:ColorZone Mode="PrimaryMid" Padding="10" MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" >
                         <DockPanel>
                             <Button DockPanel.Dock="Right" Command="{s:Action WindowClose}" s:View.ActionTarget="{Binding}" Padding="0" Width="24" Height="24" Background="Red">
                                 <materialDesign:PackIcon Kind="Close" Height="22" Width="22" Foreground="White" />
@@ -44,7 +44,7 @@
                                     <Button Content="FeedBack" Click="{s:Action FeedBack}"></Button>
                                 </StackPanel>
                             </materialDesign:PopupBox>
-                            
+
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True">
                                 <materialDesign:PackIcon Kind="MusicCircleOutline" Height="Auto" Width="30" HorizontalAlignment="Left" Padding="0,4" VerticalAlignment="Stretch"/>
                                 <TextBlock Text="TIDAL-GUI" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 0 0" FontSize="18" Padding="4,0,0,0"/>
@@ -81,7 +81,7 @@
                     </materialDesign:ColorZone>
 
                     <!--Content-->
-                    <Grid Margin="0,52,0,0">
+                    <Grid Margin="0,52,0,35">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                                 Visibility="{Binding ItemList.Count, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                             <ItemsControl Padding="8" Background="{DynamicResource MaterialDesignCardBackground}"
@@ -96,9 +96,21 @@
                     </Grid>
 
                     <!--Err Label IsActive="{Binding ShowErrlabel}"-->
-                    <materialDesign:Snackbar IsActive='{Binding Path=Errlabel, Converter={StaticResource ConverterStringNotEmpty}}' Margin="0,0,0,0" Width="560">
+                    <materialDesign:Snackbar IsActive='{Binding Path=Errlabel, Converter={StaticResource ConverterStringNotEmpty}}' Margin="230,0,230,35" Width="560">
                         <materialDesign:SnackbarMessage Content="{Binding Errlabel}" ActionContent="OK" ActionClick="{s:Action CloseErrlabel}"/>
                     </materialDesign:Snackbar>
+                    <StatusBar HorizontalAlignment="Left" Height="35" Margin="0,635,0,0" VerticalAlignment="Bottom" Width="1020" Background="White" BorderThickness="0,1,0,0" BorderBrush="#FF999191">
+                        <materialDesign:PackIcon Kind="Music" />
+                        <ComboBox ItemsSource="{Binding QualityList}"
+                                  SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
+                                  SelectionChanged="{s:Action QualityChanged}"
+                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
+                        <materialDesign:PackIcon Kind="VideoFilm" />
+                        <ComboBox ItemsSource="{Binding ResolutionList}"
+                                  SelectedIndex="{Binding SelectResolutionIndex , UpdateSourceTrigger=PropertyChanged}"
+                                  SelectionChanged="{s:Action ResolutionChanged}"
+                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
+                    </StatusBar>
                 </Grid>
             </materialDesign:DialogHost>
         </materialDesign:Card>

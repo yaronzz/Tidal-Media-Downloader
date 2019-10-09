@@ -1,5 +1,6 @@
-﻿- Search box: select all when double click 
-- Settings: search max num
+﻿#### v1.1.0.8
+- Search box: select all when double click 
+- Settings: fixd bug, add search max num, add to chinese
 - Settings: to chinese
 - Fix bug of playlist video savepath
 

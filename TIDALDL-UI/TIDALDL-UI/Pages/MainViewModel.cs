@@ -14,6 +14,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using System.Windows.Controls;
 
 namespace TIDALDL_UI.Pages
 {
@@ -34,6 +35,14 @@ namespace TIDALDL_UI.Pages
         /// </summary>
         public BindableCollection<MainListItemViewModel> ItemList { get; } = new BindableCollection<MainListItemViewModel>();
         public Thread UpdateThread;
+
+        /// <summary>
+        /// Combox
+        /// </summary>
+        public List<string> QualityList { get; set; }
+        public int SelectQualityIndex { get; set; }
+        public List<string> ResolutionList { get; set; }
+        public int SelectResolutionIndex { get; set; }
 
         private IWindowManager Manager; 
         private LoginViewModel VMLogin;
@@ -61,6 +70,16 @@ namespace TIDALDL_UI.Pages
             UpdateThread = new Thread(ThreadUpdateFunc);
             UpdateThread.IsBackground = true;
             UpdateThread.Start();
+
+            QualityList = TidalTool.getQualityList();
+            SelectQualityIndex = QualityList.IndexOf(Config.Quality().ToUpper());
+            if (SelectQualityIndex < 0)
+                SelectQualityIndex = 0;
+
+            ResolutionList = TidalTool.getResolutionList();
+            SelectResolutionIndex = ResolutionList.IndexOf(Config.Resolution().ToUpper());
+            if (SelectResolutionIndex < 0)
+                SelectResolutionIndex = 0;
 
             TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
 
@@ -93,6 +112,16 @@ namespace TIDALDL_UI.Pages
         //        Manager.ShowDialog(VMAbout);
         //    }
         //}
+
+        public void QualityChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Config.Quality(QualityList[SelectQualityIndex].ToLower());
+        }
+
+        public void ResolutionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Config.Resolution(ResolutionList[SelectResolutionIndex]);
+        }
 
         #region Button
         public async void Search()
@@ -157,9 +186,13 @@ namespace TIDALDL_UI.Pages
         }
         public void Setting()
         {
+            VMSetting.RefreshSetting();
             Manager.ShowDialog(VMSetting);
             string sValue = Config.ThreadNum();
             ThreadTool.SetThreadNum(int.Parse(sValue));
+
+            SelectQualityIndex = QualityList.IndexOf(Config.Quality().ToUpper());
+            SelectResolutionIndex = ResolutionList.IndexOf(Config.Resolution().ToUpper());
         }
         public void About()
         {

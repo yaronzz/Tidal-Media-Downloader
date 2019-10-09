@@ -34,5 +34,6 @@ namespace TIDALDL_UI.Pages
             TextBox ctrl = (TextBox)sender;
             ctrl.SelectAll();
         }
+
     }
 }

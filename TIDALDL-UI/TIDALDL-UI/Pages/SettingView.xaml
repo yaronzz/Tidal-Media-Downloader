@@ -38,8 +38,7 @@
                             <RadioButton Content="VIDEO" IsChecked="{Binding CheckVideo}" Style="{StaticResource MaterialDesignTabRadioButton}" HorizontalContentAlignment="Right" BorderBrush="#FF0C2C53"/>
                         </StackPanel>
                     </Border>
-                    <!--Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="OutputDir" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                             Name="m_CPath"

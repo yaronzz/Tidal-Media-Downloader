@@ -34,6 +34,11 @@ namespace TIDALDL_UI.Pages
         
         public SettingViewModel()
         {
+            RefreshSetting();
+        }
+
+        public void RefreshSetting()
+        {
             OutputDir             = Config.OutputDir();
             OnlyM4a               = Config.OnlyM4a();
             AddHyphen             = Config.AddHyphen();
