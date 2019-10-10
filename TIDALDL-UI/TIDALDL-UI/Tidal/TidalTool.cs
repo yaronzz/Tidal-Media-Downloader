@@ -485,11 +485,13 @@ namespace Tidal
                 return null;
             Dictionary<string, List<string>> pHash = ConfigHelper.ParseNoEqual(null, sText);
             Dllist pRet = new Dllist();
-            pRet.AlbumIds = new ObservableCollection<string>();
-            pRet.TrackIds = new ObservableCollection<string>();
-            pRet.VideoIds = new ObservableCollection<string>();
-            pRet.Urls     = new ObservableCollection<string>();
-            if(pHash.ContainsKey("album"))
+            pRet.AlbumIds   = new ObservableCollection<string>();
+            pRet.TrackIds   = new ObservableCollection<string>();
+            pRet.VideoIds   = new ObservableCollection<string>();
+            pRet.Urls       = new ObservableCollection<string>();
+            pRet.ArtistIds  = new ObservableCollection<string>();
+            pRet.PlaylistIds= new ObservableCollection<string>();
+            if (pHash.ContainsKey("album"))
                 pRet.AlbumIds = listToObser(pHash["album"]);
             if(pHash.ContainsKey("track"))
                 pRet.TrackIds = listToObser(pHash["track"]);
@@ -497,6 +499,10 @@ namespace Tidal
                 pRet.VideoIds = listToObser(pHash["video"]);
             if (pHash.ContainsKey("url"))
                 pRet.Urls = listToObser(pHash["url"], true);
+            if (pHash.ContainsKey("artist"))
+                pRet.ArtistIds = listToObser(pHash["artist"], true);
+            if (pHash.ContainsKey("playlist"))
+                pRet.ArtistIds = listToObser(pHash["playlist"], true);
             return pRet;
         } 
 
@@ -728,11 +734,12 @@ namespace Tidal
             {
                 string sRet = getPlaylistFolder(basePath, plist);
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}",
-                    (plist.Tracks.Count + plist.Videos.IndexOf(video)).ToString().PadLeft(2, '0'),
+                string sName = string.Format("{0} {1}{2}{3}",
+                    (plist.Tracks.Count + plist.Videos.IndexOf(video) + 1).ToString().PadLeft(2, '0'),
                     sChar,
+                    formatPath(video.Title),
                     sExt);
-                return Path.GetFullPath(sRet);
+                return Path.GetFullPath(sRet + sName);
             }
             else
             { 

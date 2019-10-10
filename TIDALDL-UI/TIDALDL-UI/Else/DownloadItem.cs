@@ -175,6 +175,18 @@ namespace TIDALDL_UI.Else
             //Get contributors
             ObservableCollection<Contributor> pContributors = TidalTool.getTrackContributors(TidalTrack.ID.ToString(), out Errlabel);
 
+            //To chinese 
+            if (ToChinese)
+            {
+                CloudMusicAlbum cloalbum = Chinese.matchAlbum(TidalAlbum.Title, TidalAlbum.Artist.Name);
+                string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
+                if (chnname != TidalTrack.Title)
+                {
+                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
+                    TidalTrack.Title = chnname;
+                }
+            }
+
             //Download
             Progress.StatusMsg = "Start...";
             for (int i = 0; i < 100 && Progress.GetStatus() != ProgressHelper.STATUS.CANCLE; i++)
@@ -213,19 +225,19 @@ namespace TIDALDL_UI.Else
                         goto ERR_RETURN;
                     }
 
-                    //To chinese 
-                    if(ToChinese)
-                    {
-                        CloudMusicAlbum cloalbum = Chinese.matchAlbum(TidalAlbum.Title, TidalAlbum.Artist.Name);
-                        string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
-                        if(chnname != TidalTrack.Title)
-                        {
-                            string sNewPath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
-                            if (OnlyM4a)
-                                sNewPath = sNewPath.Replace(".mp4", ".m4a");
-                            System.IO.File.Move(FilePath, sNewPath);
-                        }
-                    }
+                    ////To chinese 
+                    //if(ToChinese)
+                    //{
+                    //    CloudMusicAlbum cloalbum = Chinese.matchAlbum(TidalAlbum.Title, TidalAlbum.Artist.Name);
+                    //    string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
+                    //    if(chnname != TidalTrack.Title)
+                    //    {
+                    //        string sNewPath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
+                    //        if (OnlyM4a)
+                    //            sNewPath = sNewPath.Replace(".mp4", ".m4a");
+                    //        System.IO.File.Move(FilePath, sNewPath);
+                    //    }
+                    //}
                     Progress.SetStatus(ProgressHelper.STATUS.COMPLETE);
                     return;
                 }

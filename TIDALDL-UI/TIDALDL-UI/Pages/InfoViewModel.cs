@@ -86,7 +86,7 @@ namespace TIDALDL_UI.Pages
                 if (plist.Videos != null)
                 {
                     foreach (Video item in plist.Videos)
-                        ItemList.Add(new InfoItem(plist.Tracks.Count + plist.Videos.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item, "VIDEO"));
+                        ItemList.Add(new InfoItem(plist.Tracks.Count + plist.Videos.IndexOf(item) + 1, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Title, item, "VIDEO"));
                 }
             }
             else if (data.GetType() == typeof(Artist))

@@ -154,5 +154,8 @@ namespace Tidal
         public ObservableCollection<string> TrackIds{get;set;}
         public ObservableCollection<string> VideoIds{get;set;}
         public ObservableCollection<string> Urls{get;set;}
+
+        public ObservableCollection<string> ArtistIds { get; set; } 
+        public ObservableCollection<string> PlaylistIds { get; set; }
     }
 }

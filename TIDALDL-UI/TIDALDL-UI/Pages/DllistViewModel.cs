@@ -64,8 +64,12 @@ namespace TIDALDL_UI.Pages
             {
                 AddToItems(Items.Count, plist.Urls[i], eObjectType.None);
             }
+            for (int i = 0; i < plist.ArtistIds.Count; i++)
+            {
+                AddToItems(Items.Count, plist.ArtistIds[i], eObjectType.ARTIST);
+            }
 
-            if(ThreadHandle == null)
+            if (ThreadHandle == null)
                 ThreadHandle = ThreadHelper.Start(ThreadFunc);
         }
 

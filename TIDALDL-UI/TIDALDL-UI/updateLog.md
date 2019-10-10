@@ -1,7 +1,9 @@
-﻿#### v1.1.0.8
+﻿- Fix bug of download playlist
+- Download by file: add artist、playlist
+
+#### v1.1.0.8
 - Search box: select all when double click 
 - Settings: fixd bug, add search max num, add to chinese
-- Settings: to chinese
 - Fix bug of playlist video savepath
 
 #### v1.1.0.7
