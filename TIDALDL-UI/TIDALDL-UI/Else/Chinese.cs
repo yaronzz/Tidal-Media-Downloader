@@ -228,6 +228,11 @@ namespace TIDALDL_UI.Else
             }
 
             int iRet = 0;
+            //删除括号
+            if (sEngName.IndexOf('(') >= 0)
+                sEngName = sEngName.Substring(0, sEngName.IndexOf('('));
+            if (sChnName.IndexOf('(') >= 0)
+                sChnName = sChnName.Substring(0, sChnName.IndexOf('('));
             sEngName = sEngName.Trim().ToLower();
             sChnName = sPinyinName.ToString().Trim().ToLower();
             if (sEngName.Contains(sChnName) || sChnName.Contains(sEngName))

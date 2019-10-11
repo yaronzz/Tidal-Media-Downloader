@@ -110,6 +110,7 @@ namespace TIDALDL_UI.Pages
             {
                 //DEBUG
                 //eObjectType eType = eObjectType.None;
+                //object obj = Tidal.TidalTool.tryGet("19297475", out eType, eObjectType.ALBUM);
                 //Artist obj = (Artist)Tidal.TidalTool.tryGet("eason chan", out eType, eObjectType.ARTIST);
 
                 VMMain.SetLogViewModel(this);
