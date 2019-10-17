@@ -29,7 +29,7 @@ from pydub import AudioSegment
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
-TYPE_ARR= ['album', 'track', 'video']
+TYPE_ARR= ['album', 'track', 'video', 'playlist']
 RESOLUTION = ['1080','720','480','360','240']
 
 class TidalTool(object):
