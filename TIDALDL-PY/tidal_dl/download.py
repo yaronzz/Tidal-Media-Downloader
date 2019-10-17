@@ -513,6 +513,7 @@ class Download(object):
                         printSUCCESS(14, item['title'])
                     else:
                         printErr(14, item['title'] + "(Download Or Merger Err!)")
+            if playlist_id is not None: return
         return
 
     def downloadFavorite(self):
