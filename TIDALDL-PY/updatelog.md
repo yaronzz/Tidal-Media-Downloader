@@ -1,3 +1,8 @@
+#### v2019-10-26
+- Download playlist by url
+- Config 'AddYear' before album dir
+- Download playlist track-picture
+
 #### v2019-09-27
 - Add skip switch when download atrist/file
 - Fix bug of download playlist

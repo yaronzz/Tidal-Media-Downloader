@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring,LOG
 
-TIDAL_DL_VERSION = "2019.10.8.0"
+TIDAL_DL_VERSION = "2019.10.26.0"
 
 def logIn(username = "", password = ""):
     if username == "" or password == "":
@@ -107,7 +107,7 @@ def setting():
     status  = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
     status2 = myinputInt("ShowProgress(0-False,1-True):".ljust(12), 0)
     status3 = myinputInt("AddHyphen(0-False,1-True):".ljust(12), 0)
-    status4 = myinputInt("AddHYear(0-False,1-True):".ljust(12), 0)
+    status4 = myinputInt("AddYear(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
