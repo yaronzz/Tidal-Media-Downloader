@@ -44,6 +44,7 @@ def showConfig():
     print("OnlyM4a      :\t" + cf.onlym4a)
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
+    print("AddYear      :\t" + cf.addyear + "(before album title)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     myinput("Enter to return.")
 
@@ -57,6 +58,7 @@ def setting():
     print("OnlyM4a      :\t" + cf.onlym4a)
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
+    print("AddYear      :\t" + cf.addyear + "(before album title)")
     while True:
         outputdir = myinput("Outputdir(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -105,6 +107,7 @@ def setting():
     status  = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
     status2 = myinputInt("ShowProgress(0-False,1-True):".ljust(12), 0)
     status3 = myinputInt("AddHyphen(0-False,1-True):".ljust(12), 0)
+    status4 = myinputInt("AddHYear(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
@@ -113,6 +116,7 @@ def setting():
     cf.set_onlym4a(status)
     cf.set_showprogress(status2)
     cf.set_addhyphen(status3)
+    cf.set_addyear(status4)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -140,6 +144,7 @@ def main(argv=None):
     print("OnlyM4a      :\t" + cf.onlym4a)
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
+    print("AddYear      :\t" + cf.addyear + "(before album title)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)

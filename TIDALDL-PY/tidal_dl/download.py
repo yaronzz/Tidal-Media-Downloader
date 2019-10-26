@@ -11,6 +11,7 @@
 import sys
 import os
 import codecs
+from datetime import datetime
 from aigpy import pathHelper
 # from tidal_dl import netHelper
 from aigpy import netHelper
@@ -127,6 +128,8 @@ class Download(object):
         # creat outputdir
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
         author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
+        if self.config.addyear == 'True':
+            title = '[' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + '] '+title
         targetDir = self.config.outputdir + "/Album/" + author + '/' + title
         # targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
         targetDir = os.path.abspath(targetDir)
