@@ -408,13 +408,15 @@ class Download(object):
                 printErr(14, aVideoInfo['title'])
         return
 
-    def downloadPlaylist(self):
+    def downloadPlaylist(self, playlist_id=None):
         while True:
             targetDir = self.config.outputdir + "/Playlist/"
-            print("--------------PLAYLIST-----------------")
-            sID = printChoice("Enter PlayListID(Enter '0' go back):")
-            if sID == '0':
-                return
+            if playlist_id is None:
+                print("--------------PLAYLIST-----------------")
+                sID = printChoice("Enter PlayListID(Enter '0' go back):")
+                if sID == '0':
+                    return
+            else: sID=playlist_id
 
             aPlaylistInfo,aItemInfo = self.tool.getPlaylist(sID)
             if self.tool.errmsg != "":
@@ -511,6 +513,7 @@ class Download(object):
                         printSUCCESS(14, item['title'])
                     else:
                         printErr(14, item['title'] + "(Download Or Merger Err!)")
+            if playlist_id is not None: return
         return
 
     def downloadFavorite(self):
@@ -569,6 +572,9 @@ class Download(object):
         elif stype == "video":
             print("----------------VIDEO------------------")
             self.downloadVideo(sid)
+        elif stype == "playlist":
+            print("--------------PLAYLIST-----------------")
+            self.downloadPlaylist(sid)
     
     def downloadByFile(self, path):
         if not os.path.exists(path):
