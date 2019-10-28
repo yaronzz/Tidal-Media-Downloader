@@ -127,6 +127,14 @@ namespace TIDALDL_UI.Else
             return false;
         }
 
+        public static bool ArtistBeforeTitle(string Setvalue = null)
+        {
+            string sRet = SetOrGet("artistbeforetitle", Setvalue, "false");
+            if (sRet.IsNotBlank() && sRet.ToLower() == "true")
+                return true;
+            return false;
+        }
+
         public static bool AutoLogin(string Setvalue = null)
         {
             string sRet = SetOrGet("autologin", Setvalue, "true");

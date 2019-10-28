@@ -687,8 +687,14 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
 
-        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null, string trackTitle = null)
+        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null, string trackTitle = null, bool artistBeforeTitle = false)
         {
+            string sArtistStr = "";
+            if (artistBeforeTitle && track.Artist != null)
+            {
+                sArtistStr = formatPath(track.Artist.Name) + " - ";
+            }
+
             if (album != null)
             {
                 string sAlbumDir = getAlbumFolder(basePath, album);
@@ -697,9 +703,10 @@ namespace Tidal
                     sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
 
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}",
+                string sName = string.Format("{0} {1}{2}{3}{4}",
                     track.TrackNumber.ToString().PadLeft(2, '0'),
                     sChar,
+                    sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     getExtension(sdlurl));
 
@@ -711,9 +718,10 @@ namespace Tidal
                 string sPlistDir = getPlaylistFolder(basePath, plist);
                 string sTrackDir = sPlistDir;
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}",
+                string sName = string.Format("{0} {1}{2}{3}{4}",
                     (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0'),
                     sChar,
+                    sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     getExtension(sdlurl));
 
@@ -722,11 +730,17 @@ namespace Tidal
             }
         }
 
-        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null)
+        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null, bool artistBeforeTitle = false)
         {
+            string sArtistStr = "";
+            if(artistBeforeTitle && video.Artist != null)
+            {
+                sArtistStr = formatPath(video.Artist.Name) + " - ";
+            }
+
             if (album != null)
             {
-                string sRet = getAlbumFolder(basePath, album) + formatPath(video.Title) + sExt;
+                string sRet = getAlbumFolder(basePath, album) + sArtistStr + formatPath(video.Title) + sExt;
                 return Path.GetFullPath(sRet);
 
             }
@@ -734,16 +748,17 @@ namespace Tidal
             {
                 string sRet = getPlaylistFolder(basePath, plist);
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}",
+                string sName = string.Format("{0} {1}{2}{3}{4}",
                     (plist.Tracks.Count + plist.Videos.IndexOf(video) + 1).ToString().PadLeft(2, '0'),
                     sChar,
+                    sArtistStr,
                     formatPath(video.Title),
                     sExt);
                 return Path.GetFullPath(sRet + sName);
             }
             else
             { 
-                string sRet = string.Format("{0}/Video/{1}{2}", basePath, formatPath(video.Title), sExt);
+                string sRet = string.Format("{0}/Video/{1}{2}{3}", basePath, sArtistStr, formatPath(video.Title), sExt);
                 return Path.GetFullPath(sRet);
             }
         }

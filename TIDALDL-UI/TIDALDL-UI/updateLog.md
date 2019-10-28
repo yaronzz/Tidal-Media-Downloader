@@ -1,4 +1,6 @@
-﻿- Fix bug of download playlist
+﻿#### v1.1.0.9
+- Name format 'atist-title.flac'
+- Fix bug of download playlist
 - Download by file: add artist、playlist
 
 #### v1.1.0.8

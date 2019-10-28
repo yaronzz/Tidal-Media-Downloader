@@ -24,6 +24,7 @@ namespace TIDALDL_UI.Pages
         public bool   OnlyM4a { get; set; }
         public bool   AddHyphen { get; set; }
         public bool   ToChinese { get; set; }
+        public bool   ArtistBeforeTitle { get; set; }
 
         public bool CheckCommon { get; set; } = true;
         public bool CheckTrack { get; set; } = false;
@@ -43,6 +44,7 @@ namespace TIDALDL_UI.Pages
             OnlyM4a               = Config.OnlyM4a();
             AddHyphen             = Config.AddHyphen();
             ToChinese             = Config.ToChinese();
+            ArtistBeforeTitle     = Config.ArtistBeforeTitle();
             ThreadNum             = AIGS.Common.Convert.ConverStringToInt(Config.ThreadNum()) - 1;
             SearchNum             = AIGS.Common.Convert.ConverStringToInt(Config.SearchNum()) / 10 - 1;
             QualityList           = TidalTool.getQualityList();
@@ -73,6 +75,7 @@ namespace TIDALDL_UI.Pages
             Config.SearchNum(((SearchNum + 1)*10).ToString());
             Config.OnlyM4a(OnlyM4a.ToString());
             Config.ToChinese(ToChinese.ToString());
+            Config.ArtistBeforeTitle(ArtistBeforeTitle.ToString());
             Config.AddHyphen(AddHyphen.ToString());
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
             Config.Resolution(ResolutionList[SelectResolutionIndex]);

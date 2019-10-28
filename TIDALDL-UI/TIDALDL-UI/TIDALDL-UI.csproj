@@ -94,7 +94,7 @@
       <HintPath>..\packages\AIGS\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin, Version=0.2.6321.26573, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\combiner\CNF8_Step1\packages\NPinyin.0.2.6321.26573\lib\net20\NPinyin.dll</HintPath>
+      <HintPath>..\packages\NPinyin.0.2.6321.26573\lib\net20\NPinyin.dll</HintPath>
     </Reference>
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>

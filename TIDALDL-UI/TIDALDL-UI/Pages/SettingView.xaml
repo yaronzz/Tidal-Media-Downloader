@@ -38,6 +38,7 @@
                             <RadioButton Content="VIDEO" IsChecked="{Binding CheckVideo}" Style="{StaticResource MaterialDesignTabRadioButton}" HorizontalContentAlignment="Right" BorderBrush="#FF0C2C53"/>
                         </StackPanel>
                     </Border>
+
                     <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="OutputDir" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -65,8 +66,12 @@
                             <ComboBoxItem>40</ComboBoxItem>
                             <ComboBoxItem>50</ComboBoxItem>
                         </ComboBox>
+
+                        <Label Content="Artist-Title" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,126,312,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,126,262,0"/>
+
                     </Grid>
-                    
+
                     <Grid Grid.Column="1" Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="Quality" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <ComboBox ItemsSource="{Binding QualityList}"

@@ -35,6 +35,7 @@ namespace TIDALDL_UI.Else
         public bool AddHyphen { get; set; } 
         public string Own { get; set; }
         public bool ToChinese { get; set; }
+        public bool ArtistBeforeTitle { get; set; }
         
         ///// <summary>
         ///// Progress 
@@ -56,6 +57,7 @@ namespace TIDALDL_UI.Else
             AddHyphen  = Config.AddHyphen();
             Own        = album == null?null : album.Title;
             ToChinese  = Config.ToChinese();
+            ArtistBeforeTitle = Config.ArtistBeforeTitle();
 
             if (TidalTrack != null)
             {
@@ -122,7 +124,7 @@ namespace TIDALDL_UI.Else
             string[] TidalVideoUrls = TidalTool.getVideoDLUrls(TidalVideo.ID.ToString(), Resolution, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
-            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts", hyphen: AddHyphen, plist: TidalPlaylist);
+            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts", hyphen: AddHyphen, plist: TidalPlaylist, artistBeforeTitle:ArtistBeforeTitle);
 
             //Download
             Progress.StatusMsg = "Start...";
@@ -133,7 +135,7 @@ namespace TIDALDL_UI.Else
             }
             
             //Convert
-            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist);
+            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle);
             if(!FFmpegHelper.IsExist())
             {
                 Errlabel = "FFmpeg is not exist!";
@@ -170,7 +172,7 @@ namespace TIDALDL_UI.Else
                 goto ERR_RETURN;
 
             //Get path
-            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist);
+            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle);
 
             //Get contributors
             ObservableCollection<Contributor> pContributors = TidalTool.getTrackContributors(TidalTrack.ID.ToString(), out Errlabel);
@@ -182,7 +184,7 @@ namespace TIDALDL_UI.Else
                 string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
                 if (chnname != TidalTrack.Title)
                 {
-                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
+                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname, artistBeforeTitle: ArtistBeforeTitle);
                     TidalTrack.Title = chnname;
                 }
             }
@@ -225,19 +227,6 @@ namespace TIDALDL_UI.Else
                         goto ERR_RETURN;
                     }
 
-                    ////To chinese 
-                    //if(ToChinese)
-                    //{
-                    //    CloudMusicAlbum cloalbum = Chinese.matchAlbum(TidalAlbum.Title, TidalAlbum.Artist.Name);
-                    //    string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
-                    //    if(chnname != TidalTrack.Title)
-                    //    {
-                    //        string sNewPath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname);
-                    //        if (OnlyM4a)
-                    //            sNewPath = sNewPath.Replace(".mp4", ".m4a");
-                    //        System.IO.File.Move(FilePath, sNewPath);
-                    //    }
-                    //}
                     Progress.SetStatus(ProgressHelper.STATUS.COMPLETE);
                     return;
                 }
