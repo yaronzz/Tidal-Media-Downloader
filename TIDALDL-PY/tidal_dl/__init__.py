@@ -177,8 +177,12 @@ def main(argv=None):
         elif choice == 7:
             dl.downloadFavorite()
         elif choice == 8:
-            dl.downloadArtistAlbum()
+            includeSingles = True
+            dl.downloadArtistAlbum(includeSingles)
         elif choice == 9:
+            includeSingles = False
+            dl.downloadArtistAlbum(includeSingles)
+        elif choice == 10:
             showConfig()
         else:
             dl.downloadUrl(strchoice)
