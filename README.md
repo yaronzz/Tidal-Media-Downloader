@@ -1,6 +1,8 @@
 ## **Tidal-Media-Downloader**
 Tidal-Media-Downloader is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl(python-cli) and tidal-gui(csharp-gui).   
 
+<a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 ### **Download**
 - [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases) : windows
 - tidal-dl by pip3(python 3.x) : windows\linux\macos
