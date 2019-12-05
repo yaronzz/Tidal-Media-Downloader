@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using TagLib;
 using TIDALDL_UI.Else;
+using System.Windows.Data;
 
 namespace Tidal
 {
@@ -318,7 +319,13 @@ namespace Tidal
 
             if (GetItem)
             {
-                oObj.Albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
+                ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
+                ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } });
+                for (int i = 0; i < eps.Count; i++)
+                {
+                    albums.Add(eps[i]);
+                }
+                oObj.Albums = albums;
 
                 //debug
                 //{

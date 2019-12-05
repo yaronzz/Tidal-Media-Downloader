@@ -1,4 +1,9 @@
-﻿#### v1.1.0.9
+﻿#### v1.1.0.10
+- Get ep&singles
+- Check if song is downloaded already
+- Fix bug of login
+
+#### v1.1.0.9
 - Name format 'atist-title.flac'
 - Fix bug of download playlist
 - Download by file: add artist、playlist

@@ -35,6 +35,7 @@ namespace TIDALDL_UI.Else
         public bool AddHyphen { get; set; } 
         public string Own { get; set; }
         public bool ToChinese { get; set; }
+        public bool CheckExist { get; set; }
         public bool ArtistBeforeTitle { get; set; }
         
         ///// <summary>
@@ -57,6 +58,7 @@ namespace TIDALDL_UI.Else
             AddHyphen  = Config.AddHyphen();
             Own        = album == null?null : album.Title;
             ToChinese  = Config.ToChinese();
+            CheckExist = Config.CheckExist();
             ArtistBeforeTitle = Config.ArtistBeforeTitle();
 
             if (TidalTrack != null)
@@ -75,6 +77,7 @@ namespace TIDALDL_UI.Else
         #region Method
         public void Start()
         {
+            //Add to threadpool
             ThreadTool.AddWork((object[] data) =>
             {
                 if (Progress.GetStatus() != ProgressHelper.STATUS.WAIT)
@@ -173,6 +176,15 @@ namespace TIDALDL_UI.Else
 
             //Get path
             FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle);
+
+            //Check if song is downloaded already
+            string CheckName = OnlyM4a ? FilePath.Replace(".mp4", ".m4a") : FilePath;
+            if (CheckExist && System.IO.File.Exists(CheckName))
+            {
+                Progress.Update(100, 100);
+                Progress.SetStatus(ProgressHelper.STATUS.COMPLETE);
+                return;
+            }
 
             //Get contributors
             ObservableCollection<Contributor> pContributors = TidalTool.getTrackContributors(TidalTrack.ID.ToString(), out Errlabel);

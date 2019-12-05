@@ -1,3 +1,5 @@
+- Artists hyphen ';' to ', '
+
 #### v2019-10-26
 - Download playlist by url
 - Config 'AddYear' before album dir
