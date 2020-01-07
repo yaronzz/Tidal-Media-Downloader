@@ -3,7 +3,7 @@
 '''
 @File    :   download.py
 @Time    :   2019/02/27
-@Author  :   Yaron Huang 
+@Author  :   Yaron Huang
 @Version :   1.0
 @Contact :   yaronhuang@qq.com
 @Desc    :   Download Function
@@ -143,7 +143,7 @@ class Download(object):
                 pathHelper.mkdirs(volumeDir)
                 count = count + 1
         return targetDir
-    
+
     def _getSongExtension(self, downloadUrl):
         if downloadUrl.find('.flac?') != -1:
             return '.flac'
@@ -156,7 +156,7 @@ class Download(object):
     def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
         if extension is None:
             extension = ".m4a"
-        
+
         seq  = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
         name = seq + pathHelper.replaceLimitChar(item['title'], '-')
         if self.config.addhyphen == 'True':
@@ -166,7 +166,7 @@ class Download(object):
         path = targetDir + "/"
         if int(albumInfo['numberOfVolumes']) > 1:
             path += 'Volume' + str(seq) + "/"
-        
+
         filePath = path + name + extension
         return filePath
 
@@ -190,6 +190,23 @@ class Download(object):
                 return ret
             ret += 1
         return len(array) - 1
+
+    def downloadListAlbum(self):
+        albumList = self.config.albumlist
+        albums = []
+        try:
+            albums = open(albumList).read().replace("\n","").replace("\r\n","").strip().split(",")
+        except:
+            printErr(0, "Error in reading Album list! ")
+            return
+        albums = [a for a in albums if str(a).isdigit() and len(a) > 0]
+        if len(albums) == 0:
+            printErr(0, "The album list is empty! ")
+            return
+        print("{n_album} to download:".format(n_album = len(albums)))
+        for album_id in albums:
+            print("-- ID {album_id}--".format(album_id = album_id))
+            self.downloadAlbum(album_id)
 
     def downloadAlbum(self, album_id=None, redl_flag=None):
         while_count = 9999
@@ -219,7 +236,7 @@ class Download(object):
                 printErr(0,"Get AlbumTracks Err!" + self.tool.errmsg)
                 continue
             aAlbumVideos = self.tool.getAlbumVideos(sID)
-            
+
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
             # write msg
@@ -255,14 +272,14 @@ class Download(object):
 
                 fileType = self._getSongExtension(streamInfo['url'])
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
-                paraList = {'album': aAlbumInfo, 
-                            'redownload': redownload, 
-                            'title': item['title'], 
-                            'trackinfo': item, 
-                            'url': streamInfo['url'], 
-                            'path': filePath, 
-                            'retry': 3, 
-                            'key': streamInfo['encryptionKey'], 
+                paraList = {'album': aAlbumInfo,
+                            'redownload': redownload,
+                            'title': item['title'],
+                            'trackinfo': item,
+                            'url': streamInfo['url'],
+                            'path': filePath,
+                            'retry': 3,
+                            'key': streamInfo['encryptionKey'],
                             'coverpath': coverPath}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
@@ -270,7 +287,7 @@ class Download(object):
             self.tool.removeTmpFile(targetDir)
 
             # download video
-            
+
             for item in aAlbumVideos:
                 item = item['item']
                 filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
@@ -299,7 +316,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0, "Get AlbumList Err! " + self.tool.errmsg)
                 continue
-            
+
             redownload = True
             check = printChoice("Skip downloaded files?(y/n):")
             if not cmdHelper.isInputYes(check):
@@ -330,7 +347,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(0,"Get TrackInfo Err! " + self.tool.errmsg)
                 return
-            
+
             # t = self.tool.getTrackContributors(sID)
 
             print("[AlbumTitle ]       %s" % (aAlbumInfo['title']))
@@ -355,12 +372,12 @@ class Download(object):
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, aTrackInfo, fileType)
             # filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
-            paraList = {'album':aAlbumInfo, 
-                        'title': aTrackInfo['title'], 
-                        'trackinfo':aTrackInfo, 
-                        'url': streamInfo['url'], 
-                        'path': filePath, 
-                        'retry': 3, 
+            paraList = {'album':aAlbumInfo,
+                        'title': aTrackInfo['title'],
+                        'trackinfo':aTrackInfo,
+                        'url': streamInfo['url'],
+                        'path': filePath,
+                        'retry': 3,
                         'key':streamInfo['encryptionKey'],
                         'coverpath': coverPath}
             self.thread.start(self.__thradfunc_dl, paraList)
@@ -460,7 +477,7 @@ class Download(object):
                     item  = item['item']
                     if type != 'track':
                         continue
-                    
+
                     index = index + 1
                     if bFirstTime is False:
                         if self.check.isInErr(index - 1, errIndex) == False:
@@ -483,10 +500,10 @@ class Download(object):
                     self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
                 self.tool.removeTmpFile(targetDir)
-                
+
                 bBreakFlag = True
                 bFirstTime = False
-            
+
                 # check
                 isErr, errIndex = self.check.checkPaths()
                 if isErr:
@@ -494,13 +511,13 @@ class Download(object):
                     if check == 'y' or check == 'Y':
                         bBreakFlag = False
 
-            # download video 
+            # download video
             for item in aItemInfo:
                 type = item['type']
                 item = item['item']
                 if type != 'video':
                     continue
-                
+
                 filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + ".mp4"
                 filePath = os.path.abspath(filePath)
                 if os.access(filePath, 0):
@@ -522,12 +539,12 @@ class Download(object):
     def downloadFavorite(self):
         targetDir = self.config.outputdir + "/Favorite/"
         pathHelper.mkdirs(targetDir)
-        
+
         trackList,videoList = self.tool.getFavorite(self.config.userid)
         if self.tool.errmsg != "":
             printErr(0, "Get FavoriteList Err! " + self.tool.errmsg)
             return
-        
+
         print("[NumberOfTracks]       %s" % (len(trackList)))
         print("[NumberOfVideos]       %s" % (len(videoList)))
         # download track
@@ -537,7 +554,7 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                 continue
-            
+
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
             aAlbumInfo = self.tool.getAlbum(item['album']['id'])
@@ -578,7 +595,7 @@ class Download(object):
         elif stype == "playlist":
             print("--------------PLAYLIST-----------------")
             self.downloadPlaylist(sid)
-    
+
     def downloadByFile(self, path):
         if not os.path.exists(path):
             return
@@ -588,7 +605,7 @@ class Download(object):
         print("[NumOfTrack]       %s" % (len(arr['track'])))
         print("[NumOfVideo]       %s" % (len(arr['video'])))
         print("[NumOfUrl]         %s" % (len(arr['url'])))
-        
+
         if len(arr['album']) > 0:
             redownload = True
             check = printChoice("Skip downloaded files?(y/n):")

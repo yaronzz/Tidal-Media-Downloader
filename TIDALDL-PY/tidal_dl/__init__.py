@@ -36,6 +36,7 @@ def showConfig():
     print("----------------Config------------------")
     print("Username     :\t" + cf.username)
     print("OutputDir    :\t" + cf.outputdir)
+    print("AlbumList    :\t" + cf.albumlist)
     print("SessionID    :\t" + cf.sessionid)
     print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
@@ -52,6 +53,7 @@ def setting():
     cf = TidalConfig()
     print("----------------Settings----------------")
     print("OutputDir    :\t" + cf.outputdir)
+    print("AlbumList    :\t" + cf.albumlist)
     print("SoundQuality :\t" + cf.quality)
     print("Resolution   :\t" + cf.resolution)
     print("ThreadNum    :\t" + cf.threadnum)
@@ -67,6 +69,21 @@ def setting():
         if os.path.isdir(outputdir) == False:
             printErr(0, "Path is Err!")
             continue
+        break
+    while True:
+        albumlist = myinput("Album List(Enter '0' Unchanged):".ljust(12))
+        if albumlist == '0':
+            albumlist = cf.albumlist
+            break
+        if os.path.isfile(albumlist) == False:
+            printErr(0, "Path is Err!")
+            continue
+        content_album = open(albumlist).read().replace("\n","").replace("\r\n","").strip().split(",")
+        for album_id in content_album:
+            if not str(album_id).isdigit() and len(album_id) > 0:
+                printErr(0, "Album file format is not correct. It must be a comma separated list: <album1-id>,<album2-id>,....!")
+                albumlist = cf.albumlist
+                continue
         break
     while True:
         index = myinputInt("Quality(0-LOW,1-HIGH,2-LOSSLESS,3-HI_RES):".ljust(12), 999)
@@ -110,6 +127,7 @@ def setting():
     status4 = myinputInt("AddYear(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
+    cf.set_albumlist(albumlist)
     cf.set_quality(quality)
     cf.set_resolution(resolution)
     cf.set_threadnum(threadnum)
@@ -122,6 +140,10 @@ def setting():
     pathHelper.mkdirs(outputdir + "/Playlist/")
     pathHelper.mkdirs(outputdir + "/Video/")
     pathHelper.mkdirs(outputdir + "/Favorite/")
+
+    if albumlist == "./album.txt" and not os.path.isfile(albumlist):
+        open(albumlist, 'a').close()
+
     return
 
 def main(argv=None):
@@ -130,12 +152,13 @@ def main(argv=None):
     if logIn(cf.username, cf.password) == False:
         while logIn("", "") == False:
             pass
-    
+
     cf = TidalConfig()
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
     # print("Username     :\t" + cf.username)
     print("OutputDir    :\t" + cf.outputdir)
+    print("AlbumList :\t" + cf.albumlist)
     # print("SessionID    :\t" + cf.sessionid)
     # print("CountryCode  :\t" + cf.countrycode)
     print("SoundQuality :\t" + cf.quality)
@@ -149,7 +172,7 @@ def main(argv=None):
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)
     print("====================================================")
-    
+
     dl = Download(cf.threadnum)
     if not dl.ffmpeg.enable:
         printWarring(0, "Couldn't find ffmpeg!\n")
@@ -179,6 +202,8 @@ def main(argv=None):
         elif choice == 8:
             dl.downloadArtistAlbum()
         elif choice == 9:
+            dl.downloadListAlbum()
+        elif choice == 10:
             showConfig()
         else:
             dl.downloadUrl(strchoice)
@@ -192,7 +217,7 @@ def debug():
 # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
-    
+
     dl = Download(1)
     # dl.downloadTrack(66214149)
     dl.downloadAlbum(90521280,True)
@@ -202,7 +227,7 @@ def debug():
     # dl.downloadVideo(57261945) #1hours
 
     dl.downloadVideo(84094460)
-    
+
 # if __name__ == '__main__':
 #     main(sys.argv)
 

@@ -49,13 +49,15 @@ def printMenu():
     cmdHelper.myprint(" Enter '8': ", cmdHelper.TextColor.Green, None)
     print("Download ArtistAlbum.")
     cmdHelper.myprint(" Enter '9': ", cmdHelper.TextColor.Green, None)
+    print("Download List Album from file.")
+    cmdHelper.myprint(" Enter '10': ", cmdHelper.TextColor.Green, None)
     print("Show Config.")
     cmdHelper.myprint(" Enter URL: ", cmdHelper.TextColor.Green, None)
     print("Download By Url.")
     cmdHelper.myprint(" Enter Path: ", cmdHelper.TextColor.Green, None)
     print("Download By File.")
     print("====================================================")
-    
+
 
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -66,6 +68,6 @@ LOG = '''
    | $$   | $$| $$  | $$ /$$__  $$| $$        | $$  | $$| $$
    | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
    |__/   |__/ \_______/ \_______/|__/         \_______/|__/
-   
-       https://github.com/yaronzz/Tidal-Media-Downloader 
+
+       https://github.com/yaronzz/Tidal-Media-Downloader
 '''

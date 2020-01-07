@@ -4,7 +4,7 @@
 '''
 @File    :   tidal.py
 @Time    :   2019/02/27
-@Author  :   Yaron Huang 
+@Author  :   Yaron Huang
 @Version :   1.0
 @Contact :   yaronhuang@qq.com
 @Desc    :   Tidal API
@@ -64,7 +64,7 @@ class TidalTool(object):
                 if retry <= 0:
                     self.errmsg = 'Function `Http-Get` Err!'
                     return None
-        
+
 
     def setTag(self, tag, srcfile, coverpath=None):
         path = pathHelper.getDirName(srcfile)
@@ -175,7 +175,7 @@ class TidalTool(object):
         if index < 99 and sum > 99:
             return "0"+str(index) + " "
         return str(index) + " "
-            
+
     def _fixSameTrackName(self, tracks, isOnLayer2=False):
         same = {}
         for item in tracks:
@@ -301,7 +301,7 @@ class TidalTool(object):
             urlList.append("http"+item)
 
         return resolutionList, urlList
-    
+
     def __parseVideoMediaPlaylist(self, url):
         content = netHelper.downloadString(url, None)
         pattern = re.compile(r"(?<=http).+?(?=\\n)")
@@ -329,7 +329,7 @@ class TidalTool(object):
             str += "===========Volume %d=============\n" % i
             for item in aAlbumTracks['items']:
                 if item['volumeNumber'] != i:
-                    continue            
+                    continue
                 str += '{:<8}'.format("[%d]" % item['trackNumber'])
                 str += "%s\n" % item['title']
         return str
@@ -400,7 +400,7 @@ class TidalAccount(object):
             token = 'kgsOOmYk3zShYrNP'
 
         self.username = username
-        self.token    = token 
+        self.token    = token
         self.uuid     = str(uuid.uuid4()).replace('-', '')[16:]
         self.errmsg   = ""
         self.getSessionID(password)
@@ -447,6 +447,7 @@ class TidalConfig(object):
         self.showprogress= configHelper.GetValue("base", "showprogress", "False", self.FILE_NAME)
         self.addhyphen   = configHelper.GetValue("base", "addhyphen", "False", self.FILE_NAME)
         self.addyear     = configHelper.GetValue("base", "addyear", "False", self.FILE_NAME)
+        self.albumlist   = configHelper.GetValue("base", "albumlist", "./album.txt", self.FILE_NAME)
 
     def set_onlym4a(self, status):
         if status == 0:
@@ -468,13 +469,13 @@ class TidalConfig(object):
         else:
             self.addhyphen = "True"
         configHelper.SetValue("base", "addhyphen", self.addhyphen, self.FILE_NAME)
-        
+
     def set_addyear(self, status):
         if status == 0:
             self.addyear = "False"
         else:
             self.addyear = "True"
-        configHelper.SetValue("base", "addyear", self.addyear, self.FILE_NAME)    
+        configHelper.SetValue("base", "addyear", self.addyear, self.FILE_NAME)
 
     def set_threadnum(self, threadnum):
         self.threadnum = threadnum
@@ -483,6 +484,10 @@ class TidalConfig(object):
     def set_outputdir(self, outputdir):
         self.outputdir = outputdir
         configHelper.SetValue("base", "outputdir", outputdir, self.FILE_NAME)
+
+    def set_albumlist(self, albumlist):
+        self.albumlist = albumlist
+        configHelper.SetValue("base", "albumlist", albumlist, self.FILE_NAME)
 
     def set_quality(self, quality):
         self.quality = quality
@@ -521,4 +526,3 @@ class TidalConfig(object):
 # if __name__ == '__main__':
 #     tool = TidalTool()
 #     tool.getArtistAlbum('3529466')
-
