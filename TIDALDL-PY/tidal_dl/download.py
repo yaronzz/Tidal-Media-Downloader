@@ -11,7 +11,7 @@
 import sys
 import os
 import codecs
-import taglib
+
 from datetime import datetime
 from aigpy import pathHelper
 # from tidal_dl import netHelper
