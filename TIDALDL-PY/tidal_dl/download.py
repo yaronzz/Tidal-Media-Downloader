@@ -11,6 +11,7 @@
 import sys
 import os
 import codecs
+
 from datetime import datetime
 from aigpy import pathHelper
 # from tidal_dl import netHelper
@@ -152,6 +153,12 @@ class Download(object):
         if downloadUrl.find('.mp4?') != -1:
             return '.mp4'
         return '.m4a'
+        
+    def _IsExplicitString(self, IsExplicit):
+        String = 'Clean'
+        if IsExplicit == 1:
+            String = 'Explicit'
+        return String
 
     def __getAlbumSongSavePath(self, targetDir, albumInfo, item, extension):
         if extension is None:
@@ -159,8 +166,9 @@ class Download(object):
         
         seq  = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
         name = seq + pathHelper.replaceLimitChar(item['title'], '-')
+        fileExplicit = self._IsExplicitString(albumInfo['explicit'])
         if self.config.addhyphen == 'True':
-            name = seq + '- ' + pathHelper.replaceLimitChar(item['title'], '-')
+            name = seq + '- ' + pathHelper.replaceLimitChar(item['title'], '-') + " - " + fileExplicit
 
         seq  = item['volumeNumber']
         path = targetDir + "/"
@@ -257,7 +265,8 @@ class Download(object):
                 filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, item, fileType)
                 paraList = {'album': aAlbumInfo, 
                             'redownload': redownload, 
-                            'title': item['title'], 
+                            'title': item['title'],
+                            'explicit': aTrackInfo['explicit'],
                             'trackinfo': item, 
                             'url': streamInfo['url'], 
                             'path': filePath, 
@@ -337,6 +346,7 @@ class Download(object):
             print("[TrackTitle ]       %s" % (aTrackInfo['title']))
             print("[Duration   ]       %s" % (aTrackInfo['duration']))
             print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
+            print("[Explicit   ]       %s" % (aAlbumInfo['explicit']))
             print("[Version    ]       %s\n" % (aTrackInfo['version']))
 
             # Creat OutputDir
@@ -351,12 +361,11 @@ class Download(object):
             if self.tool.errmsg != "":
                 printErr(14, aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
-
+            
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, aTrackInfo, fileType)
-            # filePath = targetDir + "/" + pathHelper.replaceLimitChar(aTrackInfo['title'],'-') + fileType
             paraList = {'album':aAlbumInfo, 
-                        'title': aTrackInfo['title'], 
+                        'title': aTrackInfo['title'],
                         'trackinfo':aTrackInfo, 
                         'url': streamInfo['url'], 
                         'path': filePath, 
@@ -485,7 +494,6 @@ class Download(object):
                         cmdHelper.myprint("Could not download artwork for '{}'".format(item['title']), cmdHelper.TextColor.Red, None)
 
                     self.check.addPath(filePath)
-                    # if not os.path.isfile(filePath):
                     self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
                 self.tool.removeTmpFile(targetDir)
