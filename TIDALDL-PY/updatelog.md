@@ -1,4 +1,10 @@
+#### v2019-01-17
 - Artists hyphen ';' to ', '
+- Fix bug of download playlist
+- Fix bug of download artwork
+- Added Explicit to the file name(settings)
+- Playlist organized with artist folder(settings)
+- Playlist: add tracknum before tracktitle
 
 #### v2019-10-26
 - Download playlist by url
