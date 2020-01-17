@@ -1,4 +1,4 @@
-#### v2019-01-17
+#### 2020-01-17
 - Artists hyphen ';' to ', '
 - Fix bug of download playlist
 - Fix bug of download artwork
