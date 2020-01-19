@@ -491,7 +491,7 @@ class Download(object):
                     targetDir2 = targetDir
                     if self.config.plfile2arfolder == "True":
                         targetDir2 = self.__creatAlbumDir(aAlbumInfo)
-                        filePath = self.__getAlbumSongSavePath(targetDir2, aAlbumInfo, aTrackInfo, fileType)
+                        filePath = self.__getAlbumSongSavePath(targetDir2, aAlbumInfo, item, fileType)
                     else:
                         seq = self.tool.getIndexStr(index, len(aItemInfo)) 
                         filePath = targetDir2 + '/' + seq + " "+ pathHelper.replaceLimitChar(item['title'], '-') + fileType
