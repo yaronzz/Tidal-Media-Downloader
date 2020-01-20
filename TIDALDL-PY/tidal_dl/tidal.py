@@ -254,8 +254,11 @@ class TidalTool(object):
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
 
-    def getArtistAlbum(self, artist_id):
-        items1 = self.__getItemsList('artists/' + str(artist_id) + '/albums', {'filter': 'EPSANDSINGLES'})
+    def getArtistAlbum(self, artist_id, includeSingles): 
+        if includeSingles: 
+            items1 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'EPSANDSINGLES'}) 
+        else: 
+            items1 = []
         # items2 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'COMPILATIONS'})
         items3 = self.__getItemsList('artists/' + str(artist_id) + '/albums')
         itemall = items1 + items3
@@ -289,7 +292,10 @@ class TidalTool(object):
         return self._get('tracks/' + str(track_id) + '/contributors')
 
     def getAlbumArtworkUrl(self, coverid, size=1280):
-        return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size)
+        if coverid is not None: 
+            return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size) 
+        else: 
+            return '' 
 
     def getPlaylistArtworkUrl(self, playlist_uuid, size=1280):
         return 'http://images.tidalhifi.com/im/im?w={1}&h={2}&uuid={0}&rows=2&cols=3&noph'.format(playlist_uuid, size, size)
@@ -403,6 +409,8 @@ class TidalTool(object):
         ret = cfp
         if 'album' not in ret:
             ret['album'] = []
+        if 'artist' not in ret: 
+            ret['artist'] = [] 
         if 'track' not in ret:
             ret['track'] = []
         if 'video' not in ret:
