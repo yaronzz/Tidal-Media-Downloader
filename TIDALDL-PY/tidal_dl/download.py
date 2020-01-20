@@ -100,7 +100,7 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=showprogress)
+                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=showprogress,stimeout=20) 
                     if check is True:
                         if paraList['key'] == '':
                             break
