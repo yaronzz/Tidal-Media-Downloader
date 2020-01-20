@@ -406,6 +406,8 @@ class TidalTool(object):
         ret = cfp
         if 'album' not in ret:
             ret['album'] = []
+        if 'artist' not in ret: 
+            ret['artist'] = [] 
         if 'track' not in ret:
             ret['track'] = []
         if 'video' not in ret:

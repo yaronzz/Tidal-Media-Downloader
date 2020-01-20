@@ -191,6 +191,11 @@ class Download(object):
 
     def __getVideoResolutionIndex(self, reslist):
         array = []
+        if reslist != None: 
+            for item in reslist: 
+                subs = item.split('x') 
+                subs = subs[1].split(',') 
+                array.append(int(subs[0])) 
         for item in reslist:
             subs = item.split('x')
             subs = subs[1].split(',')
@@ -291,12 +296,15 @@ class Download(object):
                 if os.access(filePath, 0):
                     os.remove(filePath)
 
-                resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
-                selectIndex = self.__getVideoResolutionIndex(resolutionList)
-                if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro):
-                    printSUCCESS(14, item['title'])
-                else:
-                    printErr(14, item['title'])
+                try: 
+                    resolutionList, urlList = self.tool.getVideoResolutionList(item['id']) 
+                    selectIndex = self.__getVideoResolutionIndex(resolutionList) 
+                    if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro): 
+                        printSUCCESS(14, item['title']) 
+                    else: 
+                        printErr(14, item['title']) 
+                except:  
+                    printErr(14, item['title']) 
             return
 
         return
