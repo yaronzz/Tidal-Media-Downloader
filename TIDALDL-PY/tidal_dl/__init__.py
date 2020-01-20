@@ -4,22 +4,23 @@ import os
 
 from aigpy import pipHelper
 from aigpy import pathHelper
-from aigpy.cmdHelper import myinput,myinputInt
+from aigpy.cmdHelper import myinput, myinputInt
 
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu,printChoice2,printErr,printWarring,LOG
+from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2019.10.26.0"
+TIDAL_DL_VERSION = "2020.1.17.0"
 
-def logIn(username = "", password = ""):
+
+def logIn(username="", password=""):
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
         password = myinput("password:")
-    account  = TidalAccount(username, password)
-    account2 = TidalAccount(username, password,True)
+    account = TidalAccount(username, password)
+    account2 = TidalAccount(username, password, True)
     if account.errmsg != "":
         printErr(0, account.errmsg)
         return False
@@ -30,6 +31,7 @@ def logIn(username = "", password = ""):
     cf = TidalConfig()
     cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
     return True
+
 
 def showConfig():
     cf = TidalConfig()
@@ -45,8 +47,11 @@ def showConfig():
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     print("AddYear      :\t" + cf.addyear + "(before album title)")
+    print("AddExplicit  :\t" + cf.addexplicit)
+    print("Plfile2Arfolder:\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     myinput("Enter to return.")
+
 
 def setting():
     cf = TidalConfig()
@@ -59,6 +64,8 @@ def setting():
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     print("AddYear      :\t" + cf.addyear + "(before album title)")
+    print("AddExplicit  :\t" + cf.addexplicit)
+    print("Plfile2Arfolder:\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
     while True:
         outputdir = myinput("Outputdir(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -83,7 +90,7 @@ def setting():
             quality = 'HI_RES'
         break
     while True:
-        index = myinputInt("Resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12),99)
+        index = myinputInt("Resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12), 99)
         if index > 4 or index < 0:
             printErr(0, "Resolution Err")
             continue
@@ -104,10 +111,12 @@ def setting():
             printErr(0, "ThreadNum Err")
             continue
         break
-    status  = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
+    status = myinputInt("ConvertMp4toM4a(0-False,1-True):".ljust(12), 0)
     status2 = myinputInt("ShowProgress(0-False,1-True):".ljust(12), 0)
     status3 = myinputInt("AddHyphen(0-False,1-True):".ljust(12), 0)
     status4 = myinputInt("AddYear(0-False,1-True):".ljust(12), 0)
+    status5 = myinputInt("Plfile2Arfolder(0-False,1-True):".ljust(12), 0)
+    status6 = myinputInt("AddExplicit(0-False,1-True):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
@@ -117,6 +126,8 @@ def setting():
     cf.set_showprogress(status2)
     cf.set_addhyphen(status3)
     cf.set_addyear(status4)
+    cf.set_plfile2arfolder(status5)
+    cf.set_addexplicit(status6)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -124,13 +135,14 @@ def setting():
     pathHelper.mkdirs(outputdir + "/Favorite/")
     return
 
+
 def main(argv=None):
     print(LOG)
     cf = TidalConfig()
     if logIn(cf.username, cf.password) == False:
         while logIn("", "") == False:
             pass
-    
+
     cf = TidalConfig()
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
@@ -145,17 +157,19 @@ def main(argv=None):
     print("ShowProgress :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("AddHyphen    :\t" + cf.addhyphen + "(between number and title)")
     print("AddYear      :\t" + cf.addyear + "(before album title)")
+    print("AddExplicit  :\t" + cf.addexplicit)
+    print("Plfile2Arfolder:\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
     print("Version      :\t" + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("LastVer      :\t" + onlineVer)
     print("====================================================")
-    
+
     dl = Download(cf.threadnum)
     if not dl.ffmpeg.enable:
         printWarring(0, "Couldn't find ffmpeg!\n")
     while True:
         printMenu()
-        strchoice,choice = printChoice2("Enter Choice:", 99)
+        strchoice, choice = printChoice2("Enter Choice:", 99)
         if choice == 0:
             return
         elif choice == 1:
@@ -184,25 +198,26 @@ def main(argv=None):
             dl.downloadUrl(strchoice)
             dl.downloadByFile(strchoice)
 
+
 def debug():
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
     #     pass
-# add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
-# https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
+    # add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
+    # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
-    
+
     dl = Download(1)
     # dl.downloadTrack(66214149)
-    dl.downloadAlbum(90521280,True)
+    dl.downloadAlbum(90521280, True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
     # dl.downloadVideo(57261945) #1hours
 
     dl.downloadVideo(84094460)
-    
+
 # if __name__ == '__main__':
 #     main(sys.argv)
 

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
     name = 'tidal-dl',
-    version="2019.10.26.0",
+    version="2020.1.17.1",
     license="Apache2",
     description = "Tidal Music Download.",
 
