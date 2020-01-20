@@ -254,8 +254,11 @@ class TidalTool(object):
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
 
-    def getArtistAlbum(self, artist_id):
-        items1 = self.__getItemsList('artists/' + str(artist_id) + '/albums', {'filter': 'EPSANDSINGLES'})
+    def getArtistAlbum(self, artist_id, includeSingles): 
+        if includeSingles: 
+            items1 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'EPSANDSINGLES'}) 
+        else: 
+            items1 = []
         # items2 = self.__getItemsList('artists/' + str(artist_id) + '/albums',{'filter': 'COMPILATIONS'})
         items3 = self.__getItemsList('artists/' + str(artist_id) + '/albums')
         itemall = items1 + items3

@@ -252,7 +252,7 @@ class Download(object):
                         continue
                     if '.jpg' in item:
                         continue
-                    check = printChoice("Some trackFile exist.Is redownload?(y/n):")
+                    check = printChoice("Some tracks already exist. Redownload?(y/n):")
                     if not cmdHelper.isInputYes(check):
                         redownload = False
                     break
@@ -301,26 +301,36 @@ class Download(object):
 
         return
 
-    def downloadArtistAlbum(self):
+    def downloadArtistAlbum(self, includeSingles=True, artistID=None): 
         while True:
             print("-------------ARTIST ALBUM--------------")
-            sID = printChoice("Enter ArtistID(Enter '0' go back):", True, 0)
-            if sID == 0:
-                return
-
-            array = self.tool.getArtistAlbum(sID)
+            if artistID is not None: 
+                sID = artistID 
+            else: 
+                sID = printChoice("Enter Artist ID(Enter '0' go back):", True, 0) 
+                if sID == 0:
+                    return 
+ 
+            array = self.tool.getArtistAlbum(sID, includeSingles) 
             if self.tool.errmsg != "":
                 printErr(0, "Get AlbumList Err! " + self.tool.errmsg)
                 continue
 
             redownload = True
-            check = printChoice("Skip downloaded files?(y/n):")
-            if not cmdHelper.isInputYes(check):
-                redownload = False
+            if artistID is None: 
+                check = printChoice("Skip downloaded files?(y/n):") 
+                if not cmdHelper.isInputYes(check): 
+                    redownload = False 
 
             for index, item in enumerate(array):
                 print("----Album[{0}/{1}]----".format(index+1, len(array)))
                 self.downloadAlbum(item['id'], redownload)
+            
+            if artistID is not None: 
+                # Break out of the function if we are only downloading one artist's albums 
+                return 
+ 
+
 
     def downloadTrack(self, track_id=None):
         while_count = 9999
@@ -617,12 +627,13 @@ class Download(object):
             return
         arr = self.tool.parseFile(path)
         print("----------------FILE------------------")
-        print("[NumOfAlbum]       %s" % (len(arr['album'])))
-        print("[NumOfTrack]       %s" % (len(arr['track'])))
-        print("[NumOfVideo]       %s" % (len(arr['video'])))
-        print("[NumOfUrl]         %s" % (len(arr['url'])))
+        print("[Number of albums]       %s" % (len(arr['album'])))
+        print("[Number of artists]      %s" % (len(arr['artist'])))
+        print("[Number of tracks]       %s" % (len(arr['track'])))
+        print("[Number of videos]       %s" % (len(arr['video'])))
+        print("[Number of URLs]         %s" % (len(arr['url'])))
 
-        if len(arr['album']) > 0:
+        if len(arr['album']) > 0: 
             redownload = True
             check = printChoice("Skip downloaded files?(y/n):")
             if not cmdHelper.isInputYes(check):
@@ -632,6 +643,11 @@ class Download(object):
             print("----Album[{0}/{1}]----".format(index+1, len(arr['album'])))
             print("[ID]          %s" % (item))
             self.downloadAlbum(item, redownload)
+        for index, item in enumerate(arr['artist']): 
+            print(index) 
+            print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist']))) 
+            print("[ID]          %s" % (item)) 
+            self.downloadArtistAlbum(False, item) 
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))
