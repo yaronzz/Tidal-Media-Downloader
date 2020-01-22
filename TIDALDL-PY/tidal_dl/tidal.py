@@ -480,6 +480,14 @@ class TidalConfig(object):
         self.addyear = configHelper.GetValue("base", "addyear", "False", self.FILE_NAME)
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
+        self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
+
+    def set_includesingle(self, status):
+        if status == 0:
+            self.includesingle = "False"
+        else:
+            self.includesingle = "True"
+        configHelper.SetValue("base", "includesingle", self.includesingle, self.FILE_NAME)
 
     def set_plfile2arfolder(self, status):
         if status == 0:

@@ -1,3 +1,9 @@
+#### 2020-01-22
+- Download artist album include singles(settings)
+- Download by file include artist
+- Fix english typos
+- Fix bug of tracknumber(download playlist)
+
 #### 2020-01-17
 - Artists hyphen ';' to ', '
 - Fix bug of download playlist

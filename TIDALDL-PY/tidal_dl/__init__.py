@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2020.1.17.0"
+TIDAL_DL_VERSION = "2020.1.22.0"
 
 
 def logIn(username="", password=""):
@@ -36,20 +36,21 @@ def logIn(username="", password=""):
 def showConfig():
     cf = TidalConfig()
     print("----------------Config------------------")
-    print("Username                         :\t" + cf.username)
-    print("Output directory                 :\t" + cf.outputdir)
-    print("SessionID                        :\t" + cf.sessionid)
-    print("Country Code                     :\t" + cf.countrycode)
-    print("Sound Quality                    :\t" + cf.quality)
-    print("Video Resolution                 :\t" + cf.resolution)
-    print("Download Threads                 :\t" + cf.threadnum)
-    print("Only M4a                         :\t" + cf.onlym4a)
-    print("Show download progress           :\t" + cf.showprogress + "(enable when threadnum=1)")
-    print("Use hyphens                      :\t" + cf.addhyphen + "(between number and title)")
-    print("Add year                         :\t" + cf.addyear + "(before album title)")
-    print("Add explicit tag                 :\t" + cf.addexplicit)
-    print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
-    print("Version                          :\t" + TIDAL_DL_VERSION)
+    print("Username                         : " + cf.username)
+    print("Output directory                 : " + cf.outputdir)
+    print("SessionID                        : " + cf.sessionid)
+    print("Country Code                     : " + cf.countrycode)
+    print("Sound Quality                    : " + cf.quality)
+    print("Video Resolution                 : " + cf.resolution)
+    print("Download Threads                 : " + cf.threadnum)
+    print("Only M4a                         : " + cf.onlym4a)
+    print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
+    print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
+    print("Add year                         : " + cf.addyear + "(before album title)")
+    print("Add explicit tag                 : " + cf.addexplicit)
+    print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
+    print("Include singles                  : " + cf.includesingle + "(download artist album)")
+    print("Version                          : " + TIDAL_DL_VERSION)
     myinput("Enter to return.")
 
 
@@ -65,7 +66,8 @@ def setting():
     print("Use hyphens                      :\t" + cf.addhyphen + "(between number and title)")
     print("Add year                         :\t" + cf.addyear + "(before album title)")
     print("Add explicit tag                 :\t" + cf.addexplicit)
-    print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
+    print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(organized with artist folder)")
+    print("Include singles                  :\t" + cf.includesingle + "(download artist album)")
     while True:
         outputdir = myinput("Output directory(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -117,6 +119,7 @@ def setting():
     status4 = myinputInt("Add year to file names(0-No, 1-Yes):".ljust(12), 0)
     status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
     status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
+    status7 = myinputInt("Download artist album include singles(0-No, 1-Yes):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
@@ -128,6 +131,7 @@ def setting():
     cf.set_addyear(status4)
     cf.set_plfile2arfolder(status5)
     cf.set_addexplicit(status6)
+    cf.set_includesingle(status7)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -146,19 +150,20 @@ def main(argv=None):
     cf = TidalConfig()
     onlineVer = pipHelper.getLastVersion('tidal-dl')
     print("====================Tidal-dl========================")
-    print("Output directory                 :\t" + cf.outputdir)
-    print("Sound Quality                    :\t" + cf.quality)
-    print("Video Resolution                 :\t" + cf.resolution)
-    print("Download Threads                 :\t" + cf.threadnum)
-    print("Only M4a                         :\t" + cf.onlym4a)
-    print("Show download progress           :\t" + cf.showprogress + "(enable when threadnum=1)")
-    print("Use hyphens                      :\t" + cf.addhyphen + "(between number and title)")
-    print("Add year                         :\t" + cf.addyear + "(before album title)")
-    print("Add explicit tag                 :\t" + cf.addexplicit)
-    print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(playlist organized with artist folder)")
-    print("Current Version                  :\t" + TIDAL_DL_VERSION)
+    print("Output directory                 : " + cf.outputdir)
+    print("Sound Quality                    : " + cf.quality)
+    print("Video Resolution                 : " + cf.resolution)
+    print("Download Threads                 : " + cf.threadnum)
+    print("Only M4a                         : " + cf.onlym4a)
+    print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
+    print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
+    print("Add year                         : " + cf.addyear + "(before album title)")
+    print("Add explicit tag                 : " + cf.addexplicit)
+    print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
+    print("Include singles                  : " + cf.includesingle + "(download artist album)")
+    print("Current Version                  : " + TIDAL_DL_VERSION)
     if onlineVer != None:
-        print("Latest Version                   :\t" + onlineVer)
+        print("Latest Version                   : " + onlineVer)
     print("====================================================")
 
     dl = Download(cf.threadnum)
@@ -188,17 +193,12 @@ def main(argv=None):
         elif choice == 7:
             dl.downloadFavorite()
         elif choice == 8:
-            includeSingles = True 
-            dl.downloadArtistAlbum(includeSingles) 
+            dl.downloadArtistAlbum(cf.includesingle)
         elif choice == 9: 
-            includeSingles = False 
-            dl.downloadArtistAlbum(includeSingles) 
-        elif choice == 10: 
             showConfig()
         else:
             dl.downloadUrl(strchoice)
             dl.downloadByFile(strchoice)
-
 
 def debug():
     # cf = TidalConfig()

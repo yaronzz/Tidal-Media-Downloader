@@ -191,11 +191,11 @@ class Download(object):
 
     def __getVideoResolutionIndex(self, reslist):
         array = []
-        if reslist != None: 
-            for item in reslist: 
-                subs = item.split('x') 
-                subs = subs[1].split(',') 
-                array.append(int(subs[0])) 
+        # if reslist != None: 
+        #     for item in reslist: 
+        #         subs = item.split('x') 
+        #         subs = subs[1].split(',') 
+        #         array.append(int(subs[0])) 
         for item in reslist:
             subs = item.split('x')
             subs = subs[1].split(',')
@@ -305,7 +305,7 @@ class Download(object):
                         printErr(14, item['title']) 
                 except:  
                     printErr(14, item['title']) 
-            return
+            # return
 
         return
 
@@ -510,11 +510,13 @@ class Download(object):
                     if self.config.plfile2arfolder == "True":
                         targetDir2 = self.__creatAlbumDir(aAlbumInfo)
                         filePath = self.__getAlbumSongSavePath(targetDir2, aAlbumInfo, item, fileType)
+                        paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item,
+                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                     else:
                         seq = self.tool.getIndexStr(index, len(aItemInfo)) 
                         filePath = targetDir2 + '/' + seq + " "+ pathHelper.replaceLimitChar(item['title'], '-') + fileType
-                    paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item,
-                                'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                        paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item,
+                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
 
                     try:
                         coverPath = targetDir2 + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
@@ -655,7 +657,7 @@ class Download(object):
             print(index) 
             print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist']))) 
             print("[ID]          %s" % (item)) 
-            self.downloadArtistAlbum(False, item) 
+            self.downloadArtistAlbum(self.config.includesingle, item) 
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))
