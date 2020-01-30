@@ -1,4 +1,8 @@
-﻿#### v1.1.0.10
+﻿#### v1.1.0.11
+- Fix bug of download artwork
+- Show errlabel when login err
+
+#### v1.1.0.10
 - Get ep&singles
 - Check if song is downloaded already
 - Fix bug of login

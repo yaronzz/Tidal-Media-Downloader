@@ -105,7 +105,7 @@ namespace TIDALDL_UI.Pages
             TidalTool.PROXY = ProxyEnable ? new HttpHelper.ProxyInfo(ProxyHost, ProxyPort, ProxyUser, ProxyPwd) : null;
             bool bRet = await Task.Run(() => { return TidalTool.login(Username, Password);});
             if (!bRet)
-                Errlabel = "Login Err!";
+                Errlabel = "Login Err! " + TidalTool.loginErrlabel;
             else
             {
                 //DEBUG

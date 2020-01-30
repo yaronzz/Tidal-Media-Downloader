@@ -220,7 +220,7 @@ namespace TIDALDL_UI.Else
                         if (!TidalTool.ConvertMp4ToM4a(FilePath, out sNewName))
                         {
                             Errlabel = "Convert mp4 to m4a failed!";
-                            ErrlabelHeight = 15;
+                            goto ERR_RETURN;
                         }
                         else
                             FilePath = sNewName;

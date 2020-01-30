@@ -10,6 +10,7 @@ using System.IO;
 using TagLib;
 using TIDALDL_UI.Else;
 using System.Windows.Data;
+using System.Text.RegularExpressions;
 
 namespace Tidal
 {
@@ -47,6 +48,7 @@ namespace Tidal
             ISLOGIN = false;
         }
 
+        public static string loginErrlabel = "";
         public static bool login(string UserName, string Password)
         {
             if (ISLOGIN)
@@ -67,8 +69,12 @@ namespace Tidal
                 if (ISLOGIN)
                     return true;
                 if (Errmsg.IsNotBlank())
+                {
+                    loginErrlabel = AIGS.Helper.JsonHelper.GetValue(Errmsg, "userMessage");
+                    if (loginErrlabel == null)
+                        loginErrlabel = Errmsg;
                     return false;
-
+                }
                 if (i == 0)
                     SessID1 = JsonHelper.GetValue(sRet, "sessionId");
                 else
@@ -690,10 +696,17 @@ namespace Tidal
 
         public static string getAlbumCoverPath(string basePath,Album album)
         {
-            string sRet = string.Format("{0}/Album/{1}/{2}/{2}.jpg", basePath, formatPath(album.Artist.Name), formatPath(album.Title));
+            string sAlbumDir = getAlbumFolder(basePath, album);
+            string title = Regex.Replace(album.Title.Replace("（", "(").Replace("）", ")"), @"\([^\(]*\)", "");
+            string sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title));
+            if (sRet.Length >= 260)
+            {
+                int iLen = sRet.Length - 260; 
+                sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title).Substring(0, formatPath(title).Length - iLen));
+            }
             return Path.GetFullPath(sRet);
         }
-
+            
         public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null, string trackTitle = null, bool artistBeforeTitle = false)
         {
             string sArtistStr = "";
