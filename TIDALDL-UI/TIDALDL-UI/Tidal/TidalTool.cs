@@ -11,6 +11,10 @@ using TagLib;
 using TIDALDL_UI.Else;
 using System.Windows.Data;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net;
+using System.Collections.Specialized;
 
 namespace Tidal
 {
@@ -43,6 +47,7 @@ namespace Tidal
         #endregion
 
         #region Login
+
         public static void logout()
         {
             ISLOGIN = false;
@@ -58,14 +63,31 @@ namespace Tidal
             string SessID1 = null;
             string SessID2 = null;
             string Ccode   = null;
+            string sRet    = null;
             for (int i = 0; i < 2; i++)
             {
-                string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out Errmsg, new Dictionary<string, string>() {
-                    {"username", UserName},
+                //HttpHelper.GetOrPost get err when the username=="xxxxx+xxx@gmail.com"
+                if (UserName.IndexOf("@gmail") >= 0 && UserName.IndexOf("+") >= 0)
+                {
+                    sRet = NetHelper.UploadCollection(URL + "login/username", out Errmsg, new NameValueCollection {
+                    {"username", UserName },
                     {"password", Password},
                     {"token", i == 0 ? TOKEN_PHONE : TOKEN},
                     {"clientVersion", VERSION},
-                    {"clientUniqueKey", getUID()}}, IsErrResponse: true, Timeout:10*1000, Proxy: PROXY);
+                    {"clientUniqueKey", getUID()}}, 20 * 1000, IsErrResponse: true).ToString();
+                }
+                else
+                {
+                    sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out Errmsg, new Dictionary<string, string>() {
+                    {"username", UserName },
+                    {"password", Password},
+                    {"token", i == 0 ? TOKEN_PHONE : TOKEN},
+                    {"clientVersion", VERSION},
+                    {"clientUniqueKey", getUID()}},
+                        ContentType: "application/x-www-form-urlencoded",
+                        IsErrResponse: true, Timeout: 30 * 1000, Proxy: PROXY);
+                }
+
                 if (ISLOGIN)
                     return true;
                 if (Errmsg.IsNotBlank())
@@ -101,6 +123,7 @@ namespace Tidal
             string[] sArray = Guid.NewGuid().ToString().Split('-');
             for (int i = 0; i < sArray.Count(); i++)
                 sRet += sArray[i];
+            sRet = sRet.Substring(0, 16);
             return sRet;
         }
         #endregion
