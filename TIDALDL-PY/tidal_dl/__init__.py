@@ -204,7 +204,6 @@ def main(argv=None):
             dl.downloadByFile(strchoice)
 
 def debug():
-    logIn('yaronhuang+tidal@gmail.com', 'heniyiqi')
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
     #     pass
