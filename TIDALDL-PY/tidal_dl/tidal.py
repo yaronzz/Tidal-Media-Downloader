@@ -29,7 +29,7 @@ from pydub import AudioSegment
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
-TYPE_ARR = ['album', 'track', 'video', 'playlist']
+TYPE_ARR = ['album', 'track', 'video', 'playlist', 'artist']
 RESOLUTION = ['1080', '720', '480', '360', '240']
 
 
@@ -390,19 +390,23 @@ class TidalTool(object):
             str += '{:<8}'.format("[%d]" % i) + item['title'] + '\n'
         return str
 
-    def parseLink(self, link):
+    def parseLink(self,  link):
         link = link.strip()
         if link.find('http') < 0:
             return None, None
-        stype = re.findall(r"tidal.com/(.+?)/", link)
-        if len(stype) <= 0 or stype[0] not in TYPE_ARR:
-            return None, None
-        sid = re.findall(r"tidal.com/"+stype[0]+"/(.+)/", link)
-        if len(sid) <= 0:
-            sid = re.findall(r"tidal.com/"+stype[0]+"/(.+)", link)
-        if len(sid) <= 0:
-            return None, None
-        return stype[0], sid[0]
+
+        urlpres = ['tidal.com/', 'tidal.com/browse/']
+        for pre in urlpres:
+            stype = re.findall(pre + "(.+?)/", link)
+            if len(stype) <= 0 or stype[0] not in TYPE_ARR:
+                continue
+            sid = re.findall(pre+stype[0]+"/(.+)/", link)
+            if len(sid) <= 0:
+                sid = re.findall(pre+stype[0]+"/(.+)", link)
+            if len(sid) <= 0:
+                return None, None
+            return stype[0], sid[0]
+        return None, None
 
     def parseFile(self, path):
         cfp = configHelper.ParseNoEqual(path)

@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2020.1.30.0"
+TIDAL_DL_VERSION = "2020.2.14.0"
 
 
 def logIn(username="", password=""):
@@ -204,6 +204,7 @@ def main(argv=None):
             dl.downloadByFile(strchoice)
 
 def debug():
+    logIn('yaronhuang+tidal@gmail.com', 'heniyiqi')
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
     #     pass

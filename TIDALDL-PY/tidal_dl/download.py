@@ -369,7 +369,7 @@ class Download(object):
             print("[Duration   ]       %s" % (aTrackInfo['duration']))
             print("[TrackNumber]       %s" % (aTrackInfo['trackNumber']))
             print("[Explicit   ]       %s" % (aAlbumInfo['explicit']))
-            print("[Version    ]       %s\n" % (aTrackInfo['version']))
+            # print("[Version    ]       %s\n" % (aTrackInfo['version']))
 
             # Creat OutputDir
             targetDir = self.__creatAlbumDir(aAlbumInfo)
@@ -631,6 +631,9 @@ class Download(object):
         elif stype == "playlist":
             print("--------------PLAYLIST-----------------")
             self.downloadPlaylist(sid)
+        elif stype == "artist":
+            print("----------------ARTIST-----------------")
+            self.downloadArtistAlbum(self.config.includesingle, sid)
 
     def downloadByFile(self, path):
         if not os.path.exists(path):

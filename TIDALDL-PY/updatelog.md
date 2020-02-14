@@ -1,3 +1,8 @@
+#### 2020-02-14
+- Fix bug of download track
+- ByUrl: add artist
+- ByUrl: support 'https://tidal.com/browse/'
+
 #### 2020-01-22
 - Download artist album include singles(settings)
 - Download by file include artist

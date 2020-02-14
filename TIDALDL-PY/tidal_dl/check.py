@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 from aigpy import fileHelper
 
 class CheckTool(object):
@@ -25,4 +26,6 @@ class CheckTool(object):
                 flag = True
             index = index + 1
         return flag, errIndex
+
+
 
