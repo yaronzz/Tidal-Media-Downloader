@@ -3,7 +3,7 @@
 '''
 @File    :   download.py
 @Time    :   2019/02/27
-@Author  :   Yaron Huang 
+@Author  :   Yaron Huang
 @Version :   1.0
 @Contact :   yaronhuang@qq.com
 @Desc    :   Download Function
@@ -100,7 +100,7 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=showprogress,stimeout=20) 
+                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=showprogress,stimeout=20)
                     if check is True:
                         if paraList['key'] == '':
                             break
@@ -179,6 +179,13 @@ class Download(object):
         if int(albumInfo['numberOfVolumes']) > 1:
             path += 'Volume' + str(seq) + "/"
 
+        # truncate filename when it's longer than system's
+        # filename limit which is 255
+        len_sum = len(name) + len(extension)
+        if len_sum > 255:
+            diff = 255 - len_sum
+            name = name[: len(name) + diff]
+
         filePath = path + name + extension
         return filePath
 
@@ -191,11 +198,11 @@ class Download(object):
 
     def __getVideoResolutionIndex(self, reslist):
         array = []
-        # if reslist != None: 
-        #     for item in reslist: 
-        #         subs = item.split('x') 
-        #         subs = subs[1].split(',') 
-        #         array.append(int(subs[0])) 
+        # if reslist != None:
+        #     for item in reslist:
+        #         subs = item.split('x')
+        #         subs = subs[1].split(',')
+        #         array.append(int(subs[0]))
         for item in reslist:
             subs = item.split('x')
             subs = subs[1].split(',')
@@ -296,48 +303,48 @@ class Download(object):
                 if os.access(filePath, 0):
                     os.remove(filePath)
 
-                try: 
-                    resolutionList, urlList = self.tool.getVideoResolutionList(item['id']) 
-                    selectIndex = self.__getVideoResolutionIndex(resolutionList) 
-                    if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro): 
-                        printSUCCESS(14, item['title']) 
-                    else: 
-                        printErr(14, item['title']) 
-                except:  
-                    printErr(14, item['title']) 
+                try:
+                    resolutionList, urlList = self.tool.getVideoResolutionList(item['id'])
+                    selectIndex = self.__getVideoResolutionIndex(resolutionList)
+                    if self.ffmpeg.mergerByM3u8_Multithreading2(urlList[int(selectIndex)], filePath, showprogress=self.showpro):
+                        printSUCCESS(14, item['title'])
+                    else:
+                        printErr(14, item['title'])
+                except:
+                    printErr(14, item['title'])
             # return
 
         return
 
-    def downloadArtistAlbum(self, includeSingles=True, artistID=None): 
+    def downloadArtistAlbum(self, includeSingles=True, artistID=None):
         while True:
             print("-------------ARTIST ALBUM--------------")
-            if artistID is not None: 
-                sID = artistID 
-            else: 
-                sID = printChoice("Enter Artist ID(Enter '0' go back):", True, 0) 
+            if artistID is not None:
+                sID = artistID
+            else:
+                sID = printChoice("Enter Artist ID(Enter '0' go back):", True, 0)
                 if sID == 0:
-                    return 
- 
-            array = self.tool.getArtistAlbum(sID, includeSingles) 
+                    return
+
+            array = self.tool.getArtistAlbum(sID, includeSingles)
             if self.tool.errmsg != "":
                 printErr(0, "Get AlbumList Err! " + self.tool.errmsg)
                 continue
 
             redownload = True
-            if artistID is None: 
-                check = printChoice("Skip downloaded files?(y/n):") 
-                if not cmdHelper.isInputYes(check): 
-                    redownload = False 
+            if artistID is None:
+                check = printChoice("Skip downloaded files?(y/n):")
+                if not cmdHelper.isInputYes(check):
+                    redownload = False
 
             for index, item in enumerate(array):
                 print("----Album[{0}/{1}]----".format(index+1, len(array)))
                 self.downloadAlbum(item['id'], redownload)
-            
-            if artistID is not None: 
-                # Break out of the function if we are only downloading one artist's albums 
-                return 
- 
+
+            if artistID is not None:
+                # Break out of the function if we are only downloading one artist's albums
+                return
+
 
 
     def downloadTrack(self, track_id=None):
@@ -513,7 +520,7 @@ class Download(object):
                         paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item,
                                     'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
                     else:
-                        seq = self.tool.getIndexStr(index, len(aItemInfo)) 
+                        seq = self.tool.getIndexStr(index, len(aItemInfo))
                         filePath = targetDir2 + '/' + seq + " "+ pathHelper.replaceLimitChar(item['title'], '-') + fileType
                         paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item,
                                     'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
@@ -646,7 +653,7 @@ class Download(object):
         print("[Number of videos]       %s" % (len(arr['video'])))
         print("[Number of URLs]         %s" % (len(arr['url'])))
 
-        if len(arr['album']) > 0: 
+        if len(arr['album']) > 0:
             redownload = True
             check = printChoice("Skip downloaded files?(y/n):")
             if not cmdHelper.isInputYes(check):
@@ -656,11 +663,11 @@ class Download(object):
             print("----Album[{0}/{1}]----".format(index+1, len(arr['album'])))
             print("[ID]          %s" % (item))
             self.downloadAlbum(item, redownload)
-        for index, item in enumerate(arr['artist']): 
-            print(index) 
-            print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist']))) 
-            print("[ID]          %s" % (item)) 
-            self.downloadArtistAlbum(self.config.includesingle, item) 
+        for index, item in enumerate(arr['artist']):
+            print(index)
+            print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist'])))
+            print("[ID]          %s" % (item))
+            self.downloadArtistAlbum(self.config.includesingle, item)
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))
