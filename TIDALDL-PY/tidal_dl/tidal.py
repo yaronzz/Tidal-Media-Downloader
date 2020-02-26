@@ -523,7 +523,6 @@ class TidalConfig(object):
 
     def set_addyear(self, status):
         self.addyear = addyear
-
         configHelper.SetValue("base", "addyear", addyear, self.FILE_NAME)
 
     def set_addexplicit(self, status):
