@@ -131,8 +131,13 @@ class Download(object):
         # creat outputdir
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
         author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
-        if self.config.addyear == 'True':
-            title = '[' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + '] '+title
+        if self.config.addyear != 'No':
+            if self.config.addyear == 'Before':
+                title = '[' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + '] '+title
+            elif self.config.addyear == 'After':
+                title = title+' [' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + ']'
+            else:
+                title = title
         targetDir = self.config.outputdir + "/Album/" + author + '/' + title
         # targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
         targetDir = os.path.abspath(targetDir)

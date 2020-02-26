@@ -481,7 +481,7 @@ class TidalConfig(object):
         self.onlym4a = configHelper.GetValue("base", "onlym4a", "False", self.FILE_NAME)
         self.showprogress = configHelper.GetValue("base", "showprogress", "False", self.FILE_NAME)
         self.addhyphen = configHelper.GetValue("base", "addhyphen", "False", self.FILE_NAME)
-        self.addyear = configHelper.GetValue("base", "addyear", "False", self.FILE_NAME)
+        self.addyear = configHelper.GetValue("base", "addyear", "No", self.FILE_NAME)
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
@@ -522,11 +522,9 @@ class TidalConfig(object):
         configHelper.SetValue("base", "addhyphen", self.addhyphen, self.FILE_NAME)
 
     def set_addyear(self, status):
-        if status == 0:
-            self.addyear = "False"
-        else:
-            self.addyear = "True"
-        configHelper.SetValue("base", "addyear", self.addyear, self.FILE_NAME)
+        self.addyear = addyear
+
+        configHelper.SetValue("base", "addyear", addyear, self.FILE_NAME)
 
     def set_addexplicit(self, status):
         if status == 0:
