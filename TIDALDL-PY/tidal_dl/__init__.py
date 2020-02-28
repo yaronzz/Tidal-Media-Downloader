@@ -46,7 +46,7 @@ def showConfig():
     print("Only M4a                         : " + cf.onlym4a)
     print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
     print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
-    print("Add year                         : " + cf.addyear + "(before album title)")
+    print("Add year                         : " + cf.addyear + "(in album title)")
     print("Add explicit tag                 : " + cf.addexplicit)
     print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  : " + cf.includesingle + "(download artist album)")
@@ -64,7 +64,7 @@ def setting():
     print("Only M4a                         :\t" + cf.onlym4a)
     print("Show download progress           :\t" + cf.showprogress + "(enable when threadnum=1)")
     print("Use hyphens                      :\t" + cf.addhyphen + "(between number and title)")
-    print("Add year                         :\t" + cf.addyear + "(before album title)")
+    print("Add year                         :\t" + cf.addyear + "(in album title)")
     print("Add explicit tag                 :\t" + cf.addexplicit)
     print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  :\t" + cf.includesingle + "(download artist album)")
@@ -113,10 +113,24 @@ def setting():
             printErr(0, "ThreadNum Err")
             continue
         break
+
     status = myinputInt("Convert Mp4 to M4a(0-No, 1-Yes):".ljust(12), 0)
     status2 = myinputInt("Show download progress (only available on single thread)(0-No, 1-Yes):".ljust(12), 0)
     status3 = myinputInt("Use hyphens instead of spaces in file names(0-No, 1-Yes):".ljust(12), 0)
-    status4 = myinputInt("Add year to file names(0-No, 1-Yes):".ljust(12), 0)
+
+    while True:
+        index = myinputInt("Add year to album folder names(0-No, 1-Before, 2-After):".ljust(12), 99)
+        if index > 2 or index < 0:
+            printErr(0, "Addyear input Err")
+            continue
+        if index == 0:
+            addyear = 'No'
+        if index == 1:
+            addyear = 'Before'
+        if index == 2:
+            addyear = 'After'
+        break
+
     status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
     status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
     status7 = myinputInt("Download artist album include singles(0-No, 1-Yes):".ljust(12), 0)
@@ -128,7 +142,7 @@ def setting():
     cf.set_onlym4a(status)
     cf.set_showprogress(status2)
     cf.set_addhyphen(status3)
-    cf.set_addyear(status4)
+    cf.set_addyear(addyear)
     cf.set_plfile2arfolder(status5)
     cf.set_addexplicit(status6)
     cf.set_includesingle(status7)
@@ -157,7 +171,7 @@ def main(argv=None):
     print("Only M4a                         : " + cf.onlym4a)
     print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
     print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
-    print("Add year                         : " + cf.addyear + "(before album title)")
+    print("Add year                         : " + cf.addyear + "(in album title)")
     print("Add explicit tag                 : " + cf.addexplicit)
     print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  : " + cf.includesingle + "(download artist album)")
