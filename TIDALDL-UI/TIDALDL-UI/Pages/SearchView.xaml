@@ -51,7 +51,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Index}"/>
-                                <GridViewColumn Header="TITLE" Width="380" DisplayMemberBinding="{Binding Title}"/>
+                                <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding Flag}"/>
+                                <GridViewColumn Header="TITLE" Width="350" DisplayMemberBinding="{Binding Title}"/>
                                 <GridViewColumn Header="ARTIST" Width="260" DisplayMemberBinding="{Binding Artist}"/>
                                 <GridViewColumn Header="TIME" DisplayMemberBinding="{Binding Duration}"/>
                             </GridView>

@@ -987,6 +987,24 @@ namespace Tidal
             }
             return eResolution.e1080P;
         }
+
+        public static string getFlag(object item)
+        {
+            Type t = item.GetType();
+            if (typeof(Album) == t)
+            {
+                Album obj = (Album)item;
+                if (obj.AudioQuality == "HI_RES")
+                    return "M";
+            }
+            else if (typeof(Track) == t)
+            {
+                Track obj = (Track)item;
+                if (obj.AudioQuality == "HI_RES")
+                    return "M";
+            }
+            return null;
+        }
         #endregion
     }
 }

@@ -52,7 +52,7 @@
                             VerticalAlignment="Top" Height="30" Padding="0,4,16,4" BorderThickness="0,0,0,1" BorderBrush="#89000000"/>
                         <Label Content="ThreadNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,67,307,0" Height="30" />
                         <Label Content="SearchNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,97,307,0" Height="30" />
-                        <ComboBox SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,67,22,168">
+                        <ComboBox SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,67,22,168" IsEnabled="False">
                             <ComboBoxItem>1</ComboBoxItem>
                             <ComboBoxItem>2</ComboBoxItem>
                             <ComboBoxItem>3</ComboBoxItem>

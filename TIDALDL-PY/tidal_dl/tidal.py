@@ -43,8 +43,9 @@ class TidalTool(object):
     def _get(self, url, params={}):
         retry = 3
         sessionid = self.config.sessionid
-        if 'soundQuality' in params and params['soundQuality'] == 'LOSSLESS':
-            sessionid = self.config.sessionid2
+        if 'soundQuality' in params: 
+            if params['soundQuality'] == 'LOSSLESS' or params['soundQuality'] == 'DOLBY_ATMOS':
+                sessionid = self.config.sessionid2
 
         while retry > 0:
             retry -= 1
@@ -143,6 +144,7 @@ class TidalTool(object):
         obj.copyright = track_info['copyright']
         obj.tracknumber = track_info['trackNumber']
         obj.discnumber = track_info['volumeNumber']
+        obj.isrc = track_info['isrc']
         obj.composer = self._parseContributors('Composer', Contributors)
         if index is not None:
             obj.tracknumber = str(index)
@@ -219,7 +221,7 @@ class TidalTool(object):
             return info
         # sum = info['totalNumberOfItems']
         for item in info['items']:
-            if item['version'] is not None:
+            if 'version' in item and item['version'] is not None:
                 item['title'] += ' - ' + item['version']
         #     indexs = self._getIndexStr(item['trackNumber'],sum)
         #     item['title'] = indexs + " " + item['title']
@@ -239,7 +241,7 @@ class TidalTool(object):
 
     def getTrack(self, track_id):
         item = self._get('tracks/' + str(track_id))
-        if item['version'] is not None:
+        if 'version' in item and item['version'] is not None:
             item['title'] += ' - ' + item['version']
         return item
 
@@ -485,6 +487,14 @@ class TidalConfig(object):
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
+        self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
+
+    def set_savephoto(self, status):
+        if status == 0:
+            self.savephoto = "False"
+        else:
+            self.savephoto = "True"
+        configHelper.SetValue("base", "savephoto", self.savephoto, self.FILE_NAME)
 
     def set_includesingle(self, status):
         if status == 0:
@@ -522,8 +532,8 @@ class TidalConfig(object):
         configHelper.SetValue("base", "addhyphen", self.addhyphen, self.FILE_NAME)
 
     def set_addyear(self, status):
-        self.addyear = addyear
-        configHelper.SetValue("base", "addyear", addyear, self.FILE_NAME)
+        self.addyear = status
+        configHelper.SetValue("base", "addyear", status, self.FILE_NAME)
 
     def set_addexplicit(self, status):
         if status == 0:
