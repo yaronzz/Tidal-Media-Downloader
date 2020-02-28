@@ -3,6 +3,7 @@
 - Add Year: before/After
 - save covers(settings)
 - Flac: add isrc
+- Fix：no version in Tag
 
 #### 2020-02-14
 - Fix bug of download track

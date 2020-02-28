@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2020.2.28.0"
+TIDAL_DL_VERSION = "2020.2.28.1"
 
 
 def logIn(username="", password=""):
@@ -238,7 +238,7 @@ def debug():
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
     # dl.downloadVideo(57261945) #1hours
-
+    # tidal.com/browse/track/125155002 dubi
     dl.downloadVideo(84094460)
 
 # if __name__ == '__main__':

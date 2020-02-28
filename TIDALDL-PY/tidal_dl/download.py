@@ -526,6 +526,7 @@ class Download(object):
                             continue
 
                     streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
+                    # streamInfo = self.tool.getStreamUrl(str(item['id']), 'DOLBY_ATMOS')
                     if self.tool.errmsg != "":
                         printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                         continue

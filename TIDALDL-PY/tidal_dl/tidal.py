@@ -43,8 +43,9 @@ class TidalTool(object):
     def _get(self, url, params={}):
         retry = 3
         sessionid = self.config.sessionid
-        if 'soundQuality' in params and params['soundQuality'] == 'LOSSLESS':
-            sessionid = self.config.sessionid2
+        if 'soundQuality' in params: 
+            if params['soundQuality'] == 'LOSSLESS' or params['soundQuality'] == 'DOLBY_ATMOS':
+                sessionid = self.config.sessionid2
 
         while retry > 0:
             retry -= 1
@@ -220,7 +221,7 @@ class TidalTool(object):
             return info
         # sum = info['totalNumberOfItems']
         for item in info['items']:
-            if item['version'] is not None:
+            if 'version' in item and item['version'] is not None:
                 item['title'] += ' - ' + item['version']
         #     indexs = self._getIndexStr(item['trackNumber'],sum)
         #     item['title'] = indexs + " " + item['title']
@@ -240,7 +241,7 @@ class TidalTool(object):
 
     def getTrack(self, track_id):
         item = self._get('tracks/' + str(track_id))
-        if item['version'] is not None:
+        if 'version' in item and item['version'] is not None:
             item['title'] += ' - ' + item['version']
         return item
 
