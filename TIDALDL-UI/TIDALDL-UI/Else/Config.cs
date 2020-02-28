@@ -78,7 +78,9 @@ namespace TIDALDL_UI.Else
 
         public static string ThreadNum(string Setvalue = null)
         {
-            return SetOrGet("threadnum", Setvalue, "1");
+            //return SetOrGet("threadnum", Setvalue, "1");
+            SetOrGet("threadnum", Setvalue, "1");
+            return "1";
         }
 
         public static string SearchNum(string Setvalue = null)

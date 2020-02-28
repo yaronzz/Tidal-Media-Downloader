@@ -1,4 +1,8 @@
-﻿#### v1.1.0.11
+﻿#### v1.1.0.12
+- login by alias e-mail
+- Search view add 'M'-Flag
+
+#### v1.1.0.11
 - Fix bug of download artwork
 - Show errlabel when login err
 

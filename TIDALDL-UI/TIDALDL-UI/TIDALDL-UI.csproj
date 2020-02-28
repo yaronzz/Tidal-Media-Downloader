@@ -144,10 +144,6 @@
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SearchViewModel.cs" />
-    <Compile Include="Pages\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ShellViewModel.cs" />
     <Compile Include="Tidal\Enum.cs" />
     <Compile Include="Tidal\Model.cs" />
     <Compile Include="Tidal\TidalTool.cs" />
@@ -236,10 +232,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\SettingView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

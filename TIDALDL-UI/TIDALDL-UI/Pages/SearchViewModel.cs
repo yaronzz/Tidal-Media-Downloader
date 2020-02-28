@@ -20,12 +20,14 @@ namespace TIDALDL_UI.Pages
         public string Artist { get; set; }
         public string Duration { get; set; }
         public int Index { get; set; }
-        public SearchItem(int index, string title, string artist, string duration)
+        public string Flag { get; set; }//Quality or else
+        public SearchItem(int index, string title, string artist, string duration, string flag=null)
         {
             Index = index;
             Title = title;
             Artist = artist;
             Duration = duration;
+            Flag = flag;
         }
     }
 
@@ -118,15 +120,15 @@ namespace TIDALDL_UI.Pages
             VideoList = new List<SearchItem>();
             this.SearchInfo = SearchInfo;
             foreach (Playlist item in SearchInfo.Playlists)
-                PlayList.Add(new SearchItem(SearchInfo.Playlists.IndexOf(item) + 1, item.Title, item.Title, TimeHelper.ConverIntToString(item.Duration)));
+                PlayList.Add(new SearchItem(SearchInfo.Playlists.IndexOf(item) + 1, item.Title, item.Title, TimeHelper.ConverIntToString(item.Duration), TidalTool.getFlag(item)));
             foreach (Artist item in SearchInfo.Artists)
                 ArtistList.Add(new SearchItem(SearchInfo.Artists.IndexOf(item) + 1, item.Name, item.Name, ""));
             foreach (Album item in SearchInfo.Albums)
-                AlbumList.Add(new SearchItem(SearchInfo.Albums.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                AlbumList.Add(new SearchItem(SearchInfo.Albums.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration), TidalTool.getFlag(item)));
             foreach (Track item in SearchInfo.Tracks)
-                TrackList.Add(new SearchItem(SearchInfo.Tracks.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                TrackList.Add(new SearchItem(SearchInfo.Tracks.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration), TidalTool.getFlag(item)));
             foreach (Video item in SearchInfo.Videos)
-                VideoList.Add(new SearchItem(SearchInfo.Videos.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration)));
+                VideoList.Add(new SearchItem(SearchInfo.Videos.IndexOf(item) + 1, item.Title, item.Artists[0].Name, TimeHelper.ConverIntToString(item.Duration), TidalTool.getFlag(item)));
         }
     }
 }
