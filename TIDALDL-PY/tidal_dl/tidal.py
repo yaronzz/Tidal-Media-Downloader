@@ -143,6 +143,7 @@ class TidalTool(object):
         obj.copyright = track_info['copyright']
         obj.tracknumber = track_info['trackNumber']
         obj.discnumber = track_info['volumeNumber']
+        obj.isrc = track_info['isrc']
         obj.composer = self._parseContributors('Composer', Contributors)
         if index is not None:
             obj.tracknumber = str(index)
@@ -485,6 +486,14 @@ class TidalConfig(object):
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
+        self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
+
+    def set_savephoto(self, status):
+        if status == 0:
+            self.savephoto = "False"
+        else:
+            self.savephoto = "True"
+        configHelper.SetValue("base", "savephoto", self.savephoto, self.FILE_NAME)
 
     def set_includesingle(self, status):
         if status == 0:
@@ -522,8 +531,8 @@ class TidalConfig(object):
         configHelper.SetValue("base", "addhyphen", self.addhyphen, self.FILE_NAME)
 
     def set_addyear(self, status):
-        self.addyear = addyear
-        configHelper.SetValue("base", "addyear", addyear, self.FILE_NAME)
+        self.addyear = status
+        configHelper.SetValue("base", "addyear", status, self.FILE_NAME)
 
     def set_addexplicit(self, status):
         if status == 0:

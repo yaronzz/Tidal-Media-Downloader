@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2020.2.14.0"
+TIDAL_DL_VERSION = "2020.2.28.0"
 
 
 def logIn(username="", password=""):
@@ -50,6 +50,7 @@ def showConfig():
     print("Add explicit tag                 : " + cf.addexplicit)
     print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  : " + cf.includesingle + "(download artist album)")
+    print("Save covers                      : " + cf.savephoto)
     print("Version                          : " + TIDAL_DL_VERSION)
     myinput("Enter to return.")
 
@@ -68,6 +69,7 @@ def setting():
     print("Add explicit tag                 :\t" + cf.addexplicit)
     print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  :\t" + cf.includesingle + "(download artist album)")
+    print("Save covers                      : " + cf.savephoto)
     while True:
         outputdir = myinput("Output directory(Enter '0' Unchanged):".ljust(12))
         if outputdir == '0':
@@ -134,6 +136,7 @@ def setting():
     status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
     status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
     status7 = myinputInt("Download artist album include singles(0-No, 1-Yes):".ljust(12), 0)
+    status8 = myinputInt("Save covers(0-No, 1-Yes):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
     cf.set_quality(quality)
@@ -146,6 +149,7 @@ def setting():
     cf.set_plfile2arfolder(status5)
     cf.set_addexplicit(status6)
     cf.set_includesingle(status7)
+    cf.set_savephoto(status8)
 
     pathHelper.mkdirs(outputdir + "/Album/")
     pathHelper.mkdirs(outputdir + "/Playlist/")
@@ -175,6 +179,7 @@ def main(argv=None):
     print("Add explicit tag                 : " + cf.addexplicit)
     print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
     print("Include singles                  : " + cf.includesingle + "(download artist album)")
+    print("Save covers                      : " + cf.savephoto)
     print("Current Version                  : " + TIDAL_DL_VERSION)
     if onlineVer != None:
         print("Latest Version                   : " + onlineVer)

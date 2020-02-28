@@ -18,6 +18,7 @@ from aigpy import pathHelper
 from aigpy import netHelper
 from aigpy import fileHelper
 from aigpy import cmdHelper
+from aigpy import systemHelper
 
 # from tidal_dl.ffmpegHelper import FFmpegTool
 from aigpy.ffmpegHelper import FFmpegTool
@@ -184,14 +185,18 @@ class Download(object):
         if int(albumInfo['numberOfVolumes']) > 1:
             path += 'Volume' + str(seq) + "/"
 
+        maxlen = 255
+        if systemHelper.isLinux():
+            maxlen = 4090
         # truncate filename when it's longer than system's
         # filename limit which is 255
-        len_sum = len(name) + len(extension)
-        if len_sum > 255:
-            diff = 255 - len_sum
+        len_sum = len(path) + len(name) + len(extension)
+        if len_sum > maxlen:
+            diff = maxlen - len_sum
             name = name[: len(name) + diff]
 
         filePath = path + name + extension
+        checklen = len(filePath)
         return filePath
 
     def __getExistFiles(self, paths):
@@ -298,6 +303,10 @@ class Download(object):
             # wait all download thread
             self.thread.waitAll()
             self.tool.removeTmpFile(targetDir)
+            
+            # remove cover
+            if self.config.savephoto != 'True':
+                pathHelper.remove(coverPath)
 
             # download video
 
@@ -407,10 +416,15 @@ class Download(object):
                         'retry': 3,
                         'key': streamInfo['encryptionKey'],
                         'coverpath': coverPath}
+
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
             self.tool.removeTmpFile(targetDir)
+
+            # remove cover
+            if self.config.savephoto != 'True':
+                pathHelper.remove(coverPath)
         return
 
     def downloadVideo(self, video_id=None):
@@ -499,6 +513,7 @@ class Download(object):
             while bBreakFlag is False:
                 self.check.clear()
                 index = 0
+                tmpcoverpath = []
                 for item in aItemInfo:
                     type = item['type']
                     item = item['item']
@@ -535,6 +550,7 @@ class Download(object):
                         coverUrl = self.tool.getAlbumArtworkUrl(aAlbumInfo['cover'])
                         netHelper.downloadFile(coverUrl, coverPath)
                         paraList['coverpath'] = coverPath
+                        tmpcoverpath.append(coverPath)
                     except:
                         cmdHelper.myprint("Could not download artwork for '{}'".format(
                             item['title']), cmdHelper.TextColor.Red, None)
@@ -546,6 +562,11 @@ class Download(object):
                     self.thread.start(self.__thradfunc_dl, paraList)
                 self.thread.waitAll()
                 self.tool.removeTmpFile(targetDir)
+
+                # remove cover
+                if self.config.savephoto != 'True':
+                    for item in tmpcoverpath:
+                        pathHelper.remove(item)
 
                 bBreakFlag = True
                 bFirstTime = False
