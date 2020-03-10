@@ -1,4 +1,7 @@
-﻿#### v1.1.0.12
+﻿#### v1.1.0.13
+- Update token
+
+#### v1.1.0.12
 - login by alias e-mail
 - Search view add 'M'-Flag
 
