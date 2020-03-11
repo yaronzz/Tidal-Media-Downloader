@@ -140,6 +140,7 @@ namespace Tidal
             if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
                 sSessionID = SESSIONID_PHONE;
 
+        POINT_RETURN:
             string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);
             if (!string.IsNullOrEmpty(Errmsg))
             {
@@ -148,6 +149,11 @@ namespace Tidal
                 string sMessage = JsonHelper.GetValue(Errmsg, "userMessage");
                 if (sStatus.IsNotBlank() && sStatus == "404" && sSubStatus == "2001")
                     Errmsg = sMessage + ". This might be region-locked.";
+                else if (sStatus.IsNotBlank() && sStatus == "401" && sSubStatus == "4005")//'Asset is not ready for playback'
+                {
+                    sSessionID = SESSIONID_PHONE;
+                    goto POINT_RETURN;
+                }
                 else if (sStatus.IsNotBlank() && sStatus != "200")
                     Errmsg = sMessage + ". Get operation err!";
                 return null;

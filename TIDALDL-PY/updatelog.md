@@ -1,3 +1,6 @@
+#### 2020-03-11
+- Fix bug of 'Asset is not ready for playback'
+
 #### 2020-03-10
 - Update token
   

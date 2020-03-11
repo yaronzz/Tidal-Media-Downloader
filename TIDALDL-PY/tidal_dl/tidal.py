@@ -44,7 +44,7 @@ class TidalTool(object):
         retry = 3
         sessionid = self.config.sessionid
         if 'soundQuality' in params: 
-            if params['soundQuality'] == 'LOSSLESS' or params['soundQuality'] == 'DOLBY_ATMOS':
+            if params['soundQuality'] == 'LOSSLESS':
                 sessionid = self.config.sessionid2
 
         while retry > 0:
@@ -58,6 +58,9 @@ class TidalTool(object):
                     params=params).json()
                 if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
                     self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
+                elif 'status' in resp and resp['status'] == 401 and resp['subStatus'] == 4005: #'Asset is not ready for playback'
+                    sessionid = self.config.sessionid2
+                    continue
                 elif 'status' in resp and not resp['status'] == 200:
                     self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
                     # self.errmsg = "Get operation err!"

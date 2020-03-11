@@ -28,7 +28,7 @@
                 <Grid Height="282" Grid.Row="1">
                     <Image Margin="94,13,93,177" Source="pack://application:,,,/resource/tidal.jpg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Label Content="TIDAL-GUI" Margin="103,105,102,151" HorizontalAlignment="Center" FontWeight="Bold" Width="74"/>
-                    <Label Content="Copyright 2019 Yaron Inc." Margin="54,131,61,124" HorizontalAlignment="Center"/>
+                    <Label Content="Copyright 2019-2020 Yaron Inc." Margin="54,131,57,124" HorizontalAlignment="Center" Width="168"/>
                     <Label Content="All Rights Reserved." Margin="77,158,77,100" HorizontalAlignment="Center" Width="125"/>
                     <Label Content="{Binding Version}" Margin="77,182,77,76" HorizontalAlignment="Center" Width="125" HorizontalContentAlignment="Center"/>
                     <Button Margin="127,211,122,41" HorizontalAlignment="Center" 
