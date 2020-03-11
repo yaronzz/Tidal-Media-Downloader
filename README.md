@@ -41,3 +41,9 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 
 ### **Support**
 If you really like my projects and want to support me, you can star this project. 
+
+### **Disclaimer**
+- Private use only.
+- Need a Tidal subscription. 
+- You should not use this method to distribute or pirate music.
+- It may be illegal to use this in your country, so be informed.
