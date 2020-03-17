@@ -667,7 +667,7 @@ class Download(object):
             self.downloadPlaylist(sid)
         elif stype == "artist":
             print("----------------ARTIST-----------------")
-            self.downloadArtistAlbum(self.config.includesingle, sid)
+            self.downloadArtistAlbum(self.config.includesingle == "True", sid)
 
     def downloadByFile(self, path):
         if not os.path.exists(path):

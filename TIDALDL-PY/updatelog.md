@@ -1,3 +1,6 @@
+#### 2020-3-17 
+- Fix bug of download ArtistAlbum
+
 #### 2020-03-11
 - Fix bug of 'Asset is not ready for playback'
 

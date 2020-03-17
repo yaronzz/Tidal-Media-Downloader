@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
 
-TIDAL_DL_VERSION = "2020.3.11.0"
+TIDAL_DL_VERSION = "2020.3.17.0"
 
 
 def logIn(username="", password=""):
@@ -212,7 +212,7 @@ def main(argv=None):
         elif choice == 7:
             dl.downloadFavorite()
         elif choice == 8:
-            dl.downloadArtistAlbum(cf.includesingle)
+            dl.downloadArtistAlbum(cf.includesingle == "True")
         elif choice == 9: 
             showConfig()
         #Hidden Code For Developer [200-299]
