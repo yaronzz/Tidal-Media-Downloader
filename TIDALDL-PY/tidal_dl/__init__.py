@@ -135,7 +135,7 @@ def setting():
 
     status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
     status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
-    status7 = myinputInt("Download artist album include singles(0-No, 1-Yes):".ljust(12), 0)
+    status7 = myinputInt("Include singles and EPs when downloading an artist's albums (0-No, 1-Yes):".ljust(12), 0)
     status8 = myinputInt("Save covers(0-No, 1-Yes):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)

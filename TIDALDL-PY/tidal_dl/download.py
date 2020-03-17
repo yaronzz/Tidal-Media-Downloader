@@ -694,7 +694,8 @@ class Download(object):
             print(index)
             print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist'])))
             print("[ID]          %s" % (item))
-            self.downloadArtistAlbum(self.config.includesingle, item)
+            includeSingles = self.config.includesingle == "True"
+            self.downloadArtistAlbum(includeSingles, item)
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))
