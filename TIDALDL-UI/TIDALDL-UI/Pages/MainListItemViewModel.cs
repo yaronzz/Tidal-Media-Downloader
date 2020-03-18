@@ -22,6 +22,7 @@ namespace TIDALDL_UI.Pages
         public string Desc { get; set; }
         public BitmapImage Cover { get; private set; }
         public string BasePath { get; private set; }
+        public int AddYear { get; set; }
         public ObservableCollection<DownloadItem> DLItemList { get; set; }
         private BindableCollection<MainListItemViewModel> Parents { get; set; }
 
@@ -30,13 +31,14 @@ namespace TIDALDL_UI.Pages
 
         public MainListItemViewModel(object data, BindableCollection<MainListItemViewModel> parents)
         {
+            AddYear    = Config.AddYear();
             Parents    = parents;
             DLItemList = new ObservableCollection<DownloadItem>();
             if (data.GetType() == typeof(Album))
             {
                 Album album = (Album)data;
                 Title       = album.Title;
-                BasePath    = TidalTool.getAlbumFolder(Config.OutputDir(), album);
+                BasePath    = TidalTool.getAlbumFolder(Config.OutputDir(), album, AddYear);
                 Desc        = string.Format("by {0}-{1} Tracks-{2} Videos-{3}", album.Artist.Name, TimeHelper.ConverIntToString(album.Duration), album.NumberOfTracks, album.NumberOfVideos);
                 Cover       = AIGS.Common.Convert.ConverByteArrayToBitmapImage(album.CoverData);
 
@@ -81,8 +83,11 @@ namespace TIDALDL_UI.Pages
 
         private void AddAlbum(Album album)
         {
-            string CoverPath = TidalTool.getAlbumCoverPath(Config.OutputDir(), album);
-            FileHelper.Write(album.CoverData, true, CoverPath);
+            if (Config.SaveCovers())
+            {
+                string CoverPath = TidalTool.getAlbumCoverPath(Config.OutputDir(), album, AddYear);
+                FileHelper.Write(album.CoverData, true, CoverPath);
+            }
 
             foreach (Track item in album.Tracks)
                 DLItemList.Add(new DownloadItem(DLItemList.Count +1, item, null, album: album));

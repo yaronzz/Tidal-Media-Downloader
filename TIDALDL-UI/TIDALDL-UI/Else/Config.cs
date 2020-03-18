@@ -40,15 +40,39 @@ namespace TIDALDL_UI.Else
 
         public static bool OnlyM4a(string Setvalue = null)
         {
-            string sValue = SetOrGet("onlym4a", Setvalue, "./");
+            string sValue = SetOrGet("onlym4a", Setvalue, "true");
             if (sValue == null || sValue.ToLower() != "true")
                 return false;
             return true;
         }
 
+        public static bool AddExplicitTag(string Setvalue = null)
+        {
+            string sValue = SetOrGet("addexplicit", Setvalue, "false");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
+        public static bool IncludeEP(string Setvalue = null)
+        {
+            string sValue = SetOrGet("includesingle", Setvalue, "false");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
+        public static bool SaveCovers(string Setvalue = null)
+        {
+            string sValue = SetOrGet("savephoto", Setvalue, "true");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+        
         public static bool AddHyphen(string Setvalue = null)
         {
-            string sValue = SetOrGet("addhyphen", Setvalue, "./");
+            string sValue = SetOrGet("addhyphen", Setvalue, "true");
             if (sValue == null || sValue.ToLower() != "true")
                 return false;
             return true;
@@ -57,6 +81,29 @@ namespace TIDALDL_UI.Else
         public static string Quality(string Setvalue = null)
         {
             return SetOrGet("quality", Setvalue, "HIGH");
+        }
+
+        public static int AddYear(int Setvalue = -1)
+        {
+            if (Setvalue == -1)
+            {
+                string sValue = SetOrGet("addyear", null, "No").ToLower();
+                if (sValue == "before")
+                    return 1;
+                else if (sValue == "after")
+                    return 2;
+                return 0;
+            }
+            else
+            {
+                string sValue = "No";
+                if (Setvalue == 1) 
+                    sValue = "Before";
+                if (Setvalue == 2) 
+                    sValue = "After";
+                SetOrGet("addyear", sValue, "No");
+                return 0;
+            }
         }
 
         public static Dictionary<int, string> QualityList()
@@ -78,9 +125,9 @@ namespace TIDALDL_UI.Else
 
         public static string ThreadNum(string Setvalue = null)
         {
-            //return SetOrGet("threadnum", Setvalue, "1");
-            SetOrGet("threadnum", Setvalue, "1");
-            return "1";
+            return SetOrGet("threadnum", Setvalue, "1");
+            //SetOrGet("threadnum", Setvalue, "1");
+            //return "1";
         }
 
         public static string SearchNum(string Setvalue = null)
