@@ -252,7 +252,7 @@ namespace Tidal
         public static StreamUrl getStreamUrl(string ID, eSoundQuality eQuality, out string Errmsg)
         {
             string sQua = AIGS.Common.Convert.ConverEnumToString((int)eQuality, typeof(eSoundQuality), 0);
-            StreamUrl oObj = get<StreamUrl>("tracks/" + ID + "/streamUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
+            StreamUrl oObj = get<StreamUrl>("tracks/" + ID + "/offlineUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
             return oObj;
         }
 
