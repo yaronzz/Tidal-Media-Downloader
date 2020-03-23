@@ -25,6 +25,7 @@ from aigpy import configHelper
 from aigpy.ffmpegHelper import FFmpegTool
 # from tidal_dl import tagHelper
 from pydub import AudioSegment
+from tidal_dl.printhelper import printWarning
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
@@ -65,9 +66,9 @@ class TidalTool(object):
                     self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
                     # self.errmsg = "Get operation err!"
                 return resp
-            except:
+            except Exception as e:
                 if retry <= 0:
-                    self.errmsg = 'Function `Http-Get` Err!'
+                    self.errmsg = 'Function `Http-Get` Err! ' + str(e)
                     return None
 
     def setTag(self, tag, srcfile, coverpath=None):
@@ -167,7 +168,17 @@ class TidalTool(object):
                     pathHelper.remove(os.path.join(root, name))
 
     def getStreamUrl(self, track_id, quality):
-        return self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        url = self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        if not url:
+            resp = self._get('tracks/{}/playbackinfopostpaywall'.format(track_id), {
+                 'audioquality': quality,
+                 'playbackmode': 'STREAM',
+                 'assetpresentation': 'FULL'})
+            if resp and 'trackId' in resp:
+                #  printWarning(14, "Redirecting: {} -> {}".format(track_id, resp['trackId']))
+                track_id = resp['trackId']
+                url = self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        return url
 
     def _getArtists(self, pHash):
         ret = []

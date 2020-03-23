@@ -9,9 +9,9 @@ from aigpy.cmdHelper import myinput, myinputInt
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
+from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.3.17.0"
+TIDAL_DL_VERSION = "2020.3.23.0"
 
 
 def logIn(username="", password=""):
@@ -187,7 +187,7 @@ def main(argv=None):
 
     dl = Download(cf.threadnum)
     if not dl.ffmpeg.enable:
-        printWarring(0, "Couldn't find ffmpeg!\n")
+        printWarning(0, "Couldn't find ffmpeg!\n")
     while True:
         printMenu()
         strchoice, choice = printChoice2("Enter Choice:", 99)
@@ -232,8 +232,7 @@ def debug():
     # os.system("pip install aigpy --upgrade")
 
     dl = Download(1)
-    # dl.downloadTrack(66214149)
-    dl.downloadAlbum(90521280, True)
+    dl.downloadAlbum("120929182", True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
