@@ -45,7 +45,7 @@ def decrypt_security_token(security_token):
     return key, nonce
 
 
-def decrypt_file(file, key, nonce):
+def decrypt_file(efile, dfile, key, nonce):
     '''
     Decrypts an encrypted MQA file given the file, key and nonce
     '''
@@ -55,9 +55,9 @@ def decrypt_file(file, key, nonce):
     decryptor = AES.new(key, AES.MODE_CTR, counter=counter)
 
     # Open and decrypt
-    with open(file, 'rb') as eflac:
+    with open(efile, 'rb') as eflac:
         flac = decryptor.decrypt(eflac.read())
 
         # Replace with decrypted file
-        with open(file, 'wb') as dflac:
+        with open(dfile, 'wb') as dflac:
             dflac.write(flac)

@@ -1,3 +1,9 @@
+#### 2020-03-23
+- Fix downloading redirects that can be obtained through the
+  /playbackinfopostpaywall method.
+- When downloading, download to a .part file, which is then
+  either decrypted or renamed into place, to avoid leaving broken files.
+
 #### 2020-3-17 
 - Fix bug of download ArtistAlbum
 
