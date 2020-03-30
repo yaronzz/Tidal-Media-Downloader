@@ -9,9 +9,9 @@ from aigpy.cmdHelper import myinput, myinputInt
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarring, LOG
+from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.2.28.1"
+TIDAL_DL_VERSION = "2020.3.23.0"
 
 
 def logIn(username="", password=""):
@@ -135,7 +135,7 @@ def setting():
 
     status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
     status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
-    status7 = myinputInt("Download artist album include singles(0-No, 1-Yes):".ljust(12), 0)
+    status7 = myinputInt("Include singles and EPs when downloading an artist's albums (0-No, 1-Yes):".ljust(12), 0)
     status8 = myinputInt("Save covers(0-No, 1-Yes):".ljust(12), 0)
 
     cf.set_outputdir(outputdir)
@@ -187,7 +187,7 @@ def main(argv=None):
 
     dl = Download(cf.threadnum)
     if not dl.ffmpeg.enable:
-        printWarring(0, "Couldn't find ffmpeg!\n")
+        printWarning(0, "Couldn't find ffmpeg!\n")
     while True:
         printMenu()
         strchoice, choice = printChoice2("Enter Choice:", 99)
@@ -212,7 +212,7 @@ def main(argv=None):
         elif choice == 7:
             dl.downloadFavorite()
         elif choice == 8:
-            dl.downloadArtistAlbum(cf.includesingle)
+            dl.downloadArtistAlbum(cf.includesingle == "True")
         elif choice == 9: 
             showConfig()
         #Hidden Code For Developer [200-299]
@@ -232,8 +232,7 @@ def debug():
     # os.system("pip install aigpy --upgrade")
 
     dl = Download(1)
-    # dl.downloadTrack(66214149)
-    dl.downloadAlbum(90521280, True)
+    dl.downloadAlbum("120929182", True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)

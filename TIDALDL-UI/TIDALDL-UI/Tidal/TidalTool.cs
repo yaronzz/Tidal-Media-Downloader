@@ -31,7 +31,7 @@ namespace Tidal
 
         #region STATIC
         static string URL             = "https://api.tidalhifi.com/v1/";
-        static string TOKEN           = "4zx46pyr9o8qZNRw";
+        static string TOKEN           = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV";
         static string TOKEN_PHONE     = "kgsOOmYk3zShYrNP";
         static string VERSION         = "1.9.1";
         static byte[] MASTER_KEY      = System.Convert.FromBase64String("UIlTTEMmmLfGowo/UC60x2H45W6MdGgTRfo/umg4754=");
@@ -140,6 +140,7 @@ namespace Tidal
             if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
                 sSessionID = SESSIONID_PHONE;
 
+        POINT_RETURN:
             string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);
             if (!string.IsNullOrEmpty(Errmsg))
             {
@@ -148,6 +149,11 @@ namespace Tidal
                 string sMessage = JsonHelper.GetValue(Errmsg, "userMessage");
                 if (sStatus.IsNotBlank() && sStatus == "404" && sSubStatus == "2001")
                     Errmsg = sMessage + ". This might be region-locked.";
+                else if (sStatus.IsNotBlank() && sStatus == "401" && sSubStatus == "4005")//'Asset is not ready for playback'
+                {
+                    sSessionID = SESSIONID_PHONE;
+                    goto POINT_RETURN;
+                }
                 else if (sStatus.IsNotBlank() && sStatus != "200")
                     Errmsg = sMessage + ". Get operation err!";
                 return null;
@@ -337,7 +343,7 @@ namespace Tidal
 
         #region Artist
 
-        public static Artist getArtist(string ID, out string Errmsg, bool GetItem = false)
+        public static Artist getArtist(string ID, out string Errmsg, bool GetItem = false, bool IncludeEp = true)
         {
             Artist oObj = get<Artist>("artists/" + ID, out Errmsg);
             if (oObj == null)
@@ -349,10 +355,13 @@ namespace Tidal
             if (GetItem)
             {
                 ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
-                ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } });
-                for (int i = 0; i < eps.Count; i++)
+                if (IncludeEp)
                 {
-                    albums.Add(eps[i]);
+                    ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } });
+                    for (int i = 0; i < eps.Count; i++)
+                    {
+                        albums.Add(eps[i]);
+                    }
                 }
                 oObj.Albums = albums;
 
@@ -662,15 +671,13 @@ namespace Tidal
                     tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
 
                 //Cover
-                if (CoverPath.IsNotBlank())
-                {
-                    var pictures = new Picture[1];
-                    if(!System.IO.File.Exists(CoverPath))
-                        pictures[0] = new Picture(TidalAlbum.CoverData);
-                    else
-                        pictures[0]  = new Picture(CoverPath);
-                    tfile.Tag.Pictures = pictures;
-                }
+                var pictures = new Picture[1];
+                if (CoverPath.IsNotBlank() && System.IO.File.Exists(CoverPath))
+                    pictures[0] = new Picture(CoverPath);
+                else if(TidalAlbum.CoverData != null)
+                    pictures[0] = new Picture(TidalAlbum.CoverData);
+                        
+                tfile.Tag.Pictures = pictures;
 
                 tfile.Save();
                 return null;
@@ -711,15 +718,26 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
 
-        public static string getAlbumFolder(string basePath, Album album)
+        public static string getAlbumFolder(string basePath, Album album, int addYear = 0)
         {
-            string sRet = string.Format("{0}/Album/{1}/{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title));
+            string sRet;
+            if(addYear < 1 || addYear > 2 || album.ReleaseDate.IsBlank())
+                sRet = string.Format("{0}/Album/{1}/{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title));
+            else
+            {
+                string sYearStr = '[' + album.ReleaseDate.Substring(0,4) + ']';
+                if(addYear == 1)
+                    sRet = string.Format("{0}/Album/{1}/{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+                else
+                    sRet = string.Format("{0}/Album/{1}/{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+            }
+
             return Path.GetFullPath(sRet);
         }
 
-        public static string getAlbumCoverPath(string basePath,Album album)
+        public static string getAlbumCoverPath(string basePath, Album album, int addYear = 0)
         {
-            string sAlbumDir = getAlbumFolder(basePath, album);
+            string sAlbumDir = getAlbumFolder(basePath, album, addYear);
             string title = Regex.Replace(album.Title.Replace("（", "(").Replace("）", ")"), @"\([^\(]*\)", "");
             string sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title));
             if (sRet.Length >= 260)
@@ -730,27 +748,38 @@ namespace Tidal
             return Path.GetFullPath(sRet);
         }
             
-        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, bool hyphen=false, Playlist plist=null, string trackTitle = null, bool artistBeforeTitle = false)
+        public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, 
+                                            bool hyphen=false, Playlist plist=null, string trackTitle = null, 
+                                            bool artistBeforeTitle = false, bool addexplicit=false, int addYear = 0)
         {
+            //Get sArtistStr
             string sArtistStr = "";
             if (artistBeforeTitle && track.Artist != null)
             {
                 sArtistStr = formatPath(track.Artist.Name) + " - ";
             }
 
+            //Get Explicit
+            string sExplicitStr = "";
+            if(addexplicit && track.Explicit)
+            {
+                sExplicitStr = "(Explicit)";
+            }
+
             if (album != null)
             {
-                string sAlbumDir = getAlbumFolder(basePath, album);
+                string sAlbumDir = getAlbumFolder(basePath, album, addYear);
                 string sTrackDir = sAlbumDir;
                 if (album.NumberOfVolumes > 1)
                     sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
 
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}{4}",
-                    track.TrackNumber.ToString().PadLeft(2, '0'),
+                string sName = string.Format("{0} {1}{2}{3}{4}{5}",
+                    track.TrackNumber.ToString().PadLeft(2, '0'),  
                     sChar,
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
+                    sExplicitStr,
                     getExtension(sdlurl));
 
                 string sRet = sTrackDir + sName;
@@ -773,7 +802,7 @@ namespace Tidal
             }
         }
 
-        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null, bool artistBeforeTitle = false)
+        public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null, bool artistBeforeTitle = false, int addYear = 0)
         {
             string sArtistStr = "";
             if(artistBeforeTitle && video.Artist != null)
@@ -783,7 +812,7 @@ namespace Tidal
 
             if (album != null)
             {
-                string sRet = getAlbumFolder(basePath, album) + sArtistStr + formatPath(video.Title) + sExt;
+                string sRet = getAlbumFolder(basePath, album, addYear) + sArtistStr + formatPath(video.Title) + sExt;
                 return Path.GetFullPath(sRet);
 
             }
@@ -912,7 +941,7 @@ namespace Tidal
             if (inType == eObjectType.VIDEO)
                 goto POINT_ERR;
         POINT_ARTIST:
-            oRet = getArtist(sStr, out sErrmsg, true);
+            oRet = getArtist(sStr, out sErrmsg, true, Config.IncludeEP());
             if (oRet != null)
             {
                 eType = eObjectType.ARTIST;

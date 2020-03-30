@@ -1,4 +1,18 @@
-﻿#### v1.1.0.12
+﻿#### v1.1.0.15
+- Fix bug of Multithreading-Download model
+- Setting:  
+1. AddYear
+2. IncludeSingle
+3. SaveCovers
+4. AddExplicit
+
+#### v1.1.0.14
+- Fix bug of 'Asset is not ready for playback'
+
+#### v1.1.0.13
+- Update token
+
+#### v1.1.0.12
 - login by alias e-mail
 - Search view add 'M'-Flag
 

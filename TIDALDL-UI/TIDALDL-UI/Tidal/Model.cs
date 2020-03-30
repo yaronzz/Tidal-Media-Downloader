@@ -76,7 +76,7 @@ namespace Tidal
         public string Url { get; set; }
         public string Isrc { get; set; }
         public bool Editable { get; set; }
-        public bool Exclicit { get; set; }
+        public bool Explicit { get; set; }
         public string AudioQuality { get; set; }
         public Artist Artist { get; set; }
         public ObservableCollection<Artist> Artists { get; set; }

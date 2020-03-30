@@ -101,12 +101,17 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path'], showprogress=showprogress,stimeout=20)
+                    check = netHelper.downloadFile(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20)
                     if check is True:
                         if paraList['key'] == '':
+                            # unencrypted -> just move into place
+                            os.replace(paraList['path']+'.part', paraList['path'])
                             break
-                        key, nonce = decrypt_security_token(paraList['key'])
-                        decrypt_file(paraList['path'], key, nonce)
+                        else:
+                            # encrypted -> decrypt and remove encrypted file
+                            key, nonce = decrypt_security_token(paraList['key'])
+                            decrypt_file(paraList['path']+'.part', paraList['path'], key, nonce)
+                            os.remove(paraList['path']+'.part')
                         break
                 if check:
                     bIsSuccess = True
@@ -114,8 +119,8 @@ class Download(object):
                     self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'],
                                                albumInfo, index, coverpath, Contributors)
                     pstr = paraList['title']
-            except:
-                pass
+            except Exception as e:
+                printErr(14, str(e) + " while downloading " + paraList['url'])
         else:
             pstr = paraList['title']
             bIsSuccess = True
@@ -284,7 +289,7 @@ class Download(object):
             # download album tracks
             for item in aAlbumTracks['items']:
                 streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
-                if self.tool.errmsg != "":
+                if self.tool.errmsg != "" or not streamInfo:
                     printErr(14, item['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                     continue
 
@@ -402,7 +407,7 @@ class Download(object):
 
             # download
             streamInfo = self.tool.getStreamUrl(sID, self.config.quality)
-            if self.tool.errmsg != "":
+            if self.tool.errmsg != "" or not streamInfo:
                 printErr(14, aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
 
@@ -527,7 +532,7 @@ class Download(object):
 
                     streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
                     # streamInfo = self.tool.getStreamUrl(str(item['id']), 'DOLBY_ATMOS')
-                    if self.tool.errmsg != "":
+                    if self.tool.errmsg != "" or not streamInfo:
                         printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                         continue
                     aAlbumInfo = self.tool.getAlbum(item['album']['id'])
@@ -620,7 +625,7 @@ class Download(object):
         for item in trackList:
             item = item['item']
             streamInfo = self.tool.getStreamUrl(str(item['id']), self.config.quality)
-            if self.tool.errmsg != "":
+            if self.tool.errmsg != "" or not streamInfo:
                 printErr(14, item['title'] + "(Get Stream Url Err!!" + self.tool.errmsg + ")")
                 continue
 
@@ -667,7 +672,7 @@ class Download(object):
             self.downloadPlaylist(sid)
         elif stype == "artist":
             print("----------------ARTIST-----------------")
-            self.downloadArtistAlbum(self.config.includesingle, sid)
+            self.downloadArtistAlbum(self.config.includesingle == "True", sid)
 
     def downloadByFile(self, path):
         if not os.path.exists(path):
@@ -694,7 +699,8 @@ class Download(object):
             print(index)
             print("----Artist[{0}/{1}]----".format(index+1, len(arr['artist'])))
             print("[ID]          %s" % (item))
-            self.downloadArtistAlbum(self.config.includesingle, item)
+            includeSingles = self.config.includesingle == "True"
+            self.downloadArtistAlbum(includeSingles, item)
         for index, item in enumerate(arr['track']):
             print("----Track[{0}/{1}]----".format(index+1, len(arr['track'])))
             print("[ID]                %s" % (item))

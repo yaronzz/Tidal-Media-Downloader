@@ -37,6 +37,8 @@ namespace TIDALDL_UI.Else
         public bool ToChinese { get; set; }
         public bool CheckExist { get; set; }
         public bool ArtistBeforeTitle { get; set; }
+        public bool AddExplict { get; set; }
+        public int AddYear { get; set; }
         
         ///// <summary>
         ///// Progress 
@@ -60,6 +62,8 @@ namespace TIDALDL_UI.Else
             ToChinese  = Config.ToChinese();
             CheckExist = Config.CheckExist();
             ArtistBeforeTitle = Config.ArtistBeforeTitle();
+            AddExplict = Config.AddExplicitTag();
+            AddYear    = Config.AddYear();
 
             if (TidalTrack != null)
             {
@@ -127,7 +131,7 @@ namespace TIDALDL_UI.Else
             string[] TidalVideoUrls = TidalTool.getVideoDLUrls(TidalVideo.ID.ToString(), Resolution, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
-            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts", hyphen: AddHyphen, plist: TidalPlaylist, artistBeforeTitle:ArtistBeforeTitle);
+            string TsFilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, ".ts", hyphen: AddHyphen, plist: TidalPlaylist, artistBeforeTitle:ArtistBeforeTitle, addYear:AddYear);
 
             //Download
             Progress.StatusMsg = "Start...";
@@ -138,7 +142,7 @@ namespace TIDALDL_UI.Else
             }
             
             //Convert
-            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle);
+            FilePath = TidalTool.getVideoPath(OutputDir, TidalVideo, TidalAlbum, hyphen:AddHyphen, plist:TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle, addYear: AddYear);
             if(!FFmpegHelper.IsExist())
             {
                 Errlabel = "FFmpeg is not exist!";
@@ -175,7 +179,7 @@ namespace TIDALDL_UI.Else
                 goto ERR_RETURN;
 
             //Get path
-            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle);
+            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, addYear:AddYear);
 
             //Check if song is downloaded already
             string CheckName = OnlyM4a ? FilePath.Replace(".mp4", ".m4a") : FilePath;
@@ -196,7 +200,7 @@ namespace TIDALDL_UI.Else
                 string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
                 if (chnname != TidalTrack.Title)
                 {
-                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname, artistBeforeTitle: ArtistBeforeTitle);
+                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, addYear: AddYear);
                     TidalTrack.Title = chnname;
                 }
             }
@@ -232,7 +236,7 @@ namespace TIDALDL_UI.Else
                         string sErrcode = null;
                         TidalAlbum = TidalTool.getAlbum(TidalTrack.Album.ID.ToString(), out sErrcode);
                     }
-                    string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum), pContributors);
+                    string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum, AddYear), pContributors);
                     if (sLabel.IsNotBlank())
                     {
                         Errlabel = "Set metadata failed!";

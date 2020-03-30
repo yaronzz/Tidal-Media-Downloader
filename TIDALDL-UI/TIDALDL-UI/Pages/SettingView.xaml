@@ -39,6 +39,7 @@
                         </StackPanel>
                     </Border>
 
+                    <!--Common config Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
                     <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="OutputDir" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -52,12 +53,10 @@
                             VerticalAlignment="Top" Height="30" Padding="0,4,16,4" BorderThickness="0,0,0,1" BorderBrush="#89000000"/>
                         <Label Content="ThreadNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,67,307,0" Height="30" />
                         <Label Content="SearchNum" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,97,307,0" Height="30" />
-                        <ComboBox SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,67,22,168" IsEnabled="False">
+                        <ComboBox SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,67,22,168">
                             <ComboBoxItem>1</ComboBoxItem>
                             <ComboBoxItem>2</ComboBoxItem>
                             <ComboBoxItem>3</ComboBoxItem>
-                            <ComboBoxItem>4</ComboBoxItem>
-                            <ComboBoxItem>5</ComboBoxItem>
                         </ComboBox>
                         <ComboBox SelectedIndex="{Binding SearchNum, UpdateSourceTrigger=PropertyChanged}" Margin="107,94,22,141">
                             <ComboBoxItem>10</ComboBoxItem>
@@ -67,11 +66,22 @@
                             <ComboBoxItem>50</ComboBoxItem>
                         </ComboBox>
 
-                        <Label Content="Artist-Title" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,126,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,126,262,0"/>
+                        <Label Content="AddYear" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,127,307,0" Height="30" />
+                        <ComboBox SelectedIndex="{Binding AddYearIndex, UpdateSourceTrigger=PropertyChanged}" Margin="107,126,22,109">
+                            <ComboBoxItem>No</ComboBoxItem>
+                            <ComboBoxItem>Before</ComboBoxItem>
+                            <ComboBoxItem>After</ComboBoxItem>
+                        </ComboBox>
 
+                        <Label Content="Artist-Title" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,157,312,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,157,262,0"/>
+                        <Label Content="IncludeSingle" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,187,307,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IncludeEPSingle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,187,262,0"/>
+                        <Label Content="SaveCovers" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,217,307,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding SaveCovers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,217,262,0"/>
                     </Grid>
 
+                    <!--Track config   Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
                     <Grid Grid.Column="1" Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="Quality" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <ComboBox ItemsSource="{Binding QualityList}"
@@ -83,10 +93,11 @@
                         <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,97,262,0"/>
                         <Label Content="CheckExist" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,127,312,0" Height="30" />
                         <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding CheckExist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,127,262,0"/>
-                        <Label Content="ToChinese" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,157,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ToChinese, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,157,262,0"/>
+                        <Label Content="AddExplicit" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,157,312,0" Height="30" />
+                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddExplicitTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,157,262,0"/>
                     </Grid>
 
+                    <!--Video config-->
                     <Grid Grid.Column="1" Visibility="{Binding CheckVideo, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Label Content="Resolution" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
                         <ComboBox ItemsSource="{Binding ResolutionList}"

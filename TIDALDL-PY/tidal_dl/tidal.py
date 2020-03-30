@@ -25,6 +25,7 @@ from aigpy import configHelper
 from aigpy.ffmpegHelper import FFmpegTool
 # from tidal_dl import tagHelper
 from pydub import AudioSegment
+from tidal_dl.printhelper import printWarning
 
 VERSION = '1.9.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
@@ -44,7 +45,7 @@ class TidalTool(object):
         retry = 3
         sessionid = self.config.sessionid
         if 'soundQuality' in params: 
-            if params['soundQuality'] == 'LOSSLESS' or params['soundQuality'] == 'DOLBY_ATMOS':
+            if params['soundQuality'] == 'LOSSLESS':
                 sessionid = self.config.sessionid2
 
         while retry > 0:
@@ -58,13 +59,16 @@ class TidalTool(object):
                     params=params).json()
                 if 'status' in resp and resp['status'] == 404 and resp['subStatus'] == 2001:
                     self.errmsg = '{}. This might be region-locked.'.format(resp['userMessage'])
+                elif 'status' in resp and resp['status'] == 401 and resp['subStatus'] == 4005: #'Asset is not ready for playback'
+                    sessionid = self.config.sessionid2
+                    continue
                 elif 'status' in resp and not resp['status'] == 200:
                     self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
                     # self.errmsg = "Get operation err!"
                 return resp
-            except:
+            except Exception as e:
                 if retry <= 0:
-                    self.errmsg = 'Function `Http-Get` Err!'
+                    self.errmsg = 'Function `Http-Get` Err! ' + str(e)
                     return None
 
     def setTag(self, tag, srcfile, coverpath=None):
@@ -164,7 +168,17 @@ class TidalTool(object):
                     pathHelper.remove(os.path.join(root, name))
 
     def getStreamUrl(self, track_id, quality):
-        return self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        url = self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        if not url:
+            resp = self._get('tracks/{}/playbackinfopostpaywall'.format(track_id), {
+                 'audioquality': quality,
+                 'playbackmode': 'STREAM',
+                 'assetpresentation': 'FULL'})
+            if resp and 'trackId' in resp:
+                #  printWarning(14, "Redirecting: {} -> {}".format(track_id, resp['trackId']))
+                track_id = resp['trackId']
+                url = self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
+        return url
 
     def _getArtists(self, pHash):
         ret = []
@@ -430,7 +444,7 @@ class TidalTool(object):
 
 class TidalAccount(object):
     def __init__(self, username, password, bymobile=False):
-        token = '4zx46pyr9o8qZNRw'
+        token = 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV'
         if bymobile == True:
             token = 'kgsOOmYk3zShYrNP'
 
