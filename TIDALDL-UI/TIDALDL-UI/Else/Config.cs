@@ -25,6 +25,19 @@ namespace TIDALDL_UI.Else
                 ConfigHelper.SetValue(Key, SetValue, Group, CONFIGPATH);
             return null;
         }
+        private static string SetOrGetPrivate(string Key, string SetValue = null, string GetDefault = "", string Group = null)
+        {
+            if (Group.IsBlank())
+                Group = BASEGROUP;
+            if (SetValue.IsBlank())
+            {
+                string sTmp = ConfigHelper.GetValue(Key, GetDefault, Group, CONFIGPATH);
+                return Decode(sTmp);
+            }
+            else
+                ConfigHelper.SetValue(Key, Encode(SetValue), Group, CONFIGPATH);
+            return null;
+        }
 
 
         #region Base Config
@@ -137,12 +150,12 @@ namespace TIDALDL_UI.Else
 
         public static string Username(string Setvalue = null)
         {
-            return SetOrGet("username", Setvalue, "");
+            return SetOrGetPrivate("username", Setvalue, "");
         }
 
         public static string Password(string Setvalue = null)
         {
-            return SetOrGet("password", Setvalue, "");
+            return SetOrGetPrivate("password", Setvalue, "");
         }
 
         public static string Sessionid(string Setvalue = null)
@@ -246,8 +259,8 @@ namespace TIDALDL_UI.Else
             int iNum      = AIGS.Common.Convert.ConverStringToInt(sValue, 0);
             for (int i = 0; i < iNum; i++)
             {
-                string sUser = SetOrGet("historyuser" + i, null, "", HISTORYGROUP);
-                string sPwd  = SetOrGet("historypwd" + i, null, "", HISTORYGROUP);
+                string sUser = SetOrGetPrivate("historyuser" + i, null, "", HISTORYGROUP);
+                string sPwd  = SetOrGetPrivate("historypwd" + i, null, "", HISTORYGROUP);
                 if (sUser.IsNotBlank() && pRet.FindIndex((Property user) => user.Key.ToString() == sUser) < 0)
                     pRet.Add(new Property(sUser, sPwd));
             }
@@ -267,8 +280,8 @@ namespace TIDALDL_UI.Else
             pArray.Insert(0, new Property(sUsername, sPassword));
             for (int i = 0; i < pArray.Count; i++)
             {
-                SetOrGet("historyuser" + i, pArray[i].Key.ToString(), "", HISTORYGROUP);
-                SetOrGet("historypwd" + i, pArray[i].Value.ToString(), "", HISTORYGROUP);
+                SetOrGetPrivate("historyuser" + i, pArray[i].Key.ToString(), "", HISTORYGROUP);
+                SetOrGetPrivate("historypwd" + i, pArray[i].Value.ToString(), "", HISTORYGROUP);
             }
             SetOrGet("historyusernum", pArray.Count.ToString(), "", HISTORYGROUP);
             Username(sUsername);
@@ -308,6 +321,27 @@ namespace TIDALDL_UI.Else
                 SetOrGet("historysearch" + i, pArray[i], "", HISTORYGROUP);
             SetOrGet("historysearchnum", pArray.Count.ToString(), "", HISTORYGROUP);
         }
-        #endregion  
+        #endregion
+
+
+        #region Encryption
+        private static string EncryptionFlag = "Ax*~!9";
+        private static string Encode(string sStr)
+        {
+            if (sStr.IsBlank())
+                return sStr;
+            string sTmp = EncryptHelper.Encode(sStr, Tidal.TidalTool.USER_INFO_KEY);
+            return EncryptionFlag + sTmp;
+        }
+        private static string Decode(string data)
+        {
+            if (data.IsBlank())
+                return data;
+            if (data.IndexOf(EncryptionFlag) != 0)
+                return data;
+            string sTmp = data.Substring(EncryptionFlag.Length);
+            return EncryptHelper.Decode(sTmp, Tidal.TidalTool.USER_INFO_KEY);
+        }
+        #endregion
     }
 }

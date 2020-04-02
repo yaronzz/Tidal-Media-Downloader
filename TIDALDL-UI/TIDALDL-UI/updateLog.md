@@ -1,6 +1,8 @@
-﻿#### v1.1.0.15
+﻿- Encrypt user-password
+
+#### v1.1.0.15
 - Fix bug of Multithreading-Download model
-- Setting:  
+- Settings:  
 1. AddYear
 2. IncludeSingle
 3. SaveCovers

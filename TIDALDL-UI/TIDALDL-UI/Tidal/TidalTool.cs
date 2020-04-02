@@ -26,7 +26,6 @@ namespace Tidal
         const int ARTIST_COVER_SIZE = 480;
         const int PLAYLIST_COVER_SIZE = 480;
         const int VIDEO_COVER_SIZE = 1280;
-
         #endregion
 
         #region STATIC
@@ -44,6 +43,7 @@ namespace Tidal
         static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/"};
         public static HttpHelper.ProxyInfo PROXY = null;
         static int    SEARCH_NUM      = 30;
+        public static string USER_INFO_KEY = "hOjn45fP";
         #endregion
 
         #region Login
