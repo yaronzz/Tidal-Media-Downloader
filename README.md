@@ -3,8 +3,8 @@ Tidal-Media-Downloader is an application that lets you download videos and track
 
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
-- [**English Install Documentation**](https://yaronzz.top/2020/03/16/3%20Tidal-Media-Downloader-Installation-Documentation/)
-- [**中文安装文档**](https://yaronzz.top/2020/03/16/3%20Tidal-Media-Downloader%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/)
+- [**English Install Documentation**](https://yaronzz.top/post/tidal_dl_installation/)
+- [**中文安装文档**](https://yaronzz.top/post/tidal_dl_installation_chn/)
 
 ### **Download**
 - [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases) : windows
