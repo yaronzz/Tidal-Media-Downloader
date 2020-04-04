@@ -1,4 +1,4 @@
-<div align='center' ><font size='60'>Tidal-Media-Downloader</font></div>
+<p align='center' ><font size="15">Tidal-Media-Downloader</font></p>
 
 <div align="center">
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/LICENSE">
@@ -36,6 +36,7 @@
   root:~# tidal-dl 
   ```
 - Android: [install on android](https://t.me/tidal_dl_bot)
+- Detailed description: [Documentation](https://yaronzz.top/post/tidal_dl_installation/)
 
 ## **Requirement**
 - [FFmpeg](http://ffmpeg.org/) : Convert video
