@@ -1,6 +1,5 @@
-<p align='center' ><font size="15">Tidal-Media-Downloader</font></p>
-
 <div align="center">
+  <h1>Tidal-Media-Downloader</h1>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/yaronzz/Tidal-Media-Downloader.svg?style=flat-square" alt="">
   </a>
@@ -28,7 +27,7 @@
 ----
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
-## **Installation**
+### **Installation**
 - Windows: [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases)
 - Windows\Linux\MacOs:
   ``` python
@@ -38,7 +37,7 @@
 - Android: [install on android](https://t.me/tidal_dl_bot)
 - Detailed description: [Documentation](https://yaronzz.top/post/tidal_dl_installation/)
 
-## **Requirement**
+### **Requirement**
 - [FFmpeg](http://ffmpeg.org/) : Convert video
 
 ### **Telegram**
