@@ -32,7 +32,8 @@ namespace TIDALDL_UI.Else
         public string sType { get; set; }
         public int ErrlabelHeight { get; set; }
         public bool OnlyM4a { get; set; }
-        public bool AddHyphen { get; set; } 
+        public bool AddHyphen { get; set; }
+        public bool UseTrackNumber { get; set; }
         public string Own { get; set; }
         public bool ToChinese { get; set; }
         public bool CheckExist { get; set; }
@@ -58,6 +59,7 @@ namespace TIDALDL_UI.Else
             Progress   = new ProgressHelper();
             OnlyM4a    = Config.OnlyM4a();
             AddHyphen  = Config.AddHyphen();
+            UseTrackNumber = Config.UseTrackNumber();
             Own        = album == null?null : album.Title;
             ToChinese  = Config.ToChinese();
             CheckExist = Config.CheckExist();
@@ -179,7 +181,10 @@ namespace TIDALDL_UI.Else
                 goto ERR_RETURN;
 
             //Get path
-            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, addYear:AddYear);
+            FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url,
+                AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, 
+                addYear: AddYear, useTrackNumber: UseTrackNumber);
+
 
             //Check if song is downloaded already
             string CheckName = OnlyM4a ? FilePath.Replace(".mp4", ".m4a") : FilePath;
@@ -200,7 +205,9 @@ namespace TIDALDL_UI.Else
                 string chnname = Chinese.convertSongTitle(TidalTrack.Title, cloalbum);
                 if (chnname != TidalTrack.Title)
                 {
-                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, AddHyphen, TidalPlaylist, chnname, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, addYear: AddYear);
+                    FilePath = TidalTool.getTrackPath(OutputDir, TidalPlaylist != null ? null : TidalAlbum, TidalTrack, TidalStream.Url, 
+                        AddHyphen, TidalPlaylist, chnname, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, 
+                        addYear: AddYear, useTrackNumber: UseTrackNumber);
                     TidalTrack.Title = chnname;
                 }
             }
