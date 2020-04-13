@@ -1,0 +1,3612 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Stylet</name>
+    </assembly>
+    <members>
+        <member name="T:Stylet.IObservableCollection`1">
+            <summary>
+            Represents a collection which is observasble
+            </summary>
+            <typeparam name="T">The type of elements in the collections</typeparam>
+        </member>
+        <member name="M:Stylet.IObservableCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add a range of items
+            </summary>
+            <param name="items">Items to add</param>
+        </member>
+        <member name="M:Stylet.IObservableCollection`1.RemoveRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Remove a range of items
+            </summary>
+            <param name="items">Items to remove</param>
+        </member>
+        <member name="T:Stylet.IReadOnlyObservableCollection`1">
+            <summary>
+            Interface encapsulating IReadOnlyList and INotifyCollectionChanged
+            </summary>
+            <typeparam name="T">The type of elements in the collection</typeparam>
+        </member>
+        <member name="T:Stylet.BindableCollection`1">
+            <summary>
+            ObservableCollection subclass which supports AddRange and RemoveRange
+            </summary>
+            <typeparam name="T">The type of elements in the collection</typeparam>
+        </member>
+        <member name="F:Stylet.BindableCollection`1.isNotifying">
+            <summary>
+             We have to disable notifications when adding individual elements in the AddRange and RemoveRange implementations
+            </summary>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.BindableCollection`1"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.BindableCollection`1"/> class that contains the given members
+            </summary>
+            <param name="collection">The collection from which the elements are copied</param>
+        </member>
+        <member name="E:Stylet.BindableCollection`1.CollectionChanging">
+            <summary>
+            Occurs when the collection will change
+            </summary>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Raises the System.Collections.ObjectModel.ObservableCollection{T}.PropertyChanged event with the provided arguments.
+            </summary>
+            <param name="e">Arguments of the event being raised.</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.OnCollectionChanging(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Raises the CollectionChanging event with the provided arguments.
+            </summary>
+            <param name="e">Arguments of the event being raised.</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Raises the System.Collections.ObjectModel.ObservableCollection{T}.CollectionChanged event with the provided arguments.
+            </summary>
+            <param name="e">Arguments of the event being raised.</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add a range of items
+            </summary>
+            <param name="items">Items to add</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.RemoveRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Remove a range of items
+            </summary>
+            <param name="items">Items to remove</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.Refresh">
+            <summary>
+            Raise a change notification indicating that all bindings should be refreshed
+            </summary>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.InsertItem(System.Int32,`0)">
+            <summary>
+            Called by base class Collection&lt;T&gt; when an item is added to list;
+            raises a CollectionChanged event to any listeners.
+            </summary>
+            <param name="index">Index at which to insert the item</param>
+            <param name="item">Item to insert</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.SetItem(System.Int32,`0)">
+            <summary>
+            Called by base class Collection{T} when an item is set in list;
+            raises a CollectionChanged event to any listeners.
+            </summary>
+            <param name="index">Index of the item to set</param>
+            <param name="item">Item to set</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.RemoveItem(System.Int32)">
+            <summary>
+            Called by base class Collection&lt;T&gt; when an item is removed from list;
+            raises a CollectionChanged event to any listeners.
+            </summary>
+            <param name="index">Index of the item to remove</param>
+        </member>
+        <member name="M:Stylet.BindableCollection`1.ClearItems">
+            <summary>
+            Called by base class Collection&lt;T&gt; when the list is being cleared;
+            raises a CollectionChanged event to any listeners.
+            </summary>
+        </member>
+        <member name="T:Stylet.Bootstrapper`1">
+            <summary>
+            Bootstrapper to be extended by any application which wants to use StyletIoC (the default)
+            </summary>
+            <typeparam name="TRootViewModel">Type of the root ViewModel. This will be instantiated and displayed</typeparam>
+        </member>
+        <member name="P:Stylet.Bootstrapper`1.Container">
+            <summary>
+            Gets or sets the Bootstrapper's IoC container. This is created after ConfigureIoC has been run.
+            </summary>
+        </member>
+        <member name="P:Stylet.Bootstrapper`1.RootViewModel">
+            <summary>
+            Gets the root ViewModel, creating it first if necessary
+            </summary>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.ConfigureBootstrapper">
+            <summary>
+            Overridden from BootstrapperBase, this sets up the IoC container
+            </summary>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.DefaultConfigureIoC(StyletIoC.StyletIoCBuilder)">
+            <summary>
+            Carries out default configuration of StyletIoC. Override if you don't want to do this
+            </summary>
+            <param name="builder">StyletIoC builder to use to configure the container</param>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.ConfigureIoC(StyletIoC.IStyletIoCBuilder)">
+            <summary>
+            Override to add your own types to the IoC container.
+            </summary>
+            <param name="builder">StyletIoC builder to use to configure the container</param>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.GetInstance(System.Type)">
+            <summary>
+            Given a type, use the IoC container to fetch an instance of it
+            </summary>
+            <param name="type">Type to fetch</param>
+            <returns>Fetched instance</returns>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.Launch">
+            <summary>
+            Called when the application is launched. Displays the root view.
+            </summary>
+        </member>
+        <member name="M:Stylet.Bootstrapper`1.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Stylet.BootstrapperBase">
+            <summary>
+            Bootstrapper to be extended by applications which don't want to use StyletIoC as the IoC container.
+            </summary>
+        </member>
+        <member name="P:Stylet.BootstrapperBase.Application">
+            <summary>
+            Gets the current application
+            </summary>
+        </member>
+        <member name="P:Stylet.BootstrapperBase.Args">
+            <summary>
+            Gets the command line arguments that were passed to the application from either the command prompt or the desktop.
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.BootstrapperBase"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.Setup(System.Windows.Application)">
+            <summary>
+            Called by the ApplicationLoader when this bootstrapper is loaded
+            </summary>
+            <param name="application">Application within which Stylet is running</param>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.Start(System.String[])">
+            <summary>
+            Called on Application.Startup, this does everything necessary to start the application
+            </summary>
+            <param name="args">Command-line arguments used to start this executable</param>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.Configure">
+            <summary>
+            Hook called after the IoC container has been set up
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.Launch">
+            <summary>
+            Called when the application is launched. Should display the root view using <see cref="M:Stylet.BootstrapperBase.DisplayRootView(System.Object)"/>
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.DisplayRootView(System.Object)">
+            <summary>
+            Launch the root view
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.GetActiveWindow">
+            <summary>
+            Returns the currently-displayed window, or null if there is none (or it can't be determined)
+            </summary>
+            <returns>The currently-displayed window, or null</returns>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.ConfigureBootstrapper">
+            <summary>
+            Override to configure your IoC container, and anything else
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.GetInstance(System.Type)">
+            <summary>
+            Given a type, use the IoC container to fetch an instance of it
+            </summary>
+            <param name="type">Type of instance to fetch</param>
+            <returns>Fetched instance</returns>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.OnStart">
+            <summary>
+            Called on application startup. This occur after this.Args has been assigned, but before the IoC container has been configured
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.OnLaunch">
+            <summary>
+            Called just after the root View has been displayed
+            </summary>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.OnExit(System.Windows.ExitEventArgs)">
+            <summary>
+            Hook called on application exit
+            </summary>
+            <param name="e">The exit event data</param>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.OnUnhandledException(System.Windows.Threading.DispatcherUnhandledExceptionEventArgs)">
+            <summary>
+            Hook called on an unhandled exception
+            </summary>
+            <param name="e">The event data</param>
+        </member>
+        <member name="M:Stylet.BootstrapperBase.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Stylet.Conductor`1">
+            <summary>
+            Conductor with a single active item, and no other items
+            </summary>
+            <typeparam name="T">Type of child to conduct</typeparam>
+        </member>
+        <member name="M:Stylet.Conductor`1.ActivateItem(`0)">
+            <summary>
+            Activate the given item, discarding the previous ActiveItem
+            </summary>
+            <param name="item">Item to active</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.DeactivateItem(`0)">
+            <summary>
+            Deactive the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.CloseItem(`0)">
+            <summary>
+            Close the given item
+            </summary>
+            <param name="item">Item to close</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.CanCloseAsync">
+            <summary>
+            Determine if this conductor can close. Depends on whether the ActiveItem can close
+            </summary>
+            <returns>Task indicating whether this can be closed</returns>
+        </member>
+        <member name="T:Stylet.Conductor`1.Collection">
+            <summary>
+            Contains specific Conductor{T} collection types
+            </summary>
+        </member>
+        <member name="T:Stylet.Conductor`1.Collection.AllActive">
+            <summary>
+            Conductor which has many items, all of which active at the same time
+            </summary>
+        </member>
+        <member name="P:Stylet.Conductor`1.Collection.AllActive.Items">
+            <summary>
+            Gets all items associated with this conductor
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Conductor`1.Collection.AllActive"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.ActivateAndSetParent(System.Collections.IEnumerable)">
+            <summary>
+            Active all items in a given collection if appropriate, and set the parent of all items to this
+            </summary>
+            <param name="items">Items to manipulate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.OnActivate">
+            <summary>
+            Activates all items whenever this conductor is activated
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.OnDeactivate">
+            <summary>
+            Deactivates all items whenever this conductor is deactivated
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.OnClose">
+            <summary>
+            Close, and clean up, all items when this conductor is closed
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.CanCloseAsync">
+            <summary>
+            Determine if the conductor can close. Returns true if and when all items can close
+            </summary>
+            <returns>A Task indicating whether this conductor can close</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.ActivateItem(`0)">
+            <summary>
+            Activate the given item, and add it to the Items collection
+            </summary>
+            <param name="item">Item to activate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.DeactivateItem(`0)">
+            <summary>
+            Deactive the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.CloseItem(`0)">
+            <summary>
+            Close a particular item, removing it from the Items collection
+            </summary>
+            <param name="item">Item to close</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.GetChildren">
+            <summary>
+            Returns all children of this parent
+            </summary>
+            <returns>All children associated with this conductor</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.AllActive.EnsureItem(`0)">
+            <summary>
+            Ensure an item is ready to be activated, by adding it to the items collection, as well as setting it up
+            </summary>
+            <param name="newItem">Item to ensure</param>
+        </member>
+        <member name="T:Stylet.Conductor`1.Collection.OneActive">
+            <summary>
+            Conductor with many items, only one of which is active
+            </summary>
+        </member>
+        <member name="P:Stylet.Conductor`1.Collection.OneActive.Items">
+            <summary>
+            Gets the tems owned by this Conductor, one of which is active
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Conductor`1.Collection.OneActive"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.ActiveItemMayHaveBeenRemovedFromItems">
+            <summary>
+            Called when the ActiveItem may have been removed from the Items collection. If it has, will change the ActiveItem to something sensible
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.GetChildren">
+            <summary>
+            Return all items associated with this conductor
+            </summary>
+            <returns>All children associated with this conductor</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.ActivateItem(`0)">
+            <summary>
+            Activate the given item and set it as the ActiveItem, deactivating the previous ActiveItem
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.DeactivateItem(`0)">
+            <summary>
+            Deactive the given item, and choose another item to set as the ActiveItem
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.CloseItem(`0)">
+            <summary>
+            Close the given item (if and when possible, depending on IGuardClose.CanCloseAsync). This will deactive if it is the active item
+            </summary>
+            <param name="item">Item to close</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.DetermineNextItemToActivate(`0)">
+            <summary>
+            Given a list of items, and and item which is going to be removed, choose a new item to be the next ActiveItem 
+            </summary>
+            <param name="itemToRemove">Item to remove</param>
+            <returns>The next item to activate, or default(T) if no such item exists</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.CanCloseAsync">
+            <summary>
+            Returns true if and when all children can close
+            </summary>
+            <returns>A task indicating whether this conductor can close</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.OnClose">
+            <summary>
+            Ensures that all items are closed when this conductor is closed
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.Collection.OneActive.EnsureItem(`0)">
+            <summary>
+            Ensure an item is ready to be activated
+            </summary>
+            <param name="newItem">New item to ensure</param>
+        </member>
+        <member name="T:Stylet.Conductor`1.StackNavigation">
+            <summary>
+            Stack-based navigation. A Conductor which has one active item, and a stack of previous items
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.ActivateItem(`0)">
+            <summary>
+            Activate the given item. This deactivates the previous item, and pushes it onto the history stack
+            </summary>
+            <param name="item">Item to activate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.DeactivateItem(`0)">
+            <summary>
+            Deactivate the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.GoBack">
+            <summary>
+            Close the active item, and re-activate the top item in the history stack
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.Clear">
+            <summary>
+            Close and remove all items in the history stack, leaving the ActiveItem
+            </summary>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.CloseItem(`0)">
+            <summary>
+            Close the given item. If it was the ActiveItem, activate the top item in the history stack
+            </summary>
+            <param name="item">Item to close</param>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.CanCloseAsync">
+            <summary>
+            Returns true if and when all items (ActiveItem + everything in the history stack) can close
+            </summary>
+            <returns>A task indicating whether this conductor can close</returns>
+        </member>
+        <member name="M:Stylet.Conductor`1.StackNavigation.OnClose">
+            <summary>
+            Ensures that all children are closed when this conductor is closed
+            </summary>
+        </member>
+        <member name="T:Stylet.ConductorBase`1">
+            <summary>
+            Base class for all conductors
+            </summary>
+            <typeparam name="T">Type of item to be conducted</typeparam>
+        </member>
+        <member name="P:Stylet.ConductorBase`1.DisposeChildren">
+            <summary>
+            Gets or sets a value indicating whether to dispose a child when it's closed. True by default
+            </summary>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.GetChildren">
+            <summary>
+            Retrieves the Item or Items associated with this Conductor
+            </summary>
+            <returns>Item or Items associated with this Conductor</returns>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.ActivateItem(`0)">
+            <summary>
+            Activate the given item
+            </summary>
+            <param name="item">Item to activate</param>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.DeactivateItem(`0)">
+            <summary>
+            Deactivate the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.CloseItem(`0)">
+            <summary>
+            Close the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.EnsureItem(`0)">
+            <summary>
+            Ensure an item is ready to be activated
+            </summary>
+            <param name="newItem">Item to use</param>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.CanAllItemsCloseAsync(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Utility method to determine if all of the give items can close
+            </summary>
+            <param name="itemsToClose">Items to close</param>
+            <returns>Task indicating whether all items can close</returns>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.CanCloseItem(`0)">
+            <summary>
+            Determine if the given item can be closed
+            </summary>
+            <param name="item">Item to use</param>
+            <returns>Task indicating whether the item can be closed</returns>
+        </member>
+        <member name="M:Stylet.ConductorBase`1.Stylet#IChildDelegate#CloseItem(System.Object,System.Nullable{System.Boolean})">
+            <summary>
+            Close the given child
+            </summary>
+            <param name="item">Child to close</param>
+            <param name="dialogResult">Unused in this scenario</param>
+        </member>
+        <member name="T:Stylet.ConductorBaseWithActiveItem`1">
+            <summary>
+            Base class for all conductors which had a single active item
+            </summary>
+            <typeparam name="T">Type of item being conducted</typeparam>
+        </member>
+        <member name="P:Stylet.ConductorBaseWithActiveItem`1.ActiveItem">
+            <summary>
+            Gets or sets the item which is currently active
+            </summary>
+        </member>
+        <member name="M:Stylet.ConductorBaseWithActiveItem`1.GetChildren">
+            <summary>
+            From IParent, fetch all items
+            </summary>
+            <returns>Children of this conductor</returns>
+        </member>
+        <member name="M:Stylet.ConductorBaseWithActiveItem`1.ChangeActiveItem(`0,System.Boolean)">
+            <summary>
+            Switch the active item to the given item
+            </summary>
+            <param name="newItem">New item to activate</param>
+            <param name="closePrevious">Whether the previously-active item should be closed</param>
+        </member>
+        <member name="M:Stylet.ConductorBaseWithActiveItem`1.OnActivate">
+            <summary>
+            When we're activated, also activate the ActiveItem
+            </summary>
+        </member>
+        <member name="M:Stylet.ConductorBaseWithActiveItem`1.OnDeactivate">
+            <summary>
+            When we're deactivated, also deactivate the ActiveItem
+            </summary>
+        </member>
+        <member name="M:Stylet.ConductorBaseWithActiveItem`1.OnClose">
+            <summary>
+            When we're closed, also close the ActiveItem
+            </summary>
+        </member>
+        <member name="T:Stylet.IHandle">
+            <summary>
+            Marker for types which we might be interested in
+            </summary>
+        </member>
+        <member name="T:Stylet.IHandle`1">
+            <summary>
+            Implement this to handle a particular message type
+            </summary>
+            <typeparam name="TMessageType">Message type to handle. Can be a base class of the messsage type(s) to handle</typeparam>
+        </member>
+        <member name="M:Stylet.IHandle`1.Handle(`0)">
+            <summary>
+            Called whenever a message of type TMessageType is posted
+            </summary>
+            <param name="message">Message which was posted</param>
+        </member>
+        <member name="T:Stylet.IEventAggregator">
+            <summary>
+            Centralised, weakly-binding publish/subscribe event manager
+            </summary>
+        </member>
+        <member name="M:Stylet.IEventAggregator.Subscribe(Stylet.IHandle,System.String[])">
+            <summary>
+            Register an instance as wanting to receive events. Implement IHandle{T} for each event type you want to receive.
+            </summary>
+            <param name="handler">Instance that will be registered with the EventAggregator</param>
+            <param name="channels">Channel(s) which should be subscribed to. Defaults to EventAggregator.DefaultChannel if none given</param>
+        </member>
+        <member name="M:Stylet.IEventAggregator.Unsubscribe(Stylet.IHandle,System.String[])">
+            <summary>
+            Unregister as wanting to receive events. The instance will no longer receive events after this is called.
+            </summary>
+            <param name="handler">Instance to unregister</param>
+            <param name="channels">Channel(s) to unsubscribe from. Unsubscribes from everything if no channels given</param>
+        </member>
+        <member name="M:Stylet.IEventAggregator.PublishWithDispatcher(System.Object,System.Action{System.Action},System.String[])">
+            <summary>
+            Publish an event to all subscribers, using the specified dispatcher
+            </summary>
+            <param name="message">Event to publish</param>
+            <param name="dispatcher">Dispatcher to use to call each subscriber's handle method(s)</param>
+            <param name="channels">Channel(s) to publish the message to. Defaults to EventAggregator.DefaultChannel none given</param>
+        </member>
+        <member name="T:Stylet.EventAggregator">
+            <summary>
+            Default implementation of IEventAggregator
+            </summary>
+        </member>
+        <member name="F:Stylet.EventAggregator.DefaultChannel">
+            <summary>
+            Channel which handlers are subscribed to / messages are published to, if no channels are named
+            </summary>
+        </member>
+        <member name="M:Stylet.EventAggregator.Subscribe(Stylet.IHandle,System.String[])">
+            <summary>
+            Register an instance as wanting to receive events. Implement IHandle{T} for each event type you want to receive.
+            </summary>
+            <param name="handler">Instance that will be registered with the EventAggregator</param>
+            <param name="channels">Channel(s) which should be subscribed to. Defaults to EventAggregator.DefaultChannel if none given</param>
+        </member>
+        <member name="M:Stylet.EventAggregator.Unsubscribe(Stylet.IHandle,System.String[])">
+            <summary>
+            Unregister as wanting to receive events. The instance will no longer receive events after this is called.
+            </summary>
+            <param name="handler">Instance to unregister</param>
+            <param name="channels">Channel(s) to unsubscribe from. Unsubscribes from everything if no channels given</param>
+        </member>
+        <member name="M:Stylet.EventAggregator.PublishWithDispatcher(System.Object,System.Action{System.Action},System.String[])">
+            <summary>
+            Publish an event to all subscribers, using the specified dispatcher
+            </summary>
+            <param name="message">Event to publish</param>
+            <param name="dispatcher">Dispatcher to use to call each subscriber's handle method(s)</param>
+            <param name="channels">Channel(s) to publish the message to. Defaults to EventAggregator.DefaultChannel none given</param>
+        </member>
+        <member name="T:Stylet.EventAggregatorExtensions">
+            <summary>
+            Extension methods on IEventAggregator, to give more dispatching options
+            </summary>
+        </member>
+        <member name="M:Stylet.EventAggregatorExtensions.PublishOnUIThread(Stylet.IEventAggregator,System.Object,System.String[])">
+            <summary>
+            Publish an event to all subscribers, calling the handle methods on the UI thread
+            </summary>
+            <param name="eventAggregator">EventAggregator to publish the message with</param>
+            <param name="message">Event to publish</param>
+            <param name="channels">Channel(s) to publish the message to. Defaults to EventAggregator.DefaultChannel none given</param>
+        </member>
+        <member name="M:Stylet.EventAggregatorExtensions.Publish(Stylet.IEventAggregator,System.Object,System.String[])">
+            <summary>
+            Publish an event to all subscribers, calling the handle methods synchronously on the current thread
+            </summary>
+            <param name="eventAggregator">EventAggregator to publish the message with</param>
+            <param name="message">Event to publish</param>
+            <param name="channels">Channel(s) to publish the message to. Defaults to EventAggregator.DefaultChannel none given</param>
+        </member>
+        <member name="T:Stylet.Execute">
+            <summary>
+            Static class providing methods to easily run an action on the UI thread in various ways, and some other things
+            </summary>
+        </member>
+        <member name="P:Stylet.Execute.Dispatcher">
+            <summary>
+            Gets or sets Execute's dispatcher
+            </summary>
+            <remarks>
+            Should be set to the UI thread's Dispatcher. This is normally done by the Bootstrapper.
+            </remarks>
+        </member>
+        <member name="P:Stylet.Execute.DefaultPropertyChangedDispatcher">
+            <summary>
+            Gets or sets the default dispatcher used by PropertyChanged events.
+            Defaults to OnUIThread
+            </summary>
+        </member>
+        <member name="M:Stylet.Execute.PostToUIThread(System.Action)">
+            <summary>
+            Dispatches the given action to be run on the UI thread asynchronously, even if the current thread is the UI thread
+            </summary>
+            <param name="action">Action to run on the UI thread</param>
+        </member>
+        <member name="M:Stylet.Execute.PostToUIThreadAsync(System.Action)">
+            <summary>
+            Dispatches the given action to be run on the UI thread asynchronously, and returns a task which completes when the action completes, even if the current thread is the UI thread
+            </summary>
+            <remarks>DO NOT BLOCK waiting for this Task - you'll cause a deadlock. Use PostToUIThread instead</remarks>
+            <param name="action">Action to run on the UI thread</param>
+            <returns>Task which completes when the action has been run</returns>
+        </member>
+        <member name="M:Stylet.Execute.OnUIThread(System.Action)">
+            <summary>
+            Dispatches the given action to be run on the UI thread asynchronously, or runs it synchronously if the current thread is the UI thread
+            </summary>
+            <param name="action">Action to run on the UI thread</param>
+        </member>
+        <member name="M:Stylet.Execute.OnUIThreadSync(System.Action)">
+            <summary>
+            Dispatches the given action to be run on the UI thread and blocks until it completes, or runs it synchronously if the current thread is the UI thread
+            </summary>
+            <param name="action">Action to run on the UI thread</param>
+        </member>
+        <member name="M:Stylet.Execute.OnUIThreadAsync(System.Action)">
+            <summary>
+            Dispatches the given action to be run on the UI thread and returns a task that completes when the action completes, or runs it synchronously if the current thread is the UI thread
+            </summary>
+            <param name="action">Action to run on the UI thread</param>
+            <returns>Task which completes when the action has been run</returns>
+        </member>
+        <member name="P:Stylet.Execute.InDesignMode">
+            <summary>
+            Gets or sets a value indicating whether design mode is currently active.
+            Settable for really obscure unit testing only
+            </summary>
+        </member>
+        <member name="T:Stylet.ExpressionExtensions">
+            <summary>
+            Useful extension methods on Expressions
+            </summary>
+        </member>
+        <member name="M:Stylet.ExpressionExtensions.NameForProperty``1(System.Linq.Expressions.Expression{``0})">
+            <summary>
+            Given a MemberExpression (or MemberExpression wrapped in a UnaryExpression), get the name of the property
+            </summary>
+            <typeparam name="TDelegate">Type of the delegate</typeparam>
+            <param name="propertyExpression">Expression describe the property whose name we want to extract</param>
+            <returns>Name of the property referenced by the expression</returns>
+        </member>
+        <member name="T:Stylet.IBootstrapper">
+            <summary>
+            Interface specifying a bootstrapper, as loaded by the ApplicationLoader
+            </summary>
+        </member>
+        <member name="M:Stylet.IBootstrapper.Setup(System.Windows.Application)">
+            <summary>
+            Called during application setup, allowing the bootstrapper to configure itself.
+            Should hook into Application.Startup
+            </summary>
+            <param name="application">Reference to the current application</param>
+        </member>
+        <member name="T:Stylet.IParent`1">
+            <summary>
+            Generalised parent, with many children
+            </summary>
+            <typeparam name="T">Type of children</typeparam>
+        </member>
+        <member name="M:Stylet.IParent`1.GetChildren">
+            <summary>
+            Fetch all children of this parent
+            </summary>
+            <returns>All children owned by this parent</returns>
+        </member>
+        <member name="T:Stylet.IHaveActiveItem`1">
+            <summary>
+            Thing which has a single active item
+            </summary>
+            <typeparam name="T">Type of the active item</typeparam>
+        </member>
+        <member name="P:Stylet.IHaveActiveItem`1.ActiveItem">
+            <summary>
+            Gets or sets the only item which is currently active.
+            This normally corresponds to the item being displayed
+            </summary>
+        </member>
+        <member name="T:Stylet.IChildDelegate">
+            <summary>
+            Thing which has one or more children, and from which a child can request that it be closed
+            </summary>
+        </member>
+        <member name="M:Stylet.IChildDelegate.CloseItem(System.Object,System.Nullable{System.Boolean})">
+            <summary>
+            Called by the child to request that is be closed
+            </summary>
+            <param name="item">Child object, which is passed by the child itself</param>
+            <param name="dialogResult">DialogResult to use to close, if any</param>
+        </member>
+        <member name="T:Stylet.IConductor`1">
+            <summary>
+            Thing which owns one or more children, and can manage their lifecycles accordingly
+            </summary>
+            <typeparam name="T">Type of child being conducted</typeparam>
+        </member>
+        <member name="P:Stylet.IConductor`1.DisposeChildren">
+            <summary>
+            Gets or sets a value indicating whether to dispose a child when it's closed. True by default
+            </summary>
+        </member>
+        <member name="M:Stylet.IConductor`1.ActivateItem(`0)">
+            <summary>
+            Activate the given item
+            </summary>
+            <param name="item">Item to activate</param>
+        </member>
+        <member name="M:Stylet.IConductor`1.DeactivateItem(`0)">
+            <summary>
+            Deactivate the given item
+            </summary>
+            <param name="item">Item to deactivate</param>
+        </member>
+        <member name="M:Stylet.IConductor`1.CloseItem(`0)">
+            <summary>
+            Close the given item
+            </summary>
+            <param name="item">Item to close</param>
+        </member>
+        <member name="T:Stylet.IDispatcher">
+            <summary>
+            Generalised dispatcher, which can post and send
+            </summary>
+        </member>
+        <member name="M:Stylet.IDispatcher.Post(System.Action)">
+            <summary>
+            Execute asynchronously
+            </summary>
+            <param name="action">Action to execute</param>
+        </member>
+        <member name="M:Stylet.IDispatcher.Send(System.Action)">
+            <summary>
+            Execute synchronously
+            </summary>
+            <param name="action">Action to execute</param>
+        </member>
+        <member name="P:Stylet.IDispatcher.IsCurrent">
+            <summary>
+            Gets a value indicating whether the current thread is the thread being dispatched to
+            </summary>
+        </member>
+        <member name="T:Stylet.INotifyCollectionChanging">
+            <summary>
+            Notifies listeners of the intention to perform dynamic changes, such as when items get added and removed or the whole list is refreshed.
+            </summary>
+        </member>
+        <member name="E:Stylet.INotifyCollectionChanging.CollectionChanging">
+            <summary>
+            Occurs when the collection will change
+            </summary>
+        </member>
+        <member name="T:Stylet.INotifyPropertyChangedDispatcher">
+            <summary>
+            Knows how to dispatch its PropertyChanged events using a given dispatcher
+            </summary>
+        </member>
+        <member name="P:Stylet.INotifyPropertyChangedDispatcher.PropertyChangedDispatcher">
+            <summary>
+            Gets or sets the dispatcher to use.
+            Called with an action, which should itself be called in the appropriate context
+            </summary>
+        </member>
+        <member name="T:Stylet.IViewAware">
+            <summary>
+            Is aware of the fact that it has a view
+            </summary>
+        </member>
+        <member name="P:Stylet.IViewAware.View">
+            <summary>
+            Gets the view associated with this ViewModel
+            </summary>
+        </member>
+        <member name="M:Stylet.IViewAware.AttachView(System.Windows.UIElement)">
+            <summary>
+            Called when the view should be attached. Should set View property.
+            </summary>
+            <remarks>Separate from the View property so it can be explicitely implemented</remarks>
+            <param name="view">View to attach</param>
+        </member>
+        <member name="T:Stylet.ScreenState">
+            <summary>
+            State in which a screen can be
+            </summary>
+        </member>
+        <member name="F:Stylet.ScreenState.Initial">
+            <summary>
+            Deprecated: Screens now start in Deactivated
+            </summary>
+        </member>
+        <member name="F:Stylet.ScreenState.Active">
+            <summary>
+            Screen is active. It is likely being displayed to the user
+            </summary>
+        </member>
+        <member name="F:Stylet.ScreenState.Deactivated">
+            <summary>
+            Screen is deactivated. It is either new, has been hidden in favour of another Screen, or the entire window has been minimised
+            </summary>
+        </member>
+        <member name="F:Stylet.ScreenState.Closed">
+            <summary>
+            Screen has been closed. It has no associated View, but may yet be displayed again
+            </summary>
+        </member>
+        <member name="T:Stylet.IScreenState">
+            <summary>
+            Has a concept of state, which can be manipulated by its Conductor
+            </summary>
+        </member>
+        <member name="P:Stylet.IScreenState.ScreenState">
+            <summary>
+            Gets the current state of the Screen
+            </summary>
+        </member>
+        <member name="P:Stylet.IScreenState.IsActive">
+            <summary>
+            Gets a value indicating whether the current state is ScreenState.Active
+            </summary>
+        </member>
+        <member name="E:Stylet.IScreenState.StateChanged">
+            <summary>
+            Raised when the Screen's state changed, for any reason
+            </summary>
+        </member>
+        <member name="E:Stylet.IScreenState.Activated">
+            <summary>
+            Raised when the object is actually activated
+            </summary>
+        </member>
+        <member name="E:Stylet.IScreenState.Deactivated">
+            <summary>
+            Raised when the object is actually deactivated
+            </summary>
+        </member>
+        <member name="E:Stylet.IScreenState.Closed">
+            <summary>
+            Raised when the object is actually closed
+            </summary>
+        </member>
+        <member name="M:Stylet.IScreenState.Activate">
+            <summary>
+            Activate the object. May not actually cause activation (e.g. if it's already active)
+            </summary>
+        </member>
+        <member name="M:Stylet.IScreenState.Deactivate">
+            <summary>
+            Deactivate the object. May not actually cause deactivation (e.g. if it's already deactive)
+            </summary>
+        </member>
+        <member name="M:Stylet.IScreenState.Close">
+            <summary>
+            Close the object. May not actually cause closure (e.g. if it's already closed)
+            </summary>
+        </member>
+        <member name="T:Stylet.IHaveDisplayName">
+            <summary>
+            Has a display name. In reality, this is bound to things like Window titles and TabControl tabs
+            </summary>
+        </member>
+        <member name="P:Stylet.IHaveDisplayName.DisplayName">
+            <summary>
+            Gets or sets the name which should be displayed
+            </summary>
+        </member>
+        <member name="T:Stylet.IChild">
+            <summary>
+            Acts as a child. Knows about its parent
+            </summary>
+        </member>
+        <member name="P:Stylet.IChild.Parent">
+            <summary>
+            Gets or sets the parent object to this child
+            </summary>
+        </member>
+        <member name="T:Stylet.IGuardClose">
+            <summary>
+            Has an opinion on whether it should be closed
+            </summary>
+            <remarks>If implemented, CanCloseAsync should be called prior to closing the object</remarks>
+        </member>
+        <member name="M:Stylet.IGuardClose.CanCloseAsync">
+            <summary>
+            Returns whether or not the object can close, potentially asynchronously
+            </summary>
+            <returns>A task indicating whether the object can close</returns>
+        </member>
+        <member name="T:Stylet.IRequestClose">
+            <summary>
+            Get the object to request that its parent close it
+            </summary>
+        </member>
+        <member name="M:Stylet.IRequestClose.RequestClose(System.Nullable{System.Boolean})">
+            <summary>
+            Request that the conductor responsible for this screen close it
+            </summary>
+            <param name="dialogResult">DialogResult to return, if this is a dialog</param>
+        </member>
+        <member name="T:Stylet.IScreen">
+            <summary>
+            Generalised 'screen' composing all the behaviours expected of a screen
+            </summary>
+        </member>
+        <member name="T:Stylet.ScreenStateChangedEventArgs">
+            <summary>
+            EventArgs associated with the IScreenState.StateChanged event
+            </summary>
+        </member>
+        <member name="P:Stylet.ScreenStateChangedEventArgs.NewState">
+            <summary>
+            Gets the state being transitioned to
+            </summary>
+        </member>
+        <member name="P:Stylet.ScreenStateChangedEventArgs.PreviousState">
+            <summary>
+            Gets the state being transitioned away from
+            </summary>
+        </member>
+        <member name="M:Stylet.ScreenStateChangedEventArgs.#ctor(Stylet.ScreenState,Stylet.ScreenState)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.ScreenStateChangedEventArgs"/> class
+            </summary>
+            <param name="newState">State being transitioned to</param>
+            <param name="previousState">State being transitioned away from</param>
+        </member>
+        <member name="T:Stylet.ActivationEventArgs">
+            <summary>
+            EventArgs associated with the IScreenState.Activated event
+            </summary>
+        </member>
+        <member name="P:Stylet.ActivationEventArgs.IsInitialActivate">
+            <summary>
+            Gets a value indicating whether this is the first time this Screen has been activated, ever
+            </summary>
+        </member>
+        <member name="P:Stylet.ActivationEventArgs.PreviousState">
+            <summary>
+            Gets the state being transitioned away from
+            </summary>
+        </member>
+        <member name="M:Stylet.ActivationEventArgs.#ctor(Stylet.ScreenState,System.Boolean)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.ActivationEventArgs"/> class
+            </summary>
+            <param name="previousState">State being transitioned away from</param>
+            <param name="isInitialActivate">True if this is the first time this screen has ever been activated</param>
+        </member>
+        <member name="T:Stylet.DeactivationEventArgs">
+            <summary>
+            EventArgs associated with the IScreenState.Deactivated event
+            </summary>
+        </member>
+        <member name="P:Stylet.DeactivationEventArgs.PreviousState">
+            <summary>
+            Gets the state being transitioned away from
+            </summary>
+        </member>
+        <member name="M:Stylet.DeactivationEventArgs.#ctor(Stylet.ScreenState)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.DeactivationEventArgs"/> class
+            </summary>
+            <param name="previousState">State being transitioned away from</param>
+        </member>
+        <member name="T:Stylet.CloseEventArgs">
+            <summary>
+            EventArgs associated with the IScreenState.Closed event
+            </summary>
+        </member>
+        <member name="P:Stylet.CloseEventArgs.PreviousState">
+            <summary>
+            Gets the state being transitioned away from
+            </summary>
+        </member>
+        <member name="M:Stylet.CloseEventArgs.#ctor(Stylet.ScreenState)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.CloseEventArgs"/> class
+            </summary>
+            <param name="previousState">State being transitioned away from</param>
+        </member>
+        <member name="T:Stylet.IModelValidator`1">
+            <summary>
+            Generic version of IValidationArapter. Provided for use with StyletIoC
+            </summary>
+            <remarks>
+            Having a generic version allows you implement it using a generic ModelValidator (ModelValidator{T} : IModelValidator{T})
+            then write a binding rule like this:
+            builder.Bind(typeof(IModelValidator{})).ToAllImplementations()
+            and request a new IModelValidator{MyViewModelType} in your ViewModel's constructor.
+            </remarks>
+            <typeparam name="T">Type of model being validated</typeparam>
+        </member>
+        <member name="T:Stylet.IModelValidator">
+            <summary>
+            Adapter used by ValidationModelBase to perform validation.
+            </summary>
+            <remarks>
+            This should be specialised to the particular ValidationModelBase instance it's validating
+            </remarks>
+        </member>
+        <member name="M:Stylet.IModelValidator.Initialize(System.Object)">
+            <summary>
+            Called by ValidatingModelBase, which passes in an instance of itself.
+            This allows the IModelValidator to specialize to validating that particular ValidatingModelBase instance
+            </summary>
+            <param name="subject">Subject to initialize</param>
+        </member>
+        <member name="M:Stylet.IModelValidator.ValidatePropertyAsync(System.String)">
+            <summary>
+            Validate a single property by name, and return an array of validation errors for that property (or null if validation was successful)
+            </summary>
+            <param name="propertyName">Property to validate, or <see cref="F:System.String.Empty"/> to validate the entire model</param>
+            <returns>Array of validation errors, or null / empty if validation was successful</returns>
+        </member>
+        <member name="M:Stylet.IModelValidator.ValidateAllPropertiesAsync">
+            <summary>
+            Validate all properties, and return the results for all properties
+            </summary>
+            <remarks>
+            Use a key of <see cref="F:System.String.Empty"/> to indicate validation errors for the entire model.
+            
+            If a property validates successfully, you MUST return a null entry for it in the returned dictionary!
+            </remarks>
+            <returns>A dictionary of property name => array of validation errors (or null if that property validated successfully)</returns>
+        </member>
+        <member name="T:Stylet.LabelledValue`1">
+            <summary>
+            Key-value pair useful for attaching labels to objects and displaying them in the view
+            </summary>
+            <typeparam name="T">Type of the value</typeparam>
+        </member>
+        <member name="P:Stylet.LabelledValue`1.Label">
+            <summary>
+            Gets or sets the label associated with this item. This is displayed in your View
+            </summary>
+        </member>
+        <member name="P:Stylet.LabelledValue`1.Value">
+            <summary>
+            Gets or sets the value associated with this item. This is used by your ViewModel
+            </summary>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.LabelledValue`1"/> class, without setting Label or Value
+            </summary>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.#ctor(System.String,`0)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.LabelledValue`1"/> class, with the given label and value
+            </summary>
+            <param name="label">Label to use. This value is displayed in your view</param>
+            <param name="value">Value to use. This is used by your ViewModel</param>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.Equals(Stylet.LabelledValue{`0})">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="other">An object to compare with this object</param>
+            <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.Equals(System.Object)">
+            <summary>
+            Indicates whether the current object is equal to another object of any type
+            </summary>
+            <param name="obj">An object to compare with this object</param>
+            <returns>true if the current object is of the same type as the other object, and equal to the other parameter; otherwise, false.</returns>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.GetHashCode">
+            <summary>
+            Returns a hash code for the this object
+            </summary>
+            <returns>A hash code for this object.</returns>
+        </member>
+        <member name="M:Stylet.LabelledValue`1.ToString">
+            <summary>
+            Return the Label associated with this object
+            </summary>
+            <returns>The Label associated with this object</returns>
+        </member>
+        <member name="T:Stylet.LabelledValue">
+            <summary>
+            Convenience class for constructing LabellelValue{T}'s
+            </summary>
+        </member>
+        <member name="M:Stylet.LabelledValue.Create``1(System.String,``0)">
+            <summary>
+            Construct a new LabelledValue{T}, using method type inference
+            </summary>
+            <typeparam name="T">Type of value</typeparam>
+            <param name="label">Label to assign</param>
+            <param name="value">Value to assign</param>
+            <returns>Constructed LabelledValue{T}</returns>
+        </member>
+        <member name="T:Stylet.Logging.ILogger">
+            <summary>
+            Logger used by Stylet for internal logging
+            </summary>
+        </member>
+        <member name="M:Stylet.Logging.ILogger.Info(System.String,System.Object[])">
+            <summary>
+            Log the message as info
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.ILogger.Warn(System.String,System.Object[])">
+            <summary>
+            Log the message as a warning
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.ILogger.Error(System.Exception,System.String)">
+            <summary>
+            Log an exception as an error
+            </summary>
+            <param name="exception">Exception to log</param>
+            <param name="message">Additional message to add to the exception</param>
+        </member>
+        <member name="T:Stylet.Logging.LogManager">
+            <summary>
+            Manager for ILoggers. Used to create new ILoggers, and set up how ILoggers are created
+            </summary>
+        </member>
+        <member name="P:Stylet.Logging.LogManager.Enabled">
+            <summary>
+            Gets or sets a value indicating whether logging is enabled
+            </summary>
+            <remarks>
+            When false (the default), a null logger will be returned by GetLogger().
+            When true, LoggerFactory will be used to create a new logger
+            </remarks>
+        </member>
+        <member name="P:Stylet.Logging.LogManager.LoggerFactory">
+            <summary>
+            Gets or sets the factory used to create new ILoggers, used by GetLogger
+            </summary>
+            <example>
+            LogManager.LoggerFactory = name => new MyLogger(name);
+            </example>
+        </member>
+        <member name="M:Stylet.Logging.LogManager.GetLogger(System.Type)">
+            <summary>
+            Get a new ILogger for the given type
+            </summary>
+            <param name="type">Type which is using the ILogger</param>
+            <returns>ILogger for use by the given type</returns>
+        </member>
+        <member name="M:Stylet.Logging.LogManager.GetLogger(System.String)">
+            <summary>
+            Get a new ILogger with the given name
+            </summary>
+            <param name="name">Name of the ILogger</param>
+            <returns>ILogger with the given name</returns>
+        </member>
+        <member name="T:Stylet.Logging.NullLogger">
+            <summary>
+            ILogger implementation which does nothing - used by default
+            </summary>
+        </member>
+        <member name="M:Stylet.Logging.NullLogger.Info(System.String,System.Object[])">
+            <summary>
+            Log the message as info
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.NullLogger.Warn(System.String,System.Object[])">
+            <summary>
+            Log the message as a warning
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.NullLogger.Error(System.Exception,System.String)">
+            <summary>
+            Log an exception as an error
+            </summary>
+            <param name="exception">Exception to log</param>
+            <param name="message">Additional message to add to the exception</param>
+        </member>
+        <member name="T:Stylet.Logging.TraceLogger">
+            <summary>
+            ILogger implementation which uses Debug.WriteLine
+            </summary>
+        </member>
+        <member name="M:Stylet.Logging.TraceLogger.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Logging.TraceLogger"/> class, with the given name
+            </summary>
+            <param name="name">Name of the DebugLogger</param>
+        </member>
+        <member name="M:Stylet.Logging.TraceLogger.Info(System.String,System.Object[])">
+            <summary>
+            Log the message as info
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.TraceLogger.Warn(System.String,System.Object[])">
+            <summary>
+            Log the message as a warning
+            </summary>
+            <param name="format">A formatted message</param>
+            <param name="args">format parameters</param>
+        </member>
+        <member name="M:Stylet.Logging.TraceLogger.Error(System.Exception,System.String)">
+            <summary>
+            Log an exception as an error
+            </summary>
+            <param name="exception">Exception to log</param>
+            <param name="message">Additional message to add to the exception</param>
+        </member>
+        <member name="T:Stylet.IMessageBoxViewModel">
+            <summary>
+            Interface for a MessageBoxViewModel. MessageBoxWindowManagerExtensions.ShowMessageBox will use the configured implementation of this
+            </summary>
+        </member>
+        <member name="M:Stylet.IMessageBoxViewModel.Setup(System.String,System.String,System.Windows.MessageBoxButton,System.Windows.MessageBoxImage,System.Windows.MessageBoxResult,System.Windows.MessageBoxResult,System.Collections.Generic.IDictionary{System.Windows.MessageBoxResult,System.String},System.Nullable{System.Windows.FlowDirection},System.Nullable{System.Windows.TextAlignment})">
+            <summary>
+            Setup the MessageBoxViewModel with the information it needs
+            </summary>
+            <param name="messageBoxText">A <see cref="T:System.String"/> that specifies the text to display.</param>
+            <param name="caption">A <see cref="T:System.String"/> that specifies the title bar caption to display.</param>
+            <param name="buttons">A <see cref="T:System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+            <param name="icon">A <see cref="T:System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+            <param name="defaultResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
+            <param name="cancelResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+            <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
+            <param name="flowDirection">The <see cref="T:System.Windows.FlowDirection"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultFlowDirection"/></param>
+            <param name="textAlignment">The <see cref="T:System.Windows.TextAlignment"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultTextAlignment"/></param>
+        </member>
+        <member name="P:Stylet.IMessageBoxViewModel.ClickedButton">
+            <summary>
+            Gets the button clicked by the user, after they've clicked it
+            </summary>
+        </member>
+        <member name="T:Stylet.MessageBoxViewModel">
+            <summary>
+            Default implementation of IMessageBoxViewModel, and is therefore the ViewModel shown by default by ShowMessageBox
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.ButtonLabels">
+            <summary>
+            Gets or sets the mapping of button to text to display on that button. You can modify this to localize your application.
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.ButtonToResults">
+            <summary>
+            Gets or sets the mapping of MessageBoxButton values to the buttons which should be displayed
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.IconMapping">
+            <summary>
+            Gets or sets the mapping of MessageBoxImage to the SystemIcon to display. You can customize this if you really want.
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.SoundMapping">
+            <summary>
+            Gets or sets the mapping of MessageBoxImage to the sound to play when the MessageBox is shown. You can customize this if you really want.
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.DefaultFlowDirection">
+            <summary>
+            Gets or sets the default <see cref="T:System.Windows.FlowDirection"/> to use
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.DefaultTextAlignment">
+            <summary>
+            Gets or sets the default <see cref="T:System.Windows.TextAlignment"/> to use
+            </summary>
+        </member>
+        <member name="M:Stylet.MessageBoxViewModel.Setup(System.String,System.String,System.Windows.MessageBoxButton,System.Windows.MessageBoxImage,System.Windows.MessageBoxResult,System.Windows.MessageBoxResult,System.Collections.Generic.IDictionary{System.Windows.MessageBoxResult,System.String},System.Nullable{System.Windows.FlowDirection},System.Nullable{System.Windows.TextAlignment})">
+            <summary>
+            Setup the MessageBoxViewModel with the information it needs
+            </summary>
+            <param name="messageBoxText">A <see cref="T:System.String"/> that specifies the text to display.</param>
+            <param name="caption">A <see cref="T:System.String"/> that specifies the title bar caption to display.</param>
+            <param name="buttons">A <see cref="T:System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+            <param name="icon">A <see cref="T:System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+            <param name="defaultResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
+            <param name="cancelResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+            <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
+            <param name="flowDirection">The <see cref="T:System.Windows.FlowDirection"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultFlowDirection"/></param>
+            <param name="textAlignment">The <see cref="T:System.Windows.TextAlignment"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultTextAlignment"/></param>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.ButtonList">
+            <summary>
+            Gets or sets the list of buttons which are shown in the View.
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.DefaultButton">
+            <summary>
+            Gets or sets the item in ButtonList which is the Default button
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.CancelButton">
+            <summary>
+            Gets or sets the item in ButtonList which is the Cancel button
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.Text">
+            <summary>
+            Gets or sets the text which is shown in the body of the MessageBox
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.TextIsMultiline">
+            <summary>
+            Gets a value indicating whether the Text contains many lines
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.Icon">
+            <summary>
+            Gets or sets the icon which the user specified
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.ImageIcon">
+            <summary>
+            Gets or the icon which is shown next to the text in the View
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.FlowDirection">
+            <summary>
+            Gets or sets which way the document should flow
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.TextAlignment">
+            <summary>
+            Gets or sets the text alignment of the message
+            </summary>
+        </member>
+        <member name="P:Stylet.MessageBoxViewModel.ClickedButton">
+            <summary>
+            Gets or sets which button the user clicked, once they've clicked a button
+            </summary>
+        </member>
+        <member name="M:Stylet.MessageBoxViewModel.OnViewLoaded">
+            <summary>
+            When the View loads, play a sound if appropriate
+            </summary>
+        </member>
+        <member name="M:Stylet.MessageBoxViewModel.ButtonClicked(System.Windows.MessageBoxResult)">
+            <summary>
+            Called when MessageBoxView when the user clicks a button
+            </summary>
+            <param name="button">Button which was clicked</param>
+        </member>
+        <member name="T:Stylet.PropertyChangedBase">
+            <summary>
+            Base class for things which can raise PropertyChanged events
+            </summary>
+        </member>
+        <member name="P:Stylet.PropertyChangedBase.PropertyChangedDispatcher">
+            <summary>
+            Gets or sets the dispatcher to use to dispatch PropertyChanged events. Defaults to Execute.DefaultPropertyChangedDispatcher
+            </summary>
+        </member>
+        <member name="E:Stylet.PropertyChangedBase.PropertyChanged">
+            <summary>
+            Occurs when a property value changes
+            </summary>
+        </member>
+        <member name="M:Stylet.PropertyChangedBase.Refresh">
+            <summary>
+            Refresh all properties
+            </summary>
+        </member>
+        <member name="M:Stylet.PropertyChangedBase.NotifyOfPropertyChange``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Raise a PropertyChanged notification from the property in the given expression, e.g. NotifyOfPropertyChange(() => this.Property)
+            </summary>
+            <typeparam name="TProperty">Type of property being notified</typeparam>
+            <param name="property">Expression describing the property to raise a PropertyChanged notification for</param>
+        </member>
+        <member name="M:Stylet.PropertyChangedBase.NotifyOfPropertyChange(System.String)">
+            <summary>
+            Raise a PropertyChanged notification from the property with the given name
+            </summary>
+            <param name="propertyName">Name of the property to raise a PropertyChanged notification for. Defaults to the calling property</param>
+        </member>
+        <member name="M:Stylet.PropertyChangedBase.OnPropertyChanged(System.String)">
+            <summary>
+            Fires the PropertyChanged notification.
+            </summary>
+            <remarks>Specially named so that Fody.PropertyChanged calls it</remarks>
+            <param name="propertyName">Name of the property to raise the notification for</param>
+        </member>
+        <member name="M:Stylet.PropertyChangedBase.SetAndNotify``1(``0@,``0,System.String)">
+            <summary>
+            Takes, by reference, a field, and its new value. If field != value, will set field = value and raise a PropertyChanged notification
+            </summary>
+            <typeparam name="T">Type of field being set and notified</typeparam>
+            <param name="field">Field to assign</param>
+            <param name="value">Value to assign to the field, if it differs</param>
+            <param name="propertyName">Name of the property to notify for. Defaults to the calling property</param>
+            <returns>True if field != value and a notification was raised; false otherwise</returns>
+        </member>
+        <member name="T:Stylet.PropertyChangedExtendedEventArgs`1">
+            <summary>
+            Extension of PropertyChangedEventArgs, which includes the new value of the property
+            </summary>
+            <typeparam name="TProperty">Type of property being notified</typeparam>
+        </member>
+        <member name="P:Stylet.PropertyChangedExtendedEventArgs`1.NewValue">
+            <summary>
+            Gets the new value of the property
+            </summary>
+        </member>
+        <member name="M:Stylet.PropertyChangedExtendedEventArgs`1.#ctor(System.String,`0)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.PropertyChangedExtendedEventArgs`1"/> class
+            </summary>
+            <param name="propertyName">Name of the property which changed</param>
+            <param name="newValue">New value of the property which changed</param>
+        </member>
+        <member name="T:Stylet.IEventBinding">
+            <summary>
+            A binding to a PropertyChanged event, which can be used to unbind the binding
+            </summary>
+        </member>
+        <member name="M:Stylet.IEventBinding.Unbind">
+            <summary>
+            Unbind this event binding, so that it will no longer receive events
+            </summary>
+        </member>
+        <member name="T:Stylet.PropertyChangedExtensions">
+            <summary>
+            Class holding extension methods on INotifyPropertyChanged, to allow strong/weak binding
+            </summary>
+        </member>
+        <member name="M:Stylet.PropertyChangedExtensions.Bind``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.EventHandler{Stylet.PropertyChangedExtendedEventArgs{``1}})">
+            <summary>
+            Strongly bind to PropertyChanged events for a particular property on a particular object
+            </summary>
+            <example>someObject.Bind(x => x.PropertyNameToBindTo, newValue => /* do something with the new value */)</example>
+            <typeparam name="TSource">Type of object providing the PropertyChanged event</typeparam>
+            <typeparam name="TProperty">Type of property for which the event is raised</typeparam>
+            <param name="target">Object raising the PropertyChanged event you're interested in</param>
+            <param name="targetSelector">MemberExpression selecting the property to observe for changes (e.g x => x.PropertyName)</param>
+            <param name="handler">Handler called whenever that property changed</param>
+            <returns>Something which can be used to undo the binding. You can discard it if you want</returns>
+        </member>
+        <member name="M:Stylet.PropertyChangedExtensions.BindAndInvoke``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.EventHandler{Stylet.PropertyChangedExtendedEventArgs{``1}})">
+            <summary>
+            Strongly bind to PropertyChanged events for a particular property on a particular object,
+            and invoke the handler straight away
+            </summary>
+            <remarks>
+            This immediately calls <paramref name="handler"/> with the current value of the property.
+            </remarks>
+            <example>someObject.BindAndInvoke(x => x.PropertyNameToBindTo, newValue => /* do something with the new value */)</example>
+            <typeparam name="TSource">Type of object providing the PropertyChanged event</typeparam>
+            <typeparam name="TProperty">Type of property for which the event is raised</typeparam>
+            <param name="target">Object raising the PropertyChanged event you're interested in</param>
+            <param name="targetSelector">MemberExpression selecting the property to observe for changes (e.g x => x.PropertyName)</param>
+            <param name="handler">Handler called whenever that property changed</param>
+            <returns>Something which can be used to undo the binding. You can discard it if you want</returns>
+        </member>
+        <member name="M:Stylet.PropertyChangedExtensions.BindWeak``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.EventHandler{Stylet.PropertyChangedExtendedEventArgs{``1}})">
+            <summary>
+            Obsolete: Weakly bind to PropertyChanged events for a particular property on a particular object
+            </summary>
+            <example>someObject.Bind(x => x.PropertyNameToBindTo, newValue => /* do something with the new value */)</example>
+            <typeparam name="TSource">Type of object providing the PropertyChanged event</typeparam>
+            <typeparam name="TProperty">Type of property for which the event is raised</typeparam>
+            <param name="target">Object raising the PropertyChanged event you're interested in</param>
+            <param name="targetSelector">MemberExpression selecting the property to observe for changes (e.g x => x.PropertyName)</param>
+            <param name="handler">Handler called whenever that property changed</param>
+            <returns>Something which can be used to undo the binding. You can discard it if you want</returns>
+        </member>
+        <member name="T:Stylet.Screen">
+            <summary>
+            Implementation of IScreen. Useful as a base class for your ViewModels
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Screen"/> class, without setting up a validator
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.#ctor(Stylet.IModelValidator)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Screen"/> class, which can validate properties using the given validator
+            </summary>
+            <param name="validator">Validator to use</param>
+        </member>
+        <member name="P:Stylet.Screen.DisplayName">
+            <summary>
+            Gets or sets the name associated with this ViewModel.
+            Shown e.g. in a window's title bar, or as a tab's displayName
+            </summary>
+        </member>
+        <member name="P:Stylet.Screen.State">
+            <summary>
+            Gets or sets the current state of the Screen
+            </summary>
+        </member>
+        <member name="P:Stylet.Screen.ScreenState">
+            <summary>
+            Gets or sets the current state of the Screen
+            </summary>
+        </member>
+        <member name="P:Stylet.Screen.IsActive">
+            <summary>
+            Gets a value indicating whether the current state is ScreenState.Active
+            </summary>
+        </member>
+        <member name="E:Stylet.Screen.StateChanged">
+            <summary>
+            Raised when the Screen's state changed, for any reason
+            </summary>
+        </member>
+        <member name="E:Stylet.Screen.Activated">
+            <summary>
+            Fired whenever the Screen is activated
+            </summary>
+        </member>
+        <member name="E:Stylet.Screen.Deactivated">
+            <summary>
+            Fired whenever the Screen is deactivated
+            </summary>
+        </member>
+        <member name="E:Stylet.Screen.Closed">
+            <summary>
+            Called whenever this Screen is closed
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnInitialActivate">
+            <summary>
+            Called the very first time this Screen is activated, and never again
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnActivate">
+            <summary>
+            Called every time this screen is activated
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnDeactivate">
+            <summary>
+            Called every time this screen is deactivated
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnClose">
+            <summary>
+            Called when this screen is closed
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnStateChanged(Stylet.ScreenState,Stylet.ScreenState)">
+            <summary>
+            Called on any state transition
+            </summary>
+            <param name="previousState">Previous state state</param>
+            <param name="newState">New state</param>
+        </member>
+        <member name="M:Stylet.Screen.SetState(Stylet.ScreenState,System.Action{Stylet.ScreenState,Stylet.ScreenState})">
+            <summary>
+            Sets the screen's state to the given state, if it differs from the current state
+            </summary>
+            <param name="newState">State to transition to</param>
+            <param name="changedHandler">Called if the transition occurs. Arguments are (newState, previousState)</param>
+        </member>
+        <member name="P:Stylet.Screen.View">
+            <summary>
+            Gets the View attached to this ViewModel, if any. Using this should be a last resort
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.OnViewLoaded">
+            <summary>
+            Called when the view attaches to the Screen loads
+            </summary>
+        </member>
+        <member name="P:Stylet.Screen.Parent">
+            <summary>
+            Gets or sets the parent conductor of this screen. Used to RequestClose to request a closure
+            </summary>
+        </member>
+        <member name="M:Stylet.Screen.CanCloseAsync">
+            <summary>
+            Called when a conductor wants to know whether this screen can close.
+            </summary>
+            <remarks>Internally, this calls CanClose, and wraps the response in a Task</remarks>
+            <returns>A task returning true (can close) or false (can't close)</returns>
+        </member>
+        <member name="M:Stylet.Screen.CanClose">
+            <summary>
+            Synchronous alternative to CanClose
+            </summary>
+            <returns>True if this screen can close, or false otherwise</returns>
+        </member>
+        <member name="M:Stylet.Screen.RequestClose(System.Nullable{System.Boolean})">
+            <summary>
+            Request that the conductor responsible for this screen close it
+            </summary>
+            <param name="dialogResult">DialogResult to return, if this is a dialog</param>
+        </member>
+        <member name="M:Stylet.Screen.TryClose(System.Nullable{System.Boolean})">
+            <summary>
+            Obselete - use RequestClose
+            </summary>
+            <param name="dialogResult">DialogResult to return, if this is a dialog</param>
+        </member>
+        <member name="T:Stylet.ScreenExtensions">
+            <summary>
+            Handy extensions for working with screens
+            </summary>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.TryActivate(System.Object)">
+            <summary>
+            Attempt to activate the screen, if it implements IActivate
+            </summary>
+            <param name="screen">Screen to activate</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.TryDeactivate(System.Object)">
+            <summary>
+            Attempt to deactivate the screen, if it implements IDeactivate
+            </summary>
+            <param name="screen">Screen to deactivate</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.TryClose(System.Object)">
+            <summary>
+            Try to close the screen, if it implements IClose
+            </summary>
+            <param name="screen">Screen to close</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.TryDispose(System.Object)">
+            <summary>
+            Try to dispose a screen, if it implements IDisposable
+            </summary>
+            <param name="screen">Screen to dispose</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.ActivateWith(Stylet.IScreenState,Stylet.IScreenState)">
+            <summary>
+            Activate the child whenever the parent is activated
+            </summary>
+            <example>child.ActivateWith(this)</example>
+            <param name="child">Child to activate whenever the parent is activated</param>
+            <param name="parent">Parent to observe</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.DeactivateWith(Stylet.IScreenState,Stylet.IScreenState)">
+            <summary>
+            Deactivate the child whenever the parent is deactivated
+            </summary>
+            <example>child.DeactivateWith(this)</example>
+            <param name="child">Child to deactivate whenever the parent is deacgtivated</param>
+            <param name="parent">Parent to observe</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.CloseWith(Stylet.IScreenState,Stylet.IScreenState)">
+            <summary>
+            Close the child whenever the parent is closed
+            </summary>
+            <example>child.CloseWith(this)</example>
+            <param name="child">Child to close when the parent is closed</param>
+            <param name="parent">Parent to observe</param>
+        </member>
+        <member name="M:Stylet.ScreenExtensions.ConductWith(Stylet.IScreenState,Stylet.IScreenState)">
+            <summary>
+            Activate, Deactivate, or Close the child whenever the parent is Activated, Deactivated, or Closed
+            </summary>
+            <example>child.ConductWith(this)</example>
+            <param name="child">Child to conduct with the parent</param>
+            <param name="parent">Parent to observe</param>
+        </member>
+        <member name="T:Stylet.StyletConductorExtensions">
+            <summary>
+            Extension methods used by the Conductor classes
+            </summary>
+        </member>
+        <member name="M:Stylet.StyletConductorExtensions.SetParentAndSetActive``1(Stylet.IConductor{``0},System.Collections.IEnumerable,System.Boolean)">
+            <summary>
+            For each item in a list, set the parent to the current conductor
+            </summary>
+            <typeparam name="T">Type of conductor</typeparam>
+            <param name="parent">Parent to set the items' parent to</param>
+            <param name="items">Items to manipulate</param>
+            <param name="active">True to active the item, false to deactive it</param>
+        </member>
+        <member name="M:Stylet.StyletConductorExtensions.CloseAndCleanUp``1(Stylet.IConductor{``0},``0,System.Boolean)">
+            <summary>
+            Close an item, and clear its parent if it's set to the current parent
+            </summary>
+            <typeparam name="T">Type of conductor</typeparam>
+            <param name="parent">Parent</param>
+            <param name="item">Item to close and clean up</param>
+            <param name="dispose">True to dispose children as well as close them</param>
+        </member>
+        <member name="M:Stylet.StyletConductorExtensions.CloseAndCleanUp``1(Stylet.IConductor{``0},System.Collections.IEnumerable,System.Boolean)">
+            <summary>
+            For each item in a list, close it, and if its parent is set to the given parent, clear that parent
+            </summary>
+            <typeparam name="T">Type of conductor</typeparam>
+            <param name="parent">Parent</param>
+            <param name="items">List of items to close and clean up</param>
+            <param name="dispose">True to dispose children as well as close them</param>
+        </member>
+        <member name="T:Stylet.ValidatingModelBase">
+            <summary>
+            Base for ViewModels which require property validation
+            </summary>
+        </member>
+        <member name="E:Stylet.ValidatingModelBase.ErrorsChanged">
+            <summary>
+            Occurs when the validation errors have changed for a property or for the entire entity.
+            </summary>
+        </member>
+        <member name="P:Stylet.ValidatingModelBase.Validator">
+            <summary>
+            Gets or sets the IModelValidator to use to validate properties. You're expected to write your own, using your favourite validation library
+            </summary>
+        </member>
+        <member name="P:Stylet.ValidatingModelBase.AutoValidate">
+            <summary>
+            Gets or sets a value indicating whether to run validation for a property automatically every time that property changes
+            </summary>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.ValidatingModelBase"/> class, without using an <see cref="T:Stylet.IModelValidator"/>
+            </summary>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.#ctor(Stylet.IModelValidator)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.ValidatingModelBase"/> class, using the specifies <see cref="T:Stylet.IModelValidator"/>
+            </summary>
+            <param name="validator">Validator adapter to use to perform validations</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.Validate">
+            <summary>
+            Validate all properties, synchronously
+            </summary>
+            <returns>True if all properties validated successfully</returns>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ValidateAsync">
+            <summary>
+            Validate all properties.
+            </summary>
+            <returns>True if all properties validated successfully</returns>
+            <remarks>If you override this, you MUST fire ErrorsChanged as appropriate, and call ValidationStateChanged</remarks>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.RecordPropertyError``1(System.Linq.Expressions.Expression{System.Func{``0}},System.String[])">
+            <summary>
+            Record a property error (or clear an error on a property). You can use this independently of the validation done by <see cref="P:Stylet.ValidatingModelBase.Validator"/>
+            </summary>
+            <param name="property">Name of the property to change the errors for (or <see cref="F:System.String.Empty"/> to change the errors for the whole model)</param>
+            <param name="errors">The new errors, or null to clear errors for this property</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.RecordPropertyError(System.String,System.String[])">
+            <summary>
+            Record a property error (or clear an error on a property). You can use this independently of the validation done by <see cref="P:Stylet.ValidatingModelBase.Validator"/>
+            </summary>
+            <param name="propertyName">Name of the property to change the errors for (or <see cref="F:System.String.Empty"/> to change the errors for the whole model)</param>
+            <param name="errors">The new errors, or null to clear errors for this property</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ClearAllPropertyErrors">
+            <summary>
+            Clear all property errors
+            </summary>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ValidateProperty``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Validate a single property synchronously, by name
+            </summary>
+            <typeparam name="TProperty">Type of property to validate</typeparam>
+            <param name="property">Expression describing the property to validate</param>
+            <returns>True if the property validated successfully</returns>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ValidatePropertyAsync``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Validate a single property asynchronously, by name
+            </summary>
+            <typeparam name="TProperty">Type ofproperty to validate</typeparam>
+            <param name="property">Expression describing the property to validate</param>
+            <returns>True if the property validated successfully</returns>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ValidateProperty(System.String)">
+            <summary>
+            Validate a single property synchronously, by name.
+            </summary>
+            <param name="propertyName">Property to validate</param>
+            <returns>True if the property validated successfully</returns>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.ValidatePropertyAsync(System.String)">
+            <summary>
+            Validate a single property asynchronously, by name.
+            </summary>
+            <param name="propertyName">Property to validate. Validates the entire model if null or <see cref="F:System.String.Empty"/></param>
+            <returns>True if the property validated successfully</returns>
+            <remarks>If you override this, you MUST fire ErrorsChanged and call OnValidationStateChanged() if appropriate</remarks>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.OnPropertyChanged(System.String)">
+            <summary>
+            Raise a PropertyChanged notification for the named property, and validate that property if this.validation is set and this.autoValidate is true
+            </summary>
+            <param name="propertyName">Name of the property which has changed</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.OnValidationStateChanged(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Called whenever the error state of any properties changes. Calls NotifyOfPropertyChange("HasErrors") by default
+            </summary>
+            <param name="changedProperties">List of property names which have changed validation state</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.RaiseErrorsChanged(System.String)">
+            <summary>
+            Raise the ErrorsChanged event for a given property
+            </summary>
+            <param name="propertyName">Property to raise the ErrorsChanged event for</param>
+        </member>
+        <member name="M:Stylet.ValidatingModelBase.GetErrors(System.String)">
+            <summary>
+            Gets the validation errors for a specified property or for the entire entity.
+            </summary>
+            <param name="propertyName">The name of the property to retrieve validation errors for; or null or System.String.Empty, to retrieve entity-level errors.</param>
+            <returns>The validation errors for the property or entity.</returns>
+        </member>
+        <member name="P:Stylet.ValidatingModelBase.HasErrors">
+            <summary>
+            Gets a value indicating whether the entity has validation errors.
+            </summary>
+        </member>
+        <member name="T:Stylet.IViewManager">
+            <summary>
+            Responsible for managing views. Locates the correct view, instantiates it, attaches it to its ViewModel correctly, and handles the View.Model attached property
+            </summary>
+        </member>
+        <member name="M:Stylet.IViewManager.OnModelChanged(System.Windows.DependencyObject,System.Object,System.Object)">
+            <summary>
+            Called by View whenever its current View.Model changes. Will locate and instantiate the correct view, and set it as the target's Content
+            </summary>
+            <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
+            <param name="oldValue">Previous value of View.Model</param>
+            <param name="newValue">New value of View.Model</param>
+        </member>
+        <member name="M:Stylet.IViewManager.CreateViewForModel(System.Object)">
+            <summary>
+            Given a ViewModel instance, locate its View type (using LocateViewForModel), and instantiates it
+            </summary>
+            <param name="model">ViewModel to locate and instantiate the View for</param>
+            <returns>Instantiated and setup view</returns>
+        </member>
+        <member name="M:Stylet.IViewManager.BindViewToModel(System.Windows.UIElement,System.Object)">
+            <summary>
+            Given an instance of a ViewModel and an instance of its View, bind the two together
+            </summary>
+            <param name="view">View to bind to the ViewModel</param>
+            <param name="viewModel">ViewModel to bind the View to</param>
+        </member>
+        <member name="M:Stylet.IViewManager.CreateAndBindViewForModelIfNecessary(System.Object)">
+            <summary>
+            Create a View for the given ViewModel, and bind the two together, if the model doesn't already have a view
+            </summary>
+            <param name="model">ViewModel to create a Veiw for</param>
+            <returns>Newly created View, bound to the given ViewModel</returns>
+        </member>
+        <member name="T:Stylet.ViewManagerConfig">
+            <summary>
+            Configuration object consumed by <see cref="T:Stylet.ViewManager"/>
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManagerConfig.ViewFactory">
+            <summary>
+            Gets or sets the ViewFactory to use
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManagerConfig.ViewAssemblies">
+            <summary>
+            Gets or sets the Assembles to search for views in
+            </summary>
+        </member>
+        <member name="T:Stylet.ViewManager">
+            <summary>
+            Default implementation of ViewManager. Responsible for locating, creating, and settings up Views. Also owns the View.Model and View.ActionTarget attached properties
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManager.ViewFactory">
+            <summary>
+            Gets or sets the delegate used to retrieve an instance of a view
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManager.ViewAssemblies">
+            <summary>
+            Gets or sets the assemblies which are used for IoC container auto-binding and searching for Views.
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManager.NamespaceTransformations">
+            <summary>
+            Gets or sets a set of transformations to be applied to the ViewModel's namespace: string to find -> string to replace it with
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManager.ViewNameSuffix">
+            <summary>
+            Gets or sets the suffix replacing 'ViewModel' (see <see cref="P:Stylet.ViewManager.ViewModelNameSuffix"/>). Defaults to 'View'
+            </summary>
+        </member>
+        <member name="P:Stylet.ViewManager.ViewModelNameSuffix">
+            <summary>
+            Gets or sets the suffix of ViewModel names, defaults to 'ViewModel'. This will be replaced by <see cref="P:Stylet.ViewManager.ViewNameSuffix"/>
+            </summary>
+        </member>
+        <member name="M:Stylet.ViewManager.#ctor(Stylet.ViewManagerConfig)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.ViewManager"/> class, with the given viewFactory
+            </summary>
+            <param name="config">Configuration object</param>
+        </member>
+        <member name="M:Stylet.ViewManager.OnModelChanged(System.Windows.DependencyObject,System.Object,System.Object)">
+            <summary>
+            Called by View whenever its current View.Model changes. Will locate and instantiate the correct view, and set it as the target's Content
+            </summary>
+            <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
+            <param name="oldValue">Previous value of View.Model</param>
+            <param name="newValue">New value of View.Model</param>
+        </member>
+        <member name="M:Stylet.ViewManager.CreateAndBindViewForModelIfNecessary(System.Object)">
+            <summary>
+            Create a View for the given ViewModel, and bind the two together, if the model doesn't already have a view
+            </summary>
+            <param name="model">ViewModel to create a Veiw for</param>
+            <returns>Newly created View, bound to the given ViewModel</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.CreateAndBindViewForModel(System.Object)">
+            <summary>
+            Create a View for the given ViewModel, and bind the two together
+            </summary>
+            <param name="model">ViewModel to create a Veiw for</param>
+            <returns>Newly created View, bound to the given ViewModel</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.ViewTypeForViewName(System.String,System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Given the expected name for a view, locate its type (or return null if a suitable type couldn't be found)
+            </summary>
+            <param name="viewName">View name to locate the type for</param>
+            <param name="extraAssemblies">Extra assemblies to search through</param>
+            <returns>Type for that view name</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.ViewTypeNameForModelTypeName(System.String)">
+            <summary>
+            Given the full name of a ViewModel type, determine the corresponding View type nasme
+            </summary>
+            <remarks>
+            This is used internally by LocateViewForModel. If you override LocateViewForModel, you
+            can simply ignore this method.
+            </remarks>
+            <param name="modelTypeName">ViewModel type name to get the View type name for</param>
+            <returns>View type name</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.LocateViewForModel(System.Type)">
+            <summary>
+            Given the type of a model, locate the type of its View (or throw an exception)
+            </summary>
+            <param name="modelType">Model to find the view for</param>
+            <returns>Type of the ViewModel's View</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.CreateViewForModel(System.Object)">
+            <summary>
+            Given a ViewModel instance, locate its View type (using LocateViewForModel), and instantiates it
+            </summary>
+            <param name="model">ViewModel to locate and instantiate the View for</param>
+            <returns>Instantiated and setup view</returns>
+        </member>
+        <member name="M:Stylet.ViewManager.InitializeView(System.Windows.UIElement,System.Type)">
+            <summary>
+            Given a view, take steps to initialize it (for example calling InitializeComponent)
+            </summary>
+            <param name="view">View to initialize</param>
+            <param name="viewType">Type of view, passed for efficiency reasons</param>
+        </member>
+        <member name="M:Stylet.ViewManager.BindViewToModel(System.Windows.UIElement,System.Object)">
+            <summary>
+            Given an instance of a ViewModel and an instance of its View, bind the two together
+            </summary>
+            <param name="view">View to bind to the ViewModel</param>
+            <param name="viewModel">ViewModel to bind the View to</param>
+        </member>
+        <member name="T:Stylet.StyletViewLocationException">
+            <summary>
+            Exception raised while attempting to locate a View for a ViewModel
+            </summary>
+        </member>
+        <member name="F:Stylet.StyletViewLocationException.ViewTypeName">
+            <summary>
+            Name of the View in question
+            </summary>
+        </member>
+        <member name="M:Stylet.StyletViewLocationException.#ctor(System.String,System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.StyletViewLocationException"/> class
+            </summary>
+            <param name="message">Message associated with the Exception</param>
+            <param name="viewTypeName">Name of the View this question was thrown for</param>
+        </member>
+        <member name="T:Stylet.StyletInvalidViewTypeException">
+            <summary>
+            Exception raise when the located View is of the wrong type (Window when expected UserControl, etc)
+            </summary>
+        </member>
+        <member name="M:Stylet.StyletInvalidViewTypeException.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.StyletInvalidViewTypeException"/> class
+            </summary>
+            <param name="message">Message associated with the Exception</param>
+        </member>
+        <member name="T:Stylet.IWindowManager">
+            <summary>
+            Manager capable of taking a ViewModel instance, instantiating its View and showing it as a dialog or window
+            </summary>
+        </member>
+        <member name="M:Stylet.IWindowManager.ShowWindow(System.Object)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a window
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+        </member>
+        <member name="M:Stylet.IWindowManager.ShowDialog(System.Object)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a Dialog
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+            <returns>DialogResult of the View</returns>
+        </member>
+        <member name="M:Stylet.IWindowManager.ShowMessageBox(System.String,System.String,System.Windows.MessageBoxButton,System.Windows.MessageBoxImage,System.Windows.MessageBoxResult,System.Windows.MessageBoxResult,System.Collections.Generic.IDictionary{System.Windows.MessageBoxResult,System.String},System.Nullable{System.Windows.FlowDirection},System.Nullable{System.Windows.TextAlignment})">
+            <summary>
+            Display a MessageBox
+            </summary>
+            <param name="messageBoxText">A <see cref="T:System.String"/> that specifies the text to display.</param>
+            <param name="caption">A <see cref="T:System.String"/> that specifies the title bar caption to display.</param>
+            <param name="buttons">A <see cref="T:System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+            <param name="icon">A <see cref="T:System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+            <param name="defaultResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
+            <param name="cancelResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+            <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
+            <param name="flowDirection">The <see cref="T:System.Windows.FlowDirection"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultFlowDirection"/></param>
+            <param name="textAlignment">The <see cref="T:System.Windows.TextAlignment"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultTextAlignment"/></param>
+            <returns>The result chosen by the user</returns>
+        </member>
+        <member name="T:Stylet.IWindowManagerConfig">
+            <summary>
+            Configuration passed to WindowManager (normally implemented by BootstrapperBase)
+            </summary>
+        </member>
+        <member name="M:Stylet.IWindowManagerConfig.GetActiveWindow">
+            <summary>
+            Returns the currently-displayed window, or null if there is none (or it can't be determined)
+            </summary>
+            <returns>The currently-displayed window, or null</returns>
+        </member>
+        <member name="T:Stylet.WindowManager">
+            <summary>
+            Default implementation of IWindowManager, is capable of showing a ViewModel's View as a dialog or a window
+            </summary>
+        </member>
+        <member name="M:Stylet.WindowManager.#ctor(Stylet.IViewManager,System.Func{Stylet.IMessageBoxViewModel},Stylet.IWindowManagerConfig)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.WindowManager"/> class, using the given <see cref="T:Stylet.IViewManager"/>
+            </summary>
+            <param name="viewManager">IViewManager to use when creating views</param>
+            <param name="messageBoxViewModelFactory">Delegate which returns a new IMessageBoxViewModel instance when invoked</param>
+            <param name="config">Configuration object</param>
+        </member>
+        <member name="M:Stylet.WindowManager.ShowWindow(System.Object)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a window
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+        </member>
+        <member name="M:Stylet.WindowManager.ShowWindow(System.Object,Stylet.IViewAware)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a window, and set its owner
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+            <param name="ownerViewModel">The ViewModel for the View which should own this window</param>
+        </member>
+        <member name="M:Stylet.WindowManager.ShowDialog(System.Object)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a Dialog
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+            <returns>DialogResult of the View</returns>
+        </member>
+        <member name="M:Stylet.WindowManager.ShowDialog(System.Object,Stylet.IViewAware)">
+            <summary>
+            Given a ViewModel, show its corresponding View as a Dialog, and set its owner
+            </summary>
+            <param name="viewModel">ViewModel to show the View for</param>
+            <param name="ownerViewModel">The ViewModel for the View which should own this dialog</param>
+            <returns>DialogResult of the View</returns>
+        </member>
+        <member name="M:Stylet.WindowManager.ShowMessageBox(System.String,System.String,System.Windows.MessageBoxButton,System.Windows.MessageBoxImage,System.Windows.MessageBoxResult,System.Windows.MessageBoxResult,System.Collections.Generic.IDictionary{System.Windows.MessageBoxResult,System.String},System.Nullable{System.Windows.FlowDirection},System.Nullable{System.Windows.TextAlignment})">
+            <summary>
+            Display a MessageBox
+            </summary>
+            <param name="messageBoxText">A <see cref="T:System.String"/> that specifies the text to display.</param>
+            <param name="caption">A <see cref="T:System.String"/> that specifies the title bar caption to display.</param>
+            <param name="buttons">A <see cref="T:System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+            <param name="icon">A <see cref="T:System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+            <param name="defaultResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
+            <param name="cancelResult">A <see cref="T:System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+            <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
+            <param name="flowDirection">The <see cref="T:System.Windows.FlowDirection"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultFlowDirection"/></param>
+            <param name="textAlignment">The <see cref="T:System.Windows.TextAlignment"/> to use, overrides the <see cref="P:Stylet.MessageBoxViewModel.DefaultTextAlignment"/></param>
+            <returns>The result chosen by the user</returns>
+        </member>
+        <member name="M:Stylet.WindowManager.CreateWindow(System.Object,System.Boolean,Stylet.IViewAware)">
+            <summary>
+            Given a ViewModel, create its View, ensure that it's a Window, and set it up
+            </summary>
+            <param name="viewModel">ViewModel to create the window for</param>
+            <param name="isDialog">True if the window will be used as a dialog</param>
+            <param name="ownerViewModel">Optionally the ViewModel which owns the view which should own this window</param>
+            <returns>Window which was created and set up</returns>
+        </member>
+        <member name="M:Stylet.WindowManager.WindowConductor.Stylet#IChildDelegate#CloseItem(System.Object,System.Nullable{System.Boolean})">
+            <summary>
+            Close was requested by the child
+            </summary>
+            <param name="item">Item to close</param>
+            <param name="dialogResult">DialogResult to close with, if it's a dialog</param>
+        </member>
+        <member name="T:Stylet.Xaml.ActionBase">
+            <summary>
+            Common base class for CommandAction and EventAction
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionBase.Subject">
+            <summary>
+            Gets the View to grab the View.ActionTarget from
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionBase.MethodName">
+            <summary>
+            Gets the method name. E.g. if someone's gone Buttom Command="{s:Action MyMethod}", this is MyMethod.
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionBase.TargetMethodInfo">
+            <summary>
+            Gets the MethodInfo for the method to call. This has to exist, or we throw a wobbly
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionBase.TargetNullBehaviour">
+            <summary>
+            Behaviour for if the target is null
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionBase.ActionNonExistentBehaviour">
+            <summary>
+            Behaviour for if the action doesn't exist on the target
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionBase.Target">
+            <summary>
+            Gets the object on which methods will be invokced
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.ActionBase.#ctor(System.Windows.DependencyObject,System.Windows.DependencyObject,System.String,Stylet.Xaml.ActionUnavailableBehaviour,Stylet.Xaml.ActionUnavailableBehaviour,Stylet.Logging.ILogger)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.ActionBase"/> class
+            </summary>
+            <param name="subject">View to grab the View.ActionTarget from</param>
+            <param name="backupSubject">Backup subject to use if no ActionTarget could be retrieved from the subject</param>
+            <param name="methodName">Method name. the MyMethod in Buttom Command="{s:Action MyMethod}".</param>
+            <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
+            <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
+            <param name="logger">Logger to use</param>
+        </member>
+        <member name="M:Stylet.Xaml.ActionBase.AssertTargetMethodInfo(System.Reflection.MethodInfo,System.Type)">
+            <summary>
+            Invoked when a new non-null target is set, which has non-null MethodInfo. Used to assert that the method signature is correct
+            </summary>
+            <param name="targetMethodInfo">MethodInfo of method on new target</param>
+            <param name="newTargetType">Type of new target</param>
+        </member>
+        <member name="M:Stylet.Xaml.ActionBase.OnTargetChanged(System.Object,System.Object)">
+            <summary>
+            Invoked when a new target is set, after all other action has been taken
+            </summary>
+            <param name="oldTarget">Previous target</param>
+            <param name="newTarget">New target</param>
+        </member>
+        <member name="M:Stylet.Xaml.ActionBase.AssertTargetSet">
+            <summary>
+            Assert that the target is not View.InitialActionTarget
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.ActionBase.InvokeTargetMethod(System.Object[])">
+            <summary>
+            Invoke the target method with the given parameters
+            </summary>
+            <param name="parameters">Parameters to pass to the target method</param>
+        </member>
+        <member name="T:Stylet.Xaml.ActionUnavailableBehaviour">
+            <summary>
+            What to do if the given target is null, or if the given action doesn't exist on the target
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionUnavailableBehaviour.Default">
+            <summary>
+            The default behaviour. What this is depends on whether this applies to an action or target, and an event or ICommand
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionUnavailableBehaviour.Enable">
+            <summary>
+            Enable the control anyway. Clicking/etc the control won't do anything
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionUnavailableBehaviour.Disable">
+            <summary>
+            Disable the control. This is only valid for commands, not events
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.ActionUnavailableBehaviour.Throw">
+            <summary>
+            An exception will be thrown when the control is clicked
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.ActionExtension">
+            <summary>
+            MarkupExtension used for binding Commands and Events to methods on the View.ActionTarget
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionExtension.Method">
+            <summary>
+            Gets or sets the name of the method to call
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionExtension.NullTarget">
+            <summary>
+            Gets or sets the behaviour if the View.ActionTarget is nulil
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ActionExtension.ActionNotFound">
+            <summary>
+            Gets or sets the behaviour if the action itself isn't found on the View.ActionTarget
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.ActionExtension.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.ActionExtension"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.ActionExtension.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.ActionExtension"/> class with the given method name
+            </summary>
+            <param name="method">Name of the method to call</param>
+        </member>
+        <member name="M:Stylet.Xaml.ActionExtension.ProvideValue(System.IServiceProvider)">
+            <summary>
+            When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
+            </summary>
+            <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
+            <returns>The object value to set on the property where the extension is applied.</returns>
+        </member>
+        <member name="T:Stylet.Xaml.ActionNotSetException">
+            <summary>
+            The View.ActionTarget was not set. This probably means the item is in a ContextMenu/Popup
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.ActionTargetNullException">
+            <summary>
+            The Action Target was null, and shouldn't have been (NullTarget = Throw)
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.ActionNotFoundException">
+            <summary>
+            The method specified could not be found on the Action Target
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.ActionSignatureInvalidException">
+            <summary>
+            The method specified does not have the correct signature
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.ApplicationLoader">
+            <summary>
+            Added to your App.xaml, this is responsible for loading the Boostrapper you specify, and Stylet's other resources
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.ApplicationLoader.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.ApplicationLoader"/> class
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ApplicationLoader.Bootstrapper">
+            <summary>
+            Gets or sets the bootstrapper instance to use to start your application. This must be set.
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.ApplicationLoader.LoadStyletResources">
+            <summary>
+            Gets or sets a value indicating whether to load Stylet's own resources (e.g. StyletConductorTabControl). Defaults to true.
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.BoolToVisibilityConverter">
+            <summary>
+            Turn a boolean value into a Visibility
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.BoolToVisibilityConverter.Instance">
+            <summary>
+            Singleton instance of this converter. Usage e.g. Converter="{x:Static s:BoolToVisibilityConverter.Instance}"
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.BoolToVisibilityConverter.InverseInstance">
+            <summary>
+            Singleton instance of this converter, which provides Visibility.Hidden when input is truthsy.
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.BoolToVisibilityConverter.TrueVisibility">
+            <summary>
+            Gets or sets the visibility to use if value is true
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.BoolToVisibilityConverter.TrueVisibilityProperty">
+            <summary>
+            Property specifying the visibility to return when the parameter is true
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.BoolToVisibilityConverter.FalseVisibility">
+            <summary>
+            Gets or sets the visibility to use if value is false
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.BoolToVisibilityConverter.FalseVisibilityProperty">
+            <summary>
+            Property specifying the visibility to return when the parameter is false
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the conversion
+            </summary>
+            <param name="value">value as produced by source binding</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:Stylet.Xaml.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the inverse conversion. Only valid if the value is bool
+            </summary>
+            <param name="value">value, as produced by target</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted back value</returns>
+        </member>
+        <member name="T:Stylet.Xaml.CommandAction">
+            <summary>
+            ICommand returned by ActionExtension for binding buttons, etc, to methods on a ViewModel.
+            If the method has a parameter, CommandParameter is passed
+            </summary>
+            <remarks>
+            Watches the current View.ActionTarget, and looks for a method with the given name, calling it when the ICommand is called.
+            If a bool property with name Get(methodName) exists, it will be observed and used to enable/disable the ICommand.
+            </remarks>
+        </member>
+        <member name="F:Stylet.Xaml.CommandAction.guardPropertyGetter">
+            <summary>
+            Generated accessor to grab the value of the guard property, or null if there is none
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.CommandAction.#ctor(System.Windows.DependencyObject,System.Windows.DependencyObject,System.String,Stylet.Xaml.ActionUnavailableBehaviour,Stylet.Xaml.ActionUnavailableBehaviour)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.CommandAction"/> class
+            </summary>
+            <param name="subject">View to grab the View.ActionTarget from</param>
+            <param name="backupSubject">Backup subject to use if no ActionTarget could be retrieved from the subject</param>
+            <param name="methodName">Method name. the MyMethod in Buttom Command="{s:Action MyMethod}".</param>
+            <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
+            <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
+        </member>
+        <member name="M:Stylet.Xaml.CommandAction.AssertTargetMethodInfo(System.Reflection.MethodInfo,System.Type)">
+            <summary>
+            Invoked when a new non-null target is set, which has non-null MethodInfo. Used to assert that the method signature is correct
+            </summary>
+            <param name="targetMethodInfo">MethodInfo of method on new target</param>
+            <param name="newTargetType">Type of new target</param>
+        </member>
+        <member name="M:Stylet.Xaml.CommandAction.OnTargetChanged(System.Object,System.Object)">
+            <summary>
+            Invoked when a new target is set, after all other action has been taken
+            </summary>
+            <param name="oldTarget">Previous target</param>
+            <param name="newTarget">New target</param>
+        </member>
+        <member name="M:Stylet.Xaml.CommandAction.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>true if this command can be executed; otherwise, false.</returns>
+        </member>
+        <member name="E:Stylet.Xaml.CommandAction.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.CommandAction.Execute(System.Object)">
+            <summary>
+            The method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="T:Stylet.Xaml.DebugConverter">
+            <summary>
+            Converter which passes through values, but uses Debug.WriteLine to log them. Useful for debugging
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.DebugConverter.Instance">
+            <summary>
+            Singleton instance of this DebugConverter. Usage e.g. Converter={x:Static s:DebugConverter.Instance}"
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.DebugConverter.Name">
+            <summary>
+            Gets or sets the category to use with Debug.WriteLine
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.DebugConverter.NameProperty">
+            <summary>
+            Property specifying the category to use with Debug.WriteLine
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.DebugConverter.Logger">
+            <summary>
+            Gets or sets the Logger to use. Defaults to Debug.WriteLine. Arguments are: Message, Name
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.DebugConverter.LoggerProperty">
+            <summary>
+            Property specifying an action, which when called will log an entry.
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.DebugConverter.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.DebugConverter"/> class
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.DebugConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the conversion
+            </summary>
+            <param name="value">value as produced by source binding</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:Stylet.Xaml.DebugConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the reverse conversion
+            </summary>
+            <param name="value">value, as produced by target</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted back value</returns>
+        </member>
+        <member name="T:Stylet.Xaml.EqualityConverter">
+            <summary>
+            Converter to compare a number of values, and return true (or false if Invert is true) if they are all equal
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.EqualityConverter.Instance">
+            <summary>
+            Singleton instance of this converter. Usage: Converter="{x:Static s:EqualityConverter.Instance}"
+            </summary>
+        </member>
+        <member name="P:Stylet.Xaml.EqualityConverter.Invert">
+            <summary>
+            Gets or sets a value indicating whether to return false, instead of true, if call values are equal
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.EqualityConverter.InvertProperty">
+            <summary>
+            Property specifying whether the output should be inverted
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.EqualityConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the conversion
+            </summary>
+            <param name="values">
+                Array of values, as produced by source bindings.
+                System.Windows.DependencyProperty.UnsetValue may be passed to indicate that
+                the source binding has no value to provide for conversion.
+            </param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted values</returns>
+        </member>
+        <member name="M:Stylet.Xaml.EqualityConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Perform the reverse convesion. Not implemented.
+            </summary>
+            <param name="value">value, as produced by target</param>
+            <param name="targetTypes">
+                Array of target types; array length indicates the number and types
+                of values suggested for Convert to return.
+            </param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted back values</returns>
+        </member>
+        <member name="T:Stylet.Xaml.EventAction">
+            <summary>
+            Created by ActionExtension, this can return a delegate suitable adding binding to an event, and can call a method on the View.ActionTarget
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.EventAction.eventHandlerType">
+            <summary>
+            Type of event handler
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.EventAction.#ctor(System.Windows.DependencyObject,System.Windows.DependencyObject,System.Type,System.String,Stylet.Xaml.ActionUnavailableBehaviour,Stylet.Xaml.ActionUnavailableBehaviour)">
+            <summary>
+            Initialises a new instance of the <see cref="T:Stylet.Xaml.EventAction"/> class
+            </summary>
+            <param name="subject">View whose View.ActionTarget we watch</param>
+            <param name="backupSubject">Backup subject to use if no ActionTarget could be retrieved from the subject</param>
+            <param name="eventHandlerType">Type of event handler we're returning a delegate for</param>
+            <param name="methodName">The MyMethod in {s:Action MyMethod}, this is what we call when the event's fired</param>
+            <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
+            <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
+        </member>
+        <member name="M:Stylet.Xaml.EventAction.AssertTargetMethodInfo(System.Reflection.MethodInfo,System.Type)">
+            <summary>
+            Invoked when a new non-null target is set, which has non-null MethodInfo. Used to assert that the method signature is correct
+            </summary>
+            <param name="targetMethodInfo">MethodInfo of method on new target</param>
+            <param name="newTargetType">Type of new target</param>
+        </member>
+        <member name="M:Stylet.Xaml.EventAction.GetDelegate">
+            <summary>
+            Return a delegate which can be added to the targetProperty
+            </summary>
+            <returns>An event hander, which, when invoked, will invoke the action</returns>
+        </member>
+        <member name="T:Stylet.Xaml.ActionEventSignatureInvalidException">
+            <summary>
+            You tried to use an EventAction with an event that doesn't follow the EventHandler signature
+            </summary>
+        </member>
+        <member name="T:Stylet.Xaml.IconToBitmapSourceConverter">
+            <summary>
+            Converter to take an Icon, and convert it to a BitmapSource
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.IconToBitmapSourceConverter.Instance">
+            <summary>
+            Singleton instance of this converter. Usage e.g. Converter="{x:Static s:IconToBitmapSourceConverter.Instance}"
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.IconToBitmapSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value
+            </summary>
+            <param name="value">value as produced by source binding</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:Stylet.Xaml.IconToBitmapSourceConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value back. Not supported.
+            </summary>
+            <param name="value">value, as produced by target</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">converter parameter</param>
+            <param name="culture">culture information</param>
+            <returns>Converted back value</returns>
+        </member>
+        <member name="T:Stylet.Xaml.View">
+            <summary>
+            Holds attached properties relating to various bits of the View which are used by Stylet
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.View.ViewManagerResourceKey">
+            <summary>
+            Key which will be used to retrieve the ViewManager associated with the current application, from application's resources
+            </summary>
+        </member>
+        <member name="F:Stylet.Xaml.View.InitialActionTarget">
+            <summary>
+            Initial value of the ActionTarget property.
+            This can be used as a marker - if the property has this value, it hasn't yet been assigned to anything else.
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.View.GetActionTarget(System.Windows.DependencyObject)">
+            <summary>
+            Get the ActionTarget associated with the given object
+            </summary>
+            <param name="obj">Object to fetch the ActionTarget for</param>
+            <returns>ActionTarget associated with the given object</returns>
+        </member>
+        <member name="M:Stylet.Xaml.View.SetActionTarget(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set the ActionTarget associated with the given object
+            </summary>
+            <param name="obj">Object to set the ActionTarget for</param>
+            <param name="value">Value to set the ActionTarget to</param>
+        </member>
+        <member name="F:Stylet.Xaml.View.ActionTargetProperty">
+            <summary>
+            The object's ActionTarget. This is used to determine what object to call Actions on by the ActionExtension markup extension.
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.View.GetModel(System.Windows.DependencyObject)">
+            <summary>
+            Fetch the ViewModel currently associated with a given object
+            </summary>
+            <param name="obj">Object to fetch the ViewModel for</param>
+            <returns>ViewModel currently associated with the given object</returns>
+        </member>
+        <member name="M:Stylet.Xaml.View.SetModel(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set the ViewModel currently associated with a given object
+            </summary>
+            <param name="obj">Object to set the ViewModel for</param>
+            <param name="value">ViewModel to set</param>
+        </member>
+        <member name="F:Stylet.Xaml.View.ModelProperty">
+            <summary>
+            Property specifying the ViewModel currently associated with a given object
+            </summary>
+        </member>
+        <member name="M:Stylet.Xaml.View.SetContentProperty(System.Windows.DependencyObject,System.Windows.UIElement)">
+            <summary>
+            Helper to set the Content property of a given object to a particular View
+            </summary>
+            <param name="targetLocation">Object to set the Content property on</param>
+            <param name="view">View to set as the object's Content</param>
+        </member>
+        <member name="T:Stylet.MessageBoxView">
+            <summary>
+            MessageBoxView
+            </summary>
+        </member>
+        <member name="M:Stylet.MessageBoxView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Creation.BuilderTypeKey">
+            <summary>
+            Defines and type + key for a service, used in setting up bindings
+            </summary>
+        </member>
+        <member name="P:StyletIoC.Creation.BuilderTypeKey.Type">
+            <summary>
+            Gets or sets the Type associated with this Type+Key
+            </summary>
+        </member>
+        <member name="P:StyletIoC.Creation.BuilderTypeKey.Key">
+            <summary>
+            Gets or sets the Key associated with this Type+Key
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderTypeKey.#ctor(System.Type)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.Creation.BuilderTypeKey"/> class with the given type
+            </summary>
+            <param name="type">Type to associated with this Type+Key</param>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderTypeKey.#ctor(System.Type,System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.Creation.BuilderTypeKey"/> class with the given type and key
+            </summary>
+            <param name="type">Type to associated with this Type+Key</param>
+            <param name="key">Key to associated with this Type+Key</param>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderTypeKey.Equals(System.Object)">
+            <summary>
+            Determines whether the specified object is equal to the current object.
+            </summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns>true if the specified object is equal to the current object; otherwise, false</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderTypeKey.GetHashCode">
+            <summary>
+            Calculates a HashCode for the current object
+            </summary>
+            <returns>A hash code for the current object.</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderTypeKey.Equals(StyletIoC.Creation.BuilderTypeKey)">
+            <summary>
+            Determines whether the specified object is equal to the current object.
+            </summary>
+            <param name="other">The object to compare with the current object.</param>
+            <returns>true if the specified object is equal to the current object; otherwise, false</returns>
+        </member>
+        <member name="T:StyletIoC.Creation.BuilderUpper">
+            <summary>
+            A BuilderUpper knows how to build up an object - that is, populate all parameters decorated with [Inject]
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderUpper.#ctor(System.RuntimeTypeHandle,StyletIoC.Creation.IRegistrationContext)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.Creation.BuilderUpper"/> class
+            </summary>
+            <param name="typeHandle">Type of object that the BuilderUpper will work on</param>
+            <param name="parentContext">IRegistrationContext on which this BuilderUpper is registered</param>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderUpper.GetExpression(System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Get an expression which takes an object represented by inputParameterExpression, and returns an expression which builds it up
+            </summary>
+            <param name="inputParameterExpression">Expression representing the object instance to build up</param>
+            <param name="registrationContext">Context which calls this method</param>
+            <returns>Expression which will build up inputParameterExpression</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.BuilderUpper.GetImplementor">
+            <summary>
+            Get a delegate which, given an object, will build it up
+            </summary>
+            <returns>Delegate which, when given an object, will build it up</returns>
+        </member>
+        <member name="T:StyletIoC.Creation.ICreator">
+            <summary>
+            An ICreator is responsible for creating an instance of an object on demand
+            </summary>
+        </member>
+        <member name="P:StyletIoC.Creation.ICreator.TypeHandle">
+            <summary>
+            Gets the type of object that will be created
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Creation.ICreator.GetInstanceExpression(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Fetches an expression evaluating to an instance on demand
+            </summary>
+            <param name="registrationContext">Context which calls this method</param>
+            <returns>An expression evaluating to an instance of the specified Type</returns>
+        </member>
+        <member name="T:StyletIoC.Creation.RegistrationFactory">
+            <summary>
+            Delegate used to create an IRegistration
+            </summary>
+            <param name="parentContext">Context on which this registration will be created</param>
+            <param name="serviceTypes">Service types and keys for this registration</param>
+            <param name="creator">ICreator used by the IRegistration to create new instances</param>
+            <returns>A new IRegistration</returns>
+        </member>
+        <member name="T:StyletIoC.Creation.IRegistration">
+            <summary>
+            An IRegistration is responsible to returning an appropriate (new or cached) instanced of a type, or an expression doing the same.
+            It owns an ICreator, and will use it to create a new instance when needed.
+            </summary>
+        </member>
+        <member name="P:StyletIoC.Creation.IRegistration.TypeHandle">
+            <summary>
+            Gets the type of the object returned by the registration
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistration.GetGenerator">
+            <summary>
+            Fetches an instance of the relevaent type
+            </summary>
+            <returns>An object of type Type, which is supplied by the ICreator</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistration.GetInstanceExpression(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Fetches an expression which evaluates to an instance of the relevant type
+            </summary>
+            <param name="registrationContext">Context which calls this method</param>
+            <returns>An expression evaluating to an instance of type Type, which is supplied by the ICreator></returns>
+        </member>
+        <member name="T:StyletIoC.Creation.IRegistrationContext">
+            <summary>
+            Context used by IRegistration and ICreator to get things needed to create instances, etc
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistrationContext.GetBuilderUpper(System.Type)">
+            <summary>
+            Get the BuilderUpper for the given type
+            </summary>
+            <remarks>
+            A BuilderUpper is something which knows how to build up an object - that is, populate
+            all parameters marked with [Inject].
+            </remarks>
+            <param name="type">The type of object to retrieve the BuilderUpper for</param>
+            <returns>The appropriate BuilderUpper</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistrationContext.CanResolve(System.Type,System.String)">
+            <summary>
+            Determine whether the container can resolve the given type+key combination
+            </summary>
+            <param name="type">Type to resolve</param>
+            <param name="key">Key to resolve</param>
+            <returns>True if the container can resolve this type+key combination</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistrationContext.GetSingleRegistration(System.Type,System.String,System.Boolean)">
+            <summary>
+            Retrieve a single IRegistration for the type+key combination, or throw an exception if non, or more than one, are avaiable
+            </summary>
+            <param name="type">Type to search for</param>
+            <param name="key">Key to search for</param>
+            <param name="searchGetAllTypes">
+            If true, a Type of IEnumerableI{Something} can return a registration which can generate a List{ISomething},
+            where each element in that list is a different instance implementing ISomething
+            </param>
+            <returns>The appropriate registration</returns>
+        </member>
+        <member name="M:StyletIoC.Creation.IRegistrationContext.GetAllRegistrations(System.Type,System.String,System.Boolean)">
+            <summary>
+            Retrieve all IRegistrations for the type+key combination
+            </summary>
+            <remarks>If a single registration exists, then the returned list will contain a single entry</remarks>
+            <param name="type">Type to search for</param>
+            <param name="key">Key to search for</param>
+            <param name="searchGetAllTypes">
+            If true, a Type of IEnumerableI{Something} can return a registration which can generate a List{ISomething},
+            where each element in that list is a different instance implementing ISomething
+            </param>
+            <returns>The appropriate registrations</returns>
+        </member>
+        <member name="E:StyletIoC.Creation.IRegistrationContext.Disposing">
+            <summary>
+            Fired when Dispose is called on the container.
+            Registrations which retain instances should dispose and release them when this event is fired
+            </summary>
+        </member>
+        <member name="T:StyletIoC.IBindTo">
+            <summary>
+            Interface for selecting what to bind a service to.
+            Call StyletIoCBuilder.Bind(..) to get an instance of this
+            </summary>
+        </member>
+        <member name="T:StyletIoC.IToMultipleServices">
+            <summary>
+            Interface providing further options once a binding has been created which binds to multiple services
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IToMultipleServices.To(System.Type)">
+            <summary>
+            Bind the specified service to another type which implements that service. E.g. builder.Bind{IMyClass}().To(typeof(MyClass)), and request an IMyClass: you'll get a MyClass.
+            </summary>
+            <param name="implementationType">Type to bind the service to</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToMultipleServices.To``1">
+            <summary>
+            Bind the specified service to another type which implements that service. E.g. builder.Bind{IMyClass}().To{MyClass}(), and request an IMyClass: you'll get a MyClass.
+            </summary>
+            <typeparam name="TImplementation">Type to bind the service to</typeparam>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToMultipleServices.ToFactory``1(System.Func{StyletIoC.Creation.IRegistrationContext,``0})">
+            <summary>
+            Bind the specified service to a factory delegate, which will be called when an instance is required. E.g. ...ToFactory(c => new MyClass(c.Get{Dependency}(), "foo"))
+            </summary>
+            <typeparam name="TImplementation">Type returned by the factory delegate. Must implement the service</typeparam>
+            <param name="factory">Factory delegate to bind got</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToMultipleServices.ToInstance(System.Object)">
+            <summary>
+            Bind the specified service to the given untyped instance
+            </summary>
+            <param name="instance">Instance to use</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IToAnyService">
+            <summary>
+            Interface providing binding options for a single service, or multiple services
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IToAnyService.ToSelf">
+            <summary>
+            Bind the specified service to itself - if you self-bind MyClass, and request an instance of MyClass, you'll get an instance of MyClass.
+            </summary>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToAnyService.ToAbstractFactory">
+            <summary>
+            If the service is an interface with a number of methods which return other types, generate an implementation of that abstract factory and bind it to the interface.
+            </summary>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToAnyService.ToAllImplementations(System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Boolean)">
+            <summary>
+            Discover all implementations of the service in the specified assemblies / the current assembly, and bind those to the service
+            </summary>
+            <param name="assemblies">Assemblies to search. If empty / null, searches the current assembly</param>
+            <param name="allowZeroImplementations">By default, ToAllImplementations will throw an exception if no implementations are found. Set this parameter to true to allow this case</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IToAnyService.ToAllImplementations(System.Boolean,System.Reflection.Assembly[])">
+            <summary>
+            Discover all implementations of the service in the specified assemblies / the current assembly, and bind those to the service
+            </summary>
+            <param name="allowZeroImplementations">By default, ToAllImplementations will throw an exception if no implementations are found. Set this parameter to true to allow this case</param>
+            <param name="assemblies">Assemblies to search. If empty / null, searches the current assembly</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IAndTo">
+            <summary>
+            Interface providing 'And' binding options
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IAndTo.And(System.Type)">
+            <summary>
+            Add another service to this binding
+            </summary>
+            <param name="serviceType">Service type to add to this binding</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IAndTo.And``1">
+            <summary>
+            Add another service to this binding
+            </summary>
+            <typeparam name="TService">Service type to add to this binding</typeparam>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IWithKeyOrToMulipleServices">
+            <summary>
+            Interface providing options 'WithKey' or 'ToXXX' for multiple services
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IWithKeyOrToMulipleServices.WithKey(System.String)">
+            <summary>
+            Add a key to this part of the multiple-service binding
+            </summary>
+            <param name="key">Key to add to this part of the multiple-service binding</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IAndOrToMultipleServices">
+            <summary>
+            Interface providing 'And' or 'ToXXX' for multiple services
+            </summary>
+        </member>
+        <member name="T:StyletIoC.IWithKeyOrAndOrToMultipleServices">
+            <summary>
+            Interface providing 'WithKey' or 'And' or 'ToXXX' for multiple services
+            </summary>
+        </member>
+        <member name="T:StyletIoC.IAsWeakBinding">
+            <summary>
+            Fluent interface on which AsWeakBinding can be called
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IAsWeakBinding.AsWeakBinding">
+            <summary>
+            Mark the binding as weak
+            </summary>
+            <remarks>
+            <para>
+            When the container is built, each collection of registrations for each Type+key combination is examined.
+            If only weak bindings exist, then all bindings are built into the container.
+            If any normal bindings exist, then all weak bindings are ignored, and only the normal bindings are built into the container.
+            </para>
+            <para>
+            This is very useful for integration StyletIoC into a framework. The framework can add default bindings for services as
+            weak bindings, and the user can use normal bindings. If the user does specify a binding, then this will override
+            the binding set by the framework.
+            </para>
+            <para>
+            This is also used by AutoBind when self-binding concrete types, for the sme reason.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:StyletIoC.IWithKeyOrAsWeakBinding">
+            <summary>
+            Fluent interface on which WithKey or AsWeakBinding can be called
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IWithKeyOrAsWeakBinding.WithKey(System.String)">
+            <summary>
+            Associate a key with this binding. Requests for the service will have to specify this key to retrieve the result of this binding
+            </summary>
+            <param name="key">Key to associate with this binding</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IWithKeyOrAsWeakBindingOrDisposeWithContainer">
+            <summary>
+            Fluent interface on which WithKey, AsWeakBinding, or DisposeWithContainer can be called
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IWithKeyOrAsWeakBindingOrDisposeWithContainer.DisposeWithContainer(System.Boolean)">
+            <summary>
+            Control whether or not this instance will be disposed when the IoC container is disposed. Defaults to true
+            </summary>
+            <param name="disposeWithContainer">True to dispose this instance when the container is disposed, false otherwise</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IInScopeOrAsWeakBinding">
+            <summary>
+            Fluent interface on which methods to modify the scope can be called
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IInScopeOrAsWeakBinding.WithRegistrationFactory(StyletIoC.Creation.RegistrationFactory)">
+            <summary>
+            Specify a factory that creates an IRegistration to use for this binding
+            </summary>
+            <param name="registrationFactory">Registration factory to use</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IInScopeOrAsWeakBinding.InSingletonScope">
+            <summary>
+            Modify the scope of the binding to Singleton. One instance of this implementation will be generated for this binding.
+            </summary>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IInScopeOrWithKeyOrAsWeakBinding">
+            <summary>
+            Fluent interface on which WithKey, AsWeakBinding, or the scoping extensions can be called
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IInScopeOrWithKeyOrAsWeakBinding.WithKey(System.String)">
+            <summary>
+            Associate a key with this binding. Requests for the service will have to specify this key to retrieve the result of this binding
+            </summary>
+            <param name="key">Key to associate with this binding</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="T:StyletIoC.IContainer">
+            <summary>
+            Describes an IoC container, specifically StyletIoC
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IContainer.Compile(System.Boolean)">
+            <summary>
+            Compile all known bindings (which would otherwise be compiled when needed), checking the dependency graph for consistency
+            </summary>
+            <param name="throwOnError">If true, throw if we fail to compile a type</param>
+        </member>
+        <member name="M:StyletIoC.IContainer.Get(System.Type,System.String)">
+            <summary>
+            Fetch a single instance of the specified type
+            </summary>
+            <param name="type">Type of service to fetch an implementation for</param>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>An instance of the requested service</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.Get``1(System.String)">
+            <summary>
+            Fetch a single instance of the specified type
+            </summary>
+            <typeparam name="T">Type of service to fetch an implementation for</typeparam>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>An instance of the requested service</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.GetAll(System.Type,System.String)">
+            <summary>
+            Fetch instances of all types which implement the specified service
+            </summary>
+            <param name="type">Type of the service to fetch implementations for</param>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>All implementations of the requested service, with the requested key</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.GetAll``1(System.String)">
+            <summary>
+            Fetch instances of all types which implement the specified service
+            </summary>
+            <typeparam name="T">Type of the service to fetch implementations for</typeparam>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>All implementations of the requested service, with the requested key</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.GetTypeOrAll(System.Type,System.String)">
+            <summary>
+            If type is an IEnumerable{T} or similar, is equivalent to calling GetAll{T}. Else, is equivalent to calling Get{T}.
+            </summary>
+            <param name="type">If IEnumerable{T}, will fetch all implementations of T, otherwise wil fetch a single T</param>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>The resolved result</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.GetTypeOrAll``1(System.String)">
+            <summary>
+            If type is an IEnumerable{T} or similar, is equivalent to calling GetAll{T}. Else, is equivalent to calling Get{T}.
+            </summary>
+            <typeparam name="T">If IEnumerable{T}, will fetch all implementations of T, otherwise wil fetch a single T</typeparam>
+            <param name="key">Key that implementations of the service to fetch were registered with, defaults to null</param>
+            <returns>The resolved result</returns>
+        </member>
+        <member name="M:StyletIoC.IContainer.BuildUp(System.Object)">
+            <summary>
+            For each property/field with the [Inject] attribute, sets it to an instance of that type
+            </summary>
+            <param name="item">Item to build up</param>
+        </member>
+        <member name="T:StyletIoC.IInjectionAware">
+            <summary>
+            Interface to be implemented by objects if they want to be notified when property injection has occurred
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IInjectionAware.ParametersInjected">
+            <summary>
+            Called by StyletIoC when property injection has occurred
+            </summary>
+        </member>
+        <member name="T:StyletIoC.InjectAttribute">
+            <summary>
+            Attribute which can be used to mark the constructor to use, properties to inject, which key to use to resolve an injected property, and others. See the docs
+            </summary>
+        </member>
+        <member name="M:StyletIoC.InjectAttribute.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.InjectAttribute"/> class
+            </summary>
+        </member>
+        <member name="M:StyletIoC.InjectAttribute.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.InjectAttribute"/> class, which has the specified key
+            </summary>
+            <param name="key">Key to associate (meaning depends on context)</param>
+        </member>
+        <member name="P:StyletIoC.InjectAttribute.Key">
+            <summary>
+            Gets or sets the key to use to resolve the relevant dependency
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Builders.BuilderBindingBase.InSingletonScope">
+            <summary>
+            Modify the scope of the binding to Singleton. One instance of this implementation will be generated for this binding.
+            </summary>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="F:StyletIoC.Internal.Container.registrations">
+            <summary>
+            Maps a [type, key] pair to a collection of registrations for that keypair. You can retrieve an instance of the type from the registration
+            </summary>
+        </member>
+        <member name="F:StyletIoC.Internal.Container.getAllRegistrations">
+            <summary>
+            Maps a [type, key] pair, where 'type' is the T in IEnumerable{T}, to a registration which can create a List{T} implementing that IEnumerable.
+            This is separate from 'registrations' as some code paths - e.g. Get() - won't search it (while things like constructor/property injection will).
+            </summary>
+        </member>
+        <member name="F:StyletIoC.Internal.Container.unboundGenerics">
+            <summary>
+            Maps a [type, key] pair, where 'type' is an unbound generic (something like IValidator{}) to something which, given a type, can create an IRegistration for that type.
+            So if they've bound an IValidator{} to a an IntValidator, StringValidator, etc, and request an IValidator{string}, one of the UnboundGenerics here can generatr a StringValidator.
+            </summary>
+            <remarks>Dictionary{TKey, TValue} and List{T} are thread-safe for concurrent reads, which is all that happens after building</remarks>
+        </member>
+        <member name="F:StyletIoC.Internal.Container.builderUppers">
+            <summary>
+            Maps a type onto a BuilderUpper for that type, which can create an Expresson/Delegate to build up that type.
+            </summary>
+        </member>
+        <member name="F:StyletIoC.Internal.Container.factoryBuilder">
+            <summary>
+            Cached ModuleBuilder used for building factory implementations
+            </summary>
+        </member>
+        <member name="E:StyletIoC.Internal.Container.Disposing">
+            <summary>
+            Fired when this container is asked to dispose
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.Compile(System.Boolean)">
+            <summary>
+            Compile all known bindings (which would otherwise be compiled when needed), checking the dependency graph for consistency
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.Get(System.Type,System.String)">
+            <summary>
+            Fetch a single instance of the specified type
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.Get``1(System.String)">
+            <summary>
+            Generic form of Get
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.GetAll(System.Type,System.String)">
+            <summary>
+            Fetch instances of all types which implement the specified service
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.GetAll``1(System.String)">
+            <summary>
+            Generic form of GetAll
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.GetTypeOrAll(System.Type,System.String)">
+            <summary>
+            If type is an IEnumerable{T} or similar, is equivalent to calling GetAll{T}. Else, is equivalent to calling Get{T}.
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.GetTypeOrAll``1(System.String)">
+            <summary>
+            Generic form of GetTypeOrAll
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.BuildUp(System.Object)">
+            <summary>
+            For each property/field with the [Inject] attribute, sets it to an instance of that type
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.StyletIoC#Creation#IRegistrationContext#CanResolve(System.Type,System.String)">
+            <summary>
+            Determine whether we can resolve a particular typeKey
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.GetElementTypeFromCollectionType(System.Type)">
+            <summary>
+            Given a collection type (IEnumerable{T}, etc) extracts the T, or null if we couldn't, or if we can't resolve that [T, key]
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.TryRetrieveGetAllRegistrationFromElementType(StyletIoC.Internal.TypeKey,System.Type,StyletIoC.Creation.IRegistration@,System.Type)">
+            <summary>
+            Given an type, tries to create or fetch an IRegistration which can create an IEnumerable{T}. If collectionTypeOrNull is given, ensures that the generated
+            implementation of the IEnumerable{T} is compatible with that collection (e.g. if they've requested a List{T} in a constructor param, collectionTypeOrNull will be List{T}).
+            </summary>
+            <param name="elementTypeKey">Element type and key to create an IRegistration for</param>
+            <param name="collectionTypeOrNull">If given (not null), ensures that the generated implementation of the collection is compatible with this</param>
+            <param name="registration">Returned IRegistration, or null if the method returns false</param>
+            <param name="elementTypeIfAvailable">Type corresponding to elementTypeKey, if available. Used for a small optimization</param>
+            <returns>Whether such an IRegistration could be created or retrieved</returns>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.TryRetrieveGetAllRegistration(System.Type,System.String,StyletIoC.Creation.IRegistration@)">
+            <summary>
+            Wrapper around TryRetrieveGetAllRegistrationFromElementType, which also extracts the element type from the collection type
+            </summary>
+            <param name="type">Type of the collection</param>
+            <param name="key">Key associated with the collection</param>
+            <param name="registration">Returned IRegistration, or null if the method returns false</param>
+            <returns>Whether such an IRegistration could be created or retrieved</returns>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.TryCreateFuncFactory(System.Type,System.String,StyletIoC.Internal.IRegistrationCollection@)">
+            <summary>
+            If the given type is a Func{T}, get a registration which can create an instance of it
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.Container.TryCreateGenericTypesForUnboundGeneric(System.Type,System.String,StyletIoC.Internal.IRegistrationCollection@)">
+            <summary>
+            Given a generic type (e.g. IValidator{T}), tries to create a collection of IRegistrations which can implement it from the unbound generic registrations.
+            For example, if someone bound an IValidator{} to Validator{}, and this was called with Validator{T}, the IRegistrationCollection would contain a Validator{T}.
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Creators.AbstractFactoryCreator">
+            <summary>
+            Knows how to create an instance of an abstract factory (generated by Container.GetFactoryForType)
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Creators.CreatorBase">
+            <summary>
+            Base class for all ICreators (which want to use it). Provides convenience
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Creators.FactoryCreator`1">
+            <summary>
+            Knows how to create an instance of a type, by using a Func{IRegistration, T} passed by the user during building
+            </summary>
+            <typeparam name="T">Type of object created by this factory</typeparam>
+        </member>
+        <member name="T:StyletIoC.Internal.Creators.TypeCreator">
+            <summary>
+            Creator which knows how to create an instance of a type, by finding a suitable constructor and calling it
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Registrations.FuncRegistration">
+            <summary>
+            Knows how to create a Func{T}, using a given IRegistration
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Registrations.GetAllRegistration">
+            <summary>
+            Knows how to generate an IEnumerable{T}, which contains all implementations of T
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Registrations.RegistrationBase">
+            <summary>
+            Convenience base class for all IRegistrations which want it
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Registrations.SingletonRegistration">
+            <summary>
+            Registration which generates a single instance, and returns that instance thereafter
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.Registrations.TransientRegistration">
+            <summary>
+            Registration which generates a new instance each time one is requested
+            </summary>
+        </member>
+        <member name="T:StyletIoC.Internal.TypeExtensions">
+            <summary>
+            Useful extension methods on Type
+            </summary>
+        </member>
+        <member name="M:StyletIoC.Internal.TypeExtensions.GetBaseTypesAndInterfaces(System.Type)">
+            <summary>
+            Return all base types and interfaces implemented by the given type (and its ancestors)
+            </summary>
+            <param name="type">Type to return base types and interfaces for</param>
+            <returns>Base types and interfaces implemented by the given type</returns>
+        </member>
+        <member name="M:StyletIoC.Internal.TypeExtensions.GetBaseTypes(System.Type)">
+            <summary>
+            Return all base types implemented by the given type (and their base types, etc)
+            </summary>
+            <param name="type">Type to interrogate</param>
+            <returns>Base types implemented by the given type</returns>
+        </member>
+        <member name="M:StyletIoC.Internal.TypeExtensions.Implements(System.Type,System.Type)">
+            <summary>
+            Determine if any of the type's base types or interfaces is equal to the given service type. Also checks generic types
+            </summary>
+            <remarks>
+            For example, given I1{T} and C1{T} : I1{T}, typeof(C1{int}).Implemements(typeof(I1{}) returns true.
+            </remarks>
+            <param name="implementationType">Implementation type</param>
+            <param name="serviceType">Service type</param>
+            <returns>Whether the implementation type implements the service type</returns>
+        </member>
+        <member name="M:StyletIoC.Internal.TypeExtensions.GetDescription(System.Type)">
+            <summary>
+            Return a human-readable description of the given type
+            </summary>
+            <remarks>
+            This returns things like 'List{int}' instead of 'List`1[System.Int32]'
+            </remarks>
+            <param name="type">Type to generate the description for</param>
+            <returns>Description of the given type</returns>
+        </member>
+        <member name="T:StyletIoC.Internal.TypeKey">
+            <summary>
+            Type + key tuple, used as a dictionary key
+            </summary>
+        </member>
+        <member name="T:StyletIoC.IStyletIoCBuilder">
+            <summary>
+            This IStyletIoCBuilder is the only way to create an IContainer. Binding are registered using the builder, than an IContainer generated.
+            </summary>
+        </member>
+        <member name="P:StyletIoC.IStyletIoCBuilder.Assemblies">
+            <summary>
+            Gets or sets the list of assemblies searched by Autobind and ToAllImplementatinos
+            </summary>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.Bind(System.Type)">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <param name="serviceType">Service to bind</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.Bind``1">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <typeparam name="TService">Service to bind</typeparam>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.Autobind(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Search the specified assembly(s) / the current assembly for concrete types, and self-bind them
+            </summary>
+            <param name="assemblies">Assembly(s) to search, or leave empty / null to search the current assembly</param>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.Autobind(System.Reflection.Assembly[])">
+            <summary>
+            Search the specified assembly(s) / the current assembly for concrete types, and self-bind them
+            </summary>
+            <param name="assemblies">Assembly(s) to search, or leave empty / null to search the current assembly</param>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.AddModule(StyletIoC.StyletIoCModule)">
+            <summary>
+            Add a single module to this builder
+            </summary>
+            <param name="module">Module to add</param>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.AddModules(StyletIoC.StyletIoCModule[])">
+            <summary>
+            Add many modules to this builder
+            </summary>
+            <param name="modules">Modules to add</param>
+        </member>
+        <member name="M:StyletIoC.IStyletIoCBuilder.BuildContainer">
+            <summary>
+            Once all bindings have been set, build an IContainer from which instances can be fetched
+            </summary>
+            <returns>An IContainer, which should be used from now on</returns>
+        </member>
+        <member name="T:StyletIoC.StyletIoCBuilder">
+            <summary>
+            This StyletIoCBuilder is the only way to create an IContainer. Binding are registered using the builder, than an IContainer generated.
+            </summary>
+        </member>
+        <member name="P:StyletIoC.StyletIoCBuilder.Assemblies">
+            <summary>
+            Gets or sets the list of assemblies searched by Autobind and ToAllImplementatinos
+            </summary>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.StyletIoCBuilder"/> class
+            </summary>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.#ctor(StyletIoC.StyletIoCModule[])">
+            <summary>
+            Initialises a new instance of the <see cref="T:StyletIoC.StyletIoCBuilder"/> class, which contains the given modules
+            </summary>
+            <param name="modules">Modules to add to the builder</param>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.Bind(System.Type)">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <param name="serviceType">Service to bind</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.Bind``1">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <typeparam name="TService">Service to bind</typeparam>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.Autobind(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Search assemblies for concrete types, and self-bind them
+            </summary>
+            <param name="assemblies">Assemblies to search, in addition to the Assemblies property</param>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.Autobind(System.Reflection.Assembly[])">
+            <summary>
+            Search assemblies for concrete types, and self-bind them
+            </summary>
+            <param name="assemblies">Assemblies to search, in addition to the Assemblies property</param>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.AddModule(StyletIoC.StyletIoCModule)">
+            <summary>
+            Add a single module to this builder
+            </summary>
+            <param name="module">Module to add</param>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.AddModules(StyletIoC.StyletIoCModule[])">
+            <summary>
+            Add many modules to this builder
+            </summary>
+            <param name="modules">Modules to add</param>
+        </member>
+        <member name="M:StyletIoC.StyletIoCBuilder.BuildContainer">
+            <summary>
+            Once all bindings have been set, build an IContainer from which instances can be fetched
+            </summary>
+            <returns>An IContainer, which should be used from now on</returns>
+        </member>
+        <member name="T:StyletIoC.StyletIoCContainer">
+            <summary>
+            Lightweight, very fast IoC container
+            </summary>
+        </member>
+        <member name="F:StyletIoC.StyletIoCContainer.FactoryAssemblyName">
+            <summary>
+            Name of the assembly in which abstract factories are built. Use in [assembly: InternalsVisibleTo(StyletIoCContainer.FactoryAssemblyName)] to allow factories created by .ToAbstractFactory() to access internal types
+            </summary>
+        </member>
+        <member name="P:StyletIoC.StyletIoCContainer.CacheGeneratedExpressions">
+            <summary>
+            Gets or sets a value indicating whether generated Expressions are cached, or resolved anew each time.
+            Setting to true may speed up the compilation phase in the case where one type is required by many other types.
+            However, it will cause loads of ConstructorInfos to be cached forever, and they're actually pretty expensive to hold on to.
+            </summary>
+        </member>
+        <member name="T:StyletIoC.StyletIoCException">
+            <summary>
+            Base class for all exceptions describing StyletIoC-specific problems?
+            </summary>
+        </member>
+        <member name="T:StyletIoC.StyletIoCRegistrationException">
+            <summary>
+            A problem occured with a registration process (failed to register, failed to find a registration, etc)
+            </summary>
+        </member>
+        <member name="T:StyletIoC.StyletIoCFindConstructorException">
+            <summary>
+            StyletIoC was unable to find a callable constructor for a type
+            </summary>
+        </member>
+        <member name="T:StyletIoC.StyletIoCCreateFactoryException">
+            <summary>
+            StyletIoC was unable to create an abstract factory
+            </summary>
+        </member>
+        <member name="T:StyletIoC.StyletIoCModule">
+            <summary>
+            Module which contains its own bindings, and can be added to a builder
+            </summary>
+        </member>
+        <member name="M:StyletIoC.StyletIoCModule.Bind(System.Type)">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <param name="serviceType">Service to bind</param>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.StyletIoCModule.Bind``1">
+            <summary>
+            Bind the specified service (interface, abstract class, concrete class, unbound generic, etc) to something
+            </summary>
+            <typeparam name="TService">Service to bind</typeparam>
+            <returns>Fluent interface to continue configuration</returns>
+        </member>
+        <member name="M:StyletIoC.StyletIoCModule.Load">
+            <summary>
+            Override, and use 'Bind' to add bindings to the module
+            </summary>
+        </member>
+    </members>
+</doc>
