@@ -267,6 +267,7 @@ class TidalTool(object):
 
     def getFavorite(self, user_id):
         trackList = self.__getItemsList('users/' + str(user_id) + '/favorites/tracks')
+        tracklist = self._fixSameTrackName(trackList, True)
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
 
