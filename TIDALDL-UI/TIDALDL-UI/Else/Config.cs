@@ -91,6 +91,14 @@ namespace TIDALDL_UI.Else
             return true;
         }
 
+        public static bool UseTrackNumber(string Setvalue = null)
+        {
+            string sValue = SetOrGet("useTrackNumber", Setvalue, "true");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
         public static string Quality(string Setvalue = null)
         {
             return SetOrGet("quality", Setvalue, "HIGH");

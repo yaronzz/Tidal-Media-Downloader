@@ -750,7 +750,8 @@ namespace Tidal
             
         public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, 
                                             bool hyphen=false, Playlist plist=null, string trackTitle = null, 
-                                            bool artistBeforeTitle = false, bool addexplicit=false, int addYear = 0)
+                                            bool artistBeforeTitle = false, bool addexplicit=false, int addYear = 0,
+                                            bool useTrackNumber = true)
         {
             //Get sArtistStr
             string sArtistStr = "";
@@ -773,10 +774,14 @@ namespace Tidal
                 if (album.NumberOfVolumes > 1)
                     sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
 
+
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}{4}{5}",
-                    track.TrackNumber.ToString().PadLeft(2, '0'),  
-                    sChar,
+                string trackNumber = track.TrackNumber.ToString().PadLeft(2, '0');
+
+                string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
+                
+                string sName = string.Format("{0}{1}{2}{3}{4}",
+                    sPrefix,
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     sExplicitStr,
@@ -789,10 +794,14 @@ namespace Tidal
             {
                 string sPlistDir = getPlaylistFolder(basePath, plist);
                 string sTrackDir = sPlistDir;
+
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}{4}",
-                    (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0'),
-                    sChar,
+                string trackNumber = (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0');
+
+                string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
+
+                string sName = string.Format("{0}{1}{2}{3}",
+                    sPrefix,
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     getExtension(sdlurl));

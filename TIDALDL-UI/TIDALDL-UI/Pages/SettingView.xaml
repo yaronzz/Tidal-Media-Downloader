@@ -83,18 +83,37 @@
 
                     <!--Track config   Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
                     <Grid Grid.Column="1" Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                        <Label Content="Quality" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,33,312,0" />
-                        <ComboBox ItemsSource="{Binding QualityList}"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Quality" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="1" Grid.Column="0"  Content="OnlyM4a" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="2" Grid.Column="0"  Content="AddHyphen" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="3" Grid.Column="0"  Content="CheckExist" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="4" Grid.Column="0"  Content="AddExplicit" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="5" Grid.Column="0"  Content="Use Track number" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        
+                        <ComboBox Grid.Row="0" Grid.Column="1"  ItemsSource="{Binding QualityList}"
                                   SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="107,32,87,0" VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
-                        <Label Content="OnlyM4a" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="10,67,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding OnlyM4a, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,67,262,0"/>
-                        <Label Content="AddHyphen" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,97,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,97,262,0"/>
-                        <Label Content="CheckExist" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,127,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding CheckExist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,127,262,0"/>
-                        <Label Content="AddExplicit" FontSize="15" VerticalAlignment="Top" HorizontalContentAlignment="Right" Margin="0,157,312,0" Height="30" />
-                        <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddExplicitTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" Margin="107,157,262,0"/>
+                                  VerticalAlignment="Center" Padding="6,6,0,6"/>
+
+                        <ToggleButton Grid.Row="1" Grid.Column="1"  Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding OnlyM4a, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                        <ToggleButton Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddHyphen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                        <ToggleButton Grid.Row="3" Grid.Column="1"  Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding CheckExist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                        <ToggleButton Grid.Row="4" Grid.Column="1"  Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddExplicitTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                        <ToggleButton Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding UseTrackNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                        
+
                     </Grid>
 
                     <!--Video config-->
