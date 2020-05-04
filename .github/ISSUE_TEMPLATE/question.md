@@ -1,6 +1,5 @@
 ---
 name: Question
-about: 提问/答疑
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->

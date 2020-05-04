@@ -1,6 +1,5 @@
 ---
 name: Feature request
-about: 功能建议
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->

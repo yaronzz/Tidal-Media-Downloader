@@ -1,6 +1,5 @@
 ---
 name: Bug report
-about: Bug 反馈
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->
