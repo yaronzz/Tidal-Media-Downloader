@@ -1,5 +1,6 @@
 ---
 name: Bug report
+about: Create a bug report to help us improve
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->

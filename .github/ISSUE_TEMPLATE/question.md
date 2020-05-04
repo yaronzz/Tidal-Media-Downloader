@@ -1,5 +1,6 @@
 ---
 name: Question
+about: Question for the tool
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->

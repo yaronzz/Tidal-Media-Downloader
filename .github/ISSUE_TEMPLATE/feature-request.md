@@ -1,5 +1,6 @@
 ---
 name: Feature request
+about: Open a feature request to Tidal-Media-Downloader
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->
