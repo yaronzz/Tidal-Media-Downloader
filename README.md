@@ -11,7 +11,10 @@
     <img src="https://img.shields.io/github/issues/yaronzz/Tidal-Media-Downloader.svg?style=flat-square" alt="">
   </a>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader">
-    <img src="https://img.shields.io/github/downloads/yaronzz/Tidal-Media-Downloader/total.svg?style=flat-square" alt="">
+    <img src="https://img.shields.io/github/downloads/yaronzz/Tidal-Media-Downloader/total?label=tidal-gui%20download" alt="">
+  </a>
+  <a href="https://pypi.org/project/tidal-dl/">
+    <img src="https://img.shields.io/pypi/dm/tidal-dl?label=tidal-dl%20download" alt="">
   </a>
 </div>
 <p align="center">

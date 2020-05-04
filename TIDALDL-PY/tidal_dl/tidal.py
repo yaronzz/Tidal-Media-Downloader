@@ -483,7 +483,7 @@ class TidalAccount(object):
 
 class TidalConfig(object):
     FILE_NAME = "tidal-dl.ini"
-
+    AES_KEY = "hhxx2020TTXS"
     def __init__(self):
         self.outputdir = configHelper.GetValue("base", "outputdir", "./", self.FILE_NAME)
         self.sessionid = configHelper.GetValue("base", "sessionid", "", self.FILE_NAME)
@@ -491,7 +491,7 @@ class TidalConfig(object):
         self.quality = configHelper.GetValue("base", "quality", "LOSSLESS", self.FILE_NAME)
         self.resolution = configHelper.GetValue("base", "resolution", "720", self.FILE_NAME)
         self.username = configHelper.GetValue("base", "username", "", self.FILE_NAME)
-        self.password = configHelper.GetValue("base", "password", "", self.FILE_NAME)
+        self.password = configHelper.GetValue("base", "password", "", self.FILE_NAME, aesKey=self.AES_KEY)
         self.userid = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
         self.threadnum = configHelper.GetValue("base", "threadnum", "1", self.FILE_NAME)
         self.sessionid2 = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
@@ -503,6 +503,8 @@ class TidalConfig(object):
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
         self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
+
+    
 
     def set_savephoto(self, status):
         if status == 0:
@@ -580,7 +582,7 @@ class TidalConfig(object):
         self.sessionid2 = sessionid2
         self.countrycode = countrycode
         configHelper.SetValue("base", "username", username, self.FILE_NAME)
-        configHelper.SetValue("base", "password", password, self.FILE_NAME)
+        configHelper.SetValue("base", "password", password, self.FILE_NAME, aesKey=self.AES_KEY)
         configHelper.SetValue("base", "sessionid", sessionid, self.FILE_NAME)
         configHelper.SetValue("base", "sessionid2", sessionid2, self.FILE_NAME)
         configHelper.SetValue("base", "countrycode", countrycode, self.FILE_NAME)
