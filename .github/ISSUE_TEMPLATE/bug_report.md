@@ -1,13 +1,13 @@
 ---
 name: Bug report
 about: Create a bug report to help us improve
+title: "[BUG] xxxxxxxxxxxxx"
+labels: bug
 ---
 <!-- Please search for this issue in issues-page first. Avoid duplication. -->
 <!-- Please read Wiki first. -->
 <!-- https://github.com/yaronzz/Tidal-Media-Downloader/wiki -->
 
-
-<!-- Title template:  "[BUG]xxxxxxxxxxxxx" -->
 **Which tool**
 <!-- tidal-gui or tidal-dl -->
 
