@@ -1,3 +1,6 @@
+#### 2020-05-04
+- Hide password
+
 #### 2020-03-23
 - Fix downloading redirects that can be obtained through the
   /playbackinfopostpaywall method.

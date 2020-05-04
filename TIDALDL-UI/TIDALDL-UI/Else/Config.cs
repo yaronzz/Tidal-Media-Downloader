@@ -158,7 +158,7 @@ namespace TIDALDL_UI.Else
 
         public static string Username(string Setvalue = null)
         {
-            return SetOrGetPrivate("username", Setvalue, "");
+            return SetOrGet("username", Setvalue, "");
         }
 
         public static string Password(string Setvalue = null)
@@ -267,7 +267,7 @@ namespace TIDALDL_UI.Else
             int iNum      = AIGS.Common.Convert.ConverStringToInt(sValue, 0);
             for (int i = 0; i < iNum; i++)
             {
-                string sUser = SetOrGetPrivate("historyuser" + i, null, "", HISTORYGROUP);
+                string sUser = SetOrGet("historyuser" + i, null, "", HISTORYGROUP);
                 string sPwd  = SetOrGetPrivate("historypwd" + i, null, "", HISTORYGROUP);
                 if (sUser.IsNotBlank() && pRet.FindIndex((Property user) => user.Key.ToString() == sUser) < 0)
                     pRet.Add(new Property(sUser, sPwd));
@@ -288,7 +288,7 @@ namespace TIDALDL_UI.Else
             pArray.Insert(0, new Property(sUsername, sPassword));
             for (int i = 0; i < pArray.Count; i++)
             {
-                SetOrGetPrivate("historyuser" + i, pArray[i].Key.ToString(), "", HISTORYGROUP);
+                SetOrGet("historyuser" + i, pArray[i].Key.ToString(), "", HISTORYGROUP);
                 SetOrGetPrivate("historypwd" + i, pArray[i].Value.ToString(), "", HISTORYGROUP);
             }
             SetOrGet("historyusernum", pArray.Count.ToString(), "", HISTORYGROUP);

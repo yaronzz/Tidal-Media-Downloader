@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.3.23.0"
+TIDAL_DL_VERSION = "2020.5.4.0"
 
 
 def logIn(username="", password=""):

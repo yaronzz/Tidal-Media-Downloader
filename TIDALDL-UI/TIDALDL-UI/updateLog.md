@@ -1,4 +1,7 @@
-﻿- Encrypt user-password
+﻿#### v1.1.0.16
+- hide password
+- Use track number(settings)
+- Album\Artist Info page add column-quality 'M'
 
 #### v1.1.0.15
 - Fix bug of Multithreading-Download model

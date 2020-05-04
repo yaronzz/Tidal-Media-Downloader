@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIDALDL-UI", "TIDALDL-UI\TIDALDL-UI.csproj", "{87F39F78-056F-4747-A835-12BA03FE575A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGS", "..\..\..\AIGS.git\trunk\AIGS.csproj", "{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -26,16 +24,6 @@ Global
 		{87F39F78-056F-4747-A835-12BA03FE575A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87F39F78-056F-4747-A835-12BA03FE575A}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{87F39F78-056F-4747-A835-12BA03FE575A}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{E0F1B398-B4D4-4536-9135-BE2EB077BBB2}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
