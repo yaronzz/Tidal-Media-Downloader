@@ -1,4 +1,7 @@
-﻿#### v1.1.0.16
+﻿#### v1.1.0.17
+- Update token
+
+#### v1.1.0.16
 - hide password
 - Use track number(settings)
 - Album\Artist Info page add column-quality 'M'

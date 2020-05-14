@@ -31,7 +31,8 @@ namespace Tidal
         #region STATIC
         static string URL             = "https://api.tidalhifi.com/v1/";
         static string TOKEN           = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV";
-        static string TOKEN_PHONE     = "kgsOOmYk3zShYrNP";
+        static string TOKEN_PHONE     = "hZ9wuySZCmpLLiui";
+        //static string TOKEN_PHONE     = "kgsOOmYk3zShYrNP";
         static string VERSION         = "1.9.1";
         static byte[] MASTER_KEY      = System.Convert.FromBase64String("UIlTTEMmmLfGowo/UC60x2H45W6MdGgTRfo/umg4754=");
         static string USERNAME        = null;
