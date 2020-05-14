@@ -11,7 +11,7 @@ from tidal_dl.tidal import TidalAccount
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.5.4.0"
+TIDAL_DL_VERSION = "2020.5.14.0"
 
 
 def logIn(username="", password=""):
@@ -230,15 +230,16 @@ def debug():
     # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
-
+    # trackid = 70973230
     dl = Download(1)
-    dl.downloadAlbum("120929182", True)
+    dl.downloadTrack("70973230")
+    # dl.downloadAlbum("120929182", True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
     # dl.downloadVideo(57261945) #1hours
     # tidal.com/browse/track/125155002 dubi
-    dl.downloadVideo(84094460)
+    # dl.downloadVideo(84094460)
 
 # if __name__ == '__main__':
 #     main(sys.argv)
