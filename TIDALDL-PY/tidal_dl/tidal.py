@@ -143,7 +143,7 @@ class TidalTool(object):
         # isrc,replayGain,releasedate
         obj = tagHelper.TagTool(file_path)
         obj.album = track_info['album']['title']
-        obj.title = track_info['title']
+        obj.title = track_info['mdtitle']
         obj.artist = self._getArtists(track_info['artists'])
         obj.copyright = track_info['copyright']
         obj.tracknumber = track_info['trackNumber']
@@ -217,6 +217,7 @@ class TidalTool(object):
                     track = track['item']
                 if track['title'] != item:
                     continue
+                track['mdtitle'] = track['title']
                 track['title'] += str(index)
                 index += 1
         return tracks
