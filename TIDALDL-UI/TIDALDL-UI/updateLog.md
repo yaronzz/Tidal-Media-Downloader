@@ -1,4 +1,7 @@
 ﻿#### v1.1.0.17
+- Use cloud token
+
+#### v1.1.0.17
 - Update token
 
 #### v1.1.0.16

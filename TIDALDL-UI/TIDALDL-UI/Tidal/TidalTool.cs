@@ -49,6 +49,23 @@ namespace Tidal
 
         #region Login
 
+        static bool tokenUpdateFlag = false;
+        private static void updateToken()
+        {
+            if (tokenUpdateFlag)
+                return;
+            try
+            {
+                string sReturn = NetHelper.DownloadString("https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", 10000);
+                TOKEN = JsonHelper.GetValue(sReturn, "token");
+                TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
+                tokenUpdateFlag = true;
+            }
+            catch
+            {
+            }
+        }
+
         public static void logout()
         {
             ISLOGIN = false;
@@ -60,6 +77,7 @@ namespace Tidal
             if (ISLOGIN)
                 return true;
 
+            updateToken();
             string Errmsg  = null;
             string SessID1 = null;
             string SessID2 = null;
@@ -179,7 +197,7 @@ namespace Tidal
             return sRet;
         }
 
-        static ObservableCollection<T> getItems<T>(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 3)
+        static ObservableCollection<T> getItems<T>(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 3, int CountLimt = -1)
         {
             if (Paras == null)
                 Paras = new Dictionary<string, string>();
@@ -198,6 +216,8 @@ namespace Tidal
                 foreach (var item in pList)
                     pRet.Add(item);
                 if (pList.Count() < 50)
+                    break;
+                if (CountLimt > 0 && pRet.Count() >= CountLimt)
                     break;
                 iOffset += pList.Count();
                 Paras["offset"] = iOffset.ToString();
@@ -355,10 +375,10 @@ namespace Tidal
 
             if (GetItem)
             {
-                ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
+                ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null, CountLimt:100);
                 if (IncludeEp)
                 {
-                    ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } });
+                    ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } }, CountLimt: 100);
                     for (int i = 0; i < eps.Count; i++)
                     {
                         albums.Add(eps[i]);
