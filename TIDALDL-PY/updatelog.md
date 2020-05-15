@@ -1,3 +1,6 @@
+#### 2020-05-15
+- Cloud token
+
 #### 2020-05-14
 - Update token
 

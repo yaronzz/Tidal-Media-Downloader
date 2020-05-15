@@ -7,26 +7,33 @@ from aigpy import pathHelper
 from aigpy.cmdHelper import myinput, myinputInt
 
 from tidal_dl.tidal import TidalConfig
-from tidal_dl.tidal import TidalAccount
+from tidal_dl.tidal import TidalAccount, TidalToken
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.5.14.0"
-
+TIDAL_DL_VERSION = "2020.5.15.0"
+TIDAL_TOKEN = TidalToken()
 
 def logIn(username="", password=""):
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
         password = myinput("password:")
-    account = TidalAccount(username, password)
-    account2 = TidalAccount(username, password, True)
-    if account.errmsg != "":
+    account = TidalAccount(username, password, TIDAL_TOKEN)
+    account2 = TidalAccount(username, password, TIDAL_TOKEN, True)
+    # if account.errmsg != "":
+    #     printErr(0, account.errmsg)
+    #     return False
+    # if account2.errmsg != "":
+    #     printErr(0, account2.errmsg)
+    #     return False
+    if account.errmsg != "" and account2.errmsg != "":
         printErr(0, account.errmsg)
         return False
-    if account2.errmsg != "":
-        printErr(0, account2.errmsg)
-        return False
+    elif account.errmsg != "":
+        account = account2
+    elif account2.errmsg != "":
+        account2 = account
 
     cf = TidalConfig()
     cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
@@ -223,9 +230,9 @@ def main(argv=None):
             dl.downloadByFile(strchoice)
 
 def debug():
-    # cf = TidalConfig()
-    # while logIn(cf.username, cf.password) == False:
-    #     pass
+    cf = TidalConfig()
+    while logIn(cf.username, cf.password) == False:
+        pass
     # add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
     # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')

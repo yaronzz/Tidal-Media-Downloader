@@ -442,14 +442,23 @@ class TidalTool(object):
 
 # LogIn and Get SessionID
 
+class TidalToken(object):
+    def __init__(self):
+        self.token1 = "MbjR4DLXz1ghC4rV"
+        self.token2 = "hZ9wuySZCmpLLiui"
+        try:
+            msg = requests.get( "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", timeout=(20.05, 27.05))
+            tokens = json.loads(msg.text)
+            self.token1 = tokens['token']
+            self.token2 = tokens['token_phone']
+        except Exception as e:
+            pass
 
 class TidalAccount(object):
-    def __init__(self, username, password, bymobile=False):
-        token = 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV'
-        # token = 'qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk'
+    def __init__(self, username, password, tokens, bymobile=False):
+        token = tokens.token1
         if bymobile == True:
-            # token = 'kgsOOmYk3zShYrNP'
-            token = 'hZ9wuySZCmpLLiui'
+            token = tokens.token2
 
         self.username = username
         self.token = token
@@ -481,8 +490,6 @@ class TidalAccount(object):
                 self.errmsg = "Sessionid is unvalid!"
 
 # Config Tool
-
-
 class TidalConfig(object):
     FILE_NAME = "tidal-dl.ini"
     AES_KEY = "hhxx2020TTXS"
