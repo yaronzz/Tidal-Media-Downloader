@@ -133,10 +133,12 @@ class Download(object):
         return
 
     # creat album output dir
-    def __creatAlbumDir(self, albumInfo):
+    def __creatAlbumDir(self, albumInfo, quality='LOW'):
         # creat outputdir
         title = pathHelper.replaceLimitChar(albumInfo['title'], '-')
         author = pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-')
+
+        # add year
         if self.config.addyear != 'No':
             if self.config.addyear == 'Before':
                 title = '[' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + '] '+title
@@ -144,10 +146,15 @@ class Download(object):
                 title = title+' [' + str(datetime.strptime(albumInfo['releaseDate'], '%Y-%m-%d').year) + ']'
             else:
                 title = title
+        
+        # add quality[M] labels
+        if 'audioQuality' in albumInfo and albumInfo['audioQuality'] == 'HI_RES' and quality == 'HI_RES':
+            title = '[M] '+title
+
         targetDir = self.config.outputdir + "/Album/" + author + '/' + title
-        # targetDir = self.config.outputdir + "/Album/" + title + '(' + author + ')'
         targetDir = os.path.abspath(targetDir)
         pathHelper.mkdirs(targetDir)
+
         # creat volumes dir
         count = 1
         numOfVolumes = int(albumInfo['numberOfVolumes'])
@@ -260,7 +267,7 @@ class Download(object):
             aAlbumVideos = self.tool.getAlbumVideos(sID)
 
             # Creat OutputDir
-            targetDir = self.__creatAlbumDir(aAlbumInfo)
+            targetDir = self.__creatAlbumDir(aAlbumInfo, self.config.quality)
             # write msg
             string = self.tool.convertAlbumInfoToString(aAlbumInfo, aAlbumTracks)
             with codecs.open(targetDir + "/AlbumInfo.txt", 'w', 'utf-8') as fd:
@@ -398,7 +405,7 @@ class Download(object):
             # print("[Version    ]       %s\n" % (aTrackInfo['version']))
 
             # Creat OutputDir
-            targetDir = self.__creatAlbumDir(aAlbumInfo)
+            targetDir = self.__creatAlbumDir(aAlbumInfo, self.config.quality)
             # download cover
             coverPath = targetDir + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
             if aAlbumInfo['cover'] is not None:
@@ -541,7 +548,7 @@ class Download(object):
                     # change targetDir
                     targetDir2 = targetDir
                     if self.config.plfile2arfolder == "True":
-                        targetDir2 = self.__creatAlbumDir(aAlbumInfo)
+                        targetDir2 = self.__creatAlbumDir(aAlbumInfo, self.config.quality)
                         filePath = self.__getAlbumSongSavePath(targetDir2, aAlbumInfo, item, fileType)
                         paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item,
                                     'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}

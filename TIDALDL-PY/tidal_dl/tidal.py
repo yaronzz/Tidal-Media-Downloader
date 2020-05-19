@@ -444,8 +444,9 @@ class TidalTool(object):
 
 class TidalToken(object):
     def __init__(self):
-        self.token1 = "MbjR4DLXz1ghC4rV"
-        self.token2 = "hZ9wuySZCmpLLiui"
+        self.token1 = "MbjR4DLXz1ghC4rV"    
+        # self.token2 = "hZ9wuySZCmpLLiui"    # only lossless
+        self.token2 = "pl4Vc0hemlAXD0mN"    # only lossless
         try:
             msg = requests.get( "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", timeout=(20.05, 27.05))
             tokens = json.loads(msg.text)
@@ -505,15 +506,19 @@ class TidalConfig(object):
         self.threadnum = configHelper.GetValue("base", "threadnum", "1", self.FILE_NAME)
         self.sessionid2 = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
         self.onlym4a = configHelper.GetValue("base", "onlym4a", "False", self.FILE_NAME)
-        self.showprogress = configHelper.GetValue("base", "showprogress", "False", self.FILE_NAME)
+        self.showprogress = configHelper.GetValue("base", "showprogress", "True", self.FILE_NAME)
         self.addhyphen = configHelper.GetValue("base", "addhyphen", "False", self.FILE_NAME)
         self.addyear = configHelper.GetValue("base", "addyear", "No", self.FILE_NAME)
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
         self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
-
+        self.lastlogintime = configHelper.GetValue("base", "lastlogintime", "", self.FILE_NAME)
+        
     
+    def set_lastlogintime(self, status):
+        self.lastlogintime = status
+        configHelper.SetValue("base", "lastlogintime", status, self.FILE_NAME)
 
     def set_savephoto(self, status):
         if status == 0:
