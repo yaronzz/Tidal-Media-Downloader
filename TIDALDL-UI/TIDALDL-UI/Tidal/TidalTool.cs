@@ -83,10 +83,13 @@ namespace Tidal
             string SessID2 = null;
             string Ccode   = null;
             string sRet    = null;
+            //Password = Password.Replace("%", "%25");
+            //Password = Password.Replace("&", "%26");
             for (int i = 0; i < 2; i++)
             {
                 //HttpHelper.GetOrPost get err when the username=="xxxxx+xxx@gmail.com"
                 if (UserName.IndexOf("@gmail") >= 0 && UserName.IndexOf("+") >= 0)
+                //if(true)
                 {
                     sRet = NetHelper.UploadCollection(URL + "login/username", out Errmsg, new NameValueCollection {
                     {"username", UserName },
@@ -99,7 +102,7 @@ namespace Tidal
                 {
                     sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out Errmsg, new Dictionary<string, string>() {
                     {"username", UserName },
-                    {"password", Password},
+                    {"password", Password },
                     {"token", i == 0 ? TOKEN_PHONE : TOKEN},
                     {"clientVersion", VERSION},
                     {"clientUniqueKey", getUID()}},

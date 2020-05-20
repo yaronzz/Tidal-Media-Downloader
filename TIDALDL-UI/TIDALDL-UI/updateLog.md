@@ -1,4 +1,6 @@
-﻿#### v1.1.0.18
+﻿- Fix bug of login(password is blank)
+
+#### v1.1.0.18
 - Use cloud token
 
 #### v1.1.0.17
