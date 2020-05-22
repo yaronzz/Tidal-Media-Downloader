@@ -744,16 +744,21 @@ namespace Tidal
 
         public static string getAlbumFolder(string basePath, Album album, int addYear = 0)
         {
+            string sQualityFlag = "";
+            string sss = Config.Quality();
+            if (Config.Quality().ToUpper().IndexOf("RES") >= 0 && album.AudioQuality == "HI_RES")
+                sQualityFlag = "[M] ";
+
             string sRet;
             if(addYear < 1 || addYear > 2 || album.ReleaseDate.IsBlank())
-                sRet = string.Format("{0}/Album/{1}/{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title));
+                sRet = string.Format("{0}/Album/{1}/{3}{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sQualityFlag);
             else
             {
                 string sYearStr = '[' + album.ReleaseDate.Substring(0,4) + ']';
                 if(addYear == 1)
-                    sRet = string.Format("{0}/Album/{1}/{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+                    sRet = string.Format("{0}/Album/{1}/{4}{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
                 else
-                    sRet = string.Format("{0}/Album/{1}/{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+                    sRet = string.Format("{0}/Album/{1}/{4}{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
             }
 
             return Path.GetFullPath(sRet);

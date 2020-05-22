@@ -63,6 +63,7 @@ namespace TIDALDL_UI.Pages
             ResolutionList        = TidalTool.getResolutionList();
             SelectQualityIndex    = QualityList.IndexOf(Config.Quality().ToUpper());
             SelectResolutionIndex = ResolutionList.IndexOf(Config.Resolution().ToUpper());
+            UseTrackNumber        = Config.UseTrackNumber();
 
             if (SelectQualityIndex < 0)
                 SelectQualityIndex = 0;
