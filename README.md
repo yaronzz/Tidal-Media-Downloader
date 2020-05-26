@@ -6,12 +6,14 @@
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/releases">
     <img src="https://img.shields.io/github/v/release/yaronzz/Tidal-Media-Downloader.svg?style=flat-square" alt="">
   </a>
-  
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/github/issues/yaronzz/Tidal-Media-Downloader.svg?style=flat-square" alt="">
   </a>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader">
-    <img src="https://img.shields.io/github/downloads/yaronzz/Tidal-Media-Downloader/total.svg?style=flat-square" alt="">
+    <img src="https://img.shields.io/github/downloads/yaronzz/Tidal-Media-Downloader/total?label=tidal-gui%20download" alt="">
+  </a>
+  <a href="https://pypi.org/project/tidal-dl/">
+    <img src="https://img.shields.io/pypi/dm/tidal-dl?label=tidal-dl%20download" alt="">
   </a>
 </div>
 <p align="center">
@@ -29,12 +31,15 @@
 
 ### **Installation**
 - Windows: [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases)
+
 - Windows\Linux\MacOs:
   ``` python
   root:~# pip3 install tidal-dl --upgrade
   root:~# tidal-dl 
   ```
-- Android: [install on android](https://t.me/tidal_dl_bot)
+  
+- Android: [Install](https://yaronzz.top/post/tidal_dl_installation/#Install)
+
 - Detailed description: [Documentation](https://yaronzz.top/post/tidal_dl_installation/)
 
 ### **Requirement**
@@ -55,19 +60,21 @@
 ![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_dl_log.jpg)
 ![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_gui_example.jpg)
 
-### **Libraries used**
+### **Libraries and reference**
 - [AIGS](https://github.com/yaronzz/AIGS)
 - [AIGPY](https://github.com/yaronzz/AIGPY)
 - [Stylet](https://github.com/canton7/Stylet)
 - [PropertyChanged.Fody](https://github.com/Fody/PropertyChanged)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 - [Taglib-sharp](https://github.com/mono/taglib-sharp)
+- [python-tidal](https://github.com/tamland/python-tidal)
+- [RedSea](https://github.com/redsudo/RedSea)
 
 ### **Support**
 If you really like my projects and want to support me, you can star this project. 
 
 ### **Disclaimer**
 - Private use only.
-- Need a Tidal subscription. 
+- Need a Tidal-HIFI subscription. 
 - You should not use this method to distribute or pirate music.
 - It may be illegal to use this in your country, so be informed.

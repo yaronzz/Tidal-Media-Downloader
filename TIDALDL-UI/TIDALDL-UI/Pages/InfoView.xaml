@@ -70,10 +70,11 @@
                           materialDesign:DataGridAssist.ColumnHeaderPadding="4" GridLinesVisibility="Horizontal"
                           VerticalGridLinesBrush="#FFDEDEDE" RowHeaderWidth="80" BorderThickness="0" Height="Auto">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding Check}" Header="Check" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                        <DataGridCheckBoxColumn Binding="{Binding Check}" Header="#" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
                         <DataGridTextColumn Header="#" Width="40" Binding="{Binding Number}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="TITLE" Width="230" Binding="{Binding Title}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="ALBUM" Width="130" Binding="{Binding AlbumTitle}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="#" Width="40" Binding="{Binding Flag}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="TITLE" Width="205" Binding="{Binding Title}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="ALBUM" Width="115" Binding="{Binding AlbumTitle}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="TIME" Binding="{Binding Duration}" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>

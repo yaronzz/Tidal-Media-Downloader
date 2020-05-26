@@ -1,35 +1,64 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import time
 
 from aigpy import pipHelper
 from aigpy import pathHelper
 from aigpy.cmdHelper import myinput, myinputInt
 
 from tidal_dl.tidal import TidalConfig
-from tidal_dl.tidal import TidalAccount
+from tidal_dl.tidal import TidalAccount, TidalToken
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.3.23.0"
+TIDAL_DL_VERSION = "2020.5.19.0"
+TIDAL_TOKEN = TidalToken()
 
+def logInByTime():
+    cf = TidalConfig()
+    try:
+        Lasttime = float(cf.lastlogintime)
+        Lastlocaltime = time.localtime(Lasttime)
+    except:
+        Lastlocaltime = None
+    
+    Curtime = time.time()
+    Curlocaltime = time.localtime(Curtime)
+    if Lastlocaltime is not None:
+        if Curlocaltime.tm_mon == Lastlocaltime.tm_mon and Curlocaltime.tm_mday == Lastlocaltime.tm_mday and Curlocaltime.tm_hour < Lastlocaltime.tm_hour + 3:
+            return
+        
+    if logIn(cf.username, cf.password) == False:
+        while logIn("", "") == False:
+            pass
 
 def logIn(username="", password=""):
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
         password = myinput("password:")
-    account = TidalAccount(username, password)
-    account2 = TidalAccount(username, password, True)
-    if account.errmsg != "":
+    account = TidalAccount(username, password, TIDAL_TOKEN)
+    account2 = TidalAccount(username, password, TIDAL_TOKEN, True)
+    # if account.errmsg != "":
+    #     printErr(0, account.errmsg)
+    #     return False
+    # if account2.errmsg != "":
+    #     printErr(0, account2.errmsg)
+    #     return False
+    if account.errmsg != "" and account2.errmsg != "":
         printErr(0, account.errmsg)
         return False
-    if account2.errmsg != "":
-        printErr(0, account2.errmsg)
-        return False
+    elif account.errmsg != "":
+        account = account2
+    elif account2.errmsg != "":
+        account2 = account
 
     cf = TidalConfig()
     cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
+
+    Curtime = time.time()
+    cf.set_lastlogintime(str(Curtime))
     return True
 
 
@@ -159,6 +188,9 @@ def setting():
 
 
 def main(argv=None):
+    if byCommand() is True:
+        return
+
     print(LOG)
     cf = TidalConfig()
     if logIn(cf.username, cf.password) == False:
@@ -222,6 +254,19 @@ def main(argv=None):
             dl.downloadUrl(strchoice)
             dl.downloadByFile(strchoice)
 
+def byCommand():
+    try:
+        if len(sys.argv) != 2:
+            return False
+        logInByTime()
+        cf = TidalConfig()
+        dl = Download(cf.threadnum)
+        dl.downloadUrl(sys.argv[1])
+        return True
+    except Exception as e:
+        return False
+    return False
+
 def debug():
     # cf = TidalConfig()
     # while logIn(cf.username, cf.password) == False:
@@ -230,15 +275,17 @@ def debug():
     # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
-
+    # trackid = 70973230
     dl = Download(1)
-    dl.downloadAlbum("120929182", True)
+    dl.downloadTrack("90521281")
+    # dl.downloadAlbum("120929182", True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
     # dl.downloadVideo(57261945) #1hours
     # tidal.com/browse/track/125155002 dubi
-    dl.downloadVideo(84094460)
+    # dl.downloadVideo(84094460)
+    # https://tidal.com/browse/track/70973230
 
 # if __name__ == '__main__':
 #     main(sys.argv)

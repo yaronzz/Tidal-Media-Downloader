@@ -267,6 +267,7 @@ class TidalTool(object):
 
     def getFavorite(self, user_id):
         trackList = self.__getItemsList('users/' + str(user_id) + '/favorites/tracks')
+        tracklist = self._fixSameTrackName(trackList, True)
         videoList = self.__getItemsList('users/' + str(user_id) + '/favorites/videos')
         return trackList, videoList
 
@@ -441,12 +442,24 @@ class TidalTool(object):
 
 # LogIn and Get SessionID
 
+class TidalToken(object):
+    def __init__(self):
+        self.token1 = "MbjR4DLXz1ghC4rV"    
+        # self.token2 = "hZ9wuySZCmpLLiui"    # only lossless
+        self.token2 = "pl4Vc0hemlAXD0mN"    # only lossless
+        try:
+            msg = requests.get( "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", timeout=(20.05, 27.05))
+            tokens = json.loads(msg.text)
+            self.token1 = tokens['token']
+            self.token2 = tokens['token_phone']
+        except Exception as e:
+            pass
 
 class TidalAccount(object):
-    def __init__(self, username, password, bymobile=False):
-        token = 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV'
+    def __init__(self, username, password, tokens, bymobile=False):
+        token = tokens.token1
         if bymobile == True:
-            token = 'kgsOOmYk3zShYrNP'
+            token = tokens.token2
 
         self.username = username
         self.token = token
@@ -478,11 +491,9 @@ class TidalAccount(object):
                 self.errmsg = "Sessionid is unvalid!"
 
 # Config Tool
-
-
 class TidalConfig(object):
     FILE_NAME = "tidal-dl.ini"
-
+    AES_KEY = "hhxx2020TTXS"
     def __init__(self):
         self.outputdir = configHelper.GetValue("base", "outputdir", "./", self.FILE_NAME)
         self.sessionid = configHelper.GetValue("base", "sessionid", "", self.FILE_NAME)
@@ -490,18 +501,24 @@ class TidalConfig(object):
         self.quality = configHelper.GetValue("base", "quality", "LOSSLESS", self.FILE_NAME)
         self.resolution = configHelper.GetValue("base", "resolution", "720", self.FILE_NAME)
         self.username = configHelper.GetValue("base", "username", "", self.FILE_NAME)
-        self.password = configHelper.GetValue("base", "password", "", self.FILE_NAME)
+        self.password = configHelper.GetValue("base", "password", "", self.FILE_NAME, aesKey=self.AES_KEY)
         self.userid = configHelper.GetValue("base", "userid", "", self.FILE_NAME)
         self.threadnum = configHelper.GetValue("base", "threadnum", "1", self.FILE_NAME)
         self.sessionid2 = configHelper.GetValue("base", "sessionid2", "", self.FILE_NAME)
         self.onlym4a = configHelper.GetValue("base", "onlym4a", "False", self.FILE_NAME)
-        self.showprogress = configHelper.GetValue("base", "showprogress", "False", self.FILE_NAME)
+        self.showprogress = configHelper.GetValue("base", "showprogress", "True", self.FILE_NAME)
         self.addhyphen = configHelper.GetValue("base", "addhyphen", "False", self.FILE_NAME)
         self.addyear = configHelper.GetValue("base", "addyear", "No", self.FILE_NAME)
         self.plfile2arfolder = configHelper.GetValue("base", "plfile2arfolder", "False", self.FILE_NAME)
         self.addexplicit = configHelper.GetValue("base", "addexplicit", "False", self.FILE_NAME)
         self.includesingle = configHelper.GetValue("base", "includesingle", "True", self.FILE_NAME)
         self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
+        self.lastlogintime = configHelper.GetValue("base", "lastlogintime", "", self.FILE_NAME)
+        
+    
+    def set_lastlogintime(self, status):
+        self.lastlogintime = status
+        configHelper.SetValue("base", "lastlogintime", status, self.FILE_NAME)
 
     def set_savephoto(self, status):
         if status == 0:
@@ -579,7 +596,7 @@ class TidalConfig(object):
         self.sessionid2 = sessionid2
         self.countrycode = countrycode
         configHelper.SetValue("base", "username", username, self.FILE_NAME)
-        configHelper.SetValue("base", "password", password, self.FILE_NAME)
+        configHelper.SetValue("base", "password", password, self.FILE_NAME, aesKey=self.AES_KEY)
         configHelper.SetValue("base", "sessionid", sessionid, self.FILE_NAME)
         configHelper.SetValue("base", "sessionid2", sessionid2, self.FILE_NAME)
         configHelper.SetValue("base", "countrycode", countrycode, self.FILE_NAME)

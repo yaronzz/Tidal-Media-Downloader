@@ -1,3 +1,17 @@
+#### 2020-05-19
+- by Command(eg. tidal-dl https://tidal.com/browse/track/70973230)
+- Add label [M] before albumtitle
+- Update token
+
+#### 2020-05-15
+- Cloud token
+
+#### 2020-05-14
+- Update token
+
+#### 2020-05-04
+- Hide password
+
 #### 2020-03-23
 - Fix downloading redirects that can be obtained through the
   /playbackinfopostpaywall method.

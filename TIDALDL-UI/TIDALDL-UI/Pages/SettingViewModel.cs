@@ -23,6 +23,7 @@ namespace TIDALDL_UI.Pages
         public int    SelectResolutionIndex { get; set; }
         public bool   OnlyM4a { get; set; }
         public bool   AddHyphen { get; set; }
+        public bool   UseTrackNumber { get; set; }
         public bool   ToChinese { get; set; }
         public bool   CheckExist { get; set; }
         public bool   ArtistBeforeTitle { get; set; }
@@ -62,6 +63,7 @@ namespace TIDALDL_UI.Pages
             ResolutionList        = TidalTool.getResolutionList();
             SelectQualityIndex    = QualityList.IndexOf(Config.Quality().ToUpper());
             SelectResolutionIndex = ResolutionList.IndexOf(Config.Resolution().ToUpper());
+            UseTrackNumber        = Config.UseTrackNumber();
 
             if (SelectQualityIndex < 0)
                 SelectQualityIndex = 0;
@@ -96,6 +98,7 @@ namespace TIDALDL_UI.Pages
             Config.Quality(QualityList[SelectQualityIndex].ToLower());
             Config.Resolution(ResolutionList[SelectResolutionIndex]);
             Config.OutputDir(OutputDir);
+            Config.UseTrackNumber(UseTrackNumber.ToString());
 
             TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
             ThreadTool.SetThreadNum(ThreadNum + 1);

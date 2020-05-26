@@ -1,4 +1,18 @@
-﻿- Encrypt user-password
+﻿#### v1.1.0.19
+- Fix bug of login(password is blank)
+- Fix bug of settings-UseTrackNumber
+- Add label [M] before albumtitle
+
+#### v1.1.0.18
+- Use cloud token
+
+#### v1.1.0.17
+- Update token
+
+#### v1.1.0.16
+- hide password
+- Use track number(settings)
+- Album\Artist Info page add column-quality 'M'
 
 #### v1.1.0.15
 - Fix bug of Multithreading-Download model

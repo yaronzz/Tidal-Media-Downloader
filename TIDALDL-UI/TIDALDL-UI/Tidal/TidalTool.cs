@@ -31,7 +31,8 @@ namespace Tidal
         #region STATIC
         static string URL             = "https://api.tidalhifi.com/v1/";
         static string TOKEN           = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV";
-        static string TOKEN_PHONE     = "kgsOOmYk3zShYrNP";
+        static string TOKEN_PHONE     = "hZ9wuySZCmpLLiui";
+        //static string TOKEN_PHONE     = "kgsOOmYk3zShYrNP";
         static string VERSION         = "1.9.1";
         static byte[] MASTER_KEY      = System.Convert.FromBase64String("UIlTTEMmmLfGowo/UC60x2H45W6MdGgTRfo/umg4754=");
         static string USERNAME        = null;
@@ -48,6 +49,23 @@ namespace Tidal
 
         #region Login
 
+        static bool tokenUpdateFlag = false;
+        private static void updateToken()
+        {
+            if (tokenUpdateFlag)
+                return;
+            try
+            {
+                string sReturn = NetHelper.DownloadString("https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", 10000);
+                TOKEN = JsonHelper.GetValue(sReturn, "token");
+                TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
+                tokenUpdateFlag = true;
+            }
+            catch
+            {
+            }
+        }
+
         public static void logout()
         {
             ISLOGIN = false;
@@ -59,15 +77,19 @@ namespace Tidal
             if (ISLOGIN)
                 return true;
 
+            updateToken();
             string Errmsg  = null;
             string SessID1 = null;
             string SessID2 = null;
             string Ccode   = null;
             string sRet    = null;
+            //Password = Password.Replace("%", "%25");
+            //Password = Password.Replace("&", "%26");
             for (int i = 0; i < 2; i++)
             {
                 //HttpHelper.GetOrPost get err when the username=="xxxxx+xxx@gmail.com"
                 if (UserName.IndexOf("@gmail") >= 0 && UserName.IndexOf("+") >= 0)
+                //if(true)
                 {
                     sRet = NetHelper.UploadCollection(URL + "login/username", out Errmsg, new NameValueCollection {
                     {"username", UserName },
@@ -80,7 +102,7 @@ namespace Tidal
                 {
                     sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out Errmsg, new Dictionary<string, string>() {
                     {"username", UserName },
-                    {"password", Password},
+                    {"password", Password },
                     {"token", i == 0 ? TOKEN_PHONE : TOKEN},
                     {"clientVersion", VERSION},
                     {"clientUniqueKey", getUID()}},
@@ -178,7 +200,7 @@ namespace Tidal
             return sRet;
         }
 
-        static ObservableCollection<T> getItems<T>(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 3)
+        static ObservableCollection<T> getItems<T>(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 3, int CountLimt = -1)
         {
             if (Paras == null)
                 Paras = new Dictionary<string, string>();
@@ -197,6 +219,8 @@ namespace Tidal
                 foreach (var item in pList)
                     pRet.Add(item);
                 if (pList.Count() < 50)
+                    break;
+                if (CountLimt > 0 && pRet.Count() >= CountLimt)
                     break;
                 iOffset += pList.Count();
                 Paras["offset"] = iOffset.ToString();
@@ -354,10 +378,10 @@ namespace Tidal
 
             if (GetItem)
             {
-                ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null);
+                ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null, CountLimt:100);
                 if (IncludeEp)
                 {
-                    ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } });
+                    ObservableCollection<Album> eps = getItems<Album>("artists/" + ID + "/albums", out Errmsg, new Dictionary<string, string>() { { "filter", "EPSANDSINGLES" } }, CountLimt: 100);
                     for (int i = 0; i < eps.Count; i++)
                     {
                         albums.Add(eps[i]);
@@ -720,16 +744,21 @@ namespace Tidal
 
         public static string getAlbumFolder(string basePath, Album album, int addYear = 0)
         {
+            string sQualityFlag = "";
+            string sss = Config.Quality();
+            if (Config.Quality().ToUpper().IndexOf("RES") >= 0 && album.AudioQuality == "HI_RES")
+                sQualityFlag = "[M] ";
+
             string sRet;
             if(addYear < 1 || addYear > 2 || album.ReleaseDate.IsBlank())
-                sRet = string.Format("{0}/Album/{1}/{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title));
+                sRet = string.Format("{0}/Album/{1}/{3}{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sQualityFlag);
             else
             {
                 string sYearStr = '[' + album.ReleaseDate.Substring(0,4) + ']';
                 if(addYear == 1)
-                    sRet = string.Format("{0}/Album/{1}/{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+                    sRet = string.Format("{0}/Album/{1}/{4}{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
                 else
-                    sRet = string.Format("{0}/Album/{1}/{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr);
+                    sRet = string.Format("{0}/Album/{1}/{4}{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
             }
 
             return Path.GetFullPath(sRet);
@@ -750,7 +779,8 @@ namespace Tidal
             
         public static string getTrackPath(string basePath, Album album, Track track, string sdlurl, 
                                             bool hyphen=false, Playlist plist=null, string trackTitle = null, 
-                                            bool artistBeforeTitle = false, bool addexplicit=false, int addYear = 0)
+                                            bool artistBeforeTitle = false, bool addexplicit=false, int addYear = 0,
+                                            bool useTrackNumber = true)
         {
             //Get sArtistStr
             string sArtistStr = "";
@@ -773,10 +803,14 @@ namespace Tidal
                 if (album.NumberOfVolumes > 1)
                     sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
 
+
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}{4}{5}",
-                    track.TrackNumber.ToString().PadLeft(2, '0'),  
-                    sChar,
+                string trackNumber = track.TrackNumber.ToString().PadLeft(2, '0');
+
+                string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
+                
+                string sName = string.Format("{0}{1}{2}{3}{4}",
+                    sPrefix,
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     sExplicitStr,
@@ -789,10 +823,14 @@ namespace Tidal
             {
                 string sPlistDir = getPlaylistFolder(basePath, plist);
                 string sTrackDir = sPlistDir;
+
                 string sChar = hyphen ? "- " : "";
-                string sName = string.Format("{0} {1}{2}{3}{4}",
-                    (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0'),
-                    sChar,
+                string trackNumber = (plist.Tracks.IndexOf(track) + 1).ToString().PadLeft(2, '0');
+
+                string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
+
+                string sName = string.Format("{0}{1}{2}{3}",
+                    sPrefix,
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     getExtension(sdlurl));
