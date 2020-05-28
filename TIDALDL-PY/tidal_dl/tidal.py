@@ -448,7 +448,8 @@ class TidalToken(object):
         # self.token2 = "hZ9wuySZCmpLLiui"    # only lossless
         self.token2 = "pl4Vc0hemlAXD0mN"    # only lossless
         try:
-            msg = requests.get( "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", timeout=(20.05, 27.05))
+            # msg = requests.get( "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", timeout=(20.05, 27.05))
+            msg = requests.get( "https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json", timeout=(20.05, 27.05))
             tokens = json.loads(msg.text)
             self.token1 = tokens['token']
             self.token2 = tokens['token_phone']

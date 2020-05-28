@@ -360,7 +360,7 @@ class Download(object):
             redownload = True
             if artistID is None:
                 check = printChoice("Skip downloaded files?(y/n):")
-                if not cmdHelper.isInputYes(check):
+                if cmdHelper.isInputYes(check):
                     redownload = False
 
             for index, item in enumerate(array):
