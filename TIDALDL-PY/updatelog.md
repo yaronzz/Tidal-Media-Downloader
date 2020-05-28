@@ -1,3 +1,6 @@
+- Use CDN request
+- Fix bug of redownload(download artist-albums)
+
 #### 2020-05-19
 - by Command(eg. tidal-dl https://tidal.com/browse/track/70973230)
 - Add label [M] before albumtitle
