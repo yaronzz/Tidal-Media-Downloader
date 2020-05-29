@@ -1,4 +1,10 @@
-﻿#### v1.1.0.19
+﻿- Use CDN request
+- Fix bug of getstream
+- Modify settings-page
+- Fix bug of long-file-path
+- Add version after track-title
+
+#### v1.1.0.19
 - Fix bug of login(password is blank)
 - Fix bug of settings-UseTrackNumber
 - Add label [M] before albumtitle

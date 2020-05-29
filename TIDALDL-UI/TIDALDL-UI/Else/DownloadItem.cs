@@ -196,6 +196,7 @@ namespace TIDALDL_UI.Else
             }
 
             //Get contributors
+            Progress.StatusMsg = "GetContributors...";
             ObservableCollection<Contributor> pContributors = TidalTool.getTrackContributors(TidalTrack.ID.ToString(), out Errlabel);
 
             //To chinese 
