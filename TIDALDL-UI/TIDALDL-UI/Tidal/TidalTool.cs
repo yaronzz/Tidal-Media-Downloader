@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net;
 using System.Collections.Specialized;
+using Microsoft.VisualBasic;
 
 namespace Tidal
 {
@@ -56,7 +57,8 @@ namespace Tidal
                 return;
             try
             {
-                string sReturn = NetHelper.DownloadString("https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", 10000);
+                //string sReturn = NetHelper.DownloadString("https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", 10000);
+                string sReturn = NetHelper.DownloadString("https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json", 10000);
                 TOKEN = JsonHelper.GetValue(sReturn, "token");
                 TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
                 tokenUpdateFlag = true;
@@ -173,8 +175,12 @@ namespace Tidal
                     Errmsg = sMessage + ". This might be region-locked.";
                 else if (sStatus.IsNotBlank() && sStatus == "401" && sSubStatus == "4005")//'Asset is not ready for playback'
                 {
-                    sSessionID = SESSIONID_PHONE;
-                    goto POINT_RETURN;
+                    if (sSessionID != SESSIONID_PHONE)
+                    {
+                        sSessionID = SESSIONID_PHONE;
+                        goto POINT_RETURN;
+                    }
+                    Errmsg = sMessage;
                 }
                 else if (sStatus.IsNotBlank() && sStatus != "200")
                     Errmsg = sMessage + ". Get operation err!";
@@ -262,6 +268,12 @@ namespace Tidal
                     }
                 }
             }
+
+            for (int i = 0; i < oObj.Tracks.Count; i++)
+            {
+                if (oObj.Tracks[i].Version.IsNotBlank())
+                    oObj.Tracks[i].Title = oObj.Tracks[i].Title + " - " + oObj.Tracks[i].Version;
+            }
         }
 
         #endregion
@@ -270,6 +282,8 @@ namespace Tidal
         public static Track getTrack(string ID, out string Errmsg)
         {
             Track oObj = get<Track>("tracks/" + ID, out Errmsg);
+            if (oObj.Version.IsNotBlank())
+                oObj.Title = oObj.Title + " - " + oObj.Version;
             return oObj;
         }
 
@@ -277,6 +291,18 @@ namespace Tidal
         {
             string sQua = AIGS.Common.Convert.ConverEnumToString((int)eQuality, typeof(eSoundQuality), 0);
             StreamUrl oObj = get<StreamUrl>("tracks/" + ID + "/streamUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
+            if(oObj == null)
+            {
+                string Errmsg2 = null;
+                object resp = get<object>("tracks/" + ID + "/playbackinfopostpaywall", out Errmsg2,  new Dictionary<string, string>() { { "audioquality", sQua }, { "playbackmode", "STREAM" }, { "assetpresentation", "FULL" } }, 3);
+                if (resp != null)
+                {
+                    string sNewID = JsonHelper.GetValue(resp.ToString(), "trackId");
+                    if(sNewID.IsBlank())
+                        return oObj;
+                    oObj = get<StreamUrl>("tracks/" + sNewID + "/streamUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
+                }
+            }
             return oObj;
         }
 
@@ -769,11 +795,8 @@ namespace Tidal
             string sAlbumDir = getAlbumFolder(basePath, album, addYear);
             string title = Regex.Replace(album.Title.Replace("（", "(").Replace("）", ")"), @"\([^\(]*\)", "");
             string sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title));
-            if (sRet.Length >= 260)
-            {
-                int iLen = sRet.Length - 260; 
-                sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title).Substring(0, formatPath(title).Length - iLen));
-            }
+
+            sRet = cutFilePath(sRet);
             return Path.GetFullPath(sRet);
         }
             
@@ -796,6 +819,7 @@ namespace Tidal
                 sExplicitStr = "(Explicit)";
             }
 
+            string sRet = "";
             if (album != null)
             {
                 string sAlbumDir = getAlbumFolder(basePath, album, addYear);
@@ -808,16 +832,15 @@ namespace Tidal
                 string trackNumber = track.TrackNumber.ToString().PadLeft(2, '0');
 
                 string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
-                
+                string sTitle = trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle);
+
                 string sName = string.Format("{0}{1}{2}{3}{4}",
                     sPrefix,
                     sArtistStr,
-                    trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
+                    sTitle,
                     sExplicitStr,
                     getExtension(sdlurl));
-
-                string sRet = sTrackDir + sName;
-                return Path.GetFullPath(sRet);
+                sRet = sTrackDir + sName;
             }
             else
             {
@@ -834,10 +857,11 @@ namespace Tidal
                     sArtistStr,
                     trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
                     getExtension(sdlurl));
-
-                string sRet = sTrackDir + sName;
-                return Path.GetFullPath(sRet);
+                sRet = sTrackDir + sName;
             }
+
+            sRet = cutFilePath(sRet);
+            return Path.GetFullPath(sRet);
         }
 
         public static string getVideoPath(string basePath, Video video, Album album, string sExt = ".mp4", bool hyphen = false, Playlist plist = null, bool artistBeforeTitle = false, int addYear = 0)
@@ -851,6 +875,7 @@ namespace Tidal
             if (album != null)
             {
                 string sRet = getAlbumFolder(basePath, album, addYear) + sArtistStr + formatPath(video.Title) + sExt;
+                sRet = cutFilePath(sRet);
                 return Path.GetFullPath(sRet);
 
             }
@@ -864,11 +889,13 @@ namespace Tidal
                     sArtistStr,
                     formatPath(video.Title),
                     sExt);
-                return Path.GetFullPath(sRet + sName);
+                sRet = cutFilePath(sRet + sName);
+                return Path.GetFullPath(sRet);
             }
             else
             { 
                 string sRet = string.Format("{0}/Video/{1}{2}{3}", basePath, sArtistStr, formatPath(video.Title), sExt);
+                sRet = cutFilePath(sRet);
                 return Path.GetFullPath(sRet);
             }
         }
@@ -1071,6 +1098,23 @@ namespace Tidal
                     return "M";
             }
             return null;
+        }
+
+        public static string cutFilePath(string sFilePath)
+        {
+            if (sFilePath.Length >= 260)
+            {
+                int iLen = sFilePath.Length - 260 + 10; //10 set aside 
+                string sName = Path.GetFileNameWithoutExtension(sFilePath);
+                string sExt = Path.GetExtension(sFilePath);
+                string sPath = sFilePath.Substring(0, sFilePath.Length - sName.Length - sExt.Length);
+                if (sName.Length > iLen)
+                {
+                    string sRet = sPath + sName.Substring(0, sName.Length - iLen) + sExt;
+                    return sRet;
+                }
+            }
+            return sFilePath;
         }
         #endregion
     }
