@@ -12,7 +12,7 @@ from tidal_dl.tidal import TidalAccount, TidalToken
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.5.19.0"
+TIDAL_DL_VERSION = "2020.5.31.0"
 TIDAL_TOKEN = TidalToken()
 
 def logInByTime():
