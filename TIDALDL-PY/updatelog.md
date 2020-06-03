@@ -1,5 +1,10 @@
+TYPE tidal-dl
+USE  pip3 install tidal-dl --upgrade
+#### 2020-05-31
 - Use CDN request
 - Fix bug of redownload(download artist-albums)
+- Add errmessage when login-err
+- Fix bug of save-cover MacOs
 
 #### 2020-05-19
 - by Command(eg. tidal-dl https://tidal.com/browse/track/70973230)

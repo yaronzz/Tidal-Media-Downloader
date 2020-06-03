@@ -310,7 +310,7 @@ class TidalTool(object):
 
     def getAlbumArtworkUrl(self, coverid, size=1280):
         if coverid is not None: 
-            return 'https://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size) 
+            return 'http://resources.tidal.com/images/{0}/{1}x{1}.jpg'.format(coverid.replace('-', '/'), size) 
         else: 
             return '' 
 
@@ -479,9 +479,9 @@ class TidalAccount(object):
         re = requests.post(URL_PRE + 'login/username', data=postParams).json()
         if 'status' in re:
             if re['status'] == 401:
-                self.errmsg = "Username or password err!"
+                self.errmsg = "Username or password err!" + re['userMessage']
             else:
-                self.errmsg = "Get sessionid err!"
+                self.errmsg = "Get sessionid err!" + re['userMessage']
         else:
             self.session_id = re['sessionId']
             self.user_id = re['userId']
