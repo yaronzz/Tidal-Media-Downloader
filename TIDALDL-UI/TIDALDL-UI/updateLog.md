@@ -1,4 +1,5 @@
-﻿- Reduce the number of logins
+﻿#### v1.1.0.21
+- Reduce the number of logins
 - If one token is invalid, it is allowed to use only the other
 - Fix bug of getTrack
 - Add errmessage(convert mp4 to m4a failed) #288
