@@ -282,6 +282,8 @@ namespace Tidal
         public static Track getTrack(string ID, out string Errmsg)
         {
             Track oObj = get<Track>("tracks/" + ID, out Errmsg);
+            if (oObj == null)
+                return null;
             if (oObj.Version.IsNotBlank())
                 oObj.Title = oObj.Title + " - " + oObj.Version;
             return oObj;
@@ -610,8 +612,8 @@ namespace Tidal
             if (Path.GetExtension(sFilePath).ToLower().IndexOf("mp4") < 0)
                 return true;
 
-            sNewFilePath = sFilePath.Replace(".mp4", ".m4a");
-            if(FFmpegHelper.Convert(sFilePath, sNewFilePath))
+            sNewFilePath = sFilePath.Replace(".mp4", ".m4a");            
+            if (FFmpegHelper.Convert(sFilePath, sNewFilePath))
             {
                 System.IO.File.Delete(sFilePath);
                 return true;

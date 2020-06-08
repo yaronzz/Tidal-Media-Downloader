@@ -47,6 +47,7 @@ namespace TIDALDL_UI.Pages
         public BitmapImage Cover { get; private set; }
         public bool   Result { get; set; }
         public object Data { get; set; }
+        public bool   AllCheck { get; set; }
 
         /// <summary>
         /// Item List
@@ -65,10 +66,20 @@ namespace TIDALDL_UI.Pages
             Result = false;
             RequestClose();
         }
+
+        public void CheckChange()
+        {
+            foreach (var item in ItemList)
+            {
+                item.Check = AllCheck;
+            }
+            return;
+        }
         #endregion
 
         public object Load(object data)
         {
+            AllCheck = true;
             Data = data;
             if (data.GetType() == typeof(Playlist))
             {

@@ -70,7 +70,16 @@
                           materialDesign:DataGridAssist.ColumnHeaderPadding="4" GridLinesVisibility="Horizontal"
                           VerticalGridLinesBrush="#FFDEDEDE" RowHeaderWidth="80" BorderThickness="0" Height="Auto">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding Check}" Header="#" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                        <DataGridCheckBoxColumn Binding="{Binding Check}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                            <DataGridCheckBoxColumn.Header>
+                                <!--padding to allow hit test to pass thru for sorting -->
+                                <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
+                                    <CheckBox IsChecked="{Binding AllCheck}" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"  HorizontalAlignment="Center" Click="{s:Action CheckChange}"/>
+                                </Border>
+                            </DataGridCheckBoxColumn.Header>
+                        </DataGridCheckBoxColumn>
+
+                        <!--<DataGridCheckBoxColumn Binding="{Binding Check}" Header="#" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>-->
                         <DataGridTextColumn Header="#" Width="40" Binding="{Binding Number}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="#" Width="40" Binding="{Binding Flag}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="TITLE" Width="205" Binding="{Binding Title}" IsReadOnly="True"/>
