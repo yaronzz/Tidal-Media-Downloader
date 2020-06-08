@@ -1,4 +1,6 @@
-﻿- Fix bug of getTrack
+﻿- Reduce the number of logins
+- If one token is invalid, it is allowed to use only the other
+- Fix bug of getTrack
 - Add errmessage(convert mp4 to m4a failed) #288
 - Check All/Uncheck All #248
 

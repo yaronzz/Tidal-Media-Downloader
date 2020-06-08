@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Net;
 using System.Collections.Specialized;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Tidal
 {
@@ -51,86 +52,155 @@ namespace Tidal
         #region Login
 
         static bool tokenUpdateFlag = false;
+        public static string loginErrlabel = "";
+
+        /// <summary>
+        /// Get token from github
+        /// </summary>
         private static void updateToken()
         {
             if (tokenUpdateFlag)
                 return;
+
+            string sUrl = "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json";
+        RETRY_AGAIN:
             try
             {
-                //string sReturn = NetHelper.DownloadString("https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json", 10000);
-                string sReturn = NetHelper.DownloadString("https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json", 10000);
+                string sReturn = NetHelper.DownloadString(sUrl, 10000);
                 TOKEN = JsonHelper.GetValue(sReturn, "token");
                 TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
                 tokenUpdateFlag = true;
             }
             catch
             {
+                string sUrl2 = "https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json";
+                if (sUrl != sUrl2)
+                {
+                    sUrl = sUrl2;
+                    goto RETRY_AGAIN;
+                }
             }
         }
-
+        
+        /// <summary>
+        /// log out
+        /// </summary>
         public static void logout()
         {
             ISLOGIN = false;
         }
 
-        public static string loginErrlabel = "";
+        /// <summary>
+        /// valid SessionID
+        /// </summary>
+        /// <param name="sUserID"></param>
+        /// <param name="sSessionID"></param>
+        /// <returns></returns>
+        public static bool CheckSessionID(string sUserID, string sSessionID)
+        {
+            if (sUserID.IsBlank() || sSessionID.IsBlank())
+                return false;
+
+            string Errmsg;
+            string sRet = (string)HttpHelper.GetOrPost(URL + "users/" + sUserID, out Errmsg, 
+                        new Dictionary<string, string>() { {"sessionId", sSessionID }},
+                        ContentType: "application/x-www-form-urlencoded",
+                        IsErrResponse: true, Timeout: 30 * 1000, Proxy: PROXY);
+            if (Errmsg.IsNotBlank())
+                return false;
+            string check = AIGS.Helper.JsonHelper.GetValue(Errmsg, "status");
+            if (check.IsNotBlank())
+                return false;
+            return true;
+        }
+
+        static string getHttpSession(string UserName, string Password, string sToken, out string sErrmsg)
+        {
+            string sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out sErrmsg, new Dictionary<string, string>() {
+                {"username", UserName },
+                {"password", Password },
+                {"token", sToken},
+                {"clientVersion", VERSION},
+                {"clientUniqueKey", getUID()}},
+                ContentType: "application/x-www-form-urlencoded",
+                IsErrResponse: true, Timeout: 30 * 1000, Proxy: PROXY);
+
+            if (sErrmsg.IsNotBlank())
+            {
+                sErrmsg = AIGS.Helper.JsonHelper.GetValue(sErrmsg, "userMessage");
+                return null;
+            }
+            return sRet;
+        }
+
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public static bool login(string UserName, string Password)
         {
             if (ISLOGIN)
                 return true;
 
-            updateToken();
-            string Errmsg  = null;
-            string SessID1 = null;
-            string SessID2 = null;
-            string Ccode   = null;
-            string sRet    = null;
-            //Password = Password.Replace("%", "%25");
-            //Password = Password.Replace("&", "%26");
-            for (int i = 0; i < 2; i++)
+            //Use last session
+            string sLastUserid = Config.Userid();
+            string sLastCountryCode = Config.Countrycode();
+            string sLastSession = null; 
+            string sLastSessionPhone = null; 
+            if (Config.Username() == UserName && Config.Password() == Password && sLastCountryCode.IsNotBlank())
             {
-                //HttpHelper.GetOrPost get err when the username=="xxxxx+xxx@gmail.com"
-                if (UserName.IndexOf("@gmail") >= 0 && UserName.IndexOf("+") >= 0)
-                //if(true)
-                {
-                    sRet = NetHelper.UploadCollection(URL + "login/username", out Errmsg, new NameValueCollection {
-                    {"username", UserName },
-                    {"password", Password},
-                    {"token", i == 0 ? TOKEN_PHONE : TOKEN},
-                    {"clientVersion", VERSION},
-                    {"clientUniqueKey", getUID()}}, 20 * 1000, IsErrResponse: true).ToString();
-                }
-                else
-                {
-                    sRet = (string)HttpHelper.GetOrPost(URL + "login/username", out Errmsg, new Dictionary<string, string>() {
-                    {"username", UserName },
-                    {"password", Password },
-                    {"token", i == 0 ? TOKEN_PHONE : TOKEN},
-                    {"clientVersion", VERSION},
-                    {"clientUniqueKey", getUID()}},
-                        ContentType: "application/x-www-form-urlencoded",
-                        IsErrResponse: true, Timeout: 30 * 1000, Proxy: PROXY);
-                }
+                sLastSession = Config.Sessionid();
+                sLastSessionPhone = Config.SessionidPhone();
+                if (!CheckSessionID(sLastUserid, sLastSession))
+                    sLastSession = null;
+                if (!CheckSessionID(sLastUserid, sLastSessionPhone))
+                    sLastSessionPhone = null;
+            }
 
-                if (ISLOGIN)
-                    return true;
-                if (Errmsg.IsNotBlank())
+            //Login
+            string Errmsg1  = null;
+            string Errmsg2 = null;
+            string Str1 = null;
+            string Str2 = null;
+            string SessID1 = sLastSession;
+            string SessID2 = sLastSessionPhone;
+            string Ccode = null;
+            string UserID = null;
+            if (sLastSession.IsBlank())
+            {
+                updateToken();
+                Str1 = getHttpSession(UserName, Password, TOKEN, out Errmsg1);
+                if (Str1.IsNotBlank())
                 {
-                    loginErrlabel = AIGS.Helper.JsonHelper.GetValue(Errmsg, "userMessage");
-                    if (loginErrlabel == null)
-                        loginErrlabel = Errmsg;
-                    return false;
-                }
-                if (i == 0)
-                    SessID1 = JsonHelper.GetValue(sRet, "sessionId");
-                else
-                {
-                    SessID2 = JsonHelper.GetValue(sRet, "sessionId");
-                    Ccode = JsonHelper.GetValue(sRet, "countryCode");
+                    SessID1 = JsonHelper.GetValue(Str1, "sessionId");
+                    Ccode   = JsonHelper.GetValue(Str1, "countryCode");
+                    UserID  = JsonHelper.GetValue(Str1, "userId");
                 }
             }
-            if (ISLOGIN)
-                return true;
+            if (sLastSessionPhone.IsBlank())
+            {
+                updateToken();
+                Str2 = getHttpSession(UserName, Password, TOKEN_PHONE, out Errmsg2);
+                if (Str2.IsNotBlank())
+                {
+                    SessID2 = JsonHelper.GetValue(Str2, "sessionId");
+                    Ccode = JsonHelper.GetValue(Str2, "countryCode");
+                    UserID = JsonHelper.GetValue(Str2, "userId");
+                }
+            }
+
+            //Check
+            if(SessID1.IsBlank() && SessID2.IsBlank())
+            {
+                loginErrlabel = Errmsg1.IsBlank() ? Errmsg2 : Errmsg1;
+                return false;
+            }
+            if (UserID.IsBlank())
+                UserID = sLastUserid;
+            if (Ccode.IsBlank())
+                Ccode = sLastCountryCode;
 
             SESSIONID_PHONE = SessID1;
             SESSIONID       = SessID2;
@@ -138,8 +208,16 @@ namespace Tidal
             USERNAME        = UserName;
             PASSWORD        = Password;
             ISLOGIN         = true;
+
+            Config.Countrycode(COUNTRY_CODE);
+            Config.Username(USERNAME);
+            Config.Password(PASSWORD);
+            Config.Sessionid(SESSIONID);
+            Config.SessionidPhone(SESSIONID_PHONE);
+            Config.Userid(UserID);
             return true;
         }
+
 
         static string getUID()
         {
@@ -150,6 +228,7 @@ namespace Tidal
             sRet = sRet.Substring(0, 16);
             return sRet;
         }
+
         #endregion
 
         #region get
@@ -163,6 +242,10 @@ namespace Tidal
             string sSessionID = SESSIONID;
             if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
                 sSessionID = SESSIONID_PHONE;
+
+            //Check Session
+            if (sSessionID.IsBlank())
+                sSessionID = SESSIONID.IsBlank() ? SESSIONID_PHONE : SESSIONID;
 
         POINT_RETURN:
             string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);

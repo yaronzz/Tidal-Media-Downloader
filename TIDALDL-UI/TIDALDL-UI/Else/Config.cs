@@ -170,6 +170,10 @@ namespace TIDALDL_UI.Else
         {
             return SetOrGet("sessionid", Setvalue, "");
         }
+        public static string SessionidPhone(string Setvalue = null)
+        {
+            return SetOrGet("sessionidphone", Setvalue, "");
+        }
 
         public static string Countrycode(string Setvalue = null)
         {
