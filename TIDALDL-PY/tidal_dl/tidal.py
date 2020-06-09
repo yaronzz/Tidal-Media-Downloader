@@ -260,7 +260,9 @@ class TidalTool(object):
         return item
 
     def getAlbum(self, album_id):
-        return self._get('albums/' + str(album_id))
+        item = self._get('albums/' + str(album_id))
+        item['title'] = item['title'].strip()
+        return item
 
     def getVideo(self, video_id):
         return self._get('videos/' + str(video_id))
