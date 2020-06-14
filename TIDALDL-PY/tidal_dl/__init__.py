@@ -7,12 +7,13 @@ from aigpy import pipHelper
 from aigpy import pathHelper
 from aigpy.cmdHelper import myinput, myinputInt
 
+from tidal_dl.session import TidalMobileSession
 from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount, TidalToken
 from tidal_dl.download import Download
 from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
 
-TIDAL_DL_VERSION = "2020.5.31.0"
+TIDAL_DL_VERSION = "2020.6.14.0"
 TIDAL_TOKEN = TidalToken()
 
 def logInByTime():
@@ -34,29 +35,31 @@ def logInByTime():
             pass
 
 def logIn(username="", password=""):
+    cf = TidalConfig()
     if username == "" or password == "":
         print("----------------LogIn------------------")
         username = myinput("username:")
         password = myinput("password:")
-    account = TidalAccount(username, password, TIDAL_TOKEN)
-    account2 = TidalAccount(username, password, TIDAL_TOKEN, True)
-    # if account.errmsg != "":
-    #     printErr(0, account.errmsg)
-    #     return False
-    # if account2.errmsg != "":
-    #     printErr(0, account2.errmsg)
-    #     return False
-    if account.errmsg != "" and account2.errmsg != "":
-        printErr(0, account.errmsg)
-        return False
-    elif account.errmsg != "":
-        account = account2
-    elif account2.errmsg != "":
-        account2 = account
 
-    cf = TidalConfig()
-    cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
+    account3 = TidalMobileSession(username, password, TIDAL_TOKEN.clientID, cf)
+    if account3.errmsg is None:
+        cf.set_account2(username, password, account3.access_token, account3.country_code, account3.user_id)
+    else:
+        cf.set_account2(username, password, '', '', '')
+        printWarning(0, 'Login err(by mobile)!' + account3.errmsg)
 
+        account = TidalAccount(username, password, TIDAL_TOKEN, False, cf)
+        account2 = TidalAccount(username, password, TIDAL_TOKEN, True, cf)
+        if account.errmsg != "" and account2.errmsg != "":
+            printErr(0, account.errmsg)
+            return False
+        elif account.errmsg != "":
+            account = account2
+        elif account2.errmsg != "":
+            account2 = account
+        cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
+
+    
     Curtime = time.time()
     cf.set_lastlogintime(str(Curtime))
     return True
@@ -268,16 +271,48 @@ def byCommand():
     return False
 
 def debug():
-    # cf = TidalConfig()
-    # while logIn(cf.username, cf.password) == False:
-    #     pass
+    cf = TidalConfig()
+
+    # import tidalapi
+    # test = tidalapi.Config()
+    # session = tidalapi.Session()
+    # session.login(cf.username, cf.password)
+    # TIDAL_TOKEN.token2 = "wc8j_yBJd20zOmx0"
+    # x-tidal-token: qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk
+    # TIDAL_TOKEN.token1 = "CzET4vdadNUFQ5JU"
+    
+    # TIDAL_TOKEN.token1 = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV"
+    # TIDAL_TOKEN.token1 = TIDAL_TOKEN.token2
+    # account = TidalAccount(cf.username, cf.password, TIDAL_TOKEN)
+
+    # import requests
+    # import uuid
+    # from urllib.parse import urljoin
+
+    # headers = {"X-Tidal-Token": 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV'}
+    # postParams = {
+    #     'username': 'XXX',
+    #     'password': 'XXX',
+    #     'token': 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV',
+    #     'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],
+    #     'clientVersion': '1.9.1'
+    # }
+    # location = 'https://api.tidalhifi.com/v1/'
+    # myurl = urljoin(location, 'login/username')
+    # re = requests.post(myurl, data=postParams)
+    tt = TidalMobileSession(cf.username, cf.password,'RnhXoTmoJgARtXHr')
+    if logIn(cf.username, cf.password) == False:
+        pass
+
     # add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
     # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
     print('\nThis is the debug version!!\n')
     # os.system("pip install aigpy --upgrade")
     # trackid = 70973230
     dl = Download(1)
-    dl.downloadTrack("90521281")
+    # dl.downloadTrack("90521281")
+    dl.downloadTrack("131069665") #Dolby Atmos
+    # https://tidal.com/browse/track/139322230 360
     # dl.downloadAlbum("120929182", True)
     # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
     # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
