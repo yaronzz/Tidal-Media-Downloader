@@ -63,22 +63,26 @@ namespace Tidal
                 return;
 
             string sUrl = "https://raw.githubusercontent.com/yaronzz/Tidal-Media-Downloader/master/Else/tokens.json";
-        RETRY_AGAIN:
+            RETRY_AGAIN:
             try
             {
-                string sReturn = NetHelper.DownloadString(sUrl, 10000);
-                TOKEN = JsonHelper.GetValue(sReturn, "token");
-                TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
-                tokenUpdateFlag = true;
-            }
-            catch
-            {
-                string sUrl2 = "https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json";
-                if (sUrl != sUrl2)
+                //string sReturn = NetHelper.DownloadString(sUrl, 10000);
+                string sErrmsg;
+                string sReturn = (string)HttpHelper.GetOrPost(sUrl, out sErrmsg, IsErrResponse: true, Timeout: 10* 1000, Proxy: PROXY);
+                if (sReturn.IsNotBlank())
                 {
-                    sUrl = sUrl2;
-                    goto RETRY_AGAIN;
+                    TOKEN = JsonHelper.GetValue(sReturn, "token");
+                    TOKEN_PHONE = JsonHelper.GetValue(sReturn, "token_phone");
+                    tokenUpdateFlag = true;
                 }
+            }
+            catch { }
+
+            string sUrl2 = "https://cdn.jsdelivr.net/gh/yaronzz/Tidal-Media-Downloader@latest/Else/tokens.json";
+            if (sUrl != sUrl2)
+            {
+                sUrl = sUrl2;
+                goto RETRY_AGAIN;
             }
         }
         
@@ -194,7 +198,7 @@ namespace Tidal
             //Check
             if(SessID1.IsBlank() && SessID2.IsBlank())
             {
-                loginErrlabel = Errmsg1.IsBlank() ? Errmsg2 : Errmsg1;
+                loginErrlabel = Errmsg1.IsBlank() ? Errmsg2 + "token2:" + TOKEN_PHONE : Errmsg1 + "token1:" + TOKEN;
                 return false;
             }
             if (UserID.IsBlank())
@@ -216,6 +220,7 @@ namespace Tidal
             Config.SessionidPhone(SESSIONID_PHONE);
             Config.Userid(UserID);
             return true;
+
         }
 
 
@@ -871,7 +876,7 @@ namespace Tidal
                 else
                     sRet = string.Format("{0}/Album/{1}/{4}{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
             }
-
+            sRet = cutFilePath(sRet);
             return Path.GetFullPath(sRet);
         }
 
