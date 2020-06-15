@@ -76,6 +76,7 @@ class TidalTool(object):
                     if selectheader != self.header2:
                         selectheader = self.header2
                         continue
+                    self.errmsg = '{}.'.format(resp['userMessage'])
                 elif 'status' in resp and not resp['status'] == 200:
                     self.errmsg = '{}. Get operation err!'.format(resp['userMessage'])
                     # self.errmsg = "Get operation err!"
@@ -219,7 +220,8 @@ class TidalTool(object):
             #  printWarning(14, "Redirecting: {} -> {}".format(track_id, resp['trackId']))
             # track_id = resp['trackId']
             # url = self._get('tracks/' + str(track_id) + '/streamUrl', {'soundQuality': quality})
-        return url
+            return url
+        return self.getStreamUrl2(track_id, quality)
 
     def _getArtists(self, pHash):
         ret = []
