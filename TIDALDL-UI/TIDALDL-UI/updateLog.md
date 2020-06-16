@@ -1,4 +1,6 @@
-﻿#### v1.1.0.21
+﻿- Fix bug of long-file-path
+
+#### v1.1.0.21
 - Reduce the number of logins
 - If one token is invalid, it is allowed to use only the other
 - Fix bug of getTrack

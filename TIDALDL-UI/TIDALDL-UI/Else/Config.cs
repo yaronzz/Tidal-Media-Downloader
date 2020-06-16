@@ -193,6 +193,16 @@ namespace TIDALDL_UI.Else
             return false;
         }
 
+        public static string MaxFileName(string Setvalue = null)
+        {
+            return SetOrGet("maxfilename", Setvalue, "");
+        }
+
+        public static string MaxDirName(string Setvalue = null)
+        {
+            return SetOrGet("maxdirname", Setvalue, "");
+        }
+
         public static bool ToChinese(string Setvalue = null)
         {
             string sRet = SetOrGet("tochinese", Setvalue, "false");

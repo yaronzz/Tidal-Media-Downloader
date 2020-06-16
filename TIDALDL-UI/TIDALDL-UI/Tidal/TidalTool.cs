@@ -832,9 +832,17 @@ namespace Tidal
         #endregion
 
         #region Path
-        static string formatPath(string Name)
+        static string formatPath(string Name, int i0Dir1File = 0)
         {
-            return PathHelper.ReplaceLimitChar(Name, "-");
+            string sRet = PathHelper.ReplaceLimitChar(Name, "-");
+            if(sRet.IsNotBlank() && sRet.Length > 50)
+            {
+                int iMaxLen = i0Dir1File == 0 ? int.Parse(Config.MaxDirName()) : int.Parse(Config.MaxFileName());
+                if (iMaxLen <= 50)
+                    iMaxLen = 50;
+                sRet = sRet.Substring(0, iMaxLen);
+            }
+            return sRet;
         }
 
         static string getExtension(string DlUrl)
@@ -848,6 +856,7 @@ namespace Tidal
 
         public static string getPlaylistFolder(string basePath, Playlist plist)
         {
+            
             string sRet = string.Format("{0}/Playlist/{1}/", basePath, formatPath(plist.Title));
             return Path.GetFullPath(sRet);
         }
@@ -884,7 +893,7 @@ namespace Tidal
         {
             string sAlbumDir = getAlbumFolder(basePath, album, addYear);
             string title = Regex.Replace(album.Title.Replace("（", "(").Replace("）", ")"), @"\([^\(]*\)", "");
-            string sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title));
+            string sRet = string.Format("{0}/{1}.jpg", sAlbumDir, formatPath(title, 1));
 
             sRet = cutFilePath(sRet);
             return Path.GetFullPath(sRet);
@@ -899,7 +908,7 @@ namespace Tidal
             string sArtistStr = "";
             if (artistBeforeTitle && track.Artist != null)
             {
-                sArtistStr = formatPath(track.Artist.Name) + " - ";
+                sArtistStr = formatPath(track.Artist.Name, 1) + " - ";
             }
 
             //Get Explicit
@@ -922,7 +931,7 @@ namespace Tidal
                 string trackNumber = track.TrackNumber.ToString().PadLeft(2, '0');
 
                 string sPrefix = useTrackNumber ? $"{trackNumber} {sChar}" : "";
-                string sTitle = trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle);
+                string sTitle = trackTitle == null ? formatPath(track.Title, 1) : formatPath(trackTitle, 1);
 
                 string sName = string.Format("{0}{1}{2}{3}{4}",
                     sPrefix,
@@ -945,7 +954,7 @@ namespace Tidal
                 string sName = string.Format("{0}{1}{2}{3}",
                     sPrefix,
                     sArtistStr,
-                    trackTitle == null ? formatPath(track.Title) : formatPath(trackTitle),
+                    trackTitle == null ? formatPath(track.Title, 1) : formatPath(trackTitle, 1),
                     getExtension(sdlurl));
                 sRet = sTrackDir + sName;
             }
@@ -959,12 +968,12 @@ namespace Tidal
             string sArtistStr = "";
             if(artistBeforeTitle && video.Artist != null)
             {
-                sArtistStr = formatPath(video.Artist.Name) + " - ";
+                sArtistStr = formatPath(video.Artist.Name, 1) + " - ";
             }
 
             if (album != null)
             {
-                string sRet = getAlbumFolder(basePath, album, addYear) + sArtistStr + formatPath(video.Title) + sExt;
+                string sRet = getAlbumFolder(basePath, album, addYear) + sArtistStr + formatPath(video.Title, 1) + sExt;
                 sRet = cutFilePath(sRet);
                 return Path.GetFullPath(sRet);
 
@@ -977,14 +986,14 @@ namespace Tidal
                     (plist.Tracks.Count + plist.Videos.IndexOf(video) + 1).ToString().PadLeft(2, '0'),
                     sChar,
                     sArtistStr,
-                    formatPath(video.Title),
+                    formatPath(video.Title, 1),
                     sExt);
                 sRet = cutFilePath(sRet + sName);
                 return Path.GetFullPath(sRet);
             }
             else
             { 
-                string sRet = string.Format("{0}/Video/{1}{2}{3}", basePath, sArtistStr, formatPath(video.Title), sExt);
+                string sRet = string.Format("{0}/Video/{1}{2}{3}", basePath, sArtistStr, formatPath(video.Title, 1), sExt);
                 sRet = cutFilePath(sRet);
                 return Path.GetFullPath(sRet);
             }

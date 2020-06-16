@@ -11,6 +11,7 @@ using System.IO;
 using Tidal;
 using System.Windows.Forms;
 using AIGS.Helper;
+using System.Windows.Controls;
 
 namespace TIDALDL_UI.Pages
 {
@@ -27,6 +28,8 @@ namespace TIDALDL_UI.Pages
         public bool   ToChinese { get; set; }
         public bool   CheckExist { get; set; }
         public bool   ArtistBeforeTitle { get; set; }
+        public string MaxFileName { get; set; } = "60";
+        public string MaxDirName { get; set; } = "60";
 
         public bool AddExplicitTag { get; set; }
         public bool IncludeEPSingle { get; set; }
@@ -45,6 +48,16 @@ namespace TIDALDL_UI.Pages
             RefreshSetting();
         }
 
+        public string CheckMaxName(string sMaxNum)
+        {
+            int iTmp;
+            if (!int.TryParse(sMaxNum, out iTmp))
+                iTmp = 60;
+            if (iTmp < 50 || iTmp > 100)
+                iTmp = 60;
+            return iTmp.ToString();
+        }
+
         public void RefreshSetting()
         {
             OutputDir             = Config.OutputDir();
@@ -54,6 +67,8 @@ namespace TIDALDL_UI.Pages
             AddHyphen             = Config.AddHyphen();
             SaveCovers            = Config.SaveCovers();
             ToChinese             = Config.ToChinese();
+            MaxFileName           = CheckMaxName(Config.MaxFileName());
+            MaxDirName            = CheckMaxName(Config.MaxDirName());
             CheckExist            = Config.CheckExist();
             ArtistBeforeTitle     = Config.ArtistBeforeTitle();
             AddYearIndex          = Config.AddYear();
@@ -99,11 +114,14 @@ namespace TIDALDL_UI.Pages
             Config.Resolution(ResolutionList[SelectResolutionIndex]);
             Config.OutputDir(OutputDir);
             Config.UseTrackNumber(UseTrackNumber.ToString());
+            Config.MaxFileName(CheckMaxName(MaxFileName));
+            Config.MaxDirName(CheckMaxName(MaxDirName));
 
             TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
             ThreadTool.SetThreadNum(ThreadNum + 1);
             RequestClose();                                                                 
         }
+
     }
 }
 
