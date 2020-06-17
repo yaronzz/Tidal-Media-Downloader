@@ -69,7 +69,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding Index}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
                                             <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Own}" VerticalAlignment="Center" Padding="5,0" FontStretch="Expanded" FontStyle="Italic"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Own}" VerticalAlignment="Center" Padding="5,0" FontStretch="Expanded" FontStyle="Italic" MaxWidth="200"/>
                                             <!--<TextBlock Grid.Column="3" Text="{Binding sType}" VerticalAlignment="Center" Padding="5,0"/>-->
                                             <materialDesign:PackIcon Grid.Column="3" Width="24" Height="24" Kind="{Binding sType}" VerticalAlignment="Center" Margin="5,0"/>
                                             <ProgressBar Grid.Column="4" Width="200" Height="10" Margin="0,13,0,13" 

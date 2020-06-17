@@ -40,12 +40,15 @@
                     </Border>
 
                     <!--Common config Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
-                    <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
+                    <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
@@ -60,10 +63,12 @@
                         <Label Grid.Row="2" Grid.Column="0"  Content="SearchNum" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="3" Grid.Column="0"  Content="AddYear" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="4" Grid.Column="0"  Content="Artist-Title" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
-                        <Label Grid.Row="5" Grid.Column="0"  Content="IncludeSingle" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
-                        <Label Grid.Row="6" Grid.Column="0"  Content="SaveCovers" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="4" Grid.Column="2"  Content="IncludeSingle" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="5" Grid.Column="0"  Content="SaveCovers" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="6" Grid.Column="0"  Content="MaxFileName" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="7" Grid.Column="0"  Content="MaxDirName" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
 
-                        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignFlatButton}"
+                        <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignFlatButton}"
                             Name="m_CPath"
                             ToolTip="Choose Path" 
                             Content="{Binding OutputDir, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -72,26 +77,29 @@
                             HorizontalContentAlignment="Left" 
                             VerticalAlignment="Top" Height="30" Padding="0,4,16,4" BorderThickness="0,0,0,1" BorderBrush="#89000000"/>
 
-                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" SelectedIndex="{Binding ThreadNum, UpdateSourceTrigger=PropertyChanged}">
                             <ComboBoxItem>1</ComboBoxItem>
                             <ComboBoxItem>2</ComboBoxItem>
                             <ComboBoxItem>3</ComboBoxItem>
                         </ComboBox>
-                        <ComboBox Grid.Row="2" Grid.Column="1" SelectedIndex="{Binding SearchNum, UpdateSourceTrigger=PropertyChanged}" >
+                        <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" SelectedIndex="{Binding SearchNum, UpdateSourceTrigger=PropertyChanged}" >
                             <ComboBoxItem>10</ComboBoxItem>
                             <ComboBoxItem>20</ComboBoxItem>
                             <ComboBoxItem>30</ComboBoxItem>
                             <ComboBoxItem>40</ComboBoxItem>
                             <ComboBoxItem>50</ComboBoxItem>
                         </ComboBox>
-                        <ComboBox Grid.Row="3" Grid.Column="1" SelectedIndex="{Binding AddYearIndex, UpdateSourceTrigger=PropertyChanged}" >
+                        <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" SelectedIndex="{Binding AddYearIndex, UpdateSourceTrigger=PropertyChanged}" >
                             <ComboBoxItem>No</ComboBoxItem>
                             <ComboBoxItem>Before</ComboBoxItem>
                             <ComboBoxItem>After</ComboBoxItem>
                         </ComboBox>
-                        <ToggleButton Grid.Row="4" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <ToggleButton Grid.Row="5" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IncludeEPSingle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <ToggleButton Grid.Row="6" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding SaveCovers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <ToggleButton Grid.Row="4" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,80,0"/>
+                        <ToggleButton Grid.Row="4" Grid.Column="3" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IncludeEPSingle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <ToggleButton Grid.Row="5" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding SaveCovers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+                        <TextBox  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="50~100" Text="{Binding MaxFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                        <TextBox  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="50~100" Text="{Binding MaxDirName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
                     </Grid>
 
                     <!--Track config   Visibility="{Binding CheckTrack, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->

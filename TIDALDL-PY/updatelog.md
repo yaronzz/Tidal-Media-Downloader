@@ -1,5 +1,14 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
+DESC This version requires some tests, there may be many problems
+#### 2020-06-14
+- Reduce the number of logins
+- Use another login method(from Redsea)
+- Download Dolby Atmos(AC4 Codec\Low Quality\Mp4 format)
+- Download SONY_360RA(MHA1 Codec\Low Quality\Mp4 format)
+- Skip convert to mp4 if File-Codec is AC4 or MHA1
+- Fixed the bug of Download-HIRES
+
 #### 2020-05-31
 - Use CDN request
 - Fix bug of redownload(download artist-albums)

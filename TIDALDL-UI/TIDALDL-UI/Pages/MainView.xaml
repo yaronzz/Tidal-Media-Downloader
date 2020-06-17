@@ -84,7 +84,7 @@
                     <Grid Margin="0,52,0,35">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                                 Visibility="{Binding ItemList.Count, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                            <ItemsControl Padding="8" Background="{DynamicResource MaterialDesignCardBackground}"
+                            <ItemsControl Padding="8" 
                                 ItemsSource="{Binding ItemList}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -99,18 +99,18 @@
                     <materialDesign:Snackbar IsActive='{Binding Path=Errlabel, Converter={StaticResource ConverterStringNotEmpty}}' Margin="230,0,230,35" Width="560">
                         <materialDesign:SnackbarMessage Content="{Binding Errlabel}" ActionContent="OK" ActionClick="{s:Action CloseErrlabel}"/>
                     </materialDesign:Snackbar>
-                    <StatusBar HorizontalAlignment="Left" Height="35" Margin="0,635,0,0" VerticalAlignment="Bottom" Width="1020" Background="White" BorderThickness="0,1,0,0" BorderBrush="#FF999191">
-                        <materialDesign:PackIcon Kind="Music" />
+                    <StackPanel  HorizontalAlignment="Left" Height="35" Margin="0,635,0,0" VerticalAlignment="Bottom" Width="1020" Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Music" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,10,0" />
                         <ComboBox ItemsSource="{Binding QualityList}"
                                   SelectedIndex="{Binding SelectQualityIndex , UpdateSourceTrigger=PropertyChanged}"
                                   SelectionChanged="{s:Action QualityChanged}"
-                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
-                        <materialDesign:PackIcon Kind="VideoFilm" />
+                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6" Width="100"/>
+                        <materialDesign:PackIcon Kind="VideoFilm" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,10,0" />
                         <ComboBox ItemsSource="{Binding ResolutionList}"
                                   SelectedIndex="{Binding SelectResolutionIndex , UpdateSourceTrigger=PropertyChanged}"
                                   SelectionChanged="{s:Action ResolutionChanged}"
-                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6"/>
-                    </StatusBar>
+                                  VerticalAlignment="Top" Height="30" Padding="6,6,0,6" Width="50"/>
+                    </StackPanel>
                 </Grid>
             </materialDesign:DialogHost>
         </materialDesign:Card>

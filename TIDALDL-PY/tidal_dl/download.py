@@ -32,7 +32,7 @@ from tidal_dl.tidal import TidalConfig
 from tidal_dl.tidal import TidalAccount
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
-from tidal_dl.printhelper import printChoice, printErr, printSUCCESS
+from tidal_dl.printhelper import printChoice, printErr, printSUCCESS, printWarning, printInfo
 
 
 class Download(object):
@@ -115,7 +115,13 @@ class Download(object):
                         break
                 if check:
                     bIsSuccess = True
-                    paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
+                    if self.tool.isNeedCovertToM4a(paraList['path']):
+                        if paraList['codec'] == 'ac4':
+                            printInfo(14, 'Skip convert to m4a(AC4-Codec).')
+                        elif paraList['codec'] == 'mha1':
+                            printInfo(14, 'Skip convert to m4a(MHA1-Codec).')
+                        else:
+                            paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
                     self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'],
                                                albumInfo, index, coverpath, Contributors)
                     pstr = paraList['title']
@@ -310,7 +316,8 @@ class Download(object):
                             'path': filePath,
                             'retry': 3,
                             'key': streamInfo['encryptionKey'],
-                            'coverpath': coverPath}
+                            'coverpath': coverPath,
+                            'codec': streamInfo['codec']}
                 self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
             self.thread.waitAll()
@@ -417,7 +424,8 @@ class Download(object):
             if self.tool.errmsg != "" or not streamInfo:
                 printErr(14, aTrackInfo['title'] + "(Get Stream Url Err!" + self.tool.errmsg + ")")
                 continue
-
+            
+            print("[Codec      ]       %s" % (streamInfo['codec']))
             fileType = self._getSongExtension(streamInfo['url'])
             filePath = self.__getAlbumSongSavePath(targetDir, aAlbumInfo, aTrackInfo, fileType)
             paraList = {'album': aAlbumInfo,
@@ -427,7 +435,8 @@ class Download(object):
                         'path': filePath,
                         'retry': 3,
                         'key': streamInfo['encryptionKey'],
-                        'coverpath': coverPath}
+                        'coverpath': coverPath,
+                        'codec': streamInfo['codec']}
 
             self.thread.start(self.__thradfunc_dl, paraList)
             # wait all download thread
@@ -551,12 +560,12 @@ class Download(object):
                         targetDir2 = self.__creatAlbumDir(aAlbumInfo, self.config.quality)
                         filePath = self.__getAlbumSongSavePath(targetDir2, aAlbumInfo, item, fileType)
                         paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item,
-                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey'], 'codec': streamInfo['codec']}
                     else:
                         seq = self.tool.getIndexStr(index, len(aItemInfo))
                         filePath = targetDir2 + '/' + seq + " "+ pathHelper.replaceLimitChar(item['title'], '-') + fileType
                         paraList = {'album': aAlbumInfo, 'index': index, 'title': item['title'], 'trackinfo': item,
-                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                                    'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey'], 'codec': streamInfo['codec']}
 
                     try:
                         coverPath = targetDir2 + '/' + pathHelper.replaceLimitChar(aAlbumInfo['title'], '-') + '.jpg'
@@ -640,7 +649,7 @@ class Download(object):
             filePath = targetDir + '/' + pathHelper.replaceLimitChar(item['title'], '-') + fileType
             aAlbumInfo = self.tool.getAlbum(item['album']['id'])
             paraList = {'album': aAlbumInfo, 'title': item['title'], 'trackinfo': item,
-                        'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey']}
+                        'url': streamInfo['url'], 'path': filePath, 'retry': 3, 'key': streamInfo['encryptionKey'], 'codec': streamInfo['codec']}
             self.thread.start(self.__thradfunc_dl, paraList)
         self.thread.waitAll()
 

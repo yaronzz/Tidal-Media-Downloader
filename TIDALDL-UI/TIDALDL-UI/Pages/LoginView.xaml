@@ -22,7 +22,7 @@
         d:DataContext="{d:DesignInstance pages:LoginViewModel}">
 
     <Grid>
-        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="430" BorderThickness="3" BorderBrush="#FF171616" Margin="45,40,0,0" Height="330">
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" VerticalAlignment="Top"  Background="Black" HorizontalAlignment="Left" Width="430"  Margin="45,40,0,0" Height="330">
             <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
                 <Grid Height="329" >
                     <Grid.RowDefinitions>
@@ -31,8 +31,8 @@
                     </Grid.RowDefinitions>
 
                     <!--Cover Grid-->
-                    <Grid Background="Black" MouseLeftButtonDown="Grid_MouseLeftButtonDown"  Margin="0,-10,0,124" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                        <Image Margin="-10,-10,0,0" Source="pack://application:,,,/resource/tidal.jpg" />
+                    <Grid Background="Black" MouseLeftButtonDown="Grid_MouseLeftButtonDown"  Margin="0,0,0.4,125.2" Grid.RowSpan="2">
+                        <Image Margin="0,-2,0,10.4" Source="pack://application:,,,/resource/tidal.jpg" />
                         <!--<Button Command="{s:Action RequestClose}" s:View.ActionTarget="{Binding}" Margin="404,0,0,180" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Padding="0" Height="25" BorderBrush="{x:Null}" Background="{x:Null}">
                             <materialDesign:PackIcon Kind="Close" Height="22" Width="26" Foreground="White" />
                         </Button>
@@ -59,7 +59,7 @@
                     </Grid>
 
                     <!--Wait Page-->
-                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage" Visibility="{Binding WaitVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="1" Background="White" Name="m_CWaitPage" Visibility="{Binding WaitVisibility, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0.4,-0.8">
                         <materialDesign:Chip
                               Background="LightGray"
                               Content="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
@@ -69,7 +69,7 @@
                                 <materialDesign:PackIcon Kind="AccountCircle" Height="25" Width="30" />
                             </materialDesign:Chip.Icon>
                         </materialDesign:Chip>
-                        <Button Command="{s:Action Cancle}" Content="CANCLE" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
+                        <Button Command="{s:Action Cancle}" Content="CANCEL" Margin="115,0,0,24" HorizontalAlignment="Left" Width="195" Height="27"  VerticalAlignment="Bottom"/>
                     </Grid>
 
                     <!--Proxy Page-->

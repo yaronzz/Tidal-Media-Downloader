@@ -1,4 +1,14 @@
-﻿- Use CDN request
+﻿- Fix bug of long-file-path
+
+#### v1.1.0.21
+- Reduce the number of logins
+- If one token is invalid, it is allowed to use only the other
+- Fix bug of getTrack
+- Add errmessage(convert mp4 to m4a failed) #288
+- Check All/Uncheck All #248
+
+#### v1.1.0.20
+- Use CDN request
 - Fix bug of getstream
 - Modify settings-page
 - Fix bug of long-file-path

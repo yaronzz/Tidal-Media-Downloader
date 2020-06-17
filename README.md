@@ -25,7 +25,6 @@
         <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
     <br>
 </p>
-
 ----
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
@@ -43,7 +42,7 @@
 - Detailed description: [Documentation](https://yaronzz.top/post/tidal_dl_installation/)
 
 ### **Requirement**
-- [FFmpeg](http://ffmpeg.org/) : Convert video
+- [FFmpeg](http://ffmpeg.org/) : Convert video and convert mp4 to m4a
 
 ### **Telegram**
 - [Group](https://t.me/tidal_group) : Feed back
@@ -55,6 +54,10 @@
 3. Add metadate
 4. Multiple downloads
 5. Selectable video resolution and track quality
+
+### **Update Log**
+1. Tidal-dl: [TIDALDL-PY/updatelog.md](https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/TIDALDL-PY/updatelog.md)
+2. Tidal-gui: [TIDALDL-UI/updateLog.md](https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/TIDALDL-UI/TIDALDL-UI/updateLog.md)
 
 ### **Screenshots**
 ![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_dl_log.jpg)
