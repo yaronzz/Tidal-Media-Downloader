@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
+using System.Windows.Forms;
 using AIGS.Common;
 using AIGS.Helper;
 
@@ -18,6 +19,7 @@ namespace Tidal
         static string URL_LOGIN = "https://login.tidal.com/";
         static string REDIRECT_URI_ANDROID = "https://tidal.com/android/login/auth";
         static string REDIRECT_URI_IOS = "tidal://login/auth";
+        CookieContainer cookie = new CookieContainer();
 
         public string UserID;
         public string AccessToken;
@@ -51,8 +53,29 @@ namespace Tidal
             return null;
         }
 
+        bool Valid(string sToken, ref string sUserID, ref string sCountryCode)
+        {
+            string sErrmsg;
+            string sRet = (string)HttpHelper.GetOrPost("https://api.tidal.com/v1/sessions", out sErrmsg, Cookie: cookie, Timeout: 30 * 1000, UserAgent: null, Header: GetHeader(sToken));
+            if (sErrmsg.IsNotBlank())
+                return false;
 
-        public string Login(string sUsername, string sPassword, string ClientID = "ck3zaWMi8Ka_XdI0")
+            sUserID = JsonHelper.GetValue(sRet, "userId");
+            sCountryCode = JsonHelper.GetValue(sRet, "countryCode");
+            return true;
+        }
+
+        public string GetHeader(string sToken = null)
+        {
+            if (sToken.IsBlank())
+                sToken = AccessToken;
+            if (sToken.IsBlank())
+                return "";
+            return "authorization:Bearer " + sToken;
+        }
+
+
+        public string Login(string sUsername, string sPassword, string ClientID = "ck3zaWMi8Ka_XdI0", string sToken = null)
         {
             string ClientUniqueKey = Guid.NewGuid().ToString().Replace("-", "");
             string CodeVerifier = (Guid.NewGuid().ToString() + Guid.NewGuid().ToString()).Replace("-", "").Substring(0, 43);
@@ -62,11 +85,22 @@ namespace Tidal
             string CodeChallenge = System.Convert.ToBase64String(hash);
             CodeChallenge = CodeChallenge.Substring(0, CodeChallenge.Length - 1);
 
+            //Check old token
+            string sTmpUserID = null;
+            string sTmpCountryCode = null;
+            if (sToken.IsNotBlank() && Valid(sToken, ref sTmpUserID, ref sTmpCountryCode))
+            {
+                UserID = sTmpUserID;
+                CountryCode = sTmpCountryCode;
+                AccessToken = sToken;
+                return "";
+            }
+
+            //Login
             string sRet;
             string postJ;
             string sErrmsg;
             string sOauthCode;
-            CookieContainer cookie = new CookieContainer();
 
             Dictionary<string, string> pParams = new Dictionary<string, string>() {
                 {"response_type", "code" },
@@ -84,6 +118,8 @@ namespace Tidal
             //email, verify email is valid
             postJ = "{" + string.Format("\"_csrf\":\"{0}\", \"email\":\"{1}\", \"recaptchaResponse\":\"\" ", csrf, sUsername) +"}";
             sRet = (string)HttpHelper.GetOrPost(GetUrl(URL_LOGIN + "email", pParams), out sErrmsg, Cookie: cookie,IsErrResponse: true, UserAgent: null, Timeout: 30 * 1000, PostJson: postJ, ContentType: "application/json;charset=UTF-8");
+            if (sErrmsg.IsNotBlank())
+                return "Unknown in https://login.tidal.com/email";
             if (JsonHelper.GetValue(sRet, "isValidEmail") != "True")
                 return "Invalid email";
             if (JsonHelper.GetValue(sRet, "newUser") == "True")
@@ -92,9 +128,19 @@ namespace Tidal
             //login with user credentials
             postJ = "{" + string.Format("\"_csrf\":\"{0}\", \"email\":\"{1}\", \"password\":\"{2}\" ", csrf, sUsername, sPassword) + "}";
             sRet = (string)HttpHelper.GetOrPost(GetUrl(URL_LOGIN + "email/user/existing", pParams), out sErrmsg, Cookie: cookie, IsErrResponse: true, UserAgent: null, Timeout: 30 * 1000, PostJson: postJ, ContentType: "application/json;charset=UTF-8");
+            if (JsonHelper.GetValue(sRet, "error").IsNotBlank())
+            {
+                sErrmsg = JsonHelper.GetValue(sRet, "error", "message");
+                if(sErrmsg.IsBlank())
+                    sErrmsg = "Unknown in https://login.tidal.com/email/user/existing";
+            }
+            if (sErrmsg.IsNotBlank())
+                return "Unknown in https://login.tidal.com/email/user/existing";
 
             //retrieve access code
             sRet = (string)HttpHelper.GetOrPost(URL_LOGIN + "success?lang=en", out sErrmsg, Cookie: cookie, Timeout: 30 * 1000, UserAgent: null, AllowAutoRedirect:false);
+            if (sErrmsg.IsNotBlank())
+                return "Unknown in https://login.tidal.com/success?lang=en";
             sOauthCode = StringHelper.GetSubString(sRet, "code=", "&");
 
             //exchange access code for oauth token
@@ -107,12 +153,17 @@ namespace Tidal
                 {"code_verifier", CodeVerifier },
                 {"client_unique_key", ClientUniqueKey },
             });
+            if (sErrmsg.IsNotBlank())
+                return "Unknown in https://auth.tidal.com/v1/oauth2/token";
             AccessToken = JsonHelper.GetValue(sRet, "access_token");
 
-            sRet = (string)HttpHelper.GetOrPost("https://api.tidal.com/v1/sessions", out sErrmsg, Cookie: cookie, Timeout: 30 * 1000, UserAgent: null, 
-                Header: "authorization:Bearer " + AccessToken);
-            UserID = JsonHelper.GetValue(sRet, "userId");
-            CountryCode = JsonHelper.GetValue(sRet, "countryCode");
+
+            if(!Valid(AccessToken, ref UserID, ref CountryCode))
+            {
+                AccessToken = null;
+                return "Unknown in https://api.tidal.com/v1/sessions";
+            }
+            
             return null;
         }
     }

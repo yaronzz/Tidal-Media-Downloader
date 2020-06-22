@@ -180,6 +180,11 @@ namespace TIDALDL_UI.Else
             return SetOrGet("countrycode", Setvalue, "");
         }
 
+        public static string Accesstoken(string Setvalue = null)
+        {
+            return SetOrGet("accesstoken", Setvalue, "");
+        }
+
         public static string Userid(string Setvalue = null)
         {
             return SetOrGet("userid", Setvalue, "");

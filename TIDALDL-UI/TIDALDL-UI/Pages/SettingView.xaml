@@ -40,7 +40,7 @@
                     </Border>
 
                     <!--Common config Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}"-->
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Visibility="{Binding CheckCommon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>

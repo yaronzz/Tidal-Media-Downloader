@@ -228,19 +228,22 @@ namespace TIDALDL_UI.Else
 
                     if(OnlyM4a)
                     {
-                        string sNewName;
-                        if (!FFmpegHelper.IsExist())
+                        if(TidalStream.Codec != "ac4" && TidalStream.Codec != "mha1")
                         {
-                            Errlabel = "Convert mp4 to m4a failed!(FFmpeg is not exist!)";
-                            goto ERR_RETURN;
+                            string sNewName;
+                            if (!FFmpegHelper.IsExist())
+                            {
+                                Errlabel = "Convert mp4 to m4a failed!(FFmpeg is not exist!)";
+                                goto ERR_RETURN;
+                            }
+                            if (!TidalTool.ConvertMp4ToM4a(FilePath, out sNewName))
+                            {
+                                Errlabel = "Convert mp4 to m4a failed!(No reason, Please feedback!)";
+                                goto ERR_RETURN;
+                            }
+                            else
+                                FilePath = sNewName;
                         }
-                        if (!TidalTool.ConvertMp4ToM4a(FilePath, out sNewName))
-                        {
-                            Errlabel = "Convert mp4 to m4a failed!(No reason, Please feedback!)";
-                            goto ERR_RETURN;
-                        }
-                        else
-                            FilePath = sNewName;
                     }
 
                     //SetMetaData 

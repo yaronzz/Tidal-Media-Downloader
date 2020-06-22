@@ -1,4 +1,9 @@
 ﻿- Fix bug of long-file-path
+- Fix bug of download video
+- Use another login method(from Redsea)
+- Download Dolby Atmos(AC4 Codec\Low Quality\Mp4 format)
+- Download SONY_360RA(MHA1 Codec\Low Quality\Mp4 format)
+- Fixed the bug of Download-HIRES
 
 #### v1.1.0.21
 - Reduce the number of logins
