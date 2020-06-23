@@ -42,11 +42,13 @@ namespace Tidal
         static string COUNTRY_CODE    = null;
         static string SESSIONID       = null;
         static string SESSIONID_PHONE = null;
+        static string ACCESSTOKEN     = null;
         static bool   ISLOGIN         = false;
         static string[] LINKPRES      = { "https://tidal.com/browse/", "https://listen.tidal.com/"};
         public static HttpHelper.ProxyInfo PROXY = null;
         static int    SEARCH_NUM      = 30;
         public static string USER_INFO_KEY = "hOjn45fP";
+        static TidalSession Session = new TidalSession();
         #endregion
 
         #region Login
@@ -148,9 +150,31 @@ namespace Tidal
             if (ISLOGIN)
                 return true;
 
-            //Use last session
             string sLastUserid = Config.Userid();
             string sLastCountryCode = Config.Countrycode();
+
+            //Use another login method
+            string sAccessToken = null;
+            if (Config.Username() == UserName && Config.Password() == Password && sLastCountryCode.IsNotBlank())
+                sAccessToken = Config.Accesstoken();
+            string sErrmsg3 = Session.Login(UserName, Password, sToken: sAccessToken);
+            if (sErrmsg3.IsBlank())
+            {
+                COUNTRY_CODE = Session.CountryCode;
+                USERNAME = UserName;
+                PASSWORD = Password;
+                PASSWORD = Password;
+                ACCESSTOKEN = Session.AccessToken;
+
+                Config.Countrycode(COUNTRY_CODE);
+                Config.Username(USERNAME);
+                Config.Password(PASSWORD);
+                Config.Userid(Session.UserID);
+                Config.Accesstoken(ACCESSTOKEN);
+                return true;
+            }
+
+            //Use last session
             string sLastSession = null; 
             string sLastSessionPhone = null; 
             if (Config.Username() == UserName && Config.Password() == Password && sLastCountryCode.IsNotBlank())
@@ -240,20 +264,27 @@ namespace Tidal
         static string get(string Path, out string Errmsg, Dictionary<string, string> Paras = null, int RetryNum = 3)
         {
             Errmsg = null;
+            string sHeader = null;
             string sParams = "?countryCode=" + COUNTRY_CODE;
             for (int i = 0; Paras != null && i < Paras.Count; i++)
                 sParams += "&" + Paras.ElementAt(i).Key + "=" + Paras.ElementAt(i).Value;
 
-            string sSessionID = SESSIONID;
-            if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
-                sSessionID = SESSIONID_PHONE;
-
-            //Check Session
-            if (sSessionID.IsBlank())
-                sSessionID = SESSIONID.IsBlank() ? SESSIONID_PHONE : SESSIONID;
+            //Select header
+            if (ACCESSTOKEN.IsNotBlank())
+                sHeader = Session.GetHeader(ACCESSTOKEN);
+            else
+            {
+                string sSessionID = SESSIONID;
+                if (Paras != null && Paras.ContainsKey("soundQuality") && Paras["soundQuality"].ToLower() == "lossless")
+                    sSessionID = SESSIONID_PHONE;
+                //Check Session
+                if (sSessionID.IsBlank())
+                    sSessionID = SESSIONID.IsBlank() ? SESSIONID_PHONE : SESSIONID;
+                sHeader = "X-Tidal-SessionId:" + sSessionID;
+            }
 
         POINT_RETURN:
-            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: "X-Tidal-SessionId:" + sSessionID, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);
+            string sRet = (string)HttpHelper.GetOrPost(URL + Path + sParams, out Errmsg, Header: sHeader, Retry: RetryNum, IsErrResponse: true, Proxy: PROXY);
             if (!string.IsNullOrEmpty(Errmsg))
             {
                 string sStatus = JsonHelper.GetValue(Errmsg, "status");
@@ -263,9 +294,9 @@ namespace Tidal
                     Errmsg = sMessage + ". This might be region-locked.";
                 else if (sStatus.IsNotBlank() && sStatus == "401" && sSubStatus == "4005")//'Asset is not ready for playback'
                 {
-                    if (sSessionID != SESSIONID_PHONE)
+                    if (sHeader != "X-Tidal-SessionId:" + SESSIONID_PHONE)
                     {
-                        sSessionID = SESSIONID_PHONE;
+                        sHeader = "X-Tidal-SessionId:" + SESSIONID_PHONE;
                         goto POINT_RETURN;
                     }
                     Errmsg = sMessage;
@@ -377,7 +408,7 @@ namespace Tidal
             return oObj;
         }
 
-        public static StreamUrl getStreamUrl(string ID, eSoundQuality eQuality, out string Errmsg)
+        public static StreamUrl getStreamUrl2(string ID, eSoundQuality eQuality, out string Errmsg)
         {
             string sQua = AIGS.Common.Convert.ConverEnumToString((int)eQuality, typeof(eSoundQuality), 0);
             StreamUrl oObj = get<StreamUrl>("tracks/" + ID + "/offlineUrl", out Errmsg, new Dictionary<string, string>() { { "soundQuality", sQua } }, 3);
@@ -394,6 +425,29 @@ namespace Tidal
                 }
             }
             return oObj;
+        }
+
+        public static StreamUrl getStreamUrl(string ID, eSoundQuality eQuality, out string Errmsg)
+        {
+            StreamUrl oObj = null;
+            string sQua = AIGS.Common.Convert.ConverEnumToString((int)eQuality, typeof(eSoundQuality), 0);
+            object resp = get<object>("tracks/" + ID + "/playbackinfopostpaywall", out Errmsg, new Dictionary<string, string>() { { "audioquality", sQua }, { "playbackmode", "STREAM" }, { "assetpresentation", "FULL" } }, 3);
+            if (resp != null && JsonHelper.GetValue(resp.ToString(), "trackId").IsNotBlank())
+            {
+                string sManifest = JsonHelper.GetValue(resp.ToString(), "manifest");
+                sManifest = StringHelper.Base64Decode(sManifest);
+                oObj = new StreamUrl()
+                {
+                    TrackID = int.Parse(JsonHelper.GetValue(resp.ToString(), "trackId")),
+                    Codec = JsonHelper.GetValue(sManifest, "codecs")
+                };
+                List<object> sArr = JsonHelper.ConverStringToObject<List<object>>(sManifest, "urls");
+                oObj.Url = sArr[0].ToString();
+                if (JsonHelper.GetValue(sManifest, "encryptionType") != "None")
+                    oObj.EncryptionKey = JsonHelper.GetValue(sManifest, "keyId");
+                return oObj;
+            }
+            return getStreamUrl2(ID, eQuality, out Errmsg);
         }
 
         public static ObservableCollection<Contributor> getTrackContributors(string ID, out string Errmsg)

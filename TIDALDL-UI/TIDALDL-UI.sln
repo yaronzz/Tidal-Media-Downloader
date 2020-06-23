@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIDALDL-UI", "TIDALDL-UI\TIDALDL-UI.csproj", "{87F39F78-056F-4747-A835-12BA03FE575A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AACE1EF2-2F31-4C94-A72F-8427C7DF83A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
