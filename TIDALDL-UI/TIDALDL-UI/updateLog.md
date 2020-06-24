@@ -1,9 +1,14 @@
-﻿- Fix bug of long-file-path
-- Fix bug of download video
+﻿#### v1.1.0.22
+- Fix bug of long-file-path (settings MaxFileName) #353
+- Fix bug of download video #343 #327
 - Use another login method(from Redsea)
 - Download Dolby Atmos(AC4 Codec\Low Quality\Mp4 format)
 - Download SONY_360RA(MHA1 Codec\Low Quality\Mp4 format)
-- Fixed the bug of Download-HIRES
+- Fixed the bug of Download-HIRES #347 #326
+- Add AlbumID after album-folder-name (settings IDBeforeFolder)
+- Add label [E] on search-page and info-page #264
+- Add label [E] before albumtitle #264
+- Volume to CD #265
 
 #### v1.1.0.21
 - Reduce the number of logins

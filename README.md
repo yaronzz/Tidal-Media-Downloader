@@ -25,7 +25,6 @@
         <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
     <br>
 </p>
-----
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ### **Installation**
@@ -63,6 +62,7 @@
 ![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_dl_log.jpg)
 ![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_gui_example.jpg)
 
+
 ### **Libraries and reference**
 - [AIGS](https://github.com/yaronzz/AIGS)
 - [AIGPY](https://github.com/yaronzz/AIGPY)
@@ -81,3 +81,10 @@ If you really like my projects and want to support me, you can star this project
 - Need a Tidal-HIFI subscription. 
 - You should not use this method to distribute or pirate music.
 - It may be illegal to use this in your country, so be informed.
+
+
+
+- [buymeacoffee](https://www.buymeacoffee.com/yaronzz)
+- [Paypal](https://www.paypal.me/yaronzz)
+- [微信支付](https://cdn.jsdelivr.net/gh/yaronzz/CDN/my/ali_weixin_pay.png)
+- [支付宝](https://cdn.jsdelivr.net/gh/yaronzz/CDN/my/ali_weixin_pay.png)

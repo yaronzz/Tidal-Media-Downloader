@@ -894,7 +894,8 @@ namespace Tidal
                 int iMaxLen = i0Dir1File == 0 ? int.Parse(Config.MaxDirName()) : int.Parse(Config.MaxFileName());
                 if (iMaxLen <= 50)
                     iMaxLen = 50;
-                sRet = sRet.Substring(0, iMaxLen);
+                if(sRet.Length > iMaxLen)
+                    sRet = sRet.Substring(0, iMaxLen);
             }
             return sRet;
         }
@@ -926,18 +927,26 @@ namespace Tidal
             string sQualityFlag = "";
             string sss = Config.Quality();
             if (Config.Quality().ToUpper().IndexOf("RES") >= 0 && album.AudioQuality == "HI_RES")
-                sQualityFlag = "[M] ";
+                sQualityFlag = "M";
+            if (album.Explicit)
+                sQualityFlag += "E";
+            if (sQualityFlag.IsNotBlank())
+                sQualityFlag = '[' + sQualityFlag + "] ";
+
+            string sAlbumIDBefore = "";
+            if(Config.AddAlbumIDBeforeFolder())
+                sAlbumIDBefore = "[" + album.ID.ToString() + "] ";
 
             string sRet;
             if(addYear < 1 || addYear > 2 || album.ReleaseDate.IsBlank())
-                sRet = string.Format("{0}/Album/{1}/{3}{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sQualityFlag);
+                sRet = string.Format("{0}/Album/{1}/{3}{4}{2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sQualityFlag, sAlbumIDBefore);
             else
             {
                 string sYearStr = '[' + album.ReleaseDate.Substring(0,4) + ']';
                 if(addYear == 1)
-                    sRet = string.Format("{0}/Album/{1}/{4}{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
+                    sRet = string.Format("{0}/Album/{1}/{4}{5}{3} {2}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag, sAlbumIDBefore);
                 else
-                    sRet = string.Format("{0}/Album/{1}/{4}{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag);
+                    sRet = string.Format("{0}/Album/{1}/{4}{5}{2} {3}/", basePath, formatPath(album.Artist.Name), formatPath(album.Title), sYearStr, sQualityFlag, sAlbumIDBefore);
             }
             sRet = cutFilePath(sRet);
             return Path.GetFullPath(sRet);
@@ -978,7 +987,8 @@ namespace Tidal
                 string sAlbumDir = getAlbumFolder(basePath, album, addYear);
                 string sTrackDir = sAlbumDir;
                 if (album.NumberOfVolumes > 1)
-                    sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
+                    //sTrackDir += "Volume" + track.VolumeNumber.ToString() + "/";
+                    sTrackDir += "CD" + track.VolumeNumber.ToString() + "/";
 
 
                 string sChar = hyphen ? "- " : "";
@@ -1237,20 +1247,25 @@ namespace Tidal
 
         public static string getFlag(object item)
         {
+            string sRet = null;
             Type t = item.GetType();
             if (typeof(Album) == t)
             {
                 Album obj = (Album)item;
                 if (obj.AudioQuality == "HI_RES")
-                    return "M";
+                    sRet = "M";
+                if (obj.Explicit)
+                    sRet += "E";
             }
             else if (typeof(Track) == t)
             {
                 Track obj = (Track)item;
                 if (obj.AudioQuality == "HI_RES")
-                    return "M";
+                    sRet = "M";
+                if (obj.Explicit)
+                    sRet += "E";
             }
-            return null;
+            return sRet;
         }
 
         public static string cutFilePath(string sFilePath)

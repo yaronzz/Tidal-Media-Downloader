@@ -33,6 +33,7 @@ namespace TIDALDL_UI.Pages
 
         public bool AddExplicitTag { get; set; }
         public bool IncludeEPSingle { get; set; }
+        public bool AddAlbumIDBeforeFolder { get; set; }
         public int  AddYearIndex { get; set; }
         public bool SaveCovers { get; set; }
 
@@ -79,6 +80,7 @@ namespace TIDALDL_UI.Pages
             SelectQualityIndex    = QualityList.IndexOf(Config.Quality().ToUpper());
             SelectResolutionIndex = ResolutionList.IndexOf(Config.Resolution().ToUpper());
             UseTrackNumber        = Config.UseTrackNumber();
+            AddAlbumIDBeforeFolder = Config.AddAlbumIDBeforeFolder();
 
             if (SelectQualityIndex < 0)
                 SelectQualityIndex = 0;
@@ -116,6 +118,7 @@ namespace TIDALDL_UI.Pages
             Config.UseTrackNumber(UseTrackNumber.ToString());
             Config.MaxFileName(CheckMaxName(MaxFileName));
             Config.MaxDirName(CheckMaxName(MaxDirName));
+            Config.AddAlbumIDBeforeFolder(AddAlbumIDBeforeFolder.ToString());
 
             TidalTool.SetSearchMaxNum(int.Parse(Config.SearchNum()));
             ThreadTool.SetThreadNum(ThreadNum + 1);

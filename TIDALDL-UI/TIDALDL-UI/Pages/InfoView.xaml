@@ -14,7 +14,7 @@
              TextOptions.TextFormattingMode="Ideal" 
              TextOptions.TextRenderingMode="Auto"    
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-             Width="620" 
+             Width="650" 
              WindowStartupLocation="CenterOwner"
              WindowStyle="None"
              Background="{x:Null}"
@@ -43,15 +43,16 @@
                     <Label Content="{Binding Title}" FontSize="28" VerticalAlignment="Top" Grid.Column="1" Height="45" FontWeight="ExtraBlack" />
                     <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="0,45,0,0" Grid.Column="1" Height="25" />
                     <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="0,70,0,0" Grid.Column="1" Height="25" />
+                    <Label Content="{Binding FlagDetail}" Foreground="Red" FontStyle="Oblique" FontSize="13" VerticalAlignment="Top" Margin="0,95,0,0" Grid.Column="1" Height="25" Width="auto" FontWeight="Bold"/>
 
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"
                             Content="Download" 
-                            Height="27" VerticalAlignment="Bottom" Margin="5,0,189,8"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="5,0,0,8" HorizontalAlignment="Left" Width="174"/>
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Cancel}"
                             Content="Cancel" 
-                            Height="27" VerticalAlignment="Bottom" Margin="184,0,23,8"/>
+                            Height="27" VerticalAlignment="Bottom" Margin="184,0,0,8" HorizontalAlignment="Left" Width="161"/>
 
                 </Grid>
 
@@ -81,7 +82,7 @@
 
                         <!--<DataGridCheckBoxColumn Binding="{Binding Check}" Header="#" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>-->
                         <DataGridTextColumn Header="#" Width="40" Binding="{Binding Number}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="#" Width="40" Binding="{Binding Flag}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="#" Width="auto" Binding="{Binding Flag}" IsReadOnly="True" />
                         <DataGridTextColumn Header="TITLE" Width="205" Binding="{Binding Title}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="ALBUM" Width="115" Binding="{Binding AlbumTitle}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="TIME" Binding="{Binding Duration}" IsReadOnly="True"/>
