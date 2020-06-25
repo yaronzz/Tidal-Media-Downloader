@@ -29,7 +29,7 @@ namespace TIDALDL_UI.Pages
         {
             Check      = true;
             Number     = number;
-            Flag       = flag;
+            Flag       = flag; //M-Master E-Explicit
             Title      = title;
             Type       = type;
             Duration   = duration;
@@ -48,6 +48,7 @@ namespace TIDALDL_UI.Pages
         public bool   Result { get; set; }
         public object Data { get; set; }
         public bool   AllCheck { get; set; }
+        public string FlagDetail { get; set; } //Master Explicit
 
         /// <summary>
         /// Item List
@@ -81,6 +82,7 @@ namespace TIDALDL_UI.Pages
         {
             AllCheck = true;
             Data = data;
+            FlagDetail = "";
             if (data.GetType() == typeof(Playlist))
             {
                 Playlist plist = (Playlist)data;
@@ -136,6 +138,11 @@ namespace TIDALDL_UI.Pages
                     foreach (Video item in album.Videos)
                         ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item, "VIDEO"));
                 }
+
+                if (album.AudioQuality == "HI_RES")
+                    FlagDetail += "Master ";
+                if (album.Explicit)
+                    FlagDetail += "Explicit";
             }
             else if (data.GetType() == typeof(Video))
             {

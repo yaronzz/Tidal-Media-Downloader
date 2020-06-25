@@ -75,6 +75,16 @@ namespace TIDALDL_UI.Else
             return true;
         }
 
+        public static bool AddAlbumIDBeforeFolder(string Setvalue = null)
+        {
+            string sValue = SetOrGet("addAlbumidbeforefolder", Setvalue, "false");
+            if (sValue == null || sValue.ToLower() != "true")
+                return false;
+            return true;
+        }
+
+        
+
         public static bool SaveCovers(string Setvalue = null)
         {
             string sValue = SetOrGet("savephoto", Setvalue, "true");

@@ -65,6 +65,7 @@
                         <Label Grid.Row="4" Grid.Column="0"  Content="Artist-Title" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="4" Grid.Column="2"  Content="IncludeSingle" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="5" Grid.Column="0"  Content="SaveCovers" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label Grid.Row="5" Grid.Column="2"  Content="IDBeforeFolder" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="6" Grid.Column="0"  Content="MaxFileName" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
                         <Label Grid.Row="7" Grid.Column="0"  Content="MaxDirName" FontSize="15" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
 
@@ -96,6 +97,7 @@
                         </ComboBox>
                         <ToggleButton Grid.Row="4" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding ArtistBeforeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,80,0"/>
                         <ToggleButton Grid.Row="4" Grid.Column="3" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IncludeEPSingle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <ToggleButton Grid.Row="5" Grid.Column="3" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding AddAlbumIDBeforeFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <ToggleButton Grid.Row="5" Grid.Column="1" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding SaveCovers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
                         <TextBox  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="50~100" Text="{Binding MaxFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>

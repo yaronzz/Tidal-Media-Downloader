@@ -30,7 +30,7 @@ namespace Tidal
         public string Url { get; set; }
         public string Cover { get; set; }
         public string VideoCover { get; set; }
-        public bool Exclicit { get; set; }
+        public bool Explicit { get; set; }
         public string Upc { get; set; }
         public int Popularity { get; set; }
         public string AudioQuality { get; set; }

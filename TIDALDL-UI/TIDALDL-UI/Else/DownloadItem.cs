@@ -179,8 +179,9 @@ namespace TIDALDL_UI.Else
             StreamUrl TidalStream = TidalTool.getStreamUrl(TidalTrack.ID.ToString(), Quality, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
+            Progress.StatusMsg = "GetStream success...";
 
-            //Get path
+            //Get path 
             FilePath = TidalTool.getTrackPath(OutputDir, TidalAlbum, TidalTrack, TidalStream.Url,
                 AddHyphen, TidalPlaylist, artistBeforeTitle: ArtistBeforeTitle, addexplicit: AddExplict, 
                 addYear: AddYear, useTrackNumber: UseTrackNumber);
