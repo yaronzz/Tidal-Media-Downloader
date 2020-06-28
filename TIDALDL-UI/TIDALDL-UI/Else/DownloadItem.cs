@@ -35,6 +35,7 @@ namespace TIDALDL_UI.Else
         public bool AddHyphen { get; set; }
         public bool UseTrackNumber { get; set; }
         public string Own { get; set; }
+        public string Codec { get; set; }
         public bool ToChinese { get; set; }
         public bool CheckExist { get; set; }
         public bool ArtistBeforeTitle { get; set; }
@@ -66,7 +67,6 @@ namespace TIDALDL_UI.Else
             ArtistBeforeTitle = Config.ArtistBeforeTitle();
             AddExplict = Config.AddExplicitTag();
             AddYear    = Config.AddYear();
-
             if (TidalTrack != null)
             {
                 Title = track.Title;
@@ -179,6 +179,7 @@ namespace TIDALDL_UI.Else
             StreamUrl TidalStream = TidalTool.getStreamUrl(TidalTrack.ID.ToString(), Quality, out Errlabel);
             if (Errlabel.IsNotBlank())
                 goto ERR_RETURN;
+            Codec = TidalStream.Codec;
             Progress.StatusMsg = "GetStream success...";
 
             //Get path 

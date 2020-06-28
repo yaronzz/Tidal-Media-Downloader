@@ -49,6 +49,7 @@ namespace TIDALDL_UI.Pages
         public object Data { get; set; }
         public bool   AllCheck { get; set; }
         public string FlagDetail { get; set; } //Master Explicit
+        public string Modes { get; set; }
 
         /// <summary>
         /// Item List
@@ -83,6 +84,7 @@ namespace TIDALDL_UI.Pages
             AllCheck = true;
             Data = data;
             FlagDetail = "";
+            Modes = "";
             if (data.GetType() == typeof(Playlist))
             {
                 Playlist plist = (Playlist)data;
@@ -139,10 +141,20 @@ namespace TIDALDL_UI.Pages
                         ItemList.Add(new InfoItem(item.TrackNumber, item.Title, TimeHelper.ConverIntToString(item.Duration), item.Album.Title, item, "VIDEO"));
                 }
 
+                //FlagDetail
                 if (album.AudioQuality == "HI_RES")
                     FlagDetail += "Master ";
                 if (album.Explicit)
                     FlagDetail += "Explicit";
+
+                //Modes
+                if(album.AudioModes != null && album.AudioModes.Count() > 0)
+                {
+                    foreach (var item in album.AudioModes)
+                    {
+                        Modes += item + " ";
+                    }
+                }
             }
             else if (data.GetType() == typeof(Video))
             {

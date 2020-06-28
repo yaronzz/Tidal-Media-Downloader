@@ -36,6 +36,8 @@ namespace Tidal
         public string AudioQuality { get; set; }
         public Artist Artist { get; set; }
         public ObservableCollection<Artist> Artists { get; set; }
+        public string[] AudioModes { get; set; }
+
 
         public ObservableCollection<Track> Tracks { get; set; }
         public ObservableCollection<Video> Videos { get; set; }
@@ -81,7 +83,7 @@ namespace Tidal
         public Artist Artist { get; set; }
         public ObservableCollection<Artist> Artists { get; set; }
         public Album Album { get; set; }
-
+        public string[] AudioModes { get; set; }
     }
 
     public class StreamUrl
