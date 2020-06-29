@@ -44,9 +44,9 @@
 - Selectable video resolution and track quality
 
 ## Screenshots
-<img src="https://i.loli.net/2020/06/28/k2uXqS4VeHG3R1n.png" alt="image" style="zoom: 67%;" />
+<img src="https://i.loli.net/2020/06/28/k2uXqS4VeHG3R1n.png" alt="image" style="zoom: 50%;" />
 
-![image](https://i.loli.net/2020/06/28/zKMktEwX6aWySLN.png)
+<img src="https://i.loli.net/2020/06/28/zKMktEwX6aWySLN.png" alt="image" style="zoom: 50%;" />
 
 ## Support
 
