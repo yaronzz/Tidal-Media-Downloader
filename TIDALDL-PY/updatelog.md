@@ -2,6 +2,9 @@ TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 DESC This version requires some tests, there may be many problems
 
+- [] Add label [E] before albumtitle #264
+- [] Volume to CD
+
 ### 2020-06-28
 - Fix bug of download-playlist
 - ArtistName before title(settings)

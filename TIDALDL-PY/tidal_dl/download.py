@@ -102,7 +102,7 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check, err = netHelper.downloadFileRetErr(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20)
+                    check, err = netHelper.downloadFileRetErr(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20, ignoreCertificate=True)
                     if check is True:
                         if paraList['key'] == '':
                             # unencrypted -> just move into place

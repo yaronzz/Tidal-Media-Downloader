@@ -4,6 +4,3 @@ ffmpeg
 futures
 pycryptodome
 pydub
-secrets
-base64
-pickle

@@ -25,45 +25,37 @@
         <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
     <br>
 </p>
-<a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
-### **Installation**
-- Windows: [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases)
+## Install
+| Name           | platform                          | Install                                                      |
+| -------------- | --------------------------------- | ------------------------------------------------------------ |
+| tidal-gui      | Windows                           | [tidal-gui.exe](https://github.com/yaronzz/Tidal-Media-Downloader/releases) |
+| tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.top/post/tidal_dl_installation/#Install) |
 
-- Windows\Linux\MacOs:
-  ``` python
-  root:~# pip3 install tidal-dl --upgrade
-  root:~# tidal-dl 
-  ```
-  
-- Android: [Install](https://yaronzz.top/post/tidal_dl_installation/#Install)
-
-- Detailed description: [Documentation](https://yaronzz.top/post/tidal_dl_installation/)
-
-### **Requirement**
-- [FFmpeg](http://ffmpeg.org/) : Convert video and convert mp4 to m4a
-
-### **Telegram**
+## Telegram
 - [Group](https://t.me/tidal_group) : Feed back
 - [Channel](https://t.me/Tidal_Media_Downloader) : Notify the new version 
 
-### **Features**
-1. Download single video\track\album\playlist
-2. Download favorite tracks\artist-albums
-3. Add metadate
-4. Multiple downloads
-5. Selectable video resolution and track quality
+## Features
+- Download album \ track \ video \ playlist \ artist-albums
 
-### **Update Log**
-1. Tidal-dl: [TIDALDL-PY/updatelog.md](https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/TIDALDL-PY/updatelog.md)
-2. Tidal-gui: [TIDALDL-UI/updateLog.md](https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/TIDALDL-UI/TIDALDL-UI/updateLog.md)
+- Add metadata to songs
 
-### **Screenshots**
-![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_dl_log.jpg)
-![](https://cdn.jsdelivr.net/gh/yaronzz/CDN@latest/blog/tidal/tidal_gui_example.jpg)
+- Selectable video resolution and track quality
 
+## Screenshots
+<img src="https://i.loli.net/2020/06/28/k2uXqS4VeHG3R1n.png" alt="image" style="zoom: 67%;" />
 
-### **Libraries and reference**
+![image](https://i.loli.net/2020/06/28/zKMktEwX6aWySLN.png)
+
+## Support
+
+If you really like my projects and want to support me, you can buy me a coffee and star this project. 
+
+<a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
+## Libraries and reference
+
 - [AIGS](https://github.com/yaronzz/AIGS)
 - [AIGPY](https://github.com/yaronzz/AIGPY)
 - [Stylet](https://github.com/canton7/Stylet)
@@ -73,12 +65,11 @@
 - [python-tidal](https://github.com/tamland/python-tidal)
 - [RedSea](https://github.com/redsudo/RedSea)
 
-### **Support**
-If you really like my projects and want to support me, you can star this project. 
-
-### **Disclaimer**
+## Disclaimer
 - Private use only.
 - Need a Tidal-HIFI subscription. 
 - You should not use this method to distribute or pirate music.
 - It may be illegal to use this in your country, so be informed.
+
+
 
