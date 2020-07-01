@@ -1,4 +1,8 @@
-﻿#### v1.1.0.22
+﻿- Fix bug of login err
+- Show track-codec when downloading
+- Show audioModes on info-page
+
+#### v1.1.0.22
 - Fix bug of long-file-path (settings MaxFileName) #353
 - Fix bug of download video #343 #327
 - Use another login method(from Redsea)

@@ -73,6 +73,7 @@ class Download(object):
         albumInfo = None
         index = None
         coverpath = None
+        err = None
 
         if 'redownload' in paraList:
             redownload = paraList['redownload']
@@ -101,7 +102,7 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check = netHelper.downloadFile(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20)
+                    check, err = netHelper.downloadFileRetErr(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20, ignoreCertificate=True)
                     if check is True:
                         if paraList['key'] == '':
                             # unencrypted -> just move into place
@@ -122,8 +123,7 @@ class Download(object):
                             printInfo(14, 'Skip convert to m4a(MHA1-Codec).')
                         else:
                             paraList['path'] = self.tool.covertMp4toM4a(paraList['path'])
-                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'],
-                                               albumInfo, index, coverpath, Contributors)
+                    self.tool.setTrackMetadata(paraList['trackinfo'], paraList['path'], albumInfo, index, coverpath, Contributors)
                     pstr = paraList['title']
             except Exception as e:
                 printErr(14, str(e) + " while downloading " + paraList['url'])
@@ -135,7 +135,11 @@ class Download(object):
             if(bIsSuccess):
                 printSUCCESS(14, pstr)
             else:
-                printErr(14, pstr)
+                if err is None:
+                    errmsg = "Unknow!" + paraList['url']
+                else:
+                    errmsg = str(err) + '!' + paraList['url']
+                printErr(14, pstr + ' ' + errmsg)
         return
 
     # creat album output dir
@@ -153,6 +157,10 @@ class Download(object):
             else:
                 title = title
         
+        # add albumid labels
+        if self.config.addAlbumidbeforefolder == 'True':
+            title = '[' + str(albumInfo['id']) + '] ' + title
+
         # add quality[M] labels
         if 'audioQuality' in albumInfo and albumInfo['audioQuality'] == 'HI_RES' and quality == 'HI_RES':
             title = '[M] '+title
@@ -191,10 +199,14 @@ class Download(object):
             extension = ".m4a"
 
         seq = self.tool.getIndexStr(item['trackNumber'], albumInfo['numberOfTracks'])
+        if self.config.addhyphen == 'True':
+            seq += '- '
+        if self.config.artistbeforetitle == 'True':
+            seq += pathHelper.replaceLimitChar(albumInfo['artist']['name'], '-') + ' - '
         name = seq + pathHelper.replaceLimitChar(item['title'], '-')
         fileExplicit = self._IsExplicitString(item['explicit'])
-        if self.config.addhyphen == 'True':
-            name = seq + '- ' + pathHelper.replaceLimitChar(item['title'], '-')
+        # if self.config.addhyphen == 'True':
+        #     name = seq + '- ' + pathHelper.replaceLimitChar(item['title'], '-')
         if self.config.addexplicit == "True" and fileExplicit is not None:
             name = name + " - " + fileExplicit
 

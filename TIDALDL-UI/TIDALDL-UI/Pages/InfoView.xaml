@@ -44,6 +44,7 @@
                     <Label Content="{Binding Intro}" FontSize="13" VerticalAlignment="Top" Margin="0,45,0,0" Grid.Column="1" Height="25" />
                     <Label Content="{Binding ReleaseDate}" FontSize="13" VerticalAlignment="Top" Margin="0,70,0,0" Grid.Column="1" Height="25" />
                     <Label Content="{Binding FlagDetail}" Foreground="Red" FontStyle="Oblique" FontSize="13" VerticalAlignment="Top" Margin="0,95,0,0" Grid.Column="1" Height="25" Width="auto" FontWeight="Bold"/>
+                    <Label Content="{Binding Modes}" Foreground="Red" FontStyle="Oblique" FontSize="13" VerticalAlignment="Top" Margin="0,115,-0.4,0" Grid.Column="1" Height="25" Width="auto" FontWeight="Bold"/>
 
                     <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignRaisedButton}"
                             Command="{s:Action Confirm}"

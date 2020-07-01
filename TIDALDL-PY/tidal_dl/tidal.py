@@ -306,7 +306,8 @@ class TidalTool(object):
 
     def getAlbum(self, album_id):
         item = self._get('albums/' + str(album_id))
-        item['title'] = item['title'].strip()
+        if 'title' in item:
+            item['title'] = item['title'].strip()
         return item
 
     def getVideo(self, video_id):
@@ -583,6 +584,8 @@ class TidalConfig(object):
         self.savephoto = configHelper.GetValue("base", "savephoto", "True", self.FILE_NAME)
         self.lastlogintime = configHelper.GetValue("base", "lastlogintime", "", self.FILE_NAME)
         self.accesstoken = configHelper.GetValue("base", "accesstoken", "", self.FILE_NAME)
+        self.artistbeforetitle = configHelper.GetValue("base", "artistbeforetitle", "False", self.FILE_NAME)
+        self.addAlbumidbeforefolder = configHelper.GetValue("base", "addAlbumidbeforefolder", "False", self.FILE_NAME)
 
     def set_lastlogintime(self, status):
         self.lastlogintime = status
@@ -594,6 +597,20 @@ class TidalConfig(object):
         else:
             self.savephoto = "True"
         configHelper.SetValue("base", "savephoto", self.savephoto, self.FILE_NAME)
+
+    def set_artistbeforetitle(self, status):
+        if status == 0:
+            self.artistbeforetitle = "False"
+        else:
+            self.artistbeforetitle = "True"
+        configHelper.SetValue("base", "artistbeforetitle", self.artistbeforetitle, self.FILE_NAME)
+
+    def set_addAlbumidbeforefolder(self, status):
+        if status == 0:
+            self.addAlbumidbeforefolder = "False"
+        else:
+            self.addAlbumidbeforefolder = "True"
+        configHelper.SetValue("base", "addAlbumidbeforefolder", self.addAlbumidbeforefolder, self.FILE_NAME)
 
     def set_includesingle(self, status):
         if status == 0:

@@ -74,7 +74,6 @@ namespace Tidal
             return "authorization:Bearer " + sToken;
         }
 
-
         public string Login(string sUsername, string sPassword, string ClientID = "ck3zaWMi8Ka_XdI0", string sToken = null)
         {
             string ClientUniqueKey = Guid.NewGuid().ToString().Replace("-", "");
@@ -84,6 +83,8 @@ namespace Tidal
             byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
             string CodeChallenge = System.Convert.ToBase64String(hash);
             CodeChallenge = CodeChallenge.Substring(0, CodeChallenge.Length - 1);
+            CodeChallenge = CodeChallenge.Replace("+", "-");
+            CodeChallenge = CodeChallenge.Replace("/", "_");
 
             //Check old token
             string sTmpUserID = null;
