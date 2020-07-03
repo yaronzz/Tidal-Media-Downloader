@@ -74,6 +74,7 @@ class Download(object):
         index = None
         coverpath = None
         err = None
+        ignoreCertificate = False
 
         if 'redownload' in paraList:
             redownload = paraList['redownload']
@@ -102,7 +103,7 @@ class Download(object):
             try:
                 while count > 0:
                     count = count - 1
-                    check, err = netHelper.downloadFileRetErr(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20, ignoreCertificate=True)
+                    check, err = netHelper.downloadFileRetErr(paraList['url'], paraList['path']+'.part', showprogress=showprogress, stimeout=20, ignoreCertificate=ignoreCertificate)
                     if check is True:
                         if paraList['key'] == '':
                             # unencrypted -> just move into place
@@ -114,6 +115,9 @@ class Download(object):
                             decrypt_file(paraList['path']+'.part', paraList['path'], key, nonce)
                             os.remove(paraList['path']+'.part')
                         break
+                    else:
+                        ignoreCertificate = True
+                    
                 if check:
                     bIsSuccess = True
                     if self.tool.isNeedCovertToM4a(paraList['path']):
@@ -161,9 +165,14 @@ class Download(object):
         if self.config.addAlbumidbeforefolder == 'True':
             title = '[' + str(albumInfo['id']) + '] ' + title
 
-        # add quality[M] labels
+        # add quality[M] labels and explicit[E] labels
+        flag = ''
         if 'audioQuality' in albumInfo and albumInfo['audioQuality'] == 'HI_RES' and quality == 'HI_RES':
-            title = '[M] '+title
+            flag = 'M'
+        if 'explicit' in albumInfo and albumInfo['explicit']:
+            flag += 'E'
+        if flag != '':
+            title = '[' + flag + '] '+ title
 
         targetDir = self.config.outputdir + "/Album/" + author + '/' + title
         targetDir = os.path.abspath(targetDir)
@@ -174,7 +183,7 @@ class Download(object):
         numOfVolumes = int(albumInfo['numberOfVolumes'])
         if numOfVolumes > 1:
             while count < numOfVolumes + 1:
-                volumeDir = targetDir + "/Volume" + str(count)
+                volumeDir = targetDir + "/CD" + str(count)
                 pathHelper.mkdirs(volumeDir)
                 count = count + 1
         return targetDir
@@ -213,7 +222,7 @@ class Download(object):
         seq = item['volumeNumber']
         path = targetDir + "/"
         if int(albumInfo['numberOfVolumes']) > 1:
-            path += 'Volume' + str(seq) + "/"
+            path += 'CD' + str(seq) + "/"
 
         maxlen = 255
         if systemHelper.isLinux():
