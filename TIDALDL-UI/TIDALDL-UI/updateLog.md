@@ -1,6 +1,9 @@
-﻿- Fix bug of login err
+﻿#### v1.1.1.0
+- Fix bug of login err(url_encode)
 - Show track-codec when downloading
 - Show audioModes on info-page
+- Video-SetMetaData:Performers\Copyright\Title\Year #197
+- Today is purple
 
 #### v1.1.0.22
 - Fix bug of long-file-path (settings MaxFileName) #353
