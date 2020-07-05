@@ -548,6 +548,7 @@ namespace Tidal
 
             if (GetItem)
             {
+                //albums
                 ObservableCollection<Album> albums = getItems<Album>("artists/" + ID + "/albums", out Errmsg, null, CountLimt:100);
                 if (IncludeEp)
                 {
@@ -559,22 +560,19 @@ namespace Tidal
                 }
                 oObj.Albums = albums;
 
-                //debug
-                //{
-                //    string sTxt = "";
-                //    for (int i = 0; i < oObj.Albums.Count(); i++)
-                //    {
-                //        sTxt += string.Format("id:{0} name:{1}\n", oObj.Albums[i].ID.ToString(), oObj.Albums[i].Title);
-                //    }
-                //    FileHelper.Write(sTxt, true, "e:\\plist.txt");
-                //}
-
                 for (int i = 0; i < oObj.Albums.Count(); i++)
                 {
                     Album item = oObj.Albums[i];
                     getAlbumData(ref item, item.ID.ToString(), out Errmsg, true);
                     oObj.Albums[i] = item;
                 }
+
+                //videos
+                //ObservableCollection<Video> videos = getItems<Video>("artists/" + ID + "/videos", out Errmsg, null, CountLimt: 100);
+                //for (int i = 0; i < videos.Count; i++)
+                //{
+
+                //}
             }
             return oObj;
         }
@@ -844,34 +842,46 @@ namespace Tidal
             return pArrayStr.ToArray();
         }
 
-        public static string SetMetaData(string filepath, Album TidalAlbum, Track TidalTrack, string CoverPath, ObservableCollection<Contributor> pContributors)
+        public static string SetMetaData(string filepath, Album TidalAlbum, Track TidalTrack, string CoverPath, ObservableCollection<Contributor> pContributors, Video TidalVideo = null)
         {
             try
             {
-                var tfile              = TagLib.File.Create(filepath);
-                tfile.Tag.Album        = TidalAlbum.Title;
-                tfile.Tag.Track        = (uint)TidalTrack.TrackNumber;
-                tfile.Tag.TrackCount   = (uint)TidalAlbum.NumberOfTracks;
-                tfile.Tag.Title        = TidalTrack.Title;
-                tfile.Tag.Disc         = (uint)TidalTrack.VolumeNumber;
-                tfile.Tag.DiscCount    = (uint)TidalAlbum.NumberOfVolumes;
-                tfile.Tag.Copyright    = TidalTrack.Copyright;
-                tfile.Tag.AlbumArtists = GetArtistNames(TidalAlbum.Artists);
-                tfile.Tag.Performers   = GetArtistNames(TidalTrack.Artists);
-                tfile.Tag.Composers    = GetRoles(pContributors, eContributorRole.COMPOSER);
+                var tfile = TagLib.File.Create(filepath);
+                if (TidalVideo != null)
+                {
+                    tfile.Tag.Performers = GetArtistNames(TidalVideo.Artists);
+                    tfile.Tag.Copyright = TidalVideo.Copyright;
+                    tfile.Tag.Title = TidalVideo.Title;
+                    //ReleaseDate
+                    if (TidalAlbum.ReleaseDate.IsNotBlank())
+                        tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalVideo.ReleaseDate.Split("-")[0]);
+                }
+                else
+                {
+                    tfile.Tag.Album = TidalAlbum.Title;
+                    tfile.Tag.Track = (uint)TidalTrack.TrackNumber;
+                    tfile.Tag.TrackCount = (uint)TidalAlbum.NumberOfTracks;
+                    tfile.Tag.Title = TidalTrack.Title;
+                    tfile.Tag.Disc = (uint)TidalTrack.VolumeNumber;
+                    tfile.Tag.DiscCount = (uint)TidalAlbum.NumberOfVolumes;
+                    tfile.Tag.Copyright = TidalTrack.Copyright;
+                    tfile.Tag.AlbumArtists = GetArtistNames(TidalAlbum.Artists);
+                    tfile.Tag.Performers = GetArtistNames(TidalTrack.Artists);
+                    tfile.Tag.Composers = GetRoles(pContributors, eContributorRole.COMPOSER);
 
-                //ReleaseDate
-                if (TidalAlbum.ReleaseDate.IsNotBlank())
-                    tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
+                    //ReleaseDate
+                    if (TidalAlbum.ReleaseDate.IsNotBlank())
+                        tfile.Tag.Year = (uint)AIGS.Common.Convert.ConverStringToInt(TidalAlbum.ReleaseDate.Split("-")[0]);
 
-                //Cover
-                var pictures = new Picture[1];
-                if (CoverPath.IsNotBlank() && System.IO.File.Exists(CoverPath))
-                    pictures[0] = new Picture(CoverPath);
-                else if(TidalAlbum.CoverData != null)
-                    pictures[0] = new Picture(TidalAlbum.CoverData);
-                        
-                tfile.Tag.Pictures = pictures;
+                    //Cover
+                    var pictures = new Picture[1];
+                    if (CoverPath.IsNotBlank() && System.IO.File.Exists(CoverPath))
+                        pictures[0] = new Picture(CoverPath);
+                    else if (TidalAlbum.CoverData != null)
+                        pictures[0] = new Picture(TidalAlbum.CoverData);
+
+                    tfile.Tag.Pictures = pictures;
+                }
 
                 tfile.Save();
                 return null;

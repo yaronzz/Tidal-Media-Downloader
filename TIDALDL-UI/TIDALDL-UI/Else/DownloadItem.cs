@@ -156,6 +156,15 @@ namespace TIDALDL_UI.Else
                 goto ERR_RETURN;
             }
             System.IO.File.Delete(TsFilePath);
+
+            //SetMetaData 
+            string sLabel = TidalTool.SetMetaData(FilePath, null, null, null, null, TidalVideo);
+            if (sLabel.IsNotBlank())
+            {
+                Errlabel = "Set metadata failed!";
+                goto ERR_RETURN;
+            }
+
             Progress.SetStatus(ProgressHelper.STATUS.COMPLETE);
             return;
 
@@ -257,7 +266,7 @@ namespace TIDALDL_UI.Else
                     string sLabel = TidalTool.SetMetaData(FilePath, TidalAlbum, TidalTrack, TidalTool.getAlbumCoverPath(OutputDir, TidalAlbum, AddYear), pContributors);
                     if (sLabel.IsNotBlank())
                     {
-                        Errlabel = "Set metadata failed!";
+                        Errlabel = "Set metadata failed!" + sLabel;
                         goto ERR_RETURN;
                     }
 
