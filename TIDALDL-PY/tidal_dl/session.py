@@ -28,7 +28,7 @@ from tidal_dl.tidal import TidalConfig
 class TidalMobileSession(object):
     # client_id	CLGLE93UA5gm42Og  ck3zaWMi8Ka_XdI0
     # client_id	RnhXoTmoJgARtXHr
-    def __init__(self, username, password, client_id='ck3zaWMi8Ka_XdI0', cf=None):
+    def __init__(self, username=None, password=None, client_id='ck3zaWMi8Ka_XdI0', cf=None):
         self.username = username
         self.client_id = client_id
         self.redirect_uri =  'https://tidal.com/android/login/auth'
@@ -39,6 +39,9 @@ class TidalMobileSession(object):
         self.user_id = None
         self.country_code = None
         self.errmsg = None
+
+        if username is None or password is None:
+            return
 
         if cf is not None and cf.username == username:
             self.user_id = cf.userid
@@ -118,6 +121,9 @@ class TidalMobileSession(object):
             return
         self.access_token = r.json()['access_token']
 
+        self.getCountryCode()
+
+    def getCountryCode(self):
         r = requests.get('https://api.tidal.com/v1/sessions', headers=self.auth_headers())
         if r.status_code != 200:
             self.errmsg = 'Unknown in https://api.tidal.com/v1/sessions'

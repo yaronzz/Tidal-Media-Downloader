@@ -66,6 +66,22 @@ def logIn(username="", password=""):
     return True
 
 
+def setAccessToken():
+    print("------------setAccessToken------------------")
+    account = TidalMobileSession()
+    cf = TidalConfig()
+    while True:
+        account.access_token = myinput("AccessToken(Enter '0' cancel):")
+        if account.access_token == '0':
+            break
+        if account.valid() is True:
+            account.getCountryCode()
+            cf.set_account2(cf.username, cf.password, account.access_token, account.country_code, account.user_id)
+            break
+        else:
+            printErr(0, "AccessToken is not valid!")
+
+
 def showConfig():
     cf = TidalConfig()
     print("----------------Config------------------")
@@ -261,6 +277,10 @@ def main(argv=None):
             dl.downloadArtistAlbum(cf.includesingle == "True")
         elif choice == 9: 
             showConfig()
+        elif choice == 10:
+            setAccessToken()
+            cf = TidalConfig()
+            dl = Download(cf.threadnum)
         #Hidden Code For Developer [200-299]
         elif choice == 200:
             dl.downloadArtistAlbum(False)
@@ -292,9 +312,11 @@ def debug():
     # x-tidal-token: qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk
     # TIDAL_TOKEN.token1 = "CzET4vdadNUFQ5JU"
     
-    # TIDAL_TOKEN.token1 = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV"
+    TIDAL_TOKEN.token1 = "qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk"
+    TIDAL_TOKEN.token1 = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV"
+    
     # TIDAL_TOKEN.token1 = TIDAL_TOKEN.token2
-    # account = TidalAccount(cf.username, cf.password, TIDAL_TOKEN)
+    account = TidalAccount(cf.username, cf.password, TIDAL_TOKEN, False, cf)
 
     # import requests
     # import uuid
@@ -311,7 +333,7 @@ def debug():
     # location = 'https://api.tidalhifi.com/v1/'
     # myurl = urljoin(location, 'login/username')
     # re = requests.post(myurl, data=postParams)
-    tt = TidalMobileSession(cf.username, cf.password,'RnhXoTmoJgARtXHr')
+    # tt = TidalMobileSession(cf.username, cf.password,'RnhXoTmoJgARtXHr')
     if logIn(cf.username, cf.password) == False:
         pass
 
@@ -321,8 +343,8 @@ def debug():
     # os.system("pip install aigpy --upgrade")
     # trackid = 70973230
     dl = Download(1)
-    # dl.downloadTrack("90521281")
-    dl.downloadTrack("131069665") #Dolby Atmos
+    dl.downloadTrack("90521281")
+    # dl.downloadTrack("131069665") #Dolby Atmos
     # https://tidal.com/browse/track/139322230 360
     # https://tidal.com/browse/playlist/7551f9e2-4a16-4708-9de1-798d8afdd859 360
     # dl.downloadAlbum("120929182", True)

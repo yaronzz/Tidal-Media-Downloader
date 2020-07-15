@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
-DESC This version requires some tests, there may be many problems
+
+### 2020-07-16
+- Enter 10:Set AccessToken(authorization)
 
 ### 2020-07-03
 - Add label [E] before albumtitle #264
