@@ -55,12 +55,13 @@ def printMenu():
     print("Download All Albums by an Artist.")
     cmdHelper.myprint(" Enter '9' : ", cmdHelper.TextColor.Green, None)
     print("Show Current Config.")
+    cmdHelper.myprint(" Enter '10': ", cmdHelper.TextColor.Green, None)
+    print("Set AccessToken(authorization).")
     cmdHelper.myprint(" Enter URL : ", cmdHelper.TextColor.Green, None)
     print("Download By URL.")
     cmdHelper.myprint(" Enter Path: ", cmdHelper.TextColor.Green, None)
     print("Download By File.")
     print("====================================================")
-    
 
 LOG = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -74,3 +75,4 @@ LOG = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
+

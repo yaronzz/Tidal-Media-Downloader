@@ -29,7 +29,6 @@ from pydub import AudioSegment
 from tidal_dl.printhelper import printWarning
 
 VERSION = '1.9.1'
-# VERSION = '2.25.1'
 URL_PRE = 'https://api.tidalhifi.com/v1/'
 QUALITY = ['HI_RES', 'LOSSLESS', 'HIGH', 'LOW']
 TYPE_ARR = ['album', 'track', 'video', 'playlist', 'artist']
