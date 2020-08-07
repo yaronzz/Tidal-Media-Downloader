@@ -26,7 +26,7 @@
     <br>
 </p>
 
-## 📺 Installation
+## 📺 Installation 
 | Name           | platform                          | Install                                                      |
 | -------------- | --------------------------------- | ------------------------------------------------------------ |
 | tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
