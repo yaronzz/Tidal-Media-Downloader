@@ -9,32 +9,33 @@
 @Desc    :   
 '''
 import os
+
 import aigpy.m3u8Helper as m3u8Helper
 from aigpy.tagHelper import TagTool
 from aigpy.netHelper import downloadFileRetErr, downloadFile
 from aigpy.stringHelper import isNull, getSubOnlyEnd
 from aigpy.pathHelper import replaceLimitChar, getFileName, remove
+
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.enum import Type, AudioQuality, VideoQuality
 from tidal_dl.printf import Printf
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
 
-api = TidalAPI()
-
+API = TidalAPI()
 
 def __loadAPI__(user):
-    api.key.accessToken = user.assesstoken
-    api.key.userId = user.userid
-    api.key.countryCode = user.countryCode
-    api.key.sessionId = user.sessionid1
+    API.key.accessToken = user.assesstoken
+    API.key.userId = user.userid
+    API.key.countryCode = user.countryCode
+    API.key.sessionId = user.sessionid1
 
 
 def __loadVideoAPI__(user):
-    api.key.accessToken = user.assesstoken
-    api.key.userId = user.userid
-    api.key.countryCode = user.countryCode
-    api.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
+    API.key.accessToken = user.assesstoken
+    API.key.userId = user.userid
+    API.key.countryCode = user.countryCode
+    API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
 
 
 
@@ -75,7 +76,7 @@ def __setMetaData__(track, album, filepath):
     obj.totaldisc = album.numberOfVolumes
     if obj.totaldisc <= 1:
         obj.totaltrack = album.numberOfTracks
-    coverpath = api.getCoverUrl(album.cover, "1280", "1280")
+    coverpath = API.getCoverUrl(album.cover, "1280", "1280")
     obj.save(coverpath)
     return
 
@@ -95,7 +96,7 @@ def __getAlbumPath__(conf, album):
     base = conf.downloadPath + '/Album/' + artist + '/'
     
     #album folder pre: [ME][ID]
-    flag = api.getFlag(album, Type.Album, True, "")
+    flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
         flag.replace('M',"")
     if not isNull(flag):
@@ -174,7 +175,7 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
 
 
 def __downloadVideo__(conf, video, album=None, playlist=None):
-    msg, stream = api.getVideoStreamUrl(video.id, conf.videoQuality)
+    msg, stream = API.getVideoStreamUrl(video.id, conf.videoQuality)
     if not isNull(msg):
         Printf.err(video.title + "." + msg)
         return
@@ -185,7 +186,7 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
         Printf.err("\nDownload failed!" + getFileName(path) )
 
 def __downloadTrack__(conf, track, album=None, playlist=None):
-    msg, stream = api.getStreamUrl(track.id, conf.audioQuality)
+    msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
     if not isNull(msg):
         Printf.err(track.title + "." + msg)
         return
@@ -212,7 +213,7 @@ def __downloadCover__(conf, album):
     if album == None:
         return
     path = __getAlbumPath__(conf, album) + '/cover.jpg'
-    url = api.getCoverUrl(album.cover, "1280", "1280")
+    url = API.getCoverUrl(album.cover, "1280", "1280")
     downloadFile(url, path)
 
 
@@ -223,7 +224,7 @@ def __downloadCover__(conf, album):
 
 def __album__(conf, obj):
     Printf.album(obj)
-    msg, tracks, videos = api.getItems(obj.id, Type.Album)
+    msg, tracks, videos = API.getItems(obj.id, Type.Album)
     if not isNull(msg):
         Printf.err(msg)
         return
@@ -236,7 +237,7 @@ def __album__(conf, obj):
 
 def __track__(conf, obj):
     Printf.track(obj)
-    msg, album = api.getAlbum(obj.album.id)
+    msg, album = API.getAlbum(obj.album.id)
     if conf.saveCovers:
         __downloadCover__(conf, album)
     __downloadTrack__(conf, obj, album)
@@ -247,7 +248,7 @@ def __video__(conf, obj):
 
 def __artist__(conf, obj):
     Printf.artist(obj)
-    msg, albums = api.getArtistAlbums(obj.id, conf.includeEP)
+    msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
     if not isNull(msg):
         Printf.err(msg)
         return
@@ -256,13 +257,13 @@ def __artist__(conf, obj):
 
 def __playlist__(conf, obj):
     Printf.playlist(obj)
-    msg, tracks, videos = api.getItems(obj.id, Type.Playlist)
+    msg, tracks, videos = API.getItems(obj.id, Type.Playlist)
     if not isNull(msg):
         Printf.err(msg)
         return
 
     for item in tracks:
-        mag, album = api.getAlbum(item.album.id)
+        mag, album = API.getAlbum(item.album.id)
         __downloadTrack__(conf, item, album)
     for item in videos:
         __downloadVideo__(conf, item, None)
@@ -273,7 +274,7 @@ def __playlist__(conf, obj):
 def start(user, conf, string):
     __loadAPI__(user)
 
-    msg, etype, obj = api.getByString(string)
+    msg, etype, obj = API.getByString(string)
     if etype == Type.Null or not isNull(msg):
         Printf.err(msg)
         return

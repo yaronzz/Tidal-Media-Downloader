@@ -11,29 +11,31 @@
 import os
 import requests
 import prettytable
+
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
 from aigpy.pipHelper import getLastVersion
 from aigpy.versionHelper import cmpVersion
+
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.settings import Settings, UserSettings
 from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
+from tidal_dl.lang.language import getLang, setLang, initLang
 
 API = TidalAPI()
 USER = UserSettings.read()
 CONF = Settings.read()
-TOKEN1,TOKEN2 = API.getToken()
-
-
+TOKEN1, TOKEN2 = API.getToken()
+LANG = initLang(CONF.language)
 
 def login(username="", password=""):
     while True:
         if isNull(username) or isNull(password):
-            print("----------------LogIn------------------")
-            username = Printf.enter("username:")
-            password = Printf.enter("password:")
+            print("---------------" + LANG.CHOICE_LOGIN + "-----------------")
+            username = Printf.enter(LANG.PRINT_USERNAME)
+            password = Printf.enter(LANG.PRINT_PASSWORD)
         msg, check = API.login(username, password, TOKEN1)
         if check == False:
             Printf.err(msg)
@@ -75,7 +77,7 @@ def checkLogin():
     if not isNull(USER.assesstoken):
         mag, check = API.loginByAccessToken(USER.assesstoken)
         if check == False:
-            Printf.err("Invaild AccessToken!Please reset.")
+            Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
     if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
         USER.sessionid1 = ""
     if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
@@ -87,20 +89,24 @@ def checkLogin():
 
 def changeSettings():
     Printf.settings(CONF)
+    choice = Printf.enter(LANG.CHANGE_START_SETTINGS)
+    if choice == '0':
+        return
+
     while True:
-        choice = Printf.enter("Download path('0' not modify):")
+        choice = Printf.enter(LANG.CHANGE_DOWNLOAD_PATH)
         if choice == '0':
             choice = CONF.downloadPath
         elif not os.path.isdir(choice):
             if not mkdirs(choice):
-                Printf.err('Path is error!')
+                Printf.err(LANG.MSG_PATH_ERR)
                 continue
         CONF.downloadPath = choice
         break
     while True:
-        choice = Printf.enter("Audio quailty('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):")
+        choice = Printf.enter(LANG.CHANGE_AUDIO_QUALITY)
         if choice != '1' and choice != '2' and choice != '3' and choice != '0':
-            Printf.err('Input error!')
+            Printf.err(LANG.MSG_INPUT_ERR)
             continue
         if choice == '0':
             CONF.audioQuality = AudioQuality.Normal
@@ -112,9 +118,9 @@ def changeSettings():
             CONF.audioQuality = AudioQuality.Master
         break
     while True:
-        choice = Printf.enter("Video quailty('0'-1080,'1'-720,'2'-480,'3'-360):")
+        choice = Printf.enter(LANG.CHANGE_VIDEO_QUALITY)
         if choice != '1' and choice != '2' and choice != '3' and choice != '0':
-            Printf.err('Input error!')
+            Printf.err(LANG.MSG_INPUT_ERR)
             continue
         if choice == '0':
             CONF.videoQuality = VideoQuality.P1080
@@ -125,16 +131,19 @@ def changeSettings():
         if choice == '3':
             CONF.videoQuality = VideoQuality.P360
         break
-    CONF.onlyM4a = Printf.enter("Convert mp4 to m4a('0'-No,'1'-Yes):") == '1'
-    CONF.addExplicitTag = Printf.enter("Add explicit tag to file names('0'-No,'1'-Yes):") == '1'
-    CONF.addHyphen = Printf.enter("Use hyphens instead of spaces in file names('0'-No,'1'-Yes):") == '1'
-    CONF.addYear = Printf.enter("Add year to album folder names('0'-No,'1'-Yes):") == '1'
-    CONF.useTrackNumber = Printf.enter("Add track number before file names('0'-No,'1'-Yes):") == '1'
-    CONF.checkExist = Printf.enter("Check exist file befor download track('0'-No,'1'-Yes):") == '1'
-    CONF.artistBeforeTitle = Printf.enter("Add artistName before track title('0'-No,'1'-Yes):") == '1'
-    CONF.includeEP = Printf.enter("Include singles and EPs when downloading an artist's albums('0'-No,'1'-Yes):") == '1'
-    CONF.addAlbumIDBeforeFolder = Printf.enter("Add id before album folder('0'-No,'1'-Yes):") == '1'
-    CONF.saveCovers = Printf.enter("Save covers('0'-No,'1'-Yes):") == '1'
+    CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
+    CONF.addExplicitTag = Printf.enter(LANG.CHANGE_ADD_EXPLICIT_TAG) == '1'
+    CONF.addHyphen = Printf.enter(LANG.CHANGE_ADD_HYPHEN) == '1'
+    CONF.addYear = Printf.enter(LANG.CHANGE_ADD_YEAR) == '1'
+    CONF.useTrackNumber = Printf.enter(LANG.CHANGE_USE_TRACK_NUM) == '1'
+    CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
+    CONF.artistBeforeTitle = Printf.enter(LANG.CHANGE_ARTIST_BEFORE_TITLE) == '1'
+    CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
+    CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
+    CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
+    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE)
+
+    LANG = setLang(CONF.language)
     Settings.save(CONF)
 
 
@@ -147,11 +156,11 @@ def main():
     if not isNull(onlineVer):
         icmp = cmpVersion(onlineVer, VERSION)
         if icmp > 0:
-            Printf.info('Latest version: ' + onlineVer)
+            Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
 
     while True:
         Printf.choices()
-        choice = Printf.enter("Enter Choice:")
+        choice = Printf.enter(LANG.PRINT_ENTER_CHOICE)
         if choice == "0":
             return
         elif choice == "1":

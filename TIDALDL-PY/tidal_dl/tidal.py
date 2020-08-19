@@ -4,7 +4,7 @@
 @File    :   tidal.py
 @Time    :   2019/02/27
 @Author  :   Yaronzz
-@Version :   2.0
+@VERSION :   2.0
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   tidal api
 '''
@@ -20,8 +20,8 @@ from aigpy.stringHelper import isNull
 from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl
 from tidal_dl.enum import Type, AudioQuality, VideoQuality
 
-VERSION = '1.9.1'
-URL_PRE = 'https://api.tidalhifi.com/v1/'
+__VERSION__ = '1.9.1'
+__URL_PRE__ = 'https://api.tidalhifi.com/v1/'
 
 class LoginKey(object):
     def __init__(self):
@@ -56,7 +56,7 @@ class TidalAPI(object):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
 
         params['countryCode'] = self.key.countryCode
-        result = requests.get(URL_PRE + path,  headers=header, params=params).json()
+        result = requests.get(__URL_PRE__ + path,  headers=header, params=params).json()
         if 'status' in result:
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], None
@@ -111,9 +111,9 @@ class TidalAPI(object):
             'password': password,
             'token': token,
             'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],
-            'clientVersion': VERSION
+            'client__VERSION__': __VERSION__
             }
-        result = requests.post(URL_PRE + 'login/username', data=data).json()
+        result = requests.post(__URL_PRE__ + 'login/username', data=data).json()
         if 'status' in result:
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], False
@@ -144,7 +144,7 @@ class TidalAPI(object):
 
     def isValidSessionID(self, userId, sessionId):
         params = {'sessionId': sessionId}
-        result = requests.get(URL_PRE + 'users/' + str(userId), params=params).json()
+        result = requests.get(__URL_PRE__ + 'users/' + str(userId), params=params).json()
         if 'status' in result and not result['status'] == 200:
             return False
         return True
@@ -210,8 +210,9 @@ class TidalAPI(object):
         if msg is not None:
             return msg, None
         resp = dictToModel(data, __StreamRespon__())
-        manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
+        
         if "vnd.tidal.bt" in resp.manifestMimeType:
+            manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
             ret = StreamUrl()
             ret.trackid = resp.trackid
             ret.soundQuality = resp.audioQuality
@@ -227,8 +228,9 @@ class TidalAPI(object):
         if msg is not None:
             return msg, None
         resp = dictToModel(data, __StreamRespon__())
-        manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
+        
         if "vnd.tidal.emu" in resp.manifestMimeType:
+            manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
             array = self.__getResolutionList__(manifest['urls'][0])
             icmp = int(quality.value)
             index = 0

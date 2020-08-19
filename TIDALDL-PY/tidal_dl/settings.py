@@ -69,6 +69,7 @@ class Settings(object):
     includeEP = True
     addAlbumIDBeforeFolder = False
     saveCovers = True
+    language = 0
 
     @staticmethod
     def read():

@@ -3,6 +3,7 @@ USE  pip3 install tidal-dl --upgrade
 
 #### v2020-08-19
 - code rebuild
+- multi-language
 
 #### v2020-07-16
 - Enter 10:Set AccessToken(authorization)
