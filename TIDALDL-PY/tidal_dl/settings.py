@@ -28,7 +28,6 @@ def __decode__(string):
         return st
     except:
         return string
-    
 
 class UserSettings(object):
     userid = None

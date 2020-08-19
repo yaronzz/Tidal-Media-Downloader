@@ -60,12 +60,9 @@ def setAccessToken():
         token = Printf.enter("accessToken('0' go back):")
         if token == '0':
             return
-        msg, check = API.loginByAccessToken(token)
+        msg, check = API.loginByAccessToken(token, USER.userid)
         if check == False:
             Printf.err(msg)
-            continue
-        if USER.userid != API.key.userId:
-            Printf.err("User mismatch! Please use your own accesstoken.")
             continue
         break
 

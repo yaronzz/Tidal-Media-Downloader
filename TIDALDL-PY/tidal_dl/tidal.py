@@ -127,11 +127,15 @@ class TidalAPI(object):
         self.key.sessionId = result['sessionId']
         return None, True
     
-    def loginByAccessToken(self, accessToken):
+    def loginByAccessToken(self, accessToken, userid = None):
         header = {'authorization': 'Bearer {}'.format(accessToken)}
-        result = requests.get('https://api.tidal.com/v1/sessions', headers=header)
-        if result.status_code != 200:
+        result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
+        if 'status' in result and result['status'] != 200:
             return "Login failed!", False
+
+        if not isNull(userid):
+            if str(result['userId']) != str(userid):
+                return "User mismatch! Please use your own accesstoken.", False
 
         self.key.userId = result['userId']
         self.key.countryCode = result['countryCode']
