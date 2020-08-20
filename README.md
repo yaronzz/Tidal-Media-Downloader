@@ -46,7 +46,9 @@
 
 ## 💽 User Interface
 
-<img src="https://i.loli.net/2020/06/28/k2uXqS4VeHG3R1n.png" alt="image" style="zoom: 50%;" />
+<img src="https://i.loli.net/2020/08/19/gqW6zHI1SrKlomC.png" alt="image" style="zoom: 50%;" />
+
+![image-20200806013705425](https://i.loli.net/2020/08/06/sPLowIlCGyOdpVN.png)
 
 ## ☕ Support
 

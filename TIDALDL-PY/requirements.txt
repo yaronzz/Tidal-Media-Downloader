@@ -1,6 +1,4 @@
-aigpy
-requests
-ffmpeg
-futures
-pycryptodome
-pydub
+prettytable==0.7.2
+requests==2.20.0
+aigpy==2020.8.18.0
+pycryptodome==3.9.8

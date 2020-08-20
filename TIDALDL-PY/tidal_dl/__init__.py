@@ -1,363 +1,181 @@
-# -*- coding: utf-8 -*-
-import sys
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   __init__.py
+@Time    :   2020/08/15
+@Author  :   Yaronzz
+@Version :   1.0
+@Contact :   yaronhuang@foxmail.com
+@Desc    :   
+'''
 import os
-import time
+import requests
+import prettytable
 
-from aigpy import pipHelper
-from aigpy import pathHelper
-from aigpy.cmdHelper import myinput, myinputInt
+from aigpy.stringHelper import isNull
+from aigpy.pathHelper import mkdirs
+from aigpy.pipHelper import getLastVersion
+from aigpy.versionHelper import cmpVersion
 
-from tidal_dl.session import TidalMobileSession
-from tidal_dl.tidal import TidalConfig
-from tidal_dl.tidal import TidalAccount, TidalToken
-from tidal_dl.download import Download
-from tidal_dl.printhelper import printMenu, printChoice2, printErr, printWarning, LOG
+from tidal_dl.tidal import TidalAPI
+from tidal_dl.settings import Settings, UserSettings
+from tidal_dl.printf import Printf, VERSION
+from tidal_dl.download import start
+from tidal_dl.enum import AudioQuality, VideoQuality
+from tidal_dl.lang.language import getLang, setLang, initLang
 
-# TIDAL_DL_VERSION = "2020.6.28.2"
-TIDAL_DL_VERSION = pipHelper.getInstalledVersion("tidal-dl")
-TIDAL_TOKEN = TidalToken()
+API = TidalAPI()
+USER = UserSettings.read()
+CONF = Settings.read()
+TOKEN1, TOKEN2 = API.getToken()
+LANG = initLang(CONF.language)
 
-def logInByTime():
-    cf = TidalConfig()
-    try:
-        Lasttime = float(cf.lastlogintime)
-        Lastlocaltime = time.localtime(Lasttime)
-    except:
-        Lastlocaltime = None
+def login(username="", password=""):
+    while True:
+        if isNull(username) or isNull(password):
+            print("---------------" + LANG.CHOICE_LOGIN + "-----------------")
+            username = Printf.enter(LANG.PRINT_USERNAME)
+            password = Printf.enter(LANG.PRINT_PASSWORD)
+        msg, check = API.login(username, password, TOKEN1)
+        if check == False:
+            Printf.err(msg)
+            username = ""
+            password = ""
+            continue
+        api2 = TidalAPI()
+        msg, check = api2.login(username, password, TOKEN2)
+        break
     
-    Curtime = time.time()
-    Curlocaltime = time.localtime(Curtime)
-    if Lastlocaltime is not None:
-        if Curlocaltime.tm_mon == Lastlocaltime.tm_mon and Curlocaltime.tm_mday == Lastlocaltime.tm_mday and Curlocaltime.tm_hour < Lastlocaltime.tm_hour + 3:
-            return
-        
-    if logIn(cf.username, cf.password) == False:
-        while logIn("", "") == False:
-            pass
+    USER.username = username
+    USER.password = password
+    USER.userid = API.key.userId
+    USER.countryCode = API.key.countryCode
+    USER.sessionid1 = API.key.sessionId
+    USER.sessionid2 = api2.key.sessionId
+    UserSettings.save(USER)
 
-def logIn(username="", password=""):
-    cf = TidalConfig()
-    if username == "" or password == "":
-        print("----------------LogIn------------------")
-        username = myinput("username:")
-        password = myinput("password:")
-
-    account3 = TidalMobileSession(username, password, TIDAL_TOKEN.clientID, cf)
-    if account3.errmsg is None:
-        cf.set_account2(username, password, account3.access_token, account3.country_code, account3.user_id)
-    else:
-        cf.set_account2(username, password, '', '', '')
-        printWarning(0, 'Login err(by mobile)!' + account3.errmsg)
-
-        account = TidalAccount(username, password, TIDAL_TOKEN, False, cf)
-        account2 = TidalAccount(username, password, TIDAL_TOKEN, True, cf)
-        if account.errmsg != "" and account2.errmsg != "":
-            printErr(0, account.errmsg)
-            return False
-        elif account.errmsg != "":
-            account = account2
-        elif account2.errmsg != "":
-            account2 = account
-        cf.set_account(username, password, account.session_id, account.country_code, account.user_id, account2.session_id)
-
-    
-    Curtime = time.time()
-    cf.set_lastlogintime(str(Curtime))
-    return True
 
 
 def setAccessToken():
-    print("------------setAccessToken------------------")
-    account = TidalMobileSession()
-    cf = TidalConfig()
     while True:
-        account.access_token = myinput("AccessToken(Enter '0' cancel):")
-        if account.access_token == '0':
-            break
-        if account.valid() is True:
-            account.getCountryCode()
-            cf.set_account2(cf.username, cf.password, account.access_token, account.country_code, account.user_id)
-            break
-        else:
-            printErr(0, "AccessToken is not valid!")
-
-
-def showConfig():
-    cf = TidalConfig()
-    print("----------------Config------------------")
-    print("Username                         : " + cf.username)
-    print("Output directory                 : " + cf.outputdir)
-    print("SessionID                        : " + cf.sessionid)
-    print("Country Code                     : " + cf.countrycode)
-    print("Sound Quality                    : " + cf.quality)
-    print("Video Resolution                 : " + cf.resolution)
-    print("Download Threads                 : " + cf.threadnum)
-    print("Only M4a                         : " + cf.onlym4a)
-    print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
-    print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
-    print("Add year                         : " + cf.addyear + "(in album title)")
-    print("Add explicit tag                 : " + cf.addexplicit)
-    print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
-    print("Include singles                  : " + cf.includesingle + "(download artist album)")
-    print("Save covers                      : " + cf.savephoto)
-    print("ArtistName Before Track-Title    : " + cf.artistbeforetitle)
-    print("Add ID Before AlbumFolderName    : " + cf.addAlbumidbeforefolder)
-    print("Version                          : " + TIDAL_DL_VERSION)
-    myinput("Enter to return.")
-
-
-def setting():
-    cf = TidalConfig()
-    print("----------------Settings----------------")
-    print("Output directory                 :\t" + cf.outputdir)
-    print("Sound Quality                    :\t" + cf.quality)
-    print("Video Resolution                 :\t" + cf.resolution)
-    print("Download Threads                 :\t" + cf.threadnum)
-    print("Only M4a                         :\t" + cf.onlym4a)
-    print("Show download progress           :\t" + cf.showprogress + "(enable when threadnum=1)")
-    print("Use hyphens                      :\t" + cf.addhyphen + "(between number and title)")
-    print("Add year                         :\t" + cf.addyear + "(in album title)")
-    print("Add explicit tag                 :\t" + cf.addexplicit)
-    print("Playlist songs in artist folders :\t" + cf.plfile2arfolder + "(organized with artist folder)")
-    print("Include singles                  :\t" + cf.includesingle + "(download artist album)")
-    print("Save covers                      :\t" + cf.savephoto)
-    print("ArtistName Before Track-Title    :\t" + cf.artistbeforetitle)
-    print("Add ID Before AlbumFolderName    :\t" + cf.addAlbumidbeforefolder)
-    while True:
-        outputdir = myinput("Output directory(Enter '0' Unchanged):".ljust(12))
-        if outputdir == '0':
-            outputdir = cf.outputdir
-            break
-        if os.path.isdir(outputdir) == False:
-            printErr(0, "Path is Err!")
-            continue
-        break
-    while True:
-        index = myinputInt("Download Quality(0-LOW,1-HIGH,2-LOSSLESS,3-HI_RES):".ljust(12), 999)
-        if index > 3 or index < 0:
-            printErr(0, "Quality Err!")
-            continue
-        if index == 0:
-            quality = 'LOW'
-        if index == 1:
-            quality = 'HIGH'
-        if index == 2:
-            quality = 'LOSSLESS'
-        if index == 3:
-            quality = 'HI_RES'
-        break
-    while True:
-        index = myinputInt("Video resolution(0-1080,1-720,2-480,3-360,4-240):".ljust(12), 99)
-        if index > 4 or index < 0:
-            printErr(0, "Resolution Err")
-            continue
-        if index == 0:
-            resolution = '1080'
-        if index == 1:
-            resolution = '720'
-        if index == 2:
-            resolution = '480'
-        if index == 3:
-            resolution = '360'
-        if index == 4:
-            resolution = '240'
-        break
-    while True:
-        threadnum = myinput("Number of download threads:".ljust(12))
-        if cf.valid_threadnum(threadnum) == False:
-            printErr(0, "ThreadNum Err")
+        print("-------------AccessToken---------------")
+        token = Printf.enter("accessToken('0' go back):")
+        if token == '0':
+            return
+        msg, check = API.loginByAccessToken(token, USER.userid)
+        if check == False:
+            Printf.err(msg)
             continue
         break
 
-    status = myinputInt("Convert Mp4 to M4a(0-No, 1-Yes):".ljust(12), 0)
-    status2 = myinputInt("Show download progress (only available on single thread)(0-No, 1-Yes):".ljust(12), 0)
-    status3 = myinputInt("Use hyphens instead of spaces in file names(0-No, 1-Yes):".ljust(12), 0)
-
-    while True:
-        index = myinputInt("Add year to album folder names(0-No, 1-Before, 2-After):".ljust(12), 99)
-        if index > 2 or index < 0:
-            printErr(0, "Addyear input Err")
-            continue
-        if index == 0:
-            addyear = 'No'
-        if index == 1:
-            addyear = 'Before'
-        if index == 2:
-            addyear = 'After'
-        break
-
-    status5 = myinputInt("Download playlist songs in artist folder structure? (0-No,1-Yes):".ljust(12), 0)
-    status6 = myinputInt("Add explicit tag to file names(0-No, 1-Yes):".ljust(12), 0)
-    status7 = myinputInt("Include singles and EPs when downloading an artist's albums (0-No, 1-Yes):".ljust(12), 0)
-    status8 = myinputInt("Save covers(0-No, 1-Yes):".ljust(12), 0)
-    status9 = myinputInt("Add artistName before trackTitle(0-No, 1-Yes):".ljust(12), 0)
-    status10 = myinputInt("Add ID Before AlbumFolderName(0-No, 1-Yes):".ljust(12), 0)
-
-    cf.set_outputdir(outputdir)
-    cf.set_quality(quality)
-    cf.set_resolution(resolution)
-    cf.set_threadnum(threadnum)
-    cf.set_onlym4a(status)
-    cf.set_showprogress(status2)
-    cf.set_addhyphen(status3)
-    cf.set_addyear(addyear)
-    cf.set_plfile2arfolder(status5)
-    cf.set_addexplicit(status6)
-    cf.set_includesingle(status7)
-    cf.set_savephoto(status8)
-    cf.set_artistbeforetitle(status9)
-    cf.set_addAlbumidbeforefolder(status10)
-
-    pathHelper.mkdirs(outputdir + "/Album/")
-    pathHelper.mkdirs(outputdir + "/Playlist/")
-    pathHelper.mkdirs(outputdir + "/Video/")
-    pathHelper.mkdirs(outputdir + "/Favorite/")
-    return
+    USER.assesstoken = token
+    UserSettings.save(USER)
 
 
-def main(argv=None):
-    if byCommand() is True:
+
+def checkLogin():
+    if not isNull(USER.assesstoken):
+        mag, check = API.loginByAccessToken(USER.assesstoken)
+        if check == False:
+            Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
+    if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
+        USER.sessionid1 = ""
+    if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
+        USER.sessionid2 = ""
+    if isNull(USER.sessionid1) or isNull(USER.sessionid2):
+        login(USER.username, USER.password)
+
+
+
+def changeSettings():
+    global LANG
+    
+    Printf.settings(CONF)
+    choice = Printf.enter(LANG.CHANGE_START_SETTINGS)
+    if choice == '0':
         return
 
-    print(LOG)
-    cf = TidalConfig()
-    if logIn(cf.username, cf.password) == False:
-        while logIn("", "") == False:
-            pass
-
-    cf = TidalConfig()
-    onlineVer = pipHelper.getLastVersion('tidal-dl')
-    print("====================Tidal-dl========================")
-    print("Output directory                 : " + cf.outputdir)
-    print("Sound Quality                    : " + cf.quality)
-    print("Video Resolution                 : " + cf.resolution)
-    print("Download Threads                 : " + cf.threadnum)
-    print("Only M4a                         : " + cf.onlym4a)
-    print("Show download progress           : " + cf.showprogress + "(enable when threadnum=1)")
-    print("Use hyphens                      : " + cf.addhyphen + "(between number and title)")
-    print("Add year                         : " + cf.addyear + "(in album title)")
-    print("Add explicit tag                 : " + cf.addexplicit)
-    print("Playlist songs in artist folders : " + cf.plfile2arfolder + "(organized with artist folder)")
-    print("Include singles                  : " + cf.includesingle + "(download artist album)")
-    print("Save covers                      : " + cf.savephoto)
-    print("ArtistName Before Track-Title    : " + cf.artistbeforetitle)
-    print("Add ID Before AlbumFolderName    : " + cf.addAlbumidbeforefolder)
-    print("Current Version                  : " + TIDAL_DL_VERSION)
-    if onlineVer != None:
-        print("Latest Version                   : " + onlineVer)
-    print("====================================================")
-
-    dl = Download(cf.threadnum)
-    if not dl.ffmpeg.enable:
-        printWarning(0, "Couldn't find ffmpeg!\n")
     while True:
-        printMenu()
-        strchoice, choice = printChoice2("Enter Choice:", 99)
-        if choice == 0:
+        choice = Printf.enter(LANG.CHANGE_DOWNLOAD_PATH)
+        if choice == '0':
+            choice = CONF.downloadPath
+        elif not os.path.isdir(choice):
+            if not mkdirs(choice):
+                Printf.err(LANG.MSG_PATH_ERR)
+                continue
+        CONF.downloadPath = choice
+        break
+    while True:
+        choice = Printf.enter(LANG.CHANGE_AUDIO_QUALITY)
+        if choice != '1' and choice != '2' and choice != '3' and choice != '0':
+            Printf.err(LANG.MSG_INPUT_ERR)
+            continue
+        if choice == '0':
+            CONF.audioQuality = AudioQuality.Normal
+        if choice == '1':
+            CONF.audioQuality = AudioQuality.High
+        if choice == '2':
+            CONF.audioQuality = AudioQuality.HiFi
+        if choice == '3':
+            CONF.audioQuality = AudioQuality.Master
+        break
+    while True:
+        choice = Printf.enter(LANG.CHANGE_VIDEO_QUALITY)
+        if choice != '1' and choice != '2' and choice != '3' and choice != '0':
+            Printf.err(LANG.MSG_INPUT_ERR)
+            continue
+        if choice == '0':
+            CONF.videoQuality = VideoQuality.P1080
+        if choice == '1':
+            CONF.videoQuality = VideoQuality.P720
+        if choice == '2':
+            CONF.videoQuality = VideoQuality.P480
+        if choice == '3':
+            CONF.videoQuality = VideoQuality.P360
+        break
+    CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
+    CONF.addExplicitTag = Printf.enter(LANG.CHANGE_ADD_EXPLICIT_TAG) == '1'
+    CONF.addHyphen = Printf.enter(LANG.CHANGE_ADD_HYPHEN) == '1'
+    CONF.addYear = Printf.enter(LANG.CHANGE_ADD_YEAR) == '1'
+    CONF.useTrackNumber = Printf.enter(LANG.CHANGE_USE_TRACK_NUM) == '1'
+    CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
+    CONF.artistBeforeTitle = Printf.enter(LANG.CHANGE_ARTIST_BEFORE_TITLE) == '1'
+    CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
+    CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
+    CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
+    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech)")
+
+    LANG = setLang(CONF.language)
+    Settings.save(CONF)
+
+
+def main():
+    Printf.logo()
+    Printf.settings(CONF)
+    checkLogin()
+
+    onlineVer = getLastVersion('tidal-dl')
+    if not isNull(onlineVer):
+        icmp = cmpVersion(onlineVer, VERSION)
+        if icmp > 0:
+            Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
+
+    while True:
+        Printf.choices()
+        choice = Printf.enter(LANG.PRINT_ENTER_CHOICE)
+        if choice == "0":
             return
-        elif choice == 1:
-            logIn()
-            cf = TidalConfig()
-            dl = Download(cf.threadnum)
-        elif choice == 2:
-            setting()
-            cf = TidalConfig()
-            dl = Download(cf.threadnum)
-        elif choice == 3:
-            dl.downloadAlbum()
-        elif choice == 4:
-            dl.downloadTrack()
-        elif choice == 5:
-            dl.downloadPlaylist()
-        elif choice == 6:
-            dl.downloadVideo()
-        elif choice == 7:
-            dl.downloadFavorite()
-        elif choice == 8:
-            dl.downloadArtistAlbum(cf.includesingle == "True")
-        elif choice == 9: 
-            showConfig()
-        elif choice == 10:
+        elif choice == "1":
+            login()
+        elif choice == "2":
+            changeSettings()
+        elif choice == "3":
             setAccessToken()
-            cf = TidalConfig()
-            dl = Download(cf.threadnum)
-        #Hidden Code For Developer [200-299]
-        elif choice == 200:
-            dl.downloadArtistAlbum(False)
         else:
-            dl.downloadUrl(strchoice)
-            dl.downloadByFile(strchoice)
+            start(USER, CONF, choice)
 
-def byCommand():
-    try:
-        if len(sys.argv) != 2:
-            return False
-        logInByTime()
-        cf = TidalConfig()
-        dl = Download(cf.threadnum)
-        dl.downloadUrl(sys.argv[1])
-        return True
-    except Exception as e:
-        return False
-    return False
-
-def debug():
-    cf = TidalConfig()
-
-    # import tidalapi
-    # test = tidalapi.Config()
-    # session = tidalapi.Session()
-    # session.login(cf.username, cf.password)
-    # TIDAL_TOKEN.token2 = "wc8j_yBJd20zOmx0"
-    # x-tidal-token: qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk
-    # TIDAL_TOKEN.token1 = "CzET4vdadNUFQ5JU"
-    
-    TIDAL_TOKEN.token1 = "qe5mgUGPtIfbgN574ngS74Sd1OmKIfvcLx7e28Yk"
-    TIDAL_TOKEN.token1 = "u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV"
-    
-    # TIDAL_TOKEN.token1 = TIDAL_TOKEN.token2
-    account = TidalAccount(cf.username, cf.password, TIDAL_TOKEN, False, cf)
-
-    # import requests
-    # import uuid
-    # from urllib.parse import urljoin
-
-    # headers = {"X-Tidal-Token": 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV'}
-    # postParams = {
-    #     'username': 'XXX',
-    #     'password': 'XXX',
-    #     'token': 'u5qPNNYIbD0S0o36MrAiFZ56K6qMCrCmYPzZuTnV',
-    #     'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],
-    #     'clientVersion': '1.9.1'
-    # }
-    # location = 'https://api.tidalhifi.com/v1/'
-    # myurl = urljoin(location, 'login/username')
-    # re = requests.post(myurl, data=postParams)
-    # tt = TidalMobileSession(cf.username, cf.password,'RnhXoTmoJgARtXHr')
-    if logIn(cf.username, cf.password) == False:
-        pass
-
-    # add tag Credits,Info song and full tag (discnumber,irsc,composer,arrenger,publisher,replayGain,releasedate)
-    # https://api.tidal.com/v1/albums/71121869/tracks?token=wdgaB1CilGA-S_s2&countryCode=TH
-    print('\nThis is the debug version!!\n')
-    # os.system("pip install aigpy --upgrade")
-    # trackid = 70973230
-    dl = Download(1)
-    dl.downloadTrack("90521281")
-    # dl.downloadTrack("131069665") #Dolby Atmos
-    # https://tidal.com/browse/track/139322230 360
-    # https://tidal.com/browse/playlist/7551f9e2-4a16-4708-9de1-798d8afdd859 360
-    # dl.downloadAlbum("120929182", True)
-    # dl.tool.getPlaylist("36ea71a8-445e-41a4-82ab-6628c581535d")
-    # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d")
-    # ss = dl.tool.getPlaylistArtworkUrl("36ea71a8-445e-41a4-82ab-6628c581535d",480)
-    # dl.downloadVideo(57261945) #1hours
-    # tidal.com/browse/track/125155002 dubi
-    # dl.downloadVideo(84094460)
-    # https://tidal.com/browse/track/70973230
-
-# if __name__ == '__main__':
-#     main(sys.argv)
+if __name__ == "__main__":
+    main()
 
 
-__all__ = ['debug', 'main', 'tidal', 'download']
+

@@ -64,3 +64,5 @@
 TIDALDL-PY/__pycache__/setup.cpython-37.pyc
 .gitignore
 .gitignore
+/TIDALDL-PY/settings.json
+/TIDALDL-PY/usersettings.json

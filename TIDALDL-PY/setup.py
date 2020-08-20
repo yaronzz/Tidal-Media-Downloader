@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from tidal_dl.printf import VERSION
 setup(
     name = 'tidal-dl',
-    version="2020.7.16.0",
-    license="Apache2",
+    version = VERSION,
+    license = "Apache2",
     description = "Tidal Music Downloader.",
 
     author = 'YaronH',
@@ -11,7 +12,6 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = "any",
-    install_requires=["aigpy>=2020.7.3.0", "requests", "ffmpeg",
-                      "pycryptodome", "pydub"],
+    install_requires=["aigpy>=2020.8.18.0", "requests", "pycryptodome", "pydub", "prettytable"],
     entry_points={'console_scripts': [ 'tidal-dl = tidal_dl:main', ]}
 )
