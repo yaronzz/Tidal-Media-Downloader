@@ -60,7 +60,7 @@ class LangEnglish(object):
     CHANGE_INCLUDE_EP = "Include singles and EPs when downloading an artist's albums('0'-No,'1'-Yes):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Add id before album folder('0'-No,'1'-Yes):"
     CHANGE_SAVE_COVERS = "Save covers('0'-No,'1'-Yes):"
-    CHANGE_LANGUAGE = "Select language('0'-English,'1'-中文,'2'-Turkish)"
+    CHANGE_LANGUAGE = "Select language"
 
     MSG_INVAILD_ACCESSTOKEN = "Invaild AccessToken! Please reset."
     MSG_PATH_ERR = "Path is error!"

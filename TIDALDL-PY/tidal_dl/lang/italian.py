@@ -9,7 +9,8 @@
 @Desc    :
 '''
 
-class LangEnglish(object):
+
+class LangItalian(object):
     SETTING = "IMPOSTAZIONI"
     VALUE = "VALORE"
     SETTING_DOWNLOAD_PATH = "Percorso Download"
@@ -60,7 +61,7 @@ class LangEnglish(object):
     CHANGE_INCLUDE_EP = "Includere singoli e EP quando si scaricano gli album di un artista ('0'-No,'1'-Sì):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Aggiungere ID prima del nome della cartella per l'album ('0'-No,'1'-Sì):"
     CHANGE_SAVE_COVERS = "Salve copertine ('0'-No,'1'-Sì):"
-    CHANGE_LANGUAGE = "Selezionare lingua ('0'-Englisth, '1'-中文, '2'-Italiano)"
+    CHANGE_LANGUAGE = "Selezionare lingua"
 
     MSG_INVAILD_ACCESSTOKEN = "AccessToken non valido! Per favore reimpostare."
     MSG_PATH_ERR = "Percorso errato!"

@@ -60,7 +60,7 @@ class LangTurkish(object):
     CHANGE_INCLUDE_EP = "single şarkıları albümü indirirken ekle('0'-Hayır,'1'-Evet):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "album numarasını dosya numarsından önce değiştir('0'-Hayır ,'1'-Evet):"
     CHANGE_SAVE_COVERS = "Kapak resmini kaydet('0'-Hayır ,'1'-Evet):"
-    CHANGE_LANGUAGE = "Dil seç('0'-English,'1'-中文,'2'-Turkish)"
+    CHANGE_LANGUAGE = "Dil seç"
 
     MSG_INVAILD_ACCESSTOKEN = "Hatalı AccessToken! ."
     MSG_PATH_ERR = "Indirilen dosyası hatalı!"
