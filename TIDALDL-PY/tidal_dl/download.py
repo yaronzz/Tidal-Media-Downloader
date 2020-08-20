@@ -100,15 +100,15 @@ def __getAlbumPath__(conf, album):
     if conf.audioQuality != AudioQuality.Master:
         flag.replace('M',"")
     if not isNull(flag):
-        flag = "[" + flag + "]"
+        flag = "[" + flag + "] "
     
-    sid = "[" + album.id + "]" if conf.addAlbumIDBeforeFolder else ""
+    sid = "[" + str(album.id) + "] " if conf.addAlbumIDBeforeFolder else ""
 
     #album and addyear
     albumname = replaceLimitChar(album.title, '-')
     year = ""
     if conf.addYear:
-        year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "]"
+        year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "] "
     return base + flag + sid + year + albumname + '/'
 
 def __getPlaylistPath__(conf, playlist):
@@ -257,7 +257,7 @@ def __artist__(conf, obj):
 
 def __playlist__(conf, obj):
     Printf.playlist(obj)
-    msg, tracks, videos = API.getItems(obj.id, Type.Playlist)
+    msg, tracks, videos = API.getItems(obj.uuid, Type.Playlist)
     if not isNull(msg):
         Printf.err(msg)
         return

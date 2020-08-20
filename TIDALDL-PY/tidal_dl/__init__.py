@@ -88,6 +88,8 @@ def checkLogin():
 
 
 def changeSettings():
+    global LANG
+    
     Printf.settings(CONF)
     choice = Printf.enter(LANG.CHANGE_START_SETTINGS)
     if choice == '0':
@@ -141,7 +143,7 @@ def changeSettings():
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
-    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE)
+    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech)")
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
