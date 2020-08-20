@@ -60,7 +60,7 @@ class LangChinese(object):
     CHANGE_INCLUDE_EP = "下载歌手专辑时包含其EP单曲('0'-不,'1'-是):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "专辑目录前添加ID('0'-不,'1'-是):"
     CHANGE_SAVE_COVERS = "保存封面('0'-不,'1'-是):"
-    CHANGE_LANGUAGE = "选择语言('0'-Englisth,'1'-中文)"
+    CHANGE_LANGUAGE = "选择语言('0'-English,'1'-中文,'2'-Turkish)"
 
     MSG_INVAILD_ACCESSTOKEN = "无效的 AccessToken! 请重新设置."
     MSG_PATH_ERR = "路径错误!"
