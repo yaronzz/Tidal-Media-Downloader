@@ -12,6 +12,6 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = "any",
-    install_requires=["aigpy>=2020.8.18.0", "requests", "pycryptodome", "pydub", "prettytable"],
+    install_requires=["aigpy>=2020.8.22.0", "requests", "pycryptodome", "pydub", "prettytable"],
     entry_points={'console_scripts': [ 'tidal-dl = tidal_dl:main', ]}
 )

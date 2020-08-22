@@ -13,6 +13,11 @@ from tidal_dl.lang.chinese import LangChinese
 from tidal_dl.lang.turkish import LangTurkish
 from tidal_dl.lang.italian import LangItalian
 from tidal_dl.lang.czech import LangCzech
+from tidal_dl.lang.arabic import LangArabic
+from tidal_dl.lang.russian import LangRussian
+from tidal_dl.lang.filipino import LangFilipino
+from tidal_dl.lang.croatian import LangCroatian
+from tidal_dl.lang.spanish import LangSpanish
 
 
 def initLang(index):  # 初始化
@@ -31,6 +36,16 @@ def setLang(index):
         LANG = LangItalian()
     elif str(index) == '4':
         LANG = LangCzech()
+    elif str(index) == '5':
+        LANG = LangArabic()
+    elif str(index) == '6':
+        LANG = LangRussian()
+    elif str(index) == '7':
+        LANG = LangFilipino()
+    elif str(index) == '8':
+        LANG = LangCroatian()
+    elif str(index) == '9':
+        LANG = LangSpanish()
     else:
         LANG = LangEnglish()
     return LANG
@@ -50,4 +65,14 @@ def getLangName(index):
         return "Italian"
     if str(index) == '4':
         return "Czech"
+    if str(index) == '5':
+        return "Arabic"
+    if str(index) == '6':
+        return "Russian"
+    if str(index) == '7':
+        return "Filipino"
+    if str(index) == '8':
+        return "Croatian"
+    if str(index) == '9':
+        return "Spanish"
     return "English"
