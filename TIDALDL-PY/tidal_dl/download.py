@@ -197,7 +197,7 @@ def __downloadTrack__(conf, track, album=None, playlist=None):
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
         check, err = downloadFileRetErr(stream.url, path + '.part', showprogress=True, stimeout=20)
         if not check:
-            Printf.err("\n Download failed!" + getFileName(path) )
+            Printf.err("\n Download failed!" + getFileName(path) + ' (' + str(err) + ')')
             return
         # encrypted -> decrypt and remove encrypted file
         if isNull(stream.encryptionKey):
@@ -210,8 +210,8 @@ def __downloadTrack__(conf, track, album=None, playlist=None):
         path = __convertToM4a__(path, stream.codec)
         __setMetaData__(track, album, path)
         Printf.success(getFileName(path))
-    except:
-        Printf.err("\n Download failed!" + track.title)
+    except Exception as e:
+        Printf.err("\n Download failed!" + track.title + ' (' + str(e) + ')')
 
 def __downloadCover__(conf, album):
     if album == None:

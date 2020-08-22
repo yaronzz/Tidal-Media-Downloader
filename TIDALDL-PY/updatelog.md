@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- add errmessage when downloading failed
+
 #### v2020-08-22
 - support language spanish\croatian
   

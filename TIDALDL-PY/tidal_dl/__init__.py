@@ -11,6 +11,7 @@
 import os
 import requests
 import prettytable
+# import ssl
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -23,6 +24,8 @@ from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
 from tidal_dl.lang.language import getLang, setLang, initLang
+
+# ssl._create_default_https_context = ssl._create_unverified_context
 
 API = TidalAPI()
 USER = UserSettings.read()
