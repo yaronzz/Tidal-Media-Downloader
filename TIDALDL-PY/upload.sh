@@ -14,7 +14,7 @@ mv dist/__init__.exe exe/tidal-dl.exe
 pip uninstall -y tidal-dl
 
 # creat requirements.txt
-pipreqs ./ --force
+# pipreqs ./ --force
 
 # upload
 twine upload dist/*

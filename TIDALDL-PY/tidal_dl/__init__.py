@@ -11,7 +11,7 @@
 import os
 import requests
 import prettytable
-# import ssl
+import ssl
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -25,7 +25,7 @@ from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
 from tidal_dl.lang.language import getLang, setLang, initLang
 
-# ssl._create_default_https_context = ssl._create_unverified_context
+ssl._create_default_https_context = ssl._create_unverified_context
 
 API = TidalAPI()
 USER = UserSettings.read()
@@ -156,7 +156,7 @@ def changeSettings():
 def main():
     Printf.logo()
     Printf.settings(CONF)
-    # checkLogin()
+    checkLogin()
 
     onlineVer = getLastVersion('tidal-dl')
     if not isNull(onlineVer):
