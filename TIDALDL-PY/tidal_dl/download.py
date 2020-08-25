@@ -189,7 +189,7 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
 def __downloadTrack__(conf, track, album=None, playlist=None):
     try:
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
-        if not isNull(msg):
+        if not isNull(msg) or stream is None:
             Printf.err(track.title + "." + msg)
             return
         path = __getTrackPath__(conf, track, stream, album, playlist)
