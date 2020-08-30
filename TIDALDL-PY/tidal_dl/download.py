@@ -12,7 +12,7 @@ import os
 
 import aigpy.m3u8Helper as m3u8Helper
 from aigpy.tagHelper import TagTool
-from aigpy.netHelper import downloadFileRetErr, downloadFile
+from aigpy.netHelper import downloadFile, downloadFileMultiThread
 from aigpy.stringHelper import isNull, getSubOnlyEnd
 from aigpy.pathHelper import replaceLimitChar, getFileName, remove
 from aigpy.fileHelper import getFileContent
@@ -195,9 +195,9 @@ def __downloadTrack__(conf, track, album=None, playlist=None):
         path = __getTrackPath__(conf, track, stream, album, playlist)
 
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
-        check, err = downloadFileRetErr(stream.url, path + '.part', showprogress=True, stimeout=20)
+        check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
         if not check:
-            Printf.err("\n Download failed!" + getFileName(path) + ' (' + str(err) + ')')
+            Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
             return
         # encrypted -> decrypt and remove encrypted file
         if isNull(stream.encryptionKey):
@@ -211,7 +211,7 @@ def __downloadTrack__(conf, track, album=None, playlist=None):
         __setMetaData__(track, album, path)
         Printf.success(getFileName(path))
     except Exception as e:
-        Printf.err("\n Download failed!" + track.title + ' (' + str(e) + ')')
+        Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
 
 def __downloadCover__(conf, album):
     if album == None:

@@ -1,4 +1,4 @@
 prettytable==0.7.2
 requests==2.20.0
-aigpy==2020.8.22.0
+aigpy==2020.8.30.1
 pycryptodome==3.9.8
