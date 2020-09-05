@@ -11,6 +11,7 @@
 import os
 import requests
 import prettytable
+import ssl
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -23,6 +24,8 @@ from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
 from tidal_dl.lang.language import getLang, setLang, initLang
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 API = TidalAPI()
 USER = UserSettings.read()
@@ -143,7 +146,8 @@ def changeSettings():
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
-    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech)")
+    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE +
+                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese):")
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
@@ -176,6 +180,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    # test example
+    # track 70973230 
 
 

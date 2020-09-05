@@ -1,6 +1,27 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2020-08-30
+- support language portuguese
+- multithreading download a track
+
+#### v2020-08-24
+- add errmessage when downloading failed
+- fix: macos - downlod failed
+
+#### v2020-08-22
+- support language spanish\croatian
+  
+#### v2020-08-21
+- fix: get album path
+- support download by file
+- support language arabic\czech\itlian\russian\turkish\filipino
+
+#### v2020-08-20
+- fix: download playlist
+- fix: settings
+- fix: lack of multi-language module
+
 #### v2020-08-19
 - code rebuild
 - multi-language

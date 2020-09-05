@@ -12,9 +12,10 @@ import os
 
 import aigpy.m3u8Helper as m3u8Helper
 from aigpy.tagHelper import TagTool
-from aigpy.netHelper import downloadFileRetErr, downloadFile
+from aigpy.netHelper import downloadFile, downloadFileMultiThread
 from aigpy.stringHelper import isNull, getSubOnlyEnd
 from aigpy.pathHelper import replaceLimitChar, getFileName, remove
+from aigpy.fileHelper import getFileContent
 
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.enum import Type, AudioQuality, VideoQuality
@@ -98,7 +99,7 @@ def __getAlbumPath__(conf, album):
     #album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
-        flag.replace('M',"")
+        flag = flag.replace("M","")
     if not isNull(flag):
         flag = "[" + flag + "] "
     
@@ -186,28 +187,31 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
         Printf.err("\nDownload failed!" + getFileName(path) )
 
 def __downloadTrack__(conf, track, album=None, playlist=None):
-    msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
-    if not isNull(msg):
-        Printf.err(track.title + "." + msg)
-        return
-    path = __getTrackPath__(conf, track, stream, album, playlist)
+    try:
+        msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
+        if not isNull(msg) or stream is None:
+            Printf.err(track.title + "." + msg)
+            return
+        path = __getTrackPath__(conf, track, stream, album, playlist)
 
-    # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
-    check, err = downloadFileRetErr(stream.url, path + '.part', showprogress=True, stimeout=20)
-    if not check:
-        Printf.err("\n Download failed!" + getFileName(path) )
-        return
-    # encrypted -> decrypt and remove encrypted file
-    if isNull(stream.encryptionKey):
-        os.replace(path + '.part', path)
-    else:
-        key, nonce = decrypt_security_token(stream.encryptionKey)
-        decrypt_file(path + '.part', path, key, nonce)
-        os.remove(path +'.part')
+        # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
+        check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
+        if not check:
+            Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
+            return
+        # encrypted -> decrypt and remove encrypted file
+        if isNull(stream.encryptionKey):
+            os.replace(path + '.part', path)
+        else:
+            key, nonce = decrypt_security_token(stream.encryptionKey)
+            decrypt_file(path + '.part', path, key, nonce)
+            os.remove(path +'.part')
 
-    path = __convertToM4a__(path, stream.codec)
-    __setMetaData__(track, album, path)
-    Printf.success(getFileName(path))
+        path = __convertToM4a__(path, stream.codec)
+        __setMetaData__(track, album, path)
+        Printf.success(getFileName(path))
+    except Exception as e:
+        Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
 
 def __downloadCover__(conf, album):
     if album == None:
@@ -268,11 +272,27 @@ def __playlist__(conf, obj):
     for item in videos:
         __downloadVideo__(conf, item, None)
 
-
-
+def __file__(user, conf, string):
+    txt = getFileContent(string)
+    if isNull(txt):
+        Printf.err("Nothing can read!")
+        return
+    array = txt.split('\n')
+    for item in array:
+        if isNull(item):
+            continue
+        if item[0] == '#':
+            continue
+        if item[0] == '[':
+            continue
+        start(user, conf, item)
 
 def start(user, conf, string):
     __loadAPI__(user)
+
+    if os.path.exists(string):
+        __file__(user, conf, string)
+        return
 
     msg, etype, obj = API.getByString(string)
     if etype == Type.Null or not isNull(msg):
