@@ -24,7 +24,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.8.30.0'
+VERSION = '2020.9.6.0'
 
 class Printf(object):
 
@@ -32,6 +32,18 @@ class Printf(object):
     def logo():
         print(__LOGO__)
         print('                      v' + VERSION)
+
+    @staticmethod
+    def usage():
+        print("=============TIDAL-DL HELP==============")
+        tb = prettytable.PrettyTable()
+        tb.field_names = [green("OPTION"), green("DESC")]
+        tb.align = 'l'
+        tb.add_row(["-h or --help", "show help-message"])
+        tb.add_row(["-v or --version", "show version"])
+        tb.add_row(["-o or --output", "download path"])
+        tb.add_row(["-l or --link", "url/id/filePath"])
+        print(tb)
 
     @staticmethod
     def settings(data):

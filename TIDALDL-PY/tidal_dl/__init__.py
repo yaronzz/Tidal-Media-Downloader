@@ -12,6 +12,8 @@ import os
 import requests
 import prettytable
 import ssl
+import sys
+import getopt
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -153,7 +155,39 @@ def changeSettings():
     Settings.save(CONF)
 
 
+def mainCommand():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v", ["help", "output=","link=","version"]) 
+        link = None
+        for opt, val in opts:
+            if opt in ('-h', '--help'):
+                Printf.usage()
+                return
+            if opt in ('-v', '--version'):
+                Printf.logo()
+                return
+            if opt in ('-l', '--link'):
+                link = val
+            if opt in ('-o', '--output'):
+                CONF.downloadPath = val
+        if link is None:
+            Printf.err("Please enter the link(url/id/path)! Enter 'tidal-dl -h' for help!");
+            return
+        if not mkdirs(CONF.downloadPath):
+            Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
+            return
+
+        checkLogin()
+        start(USER, CONF, link)
+        return
+    except getopt.GetoptError:
+        Printf.err("Argv error! Enter 'tidal -h' for help!");
+
 def main():
+    if len(sys.argv) > 1:
+        mainCommand()
+        return
+
     Printf.logo()
     Printf.settings(CONF)
     checkLogin()
@@ -182,5 +216,4 @@ if __name__ == "__main__":
     main()
     # test example
     # track 70973230 
-
 

@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2020-09-06
+- usage by command: tidal-dl --help
+
 #### v2020-08-30
 - support language portuguese
 - multithreading download a track
