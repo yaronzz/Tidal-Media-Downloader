@@ -8,6 +8,7 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+
 from tidal_dl.lang.english import LangEnglish
 from tidal_dl.lang.chinese import LangChinese
 from tidal_dl.lang.turkish import LangTurkish
@@ -19,7 +20,9 @@ from tidal_dl.lang.filipino import LangFilipino
 from tidal_dl.lang.croatian import LangCroatian
 from tidal_dl.lang.spanish import LangSpanish
 from tidal_dl.lang.portuguese import LangPortuguese
+from tidal_dl.lang.ukrainian import  LangUkrainian
 
+LANG = None
 
 def initLang(index):  # 初始化
     global LANG
@@ -49,6 +52,8 @@ def setLang(index):
         LANG = LangSpanish()
     elif str(index) == '10':
         LANG = LangPortuguese()
+    elif str(index) == '11':
+        LANG = LangUkrainian()
     else:
         LANG = LangEnglish()
     return LANG
@@ -80,4 +85,6 @@ def getLangName(index):
         return "Spanish"
     if str(index) == '10':
         return "Portuguese"
+    if str(index) == '11':
+        return "Ukrainian"
     return "English"
