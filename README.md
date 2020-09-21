@@ -56,6 +56,10 @@ If you really like my projects and want to support me, you can buy me a coffee a
 
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
+## 🎂 Contributors
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://opencollective.com/Tidal-Media-Downloader/contributors.svg?width=890" /></a>
+
 ## 🎨 Libraries and reference
 
 - [aigpy](https://github.com/yaronzz/AIGPY)
