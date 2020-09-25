@@ -9,7 +9,8 @@
 @Desc    :   
 '''
 
-class LangEnglish(object):
+
+class LangVietnamese(object):
     SETTING = "THIẾT LẬP"
     VALUE = "GIÁ TRỊ"
     SETTING_DOWNLOAD_PATH = "Đường dẫn tải về"

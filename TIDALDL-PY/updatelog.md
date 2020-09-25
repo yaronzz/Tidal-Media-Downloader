@@ -1,8 +1,11 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
-- Fix: download video failed. Resolution parse error.
-- Windows: auto get accessToken from tidaldesktop cache
+- [x] Fix: download video failed. Resolution parse error.
+- [x] Windows: auto get accessToken from tidaldesktop cache
+- [ ] Download playlist to playlist folder
+- [ ] Fix: check Exist
+- [x] Support language vietnamese
 
 #### v2020-09-06
 - usage by command: tidal-dl --help
