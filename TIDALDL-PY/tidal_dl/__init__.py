@@ -90,8 +90,20 @@ def checkLogin():
     if isNull(USER.sessionid1) or isNull(USER.sessionid2):
         login(USER.username, USER.password)
 
-
-
+def autoGetAccessToken():
+    array = API.tryGetAccessToken(USER.userid)
+    if len(array) <= 0:
+        return
+    for item in array:
+        msg, check = API.loginByAccessToken(item, USER.userid)
+        if check == False:
+            continue
+        if item != USER.assesstoken:
+            USER.assesstoken = item
+            UserSettings.save(USER)
+            Printf.info("Auto get accesstoken from tidal cache success!")
+            return
+        
 def changeSettings():
     global LANG
     
@@ -190,7 +202,9 @@ def main():
 
     Printf.logo()
     Printf.settings(CONF)
+
     checkLogin()
+    autoGetAccessToken()
 
     onlineVer = getLastVersion('tidal-dl')
     if not isNull(onlineVer):
@@ -216,4 +230,4 @@ if __name__ == "__main__":
     main()
     # test example
     # track 70973230 
-
+    # video 155608351

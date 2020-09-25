@@ -146,7 +146,7 @@ def __getTrackPath__(conf, track, stream, album=None, playlist=None):
 
 
 def __getVideoPath__(conf, video, album=None, playlist=None):
-    if album is not None:
+    if album is not None and album.title is not None:
         base = __getAlbumPath__(conf, album)
     elif playlist is not None:
         base = __getPlaylistPath__(conf, playlist)
