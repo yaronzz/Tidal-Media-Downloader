@@ -247,6 +247,8 @@ class TidalAPI(object):
         return "Can't get the streamUrl, type is " + resp.manifestMimeType, None
         
     def getCoverUrl(self, sid, width="320", height="320"):
+        if sid is None or sid == "":
+            return None
         return "https://resources.tidal.com/images/" + sid.replace("-", "/") + "/" + width + "x" + height + ".jpg"
 
     def getArtistsName(self, artists = []):

@@ -9,7 +9,6 @@
 @Desc    :   
 '''
 
-
 class LangVietnamese(object):
     SETTING = "THIẾT LẬP"
     VALUE = "GIÁ TRỊ"
@@ -27,6 +26,8 @@ class LangVietnamese(object):
     SETTING_INCLUDE_EP = "Bao gồm đĩa đơn & ep"
     SETTING_SAVE_COVERS = "Tải ảnh bìa"
     SETTING_LANGUAGE = "Ngôn ngữ"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -66,7 +67,6 @@ class LangVietnamese(object):
     MSG_INVAILD_ACCESSTOKEN = "AccessToken vô hiệu! Hãy mở lại."
     MSG_PATH_ERR = "Lỗi đường dẫn!"
     MSG_INPUT_ERR = "Lỗi nhập!"
-
 
     MODEL_ALBUM_PROPERTY = "THÔNG TIN ALBUM"
     MODEL_TRACK_PROPERTY = "THÔNG TIN TRACK"

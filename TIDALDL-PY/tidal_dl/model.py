@@ -50,6 +50,7 @@ class Track(object):
     duration = 0
     trackNumber = 0
     volumeNumber = 0
+    trackNumberOnPlaylist = 0
     version = None
     isrc = None
     explicit = False

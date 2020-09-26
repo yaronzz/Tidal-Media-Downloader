@@ -26,6 +26,8 @@ class LangPortuguese(object):
     SETTING_INCLUDE_EP = "Incluir Single & EP"
     SETTING_SAVE_COVERS = "Salvar Capas"
     SETTING_LANGUAGE = "idioma"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "ESCOLHER"
     FUNCTION = "FUNÇÃO"

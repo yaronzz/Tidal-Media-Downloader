@@ -28,6 +28,7 @@ twine upload dist/*
 
 
 # powershell
+cd TIDALDL-PY
 Remove-Item dist -recurse -Force
 Remove-Item build -recurse -Force
 Remove-Item exe -recurse -Force

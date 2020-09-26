@@ -26,6 +26,8 @@ class LangSpanish(object):
     SETTING_INCLUDE_EP = "Incluir single&ep"
     SETTING_SAVE_COVERS = "Guardar covers"
     SETTING_LANGUAGE = "Idioma"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "SELECCÍON"
     FUNCTION = "FUNCION"
@@ -65,7 +67,6 @@ class LangSpanish(object):
     MSG_INVAILD_ACCESSTOKEN = "AccessToken invalido! Por favor reinicie"
     MSG_PATH_ERR = "La ruta no es correcta!"
     MSG_INPUT_ERR = "Error de entrada!"
-
 
     MODEL_ALBUM_PROPERTY = "PROPIEDAD-DE-ÁLBUM"
     MODEL_TRACK_PROPERTY = "PROPIEDAD-DE-PISTA"

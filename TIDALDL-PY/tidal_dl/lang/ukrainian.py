@@ -26,6 +26,8 @@ class LangUkrainian(object):
     SETTING_INCLUDE_EP = "Включити сингл і міньйон"
     SETTING_SAVE_COVERS = "Зберегти обкладинки"
     SETTING_LANGUAGE = "Мова"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "ВИБІР"
     FUNCTION = "ФУНКЦІЇ"
@@ -65,7 +67,6 @@ class LangUkrainian(object):
     MSG_INVAILD_ACCESSTOKEN = "Недійсний AccessToken! Будь ласка, перезавантажте."
     MSG_PATH_ERR = "Невірний шлях!"
     MSG_INPUT_ERR = "Помилка введення!"
-
 
     MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
     MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"

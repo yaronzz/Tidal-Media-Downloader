@@ -26,6 +26,8 @@ class LangFilipino(object):
     SETTING_INCLUDE_EP = "Isama ang single at ep"
     SETTING_SAVE_COVERS = "I-save ang mga cover"
     SETTING_LANGUAGE = "Lenggwahe"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "PAGPIPILIAN"
     FUNCTION = "SILBI"
@@ -65,7 +67,6 @@ class LangFilipino(object):
     MSG_INVAILD_ACCESSTOKEN = "Hindi wasto ang AccessToken! Mangyaring i-reset."
     MSG_PATH_ERR = "May error sa paroroonan ng download!"
     MSG_INPUT_ERR = "May error sa pag-input!"
-
 
     MODEL_ALBUM_PROPERTY = "PROPERTY NG ALBUM"
     MODEL_TRACK_PROPERTY = "PROPERTY NG TRACK"

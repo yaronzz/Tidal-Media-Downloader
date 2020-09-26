@@ -70,6 +70,8 @@ class Settings(object):
     addAlbumIDBeforeFolder = False
     saveCovers = True
     language = 0
+    usePlaylistFolder = True
+    multiThreadDownload = True
 
     @staticmethod
     def read():
@@ -80,6 +82,8 @@ class Settings(object):
         ret = dictToModel(data, Settings())
         ret.audioQuality = Settings.getAudioQuality(ret.audioQuality)
         ret.videoQuality = Settings.getVideoQuality(ret.videoQuality)
+        ret.usePlaylistFolder = ret.usePlaylistFolder == True or ret.usePlaylistFolder is None
+        ret.multiThreadDownload = ret.multiThreadDownload == True or ret.multiThreadDownload is None
         return ret
 
     @staticmethod

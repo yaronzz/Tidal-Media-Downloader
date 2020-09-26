@@ -35,6 +35,8 @@
 | tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
 | tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.top/post/tidal_dl_installation/#Install) |
 
+**Renewal cycle:** Once a month. (25th to 30th)
+
 ## 📡 Telegram
 
 - [Group](https://t.me/tidal_group) : Feed back

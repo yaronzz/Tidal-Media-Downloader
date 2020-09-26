@@ -26,6 +26,8 @@ class LangChinese(object):
     SETTING_INCLUDE_EP = "下载歌手专辑时包含其EP单曲"
     SETTING_SAVE_COVERS = "保存封面"
     SETTING_LANGUAGE = "语言"
+    SETTING_USE_PLAYLIST_FOLDER = "将歌单下载到歌单目录"
+    SETTING_MULITHREAD_DOWNLOAD = "多线程下载"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -65,7 +67,6 @@ class LangChinese(object):
     MSG_INVAILD_ACCESSTOKEN = "无效的 AccessToken! 请重新设置."
     MSG_PATH_ERR = "路径错误!"
     MSG_INPUT_ERR = "输入错误!"
-
 
     MODEL_ALBUM_PROPERTY = "专辑信息"
     MODEL_TRACK_PROPERTY = "歌曲信息"

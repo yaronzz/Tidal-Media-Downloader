@@ -15,8 +15,10 @@ from aigpy.tagHelper import TagTool
 from aigpy.netHelper import downloadFile, downloadFileMultiThread
 from aigpy.stringHelper import isNull, getSubOnlyEnd
 from aigpy.pathHelper import replaceLimitChar, getFileName, remove
-from aigpy.fileHelper import getFileContent
+from aigpy.fileHelper import getFileContent, getFileSize
+import aigpy.netHelper as netHelper
 
+from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.enum import Type, AudioQuality, VideoQuality
 from tidal_dl.printf import Printf
@@ -113,7 +115,11 @@ def __getAlbumPath__(conf, album):
     return base + flag + sid + year + albumname + '/'
 
 def __getPlaylistPath__(conf, playlist):
-    pass
+    # outputdir/Playlist/
+    base = conf.downloadPath + '/Playlist/'
+    #name
+    name = replaceLimitChar(playlist.title, '-')
+    return base + name + '/'
 
 def __getTrackPath__(conf, track, stream, album=None, playlist=None):
     if album is not None:
@@ -129,6 +135,8 @@ def __getTrackPath__(conf, track, stream, album=None, playlist=None):
     number = ''
     if conf.useTrackNumber:
         number = __getIndexStr__(track.trackNumber) + hyphen
+        if playlist is not None:
+            number = __getIndexStr__(track.trackNumberOnPlaylist) + hyphen
     # get artist
     artist = ''
     if conf.artistBeforeTitle:
@@ -172,8 +180,14 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
     return base + number + artist + title + explicit + extension
     
 
-
-
+def __isNeedDownload__(path, url):
+    curSize = getFileSize(path)
+    if curSize <= 0:
+        return True
+    netSize = netHelper.getFileSize(url)
+    if curSize >= netSize:
+        return False
+    return True
 
 def __downloadVideo__(conf, video, album=None, playlist=None):
     msg, stream = API.getVideoStreamUrl(video.id, conf.videoQuality)
@@ -186,7 +200,8 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
     else:
         Printf.err("\nDownload failed!" + getFileName(path) )
 
-def __downloadTrack__(conf, track, album=None, playlist=None):
+
+def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
     try:
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
         if not isNull(msg) or stream is None:
@@ -194,8 +209,16 @@ def __downloadTrack__(conf, track, album=None, playlist=None):
             return
         path = __getTrackPath__(conf, track, stream, album, playlist)
 
+        # check exist
+        if conf.checkExist and __isNeedDownload__(path, stream.url) == False:
+            Printf.success(getFileName(path) + " (skip:already exists!)")
+            return
+
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
-        check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
+        if conf.multiThreadDownload:
+            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
+        else:
+            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=True)
         if not check:
             Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
             return
@@ -218,7 +241,8 @@ def __downloadCover__(conf, album):
         return
     path = __getAlbumPath__(conf, album) + '/cover.jpg'
     url = API.getCoverUrl(album.cover, "1280", "1280")
-    downloadFile(url, path)
+    if url is not None:
+        downloadFile(url, path)
 
 
 
@@ -266,9 +290,10 @@ def __playlist__(conf, obj):
         Printf.err(msg)
         return
 
-    for item in tracks:
+    for index, item in enumerate(tracks):
         mag, album = API.getAlbum(item.album.id)
-        __downloadTrack__(conf, item, album)
+        item.trackNumberOnPlaylist = index + 1
+        __downloadTrack__(conf, item, album, obj)
     for item in videos:
         __downloadVideo__(conf, item, None)
 

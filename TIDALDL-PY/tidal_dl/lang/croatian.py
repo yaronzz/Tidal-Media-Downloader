@@ -10,7 +10,6 @@
 @Desc    :   
 '''
 
-
 class LangCroatian(object):
     SETTING = "POSTAVKE"
     VALUE = "VRIJEDNOST"
@@ -28,6 +27,8 @@ class LangCroatian(object):
     SETTING_INCLUDE_EP = "Ukljuci singl i EP"
     SETTING_SAVE_COVERS = "Spremi ilustraciju albuma"
     SETTING_LANGUAGE = "Jezik"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "ODABIR"
     FUNCTION = "FUNKCIJA"
@@ -67,7 +68,6 @@ class LangCroatian(object):
     MSG_INVAILD_ACCESSTOKEN = "Nevazeci AccessToken! Molim da ga resetirate."
     MSG_PATH_ERR = "Pogreska putanje!"
     MSG_INPUT_ERR = "Pogreska unosa!"
-
 
     MODEL_ALBUM_PROPERTY = "ALBUM-SVOJSTVO"
     MODEL_TRACK_PROPERTY = "PJESMA-SVOJSTVO"

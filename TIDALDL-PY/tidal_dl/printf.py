@@ -11,6 +11,7 @@
 import prettytable
 from aigpy.cmdHelper import red, green, blue, yellow, myprint, myinput, TextColor
 from tidal_dl.lang.language import getLangName, getLang
+from tidal_dl.settings import Settings
 
 __LOGO__ = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -24,7 +25,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.9.25.0'
+VERSION = '2020.9.26.1'
 
 class Printf(object):
 
@@ -46,7 +47,7 @@ class Printf(object):
         print(tb)
 
     @staticmethod
-    def settings(data):
+    def settings(data:Settings):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [green(LANG.SETTING), green(LANG.VALUE)]
@@ -65,6 +66,8 @@ class Printf(object):
         tb.add_row([LANG.SETTING_INCLUDE_EP, data.includeEP])
         tb.add_row([LANG.SETTING_SAVE_COVERS, data.saveCovers])
         tb.add_row([LANG.SETTING_LANGUAGE, getLangName(data.language)])
+        tb.add_row([LANG.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder])
+        tb.add_row([LANG.SETTING_MULITHREAD_DOWNLOAD, data.multiThreadDownload])
         print(tb)
 
     @staticmethod
