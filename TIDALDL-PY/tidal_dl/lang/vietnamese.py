@@ -26,8 +26,8 @@ class LangVietnamese(object):
     SETTING_INCLUDE_EP = "Bao gồm đĩa đơn & ep"
     SETTING_SAVE_COVERS = "Tải ảnh bìa"
     SETTING_LANGUAGE = "Ngôn ngữ"
-    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_USE_PLAYLIST_FOLDER = "Thư mục cho danh sách phát"
+    SETTING_MULITHREAD_DOWNLOAD = "Tải về đa luồng"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
