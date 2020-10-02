@@ -1,6 +1,19 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2020-09-26
+- [x] Fix: download video failed. Resolution parse error.
+- [x] Windows: auto get accessToken from tidaldesktop cache
+- [x] Download playlist to playlist folder
+- [x] Fix: check exist
+- [x] Support language vietnamese
+- [x] Fix: download cover error (no album-cover)
+- [x] Settings: usePlaylistFolder、 multiThreadDownload
+- [x] Support language french 
+
+#### v2020-09-06
+- usage by command: tidal-dl --help
+
 #### v2020-08-30
 - support language portuguese
 - multithreading download a track

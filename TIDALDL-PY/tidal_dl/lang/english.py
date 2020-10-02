@@ -26,6 +26,8 @@ class LangEnglish(object):
     SETTING_INCLUDE_EP = "Include single&ep"
     SETTING_SAVE_COVERS = "Save covers"
     SETTING_LANGUAGE = "Language"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "CHOICE"
     FUNCTION = "FUNCTION"
@@ -65,7 +67,6 @@ class LangEnglish(object):
     MSG_INVAILD_ACCESSTOKEN = "Invaild AccessToken! Please reset."
     MSG_PATH_ERR = "Path is error!"
     MSG_INPUT_ERR = "Input error!"
-
 
     MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
     MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"

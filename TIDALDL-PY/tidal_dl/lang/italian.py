@@ -9,7 +9,6 @@
 @Desc    :
 '''
 
-
 class LangItalian(object):
     SETTING = "IMPOSTAZIONI"
     VALUE = "VALORE"
@@ -27,6 +26,8 @@ class LangItalian(object):
     SETTING_INCLUDE_EP = "Includere singolo&ep"
     SETTING_SAVE_COVERS = "Salva copertine"
     SETTING_LANGUAGE = "Lingua"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "SCELTA"
     FUNCTION = "FUNZIONE"
@@ -66,7 +67,6 @@ class LangItalian(object):
     MSG_INVAILD_ACCESSTOKEN = "AccessToken non valido! Per favore reimpostare."
     MSG_PATH_ERR = "Percorso errato!"
     MSG_INPUT_ERR = "Inserimento errato!"
-
 
     MODEL_ALBUM_PROPERTY = "PROPRIETÀ-ALBUM"
     MODEL_TRACK_PROPERTY = "PROPRIETÀ-TRACCIA"

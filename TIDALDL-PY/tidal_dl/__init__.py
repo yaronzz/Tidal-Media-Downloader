@@ -12,6 +12,8 @@ import os
 import requests
 import prettytable
 import ssl
+import sys
+import getopt
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -88,8 +90,20 @@ def checkLogin():
     if isNull(USER.sessionid1) or isNull(USER.sessionid2):
         login(USER.username, USER.password)
 
-
-
+def autoGetAccessToken():
+    array = API.tryGetAccessToken(USER.userid)
+    if len(array) <= 0:
+        return
+    for item in array:
+        msg, check = API.loginByAccessToken(item, USER.userid)
+        if check == False:
+            continue
+        if item != USER.assesstoken:
+            USER.assesstoken = item
+            UserSettings.save(USER)
+            Printf.info("Auto get accesstoken from tidal cache success!")
+            return
+        
 def changeSettings():
     global LANG
     
@@ -147,16 +161,50 @@ def changeSettings():
     CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE +
-                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese):")
+                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese,'11'-Ukrainian,'12'-Vietnamese,'13'-French):")
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
 
 
+def mainCommand():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v", ["help", "output=","link=","version"]) 
+        link = None
+        for opt, val in opts:
+            if opt in ('-h', '--help'):
+                Printf.usage()
+                return
+            if opt in ('-v', '--version'):
+                Printf.logo()
+                return
+            if opt in ('-l', '--link'):
+                link = val
+            if opt in ('-o', '--output'):
+                CONF.downloadPath = val
+        if link is None:
+            Printf.err("Please enter the link(url/id/path)! Enter 'tidal-dl -h' for help!");
+            return
+        if not mkdirs(CONF.downloadPath):
+            Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
+            return
+
+        checkLogin()
+        start(USER, CONF, link)
+        return
+    except getopt.GetoptError:
+        Printf.err("Argv error! Enter 'tidal -h' for help!");
+
 def main():
+    if len(sys.argv) > 1:
+        mainCommand()
+        return
+
     Printf.logo()
     Printf.settings(CONF)
+
     checkLogin()
+    autoGetAccessToken()
 
     onlineVer = getLastVersion('tidal-dl')
     if not isNull(onlineVer):
@@ -182,5 +230,4 @@ if __name__ == "__main__":
     main()
     # test example
     # track 70973230 
-
-
+    # video 155608351

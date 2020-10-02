@@ -9,7 +9,6 @@
 @Desc    :   
 '''
 
-
 class LangCzech(object):
     SETTING = "Nastavení"
     VALUE = "Hodnota"
@@ -27,6 +26,8 @@ class LangCzech(object):
     SETTING_INCLUDE_EP = "Zahrnout single&ep"
     SETTING_SAVE_COVERS = "Uložit obal alba"
     SETTING_LANGUAGE = "Změna jazyka"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
@@ -66,7 +67,6 @@ class LangCzech(object):
     MSG_INVAILD_ACCESSTOKEN = "Neplatný přístupový token! Prosím restartujte aplikaci."
     MSG_PATH_ERR = "Cesta neexistuje!"
     MSG_INPUT_ERR = "Chyba vstupu!"
-
 
     MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
     MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"

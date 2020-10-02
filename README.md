@@ -1,3 +1,6 @@
+<br>
+    <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO">[GUI-REPOSITORY]</a>
+<br>
 <div align="center">
   <h1>Tidal-Media-Downloader</h1>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/LICENSE">
@@ -17,9 +20,9 @@
   </a>
 </div>
 <p align="center">
-  «Tidal-Media-Downloader» is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl and tidal-gui. 
+  «Tidal-Media-Downloader» is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl and tidal-gui. (This repository only contains tidal-dl, and the release isn't the newest gui version.)
     <br>
-        <a href="https://github.com/yaronzz/Tidal-Media-Downloader/releases">Download</a> |
+        <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO/releases">Download</a> |
         <a href="https://yaronzz.top/post/tidal_dl_installation/">Documentation</a> |
         <a href="https://yaronzz.top/post/tidal_dl_installation_chn/">中文文档</a> |
         <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
@@ -31,6 +34,8 @@
 | -------------- | --------------------------------- | ------------------------------------------------------------ |
 | tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
 | tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.top/post/tidal_dl_installation/#Install) |
+
+**Renewal cycle:** Once a month. (25th to 30th)
 
 ## 📡 Telegram
 
@@ -55,6 +60,10 @@
 If you really like my projects and want to support me, you can buy me a coffee and star this project. 
 
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
+## 🎂 Contributors
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://opencollective.com/Tidal-Media-Downloader/contributors.svg?width=890" /></a>
 
 ## 🎨 Libraries and reference
 

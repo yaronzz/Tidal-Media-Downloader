@@ -26,6 +26,8 @@ class LangArabic(object):
     SETTING_INCLUDE_EP = "اضافة single&ep"
     SETTING_SAVE_COVERS = "حفظ صورة الالبوم"
     SETTING_LANGUAGE = "اللغة"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
 
     CHOICE = "خيار"
     FUNCTION = "وظيفة"
@@ -65,7 +67,6 @@ class LangArabic(object):
     MSG_INVAILD_ACCESSTOKEN = "خاطئة AccessToken! الرجاء الاعادة."
     MSG_PATH_ERR = "!مجلد التنزيل خاطئ"
     MSG_INPUT_ERR = "!ادخال خاطئ"
-
 
     MODEL_ALBUM_PROPERTY = "ملكية الالبوم"
     MODEL_TRACK_PROPERTY = "ملكية الاغنية"

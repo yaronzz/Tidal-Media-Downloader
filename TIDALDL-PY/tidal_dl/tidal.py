@@ -15,6 +15,8 @@ import requests
 import json
 import base64
 import aigpy.stringHelper as stringHelper
+import aigpy.systemHelper as systemHelper
+import aigpy.fileHelper as fileHelper
 from aigpy.modelHelper import dictToModel
 from aigpy.stringHelper import isNull
 from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl
@@ -101,6 +103,7 @@ class TidalAPI(object):
             stream.codec = stringHelper.getSub(item, "CODECS=\"", "\"")
             stream.m3u8Url = "http" + stringHelper.getSubOnlyStart(item, "http").strip()
             stream.resolution = stringHelper.getSub(item, "RESOLUTION=", "http").strip()
+            stream.resolution = stream.resolution.split(',')[0]
             stream.resolutions = stream.resolution.split("x")
             ret.append(stream)
         return ret
@@ -220,7 +223,7 @@ class TidalAPI(object):
             ret.encryptionKey = manifest['keyId'] if 'keyId' in manifest else ""
             ret.url = manifest['urls'][0]
             return "", ret
-        return "", None
+        return "Can't get the streamUrl, type is " + resp.manifestMimeType, None
 
     def getVideoStreamUrl(self, id, quality: VideoQuality):
         paras = {"videoquality": "HIGH", "playbackmode": "STREAM", "assetpresentation": "FULL"}
@@ -241,9 +244,11 @@ class TidalAPI(object):
             if index >= len(array):
                 index = len(array) - 1
             return "", array[index]
-        return "", None
+        return "Can't get the streamUrl, type is " + resp.manifestMimeType, None
         
     def getCoverUrl(self, sid, width="320", height="320"):
+        if sid is None or sid == "":
+            return None
         return "https://resources.tidal.com/images/" + sid.replace("-", "/") + "/" + width + "x" + height + ".jpg"
 
     def getArtistsName(self, artists = []):
@@ -342,3 +347,38 @@ class TidalAPI(object):
         except Exception as e:
             pass
         return token1,token2
+
+    def tryGetAccessToken(self, userID):
+        rets = []
+        if systemHelper.isWindows():
+            path = os.getenv("APPDATA") + "\\TIDAL\\Logs\\app.log"
+            content = self.getFileContent(path.replace("\\","/"))
+            if content == "":
+                return None
+            array = content.split("[info] - Session was changed")
+            for item in array:
+                try:
+                    text = item.split('(')[0]
+                    ojson = json.loads(text)
+                    if "oAuthAccessToken" not in ojson:
+                        continue
+                    if ojson["userId"] != userID:
+                        continue
+                    rets.append(ojson["oAuthAccessToken"])
+                except:
+                    continue
+        return rets
+
+    def getFileContent(self,path, isBin=False):
+        mode = 'r'
+        if isBin:
+            mode = 'rb'
+        try:
+            size = fileHelper.getFileSize(path)
+            if size <= 0:
+                return ""
+            with open(path, mode, encoding="utf-8") as fd:
+                content = fd.read(size)
+            return content
+        except Exception as e:
+            return ""

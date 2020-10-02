@@ -1,0 +1,49 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python: current",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "pythonPath": "python.exe",
+            "env": {
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+            },
+        },
+        {
+            "name": "Python: common line",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
+            "console": "integratedTerminal",
+            "pythonPath": "python.exe",
+            "env": {
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+            },
+            "args": [
+                "--link",
+                "https://tidal.com/browse/track/153955724",
+                "-o",
+                "G://"
+            ]
+        },
+        {
+            "name": "Python: main",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
+            "console": "integratedTerminal",
+            "pythonPath": "python.exe",
+            "env": {
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+            }
+
+        }
+    ]
+}
