@@ -27,7 +27,7 @@ class LangArabic(object):
     SETTING_SAVE_COVERS = "حفظ صورة الالبوم"
     SETTING_LANGUAGE = "اللغة"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
 
     CHOICE = "خيار"
     FUNCTION = "وظيفة"
