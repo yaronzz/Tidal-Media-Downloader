@@ -28,6 +28,8 @@ class LangEnglish(object):
     SETTING_LANGUAGE = "Language"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
 
     CHOICE = "CHOICE"
     FUNCTION = "FUNCTION"
@@ -63,6 +65,8 @@ class LangEnglish(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Add id before album folder('0'-No,'1'-Yes):"
     CHANGE_SAVE_COVERS = "Save covers('0'-No,'1'-Yes):"
     CHANGE_LANGUAGE = "Select language"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
 
     MSG_INVAILD_ACCESSTOKEN = "Invaild AccessToken! Please reset."
     MSG_PATH_ERR = "Path is error!"

@@ -28,6 +28,8 @@ class LangUkrainian(object):
     SETTING_LANGUAGE = "Мова"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
 
     CHOICE = "ВИБІР"
     FUNCTION = "ФУНКЦІЇ"
@@ -63,6 +65,8 @@ class LangUkrainian(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Додати ідентифікатор перед текою альбому ('0'-Ні,'1'-Так):"
     CHANGE_SAVE_COVERS = "Зберігати обкладинки ('0'-Ні,'1'-Так):"
     CHANGE_LANGUAGE = "Обрати мову"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
 
     MSG_INVAILD_ACCESSTOKEN = "Недійсний AccessToken! Будь ласка, перезавантажте."
     MSG_PATH_ERR = "Невірний шлях!"

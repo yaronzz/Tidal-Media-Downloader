@@ -354,7 +354,7 @@ class TidalAPI(object):
             path = os.getenv("APPDATA") + "\\TIDAL\\Logs\\app.log"
             content = self.getFileContent(path.replace("\\","/"))
             if content == "":
-                return None
+                return rets
             array = content.split("[info] - Session was changed")
             for item in array:
                 try:

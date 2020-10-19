@@ -93,7 +93,34 @@ def __convertToM4a__(filepath, codec):
     os.rename(filepath, newpath)
     return newpath
 
-def __getAlbumPath__(conf, album):
+
+# "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
+def __getAlbumPath__(conf:Settings, album):
+    base = conf.downloadPath + '/Album/'
+    artist = replaceLimitChar(album.artists[0].name, '-')
+    #album folder pre: [ME][ID]
+    flag = API.getFlag(album, Type.Album, True, "")
+    if conf.audioQuality != AudioQuality.Master:
+        flag = flag.replace("M", "")
+    if not isNull(flag):
+        flag = "[" + flag + "] "
+        
+    sid = str(album.id) if conf.addAlbumIDBeforeFolder else ""
+    #album and addyear
+    albumname = replaceLimitChar(album.title, '-')
+    year = getSubOnlyEnd(album.releaseDate, '-')
+    # retpath
+    retpath = conf.albumFolderFormat
+    if retpath is None or len(retpath) <= 0:
+        retpath = Settings.getDefualtAlbumFolderFormat()
+    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{Flag}", flag)
+    retpath = retpath.replace(R"{AlbumID}", sid)
+    retpath = retpath.replace(R"{AlbumYear}", year)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    return base + retpath
+
+def __getAlbumPath2__(conf, album):
     # outputdir/Album/artist/
     artist = replaceLimitChar(album.artists[0].name, '-')
     base = conf.downloadPath + '/Album/' + artist + '/'
@@ -121,14 +148,46 @@ def __getPlaylistPath__(conf, playlist):
     name = replaceLimitChar(playlist.title, '-')
     return base + name + '/'
 
-def __getTrackPath__(conf, track, stream, album=None, playlist=None):
+# "{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     if album is not None:
-        base = __getAlbumPath__(conf, album)
+        base = __getAlbumPath__(conf, album) + '/'
+        if album.numberOfVolumes > 1:
+            base += 'CD' + str(track.volumeNumber) + '/'
     if playlist is not None:
         base = __getPlaylistPath__(conf, playlist)
-    #CD
-    if album.numberOfVolumes > 1:
-        base += 'CD' + str(track.volumeNumber) + '/'
+    # number
+    number = __getIndexStr__(track.trackNumber)
+    if playlist is not None:
+        number = __getIndexStr__(track.trackNumberOnPlaylist)
+    # artist
+    artist = replaceLimitChar(track.artists[0].name, '-')
+    # title
+    title = track.title
+    if not isNull(track.version):
+        title += ' - ' + track.version
+    title = replaceLimitChar(title, '-')
+    # get explicit
+    explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
+    # extension
+    extension = __getExtension__(stream.url)
+    retpath = conf.trackFileFormat
+    if retpath is None or len(retpath) <= 0:
+        retpath = Settings.getDefualtTrackFileFormat()
+    retpath = retpath.replace(R"{TrackNumber}", number)
+    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{TrackTitle}", title)
+    retpath = retpath.replace(R"{ExplicitFlag}", explicit)
+    return base + retpath + extension
+
+def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
+    if album is not None:
+        base = __getAlbumPath__(conf, album)
+        if album.numberOfVolumes > 1:
+            base += 'CD' + str(track.volumeNumber) + '/'
+    if playlist is not None:
+        base = __getPlaylistPath__(conf, playlist)
+
     # hyphen
     hyphen = ' - ' if conf.addHyphen else ' '
     # get number

@@ -28,6 +28,8 @@ class LangVietnamese(object):
     SETTING_LANGUAGE = "Ngôn ngữ"
     SETTING_USE_PLAYLIST_FOLDER = "Thư mục cho danh sách phát"
     SETTING_MULITHREAD_DOWNLOAD = "Tải về đa luồng"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -63,6 +65,8 @@ class LangVietnamese(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Thêm id phía trước tên thư mục album('0'-Không,'1'-Có):"
     CHANGE_SAVE_COVERS = "Tải ảnh bìa('0'-Không,'1'-Có):"
     CHANGE_LANGUAGE = "Chọn ngôn ngữ"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
 
     MSG_INVAILD_ACCESSTOKEN = "AccessToken vô hiệu! Hãy mở lại."
     MSG_PATH_ERR = "Lỗi đường dẫn!"

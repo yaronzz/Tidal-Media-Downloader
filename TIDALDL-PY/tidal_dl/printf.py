@@ -25,7 +25,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.9.26.1'
+VERSION = '2020.10.13.0'
 
 class Printf(object):
 
@@ -54,20 +54,22 @@ class Printf(object):
         tb.align = 'l'
         tb.add_row([LANG.SETTING_DOWNLOAD_PATH, data.downloadPath])
         tb.add_row([LANG.SETTING_ONLY_M4A, data.onlyM4a])
-        tb.add_row([LANG.SETTING_ADD_EXPLICIT_TAG, data.addExplicitTag])
-        tb.add_row([LANG.SETTING_ADD_HYPHEN, data.addHyphen])
-        tb.add_row([LANG.SETTING_ADD_YEAR, data.addYear])
-        tb.add_row([LANG.SETTING_USE_TRACK_NUM, data.useTrackNumber])
+        # tb.add_row([LANG.SETTING_ADD_EXPLICIT_TAG, data.addExplicitTag])
+        # tb.add_row([LANG.SETTING_ADD_HYPHEN, data.addHyphen])
+        # tb.add_row([LANG.SETTING_ADD_YEAR, data.addYear])
+        # tb.add_row([LANG.SETTING_USE_TRACK_NUM, data.useTrackNumber])
         tb.add_row([LANG.SETTING_AUDIO_QUALITY, data.audioQuality])
         tb.add_row([LANG.SETTING_VIDEO_QUALITY, data.videoQuality])
         tb.add_row([LANG.SETTING_CHECK_EXIST, data.checkExist])
-        tb.add_row([LANG.SETTING_ARTIST_BEFORE_TITLE, data.artistBeforeTitle])
-        tb.add_row([LANG.SETTING_ALBUMID_BEFORE_FOLDER, data.addAlbumIDBeforeFolder])
+        # tb.add_row([LANG.SETTING_ARTIST_BEFORE_TITLE, data.artistBeforeTitle])
+        # tb.add_row([LANG.SETTING_ALBUMID_BEFORE_FOLDER, data.addAlbumIDBeforeFolder])
         tb.add_row([LANG.SETTING_INCLUDE_EP, data.includeEP])
         tb.add_row([LANG.SETTING_SAVE_COVERS, data.saveCovers])
         tb.add_row([LANG.SETTING_LANGUAGE, getLangName(data.language)])
         tb.add_row([LANG.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder])
         tb.add_row([LANG.SETTING_MULITHREAD_DOWNLOAD, data.multiThreadDownload])
+        tb.add_row([LANG.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat])
+        tb.add_row([LANG.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat])
         print(tb)
 
     @staticmethod

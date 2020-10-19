@@ -28,6 +28,8 @@ class LangTurkish(object):
     SETTING_LANGUAGE = "Kullanılan Lisan:"
     SETTING_USE_PLAYLIST_FOLDER = "Albümler klasör halinde indirilsin mi ?"
     SETTING_MULITHREAD_DOWNLOAD = "Şarkılar tek tek indirilsin mi?"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
 
     CHOICE = "Seçim"
     FUNCTION = "İşlemler"
@@ -63,6 +65,8 @@ class LangTurkish(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = ">>> Albüm klasörünün ismine ID eklensin mi ?('0'-Hayır,'1'-Evet): "
     CHANGE_SAVE_COVERS = ">>> Albüm kapağı indirilsin mi?('0'-Hayır,'1'-Evet): "
     CHANGE_LANGUAGE = ">>> Lisan Seç "
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
 
     MSG_INVAILD_ACCESSTOKEN = "Geçersiz AccessToken! Değiştiriniz."
     MSG_PATH_ERR = "İndirme konumu ile alakalı bir sorun var! ('storage/emulated/0/Download/' şeklinde girebilirsiniz.)"

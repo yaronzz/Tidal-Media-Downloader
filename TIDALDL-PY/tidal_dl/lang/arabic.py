@@ -28,6 +28,8 @@ class LangArabic(object):
     SETTING_LANGUAGE = "اللغة"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
 
     CHOICE = "خيار"
     FUNCTION = "وظيفة"
@@ -63,6 +65,8 @@ class LangArabic(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "اضف رقم التتبع قبل اسم مجلد الالبوم('0'-No,'1'-Yes):"
     CHANGE_SAVE_COVERS = "حفظ صورة الالبوم('0'-No,'1'-Yes):"
     CHANGE_LANGUAGE = "اختر لغة"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
 
     MSG_INVAILD_ACCESSTOKEN = "خاطئة AccessToken! الرجاء الاعادة."
     MSG_PATH_ERR = "!مجلد التنزيل خاطئ"
