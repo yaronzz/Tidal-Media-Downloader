@@ -27,7 +27,7 @@ class LangFrench(object):
     SETTING_SAVE_COVERS = "Sauvegarder les couvertures"
     SETTING_LANGUAGE = "Langue"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"

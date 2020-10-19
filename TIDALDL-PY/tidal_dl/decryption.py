@@ -6,7 +6,7 @@
 @Author  :   Yaron Huang 
 @Version :   1.0
 @Contact :   yaronhuang@qq.com
-@Desc    :   HIGH Quality Track Dectyption;File From Project 'RedSea'
+@Desc    :   HIGH Quality Track Decryption;File From Project 'RedSea'
 '''
 import base64
 
