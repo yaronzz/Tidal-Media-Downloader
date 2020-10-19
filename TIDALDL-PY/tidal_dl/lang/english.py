@@ -27,7 +27,7 @@ class LangEnglish(object):
     SETTING_SAVE_COVERS = "Save covers"
     SETTING_LANGUAGE = "Language"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
 
     CHOICE = "CHOICE"
     FUNCTION = "FUNCTION"
@@ -64,7 +64,7 @@ class LangEnglish(object):
     CHANGE_SAVE_COVERS = "Save covers('0'-No,'1'-Yes):"
     CHANGE_LANGUAGE = "Select language"
 
-    MSG_INVAILD_ACCESSTOKEN = "Invaild AccessToken! Please reset."
+    MSG_INVAILD_ACCESSTOKEN = "Invalid AccessToken! Please reset."
     MSG_PATH_ERR = "Path is error!"
     MSG_INPUT_ERR = "Input error!"
 

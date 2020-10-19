@@ -27,7 +27,7 @@ class LangRussian(object):
     SETTING_SAVE_COVERS = "Добавлять обложку"
     SETTING_LANGUAGE = "Язык"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
