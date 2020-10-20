@@ -27,7 +27,7 @@ class LangFilipino(object):
     SETTING_SAVE_COVERS = "I-save ang mga cover"
     SETTING_LANGUAGE = "Lenggwahe"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit thread download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
 
