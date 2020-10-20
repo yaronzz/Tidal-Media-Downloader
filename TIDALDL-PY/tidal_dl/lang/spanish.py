@@ -5,8 +5,8 @@
 @Time    :   2020/08/21
 @Author  :   JavierSC
 @Version :   1.0
-@Contact :   
-@Desc    :   
+@Contact :
+@Desc    :
 '''
 
 class LangSpanish(object):
@@ -49,7 +49,7 @@ class LangSpanish(object):
     PRINT_LATEST_VERSION = "Ultima versión:"
     PRINT_USERNAME = "nombre de usuario:"
     PRINT_PASSWORD = "contraseña:"
-    
+
     CHANGE_START_SETTINGS = "Iniciar ajustes('0'-Volver,'1'-Si):"
     CHANGE_DOWNLOAD_PATH = "Ruta de descarga('0' No modificar):"
     CHANGE_AUDIO_QUALITY = "Calidad de audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
