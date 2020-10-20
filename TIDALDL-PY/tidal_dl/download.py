@@ -169,6 +169,9 @@ def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     title = replaceLimitChar(title, '-')
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
+        #album and addyear
+    albumname = replaceLimitChar(album.title, '-')
+    year = getSubOnlyEnd(album.releaseDate, '-')
     # extension
     extension = __getExtension__(stream.url)
     retpath = conf.trackFileFormat
@@ -178,6 +181,8 @@ def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{ArtistName}", artist)
     retpath = retpath.replace(R"{TrackTitle}", title)
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
+    retpath = retpath.replace(R"{AlbumYear}", year)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname)
     return base + retpath + extension
 
 def __getTrackPath2__(conf, track, stream, album=None, playlist=None):

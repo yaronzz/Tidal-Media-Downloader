@@ -7,6 +7,7 @@ USE  pip3 install tidal-dl --upgrade
 - add version to the file name
   
 - [x] Settings: album folder format、track file format
+- [x] Support language: german
 
 #### v2020-09-26
 - [x] Fix: download video failed. Resolution parse error.
