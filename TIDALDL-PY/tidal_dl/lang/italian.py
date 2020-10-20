@@ -30,6 +30,7 @@ class LangItalian(object):
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "SCELTA"
     FUNCTION = "FUNZIONE"
@@ -67,6 +68,7 @@ class LangItalian(object):
     CHANGE_LANGUAGE = "Selezionare lingua"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "AccessToken non valido! Per favore reimpostare."
     MSG_PATH_ERR = "Percorso errato!"

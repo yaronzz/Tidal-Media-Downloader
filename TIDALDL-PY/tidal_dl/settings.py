@@ -74,6 +74,7 @@ class Settings(object):
     multiThreadDownload = True
     albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
     trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+    showProgress = True
 
     @staticmethod
     def getDefualtAlbumFolderFormat():
@@ -94,6 +95,10 @@ class Settings(object):
         ret.videoQuality = Settings.getVideoQuality(ret.videoQuality)
         ret.usePlaylistFolder = ret.usePlaylistFolder == True or ret.usePlaylistFolder is None
         ret.multiThreadDownload = ret.multiThreadDownload == True or ret.multiThreadDownload is None
+        if ret.albumFolderFormat is None:
+            ret.albumFolderFormat = Settings.getDefualtAlbumFolderFormat()
+        if ret.trackFileFormat is None:
+            ret.trackFileFormat = Settings.getDefualtTrackFileFormat()
         return ret
 
     @staticmethod

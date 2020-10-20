@@ -30,6 +30,7 @@ class LangArabic(object):
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "خيار"
     FUNCTION = "وظيفة"
@@ -67,6 +68,7 @@ class LangArabic(object):
     CHANGE_LANGUAGE = "اختر لغة"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "خاطئة AccessToken! الرجاء الاعادة."
     MSG_PATH_ERR = "!مجلد التنزيل خاطئ"

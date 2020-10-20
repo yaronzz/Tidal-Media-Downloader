@@ -105,7 +105,7 @@ def __getAlbumPath__(conf:Settings, album):
     if not isNull(flag):
         flag = "[" + flag + "] "
         
-    sid = str(album.id) if conf.addAlbumIDBeforeFolder else ""
+    sid = str(album.id)
     #album and addyear
     albumname = replaceLimitChar(album.title, '-')
     year = getSubOnlyEnd(album.releaseDate, '-')
@@ -280,9 +280,9 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
 
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
         if conf.multiThreadDownload:
-            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
+            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         else:
-            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=True)
+            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         if not check:
             Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
             return

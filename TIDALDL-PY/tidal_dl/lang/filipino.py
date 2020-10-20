@@ -30,6 +30,7 @@ class LangFilipino(object):
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "PAGPIPILIAN"
     FUNCTION = "SILBI"
@@ -67,6 +68,7 @@ class LangFilipino(object):
     CHANGE_LANGUAGE = "Pumili ng lenggwahe"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Hindi wasto ang AccessToken! Mangyaring i-reset."
     MSG_PATH_ERR = "May error sa paroroonan ng download!"

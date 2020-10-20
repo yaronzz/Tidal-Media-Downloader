@@ -30,6 +30,7 @@ class LangTurkish(object):
     SETTING_MULITHREAD_DOWNLOAD = "Şarkılar tek tek indirilsin mi?"
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "Seçim"
     FUNCTION = "İşlemler"
@@ -67,6 +68,7 @@ class LangTurkish(object):
     CHANGE_LANGUAGE = ">>> Lisan Seç "
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Geçersiz AccessToken! Değiştiriniz."
     MSG_PATH_ERR = "İndirme konumu ile alakalı bir sorun var! ('storage/emulated/0/Download/' şeklinde girebilirsiniz.)"
