@@ -83,6 +83,7 @@ def checkLogin():
         mag, check = API.loginByAccessToken(USER.assesstoken)
         if check == False:
             Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
+            USER.assesstoken = ""
     if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
         USER.sessionid1 = ""
     if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
@@ -181,7 +182,7 @@ def changeSettings():
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v", ["help", "output=","link=","version"]) 
+        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v:u:p:a:q:r", ["help", "output=","link=","version","username","password","accessToken","quality","resolution"]) 
         link = None
         for opt, val in opts:
             if opt in ('-h', '--help'):
@@ -194,6 +195,20 @@ def mainCommand():
                 link = val
             if opt in ('-o', '--output'):
                 CONF.downloadPath = val
+            if opt in ('-u', '--username'):
+                USER.username = val
+                UserSettings.save(USER)
+            if opt in ('-p', '--password'):
+                USER.password = val
+                UserSettings.save(USER)
+            if opt in ('-a', '--accessToken'):
+                USER.assesstoken = val
+                UserSettings.save(USER)
+            if opt in ('-q', '--quality'):
+                CONF.audioQuality = Settings.getAudioQuality(val)
+            if opt in ('-r', '--resolution'):
+                CONF.videoQuality = Settings.getVideoQuality(val)
+                
         if link is None:
             Printf.err("Please enter the link(url/id/path)! Enter 'tidal-dl -h' for help!");
             return
@@ -243,3 +258,4 @@ if __name__ == "__main__":
     # test example
     # track 70973230 
     # video 155608351
+    # album 58138532  77803199  21993753   79151897  56288918

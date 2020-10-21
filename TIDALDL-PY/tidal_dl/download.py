@@ -63,9 +63,20 @@ def __getArtists__(array):
         ret.append(item.name)
     return ret
 
+def __parseContributors__(roleType, Contributors):
+    if Contributors is None:
+        return None
+    try:
+        ret = []
+        for item in Contributors['items']:
+            if item['role'] == roleType:
+                ret.append(item['name'])
+        return ret
+    except:
+        return None
 
 
-def __setMetaData__(track, album, filepath):
+def __setMetaData__(track, album, filepath, contributors):
     obj = TagTool(filepath)
     obj.album = track.album.title
     obj.title = track.title
@@ -73,6 +84,7 @@ def __setMetaData__(track, album, filepath):
     obj.copyright = track.copyRight
     obj.tracknumber = track.trackNumber
     obj.discnumber = track.volumeNumber
+    obj.composer = __parseContributors__('Composer', contributors)
     obj.isrc = track.isrc
     obj.albumartist = __getArtists__(album.artists)
     obj.date = album.releaseDate
@@ -165,7 +177,7 @@ def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     # title
     title = track.title
     if not isNull(track.version):
-        title += ' - ' + track.version
+        title += ' (' + track.version + ')'
     title = replaceLimitChar(title, '-')
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
@@ -295,7 +307,10 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
             os.remove(path +'.part')
 
         path = __convertToM4a__(path, stream.codec)
-        __setMetaData__(track, album, path)
+
+        # contributors
+        contributors = API.getTrackContributors(track.id)
+        __setMetaData__(track, album, path, contributors)
         Printf.success(getFileName(path))
     except Exception as e:
         Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
@@ -339,8 +354,8 @@ def __video__(conf, obj):
     __downloadVideo__(conf, obj, obj.album)
 
 def __artist__(conf, obj):
-    Printf.artist(obj)
     msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
+    Printf.artist(obj, len(albums))
     if not isNull(msg):
         Printf.err(msg)
         return

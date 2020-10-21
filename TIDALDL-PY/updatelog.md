@@ -2,13 +2,13 @@ TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
 - refresh token
-- add year before or after the album folder
-- add tag composer
-- add version to the file name
   
+#### v2020-10-22
 - [x] Settings: album folder format、track file format
 - [x] Settings: show progress
 - [x] Support language: german
+- [x] Tag: composer
+- [X] Add command opts: username\password\accessToken\quality\resolution 
 
 #### v2020-09-26
 - [x] Fix: download video failed. Resolution parse error.

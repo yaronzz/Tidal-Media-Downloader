@@ -12,6 +12,7 @@ import prettytable
 from aigpy.cmdHelper import red, green, blue, yellow, myprint, myinput, TextColor
 from tidal_dl.lang.language import getLangName, getLang
 from tidal_dl.settings import Settings
+from tidal_dl.model import Album, Track, Video, Playlist, Artist
 
 __LOGO__ = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -25,7 +26,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.10.13.0'
+VERSION = '2020.10.22.0'
 
 class Printf(object):
 
@@ -44,6 +45,11 @@ class Printf(object):
         tb.add_row(["-v or --version", "show version"])
         tb.add_row(["-o or --output", "download path"])
         tb.add_row(["-l or --link", "url/id/filePath"])
+        tb.add_row(["-q or --quality", "track quality('0'-Normal,'1'-High,'2'-HiFi,'3'-Master)"])
+        tb.add_row(["-r or --resolution", "video resolution('0'-1080,'1'-720,'2'-480,'3'-360)"])
+        tb.add_row(["-u or --username", "account-email"])
+        tb.add_row(["-p or --password", "account-password"])
+        tb.add_row(["-a or --accessToken", "account-accessToken"])
         print(tb)
 
     @staticmethod
@@ -111,12 +117,13 @@ class Printf(object):
         print(green(LANG.PRINT_SUCCESS + " ") + string)
 
     @staticmethod
-    def album(data):
+    def album(data: Album):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [green(LANG.MODEL_ALBUM_PROPERTY), green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
+        tb.add_row(["ID", data.id])
         tb.add_row([LANG.MODEL_TRACK_NUMBER, data.numberOfTracks])
         tb.add_row([LANG.MODEL_VIDEO_NUMBER, data.numberOfVideos])
         tb.add_row([LANG.MODEL_RELEASE_DATE, data.releaseDate])
@@ -125,12 +132,13 @@ class Printf(object):
         print(tb)
 
     @staticmethod
-    def track(data):
+    def track(data:Track):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [green(LANG.MODEL_TRACK_PROPERTY), green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
+        tb.add_row(["ID", data.id])
         tb.add_row([LANG.MODEL_ALBUM, data.album.title])
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
@@ -149,13 +157,14 @@ class Printf(object):
         print(tb)
 
     @staticmethod
-    def artist(data):
+    def artist(data:Artist, num):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [green(LANG.MODEL_ARTIST_PROPERTY), green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_ID, data.id])
         tb.add_row([LANG.MODEL_NAME, data.name])
+        tb.add_row(["Number of albums", num])
         tb.add_row([LANG.MODEL_TYPE, str(data.type)])
         print(tb)
 

@@ -39,6 +39,7 @@ md exe
 python setup.py sdist bdist_wheel
 # creat exe file
 pyinstaller -F tidal_dl/__init__.py
+#pyinstaller -F -i ../logo.ico tidal_dl/__init__.py
 # rename exe name
 cp dist/__init__.exe exe/tidal-dl.exe
 rm dist/__init__.exe
