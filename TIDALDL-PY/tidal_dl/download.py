@@ -63,9 +63,20 @@ def __getArtists__(array):
         ret.append(item.name)
     return ret
 
+def __parseContributors__(roleType, Contributors):
+    if Contributors is None:
+        return None
+    try:
+        ret = []
+        for item in Contributors['items']:
+            if item['role'] == roleType:
+                ret.append(item['name'])
+        return ret
+    except:
+        return None
 
 
-def __setMetaData__(track, album, filepath):
+def __setMetaData__(track, album, filepath, contributors):
     obj = TagTool(filepath)
     obj.album = track.album.title
     obj.title = track.title
@@ -73,6 +84,7 @@ def __setMetaData__(track, album, filepath):
     obj.copyright = track.copyRight
     obj.tracknumber = track.trackNumber
     obj.discnumber = track.volumeNumber
+    obj.composer = __parseContributors__('Composer', contributors)
     obj.isrc = track.isrc
     obj.albumartist = __getArtists__(album.artists)
     obj.date = album.releaseDate
@@ -93,7 +105,34 @@ def __convertToM4a__(filepath, codec):
     os.rename(filepath, newpath)
     return newpath
 
-def __getAlbumPath__(conf, album):
+
+# "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
+def __getAlbumPath__(conf:Settings, album):
+    base = conf.downloadPath + '/Album/'
+    artist = replaceLimitChar(album.artists[0].name, '-')
+    #album folder pre: [ME][ID]
+    flag = API.getFlag(album, Type.Album, True, "")
+    if conf.audioQuality != AudioQuality.Master:
+        flag = flag.replace("M", "")
+    if not isNull(flag):
+        flag = "[" + flag + "] "
+        
+    sid = str(album.id)
+    #album and addyear
+    albumname = replaceLimitChar(album.title, '-')
+    year = getSubOnlyEnd(album.releaseDate, '-')
+    # retpath
+    retpath = conf.albumFolderFormat
+    if retpath is None or len(retpath) <= 0:
+        retpath = Settings.getDefualtAlbumFolderFormat()
+    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{Flag}", flag)
+    retpath = retpath.replace(R"{AlbumID}", sid)
+    retpath = retpath.replace(R"{AlbumYear}", year)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    return base + retpath
+
+def __getAlbumPath2__(conf, album):
     # outputdir/Album/artist/
     artist = replaceLimitChar(album.artists[0].name, '-')
     base = conf.downloadPath + '/Album/' + artist + '/'
@@ -121,14 +160,51 @@ def __getPlaylistPath__(conf, playlist):
     name = replaceLimitChar(playlist.title, '-')
     return base + name + '/'
 
-def __getTrackPath__(conf, track, stream, album=None, playlist=None):
+# "{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     if album is not None:
-        base = __getAlbumPath__(conf, album)
+        base = __getAlbumPath__(conf, album) + '/'
+        if album.numberOfVolumes > 1:
+            base += 'CD' + str(track.volumeNumber) + '/'
     if playlist is not None:
         base = __getPlaylistPath__(conf, playlist)
-    #CD
-    if album.numberOfVolumes > 1:
-        base += 'CD' + str(track.volumeNumber) + '/'
+    # number
+    number = __getIndexStr__(track.trackNumber)
+    if playlist is not None:
+        number = __getIndexStr__(track.trackNumberOnPlaylist)
+    # artist
+    artist = replaceLimitChar(track.artists[0].name, '-')
+    # title
+    title = track.title
+    if not isNull(track.version):
+        title += ' (' + track.version + ')'
+    title = replaceLimitChar(title, '-')
+    # get explicit
+    explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
+        #album and addyear
+    albumname = replaceLimitChar(album.title, '-')
+    year = getSubOnlyEnd(album.releaseDate, '-')
+    # extension
+    extension = __getExtension__(stream.url)
+    retpath = conf.trackFileFormat
+    if retpath is None or len(retpath) <= 0:
+        retpath = Settings.getDefualtTrackFileFormat()
+    retpath = retpath.replace(R"{TrackNumber}", number)
+    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{TrackTitle}", title)
+    retpath = retpath.replace(R"{ExplicitFlag}", explicit)
+    retpath = retpath.replace(R"{AlbumYear}", year)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    return base + retpath + extension
+
+def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
+    if album is not None:
+        base = __getAlbumPath__(conf, album)
+        if album.numberOfVolumes > 1:
+            base += 'CD' + str(track.volumeNumber) + '/'
+    if playlist is not None:
+        base = __getPlaylistPath__(conf, playlist)
+
     # hyphen
     hyphen = ' - ' if conf.addHyphen else ' '
     # get number
@@ -216,9 +292,9 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
 
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
         if conf.multiThreadDownload:
-            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=True)
+            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         else:
-            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=True)
+            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         if not check:
             Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
             return
@@ -231,7 +307,10 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
             os.remove(path +'.part')
 
         path = __convertToM4a__(path, stream.codec)
-        __setMetaData__(track, album, path)
+
+        # contributors
+        contributors = API.getTrackContributors(track.id)
+        __setMetaData__(track, album, path, contributors)
         Printf.success(getFileName(path))
     except Exception as e:
         Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
@@ -275,8 +354,8 @@ def __video__(conf, obj):
     __downloadVideo__(conf, obj, obj.album)
 
 def __artist__(conf, obj):
-    Printf.artist(obj)
     msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
+    Printf.artist(obj, len(albums))
     if not isNull(msg):
         Printf.err(msg)
         return

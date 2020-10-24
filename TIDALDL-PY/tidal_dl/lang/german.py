@@ -27,7 +27,10 @@ class LangGerman(object):
     SETTING_SAVE_COVERS = "Cover speichern"
     SETTING_LANGUAGE = "Sprache"
     SETTING_USE_PLAYLIST_FOLDER = "Playlist-Ordner verwenden"
-    SETTING_MULITHREAD_DOWNLOAD = "Mulit-Thread-Download"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi-Thread-Download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "AUSWAHL"
     FUNCTION = "FUNKTION"
@@ -63,6 +66,9 @@ class LangGerman(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "ID vor Album-Ordner hinzufügen ('0'-Nein,'1'-Ja):"
     CHANGE_SAVE_COVERS = "Cover speichern ('0'-Nein,'1'-Ja):"
     CHANGE_LANGUAGE = "Sprache auswählen"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Ungültiger AccessToken! Bitte zurücksetzen."
     MSG_PATH_ERR = "Path is error!"

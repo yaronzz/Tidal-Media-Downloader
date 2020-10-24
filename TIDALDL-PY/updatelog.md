@@ -1,6 +1,15 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- refresh token
+  
+#### v2020-10-22
+- [x] Settings: album folder format、track file format
+- [x] Settings: show progress
+- [x] Support language: german
+- [x] Tag: composer
+- [X] Add command opts: username\password\accessToken\quality\resolution 
+
 #### v2020-09-26
 - [x] Fix: download video failed. Resolution parse error.
 - [x] Windows: auto get accessToken from tidaldesktop cache

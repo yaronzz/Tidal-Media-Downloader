@@ -39,6 +39,7 @@ md exe
 python setup.py sdist bdist_wheel
 # creat exe file
 pyinstaller -F tidal_dl/__init__.py
+#pyinstaller -F -i ../logo.ico tidal_dl/__init__.py
 # rename exe name
 cp dist/__init__.exe exe/tidal-dl.exe
 rm dist/__init__.exe
@@ -53,3 +54,11 @@ pip uninstall -y tidal-dl
 # upload
 twine upload dist/*
 
+[TEST-VERSION]
+TYPE tidal-dl
+USE  pip3 install tidal-dl --upgrade
+#### v2020-10-13 
+- [x] Settings: album folder format、track file format
+
+If there are any bugs or suggestions, please post to this link：
+https://github.com/yaronzz/Tidal-Media-Downloader/issues/491

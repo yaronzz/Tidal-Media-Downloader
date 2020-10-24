@@ -30,7 +30,9 @@
                 "--link",
                 "https://tidal.com/browse/track/153955724",
                 "-o",
-                "G://"
+                "./download/",
+                "-q",
+                "0"
             ]
         },
         {
@@ -42,7 +44,8 @@
             "pythonPath": "python.exe",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
-            }
+            },
+            "justMyCode": false
 
         }
     ]

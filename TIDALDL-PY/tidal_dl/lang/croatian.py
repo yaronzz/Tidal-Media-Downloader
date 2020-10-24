@@ -29,6 +29,9 @@ class LangCroatian(object):
     SETTING_LANGUAGE = "Jezik"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "ODABIR"
     FUNCTION = "FUNKCIJA"
@@ -64,6 +67,9 @@ class LangCroatian(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Dodaj ID oznaku prije imena albuma u datoteci('0'-Ne,'1'-Da):"
     CHANGE_SAVE_COVERS = "Spremi ilustracije albuma('0'-Ne,'1'-Da):"
     CHANGE_LANGUAGE = "Odaberi jezik"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Nevazeci AccessToken! Molim da ga resetirate."
     MSG_PATH_ERR = "Pogreska putanje!"

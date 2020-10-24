@@ -28,6 +28,9 @@ class LangFrench(object):
     SETTING_LANGUAGE = "Langue"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"
@@ -63,6 +66,9 @@ class LangFrench(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Ajouter un identifiant avant le dossier album('0'-Non,'1'-Oui):"
     CHANGE_SAVE_COVERS = "Sauvegarder les couvertures('0'-Non,'1'-Oui):"
     CHANGE_LANGUAGE = "Sélectionnez une langue"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Jeton d'accès disponible ! Veuillez recommencer."
     MSG_PATH_ERR = "L'emplacement est faux"

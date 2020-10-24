@@ -28,6 +28,9 @@ class LangCzech(object):
     SETTING_LANGUAGE = "Změna jazyka"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
@@ -63,6 +66,9 @@ class LangCzech(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Přidat ID před složku do alba('0'-Ne,'1'-Ano):"
     CHANGE_SAVE_COVERS = "Uložit obaly alb('0'-Ne,'1'-Ano):"
     CHANGE_LANGUAGE = "Zvolit jazyk"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVAILD_ACCESSTOKEN = "Neplatný přístupový token! Prosím restartujte aplikaci."
     MSG_PATH_ERR = "Cesta neexistuje!"

@@ -83,6 +83,7 @@ def checkLogin():
         mag, check = API.loginByAccessToken(USER.assesstoken)
         if check == False:
             Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
+            USER.assesstoken = ""
     if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
         USER.sessionid1 = ""
     if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
@@ -151,17 +152,29 @@ def changeSettings():
             CONF.videoQuality = VideoQuality.P360
         break
     CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
-    CONF.addExplicitTag = Printf.enter(LANG.CHANGE_ADD_EXPLICIT_TAG) == '1'
-    CONF.addHyphen = Printf.enter(LANG.CHANGE_ADD_HYPHEN) == '1'
-    CONF.addYear = Printf.enter(LANG.CHANGE_ADD_YEAR) == '1'
-    CONF.useTrackNumber = Printf.enter(LANG.CHANGE_USE_TRACK_NUM) == '1'
+    # CONF.addExplicitTag = Printf.enter(LANG.CHANGE_ADD_EXPLICIT_TAG) == '1'
+    # CONF.addHyphen = Printf.enter(LANG.CHANGE_ADD_HYPHEN) == '1'
+    # CONF.addYear = Printf.enter(LANG.CHANGE_ADD_YEAR) == '1'
+    # CONF.useTrackNumber = Printf.enter(LANG.CHANGE_USE_TRACK_NUM) == '1'
     CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
-    CONF.artistBeforeTitle = Printf.enter(LANG.CHANGE_ARTIST_BEFORE_TITLE) == '1'
+    # CONF.artistBeforeTitle = Printf.enter(LANG.CHANGE_ARTIST_BEFORE_TITLE) == '1'
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
-    CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
+    # CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
+    CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE +
-                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese,'11'-Ukrainian,'12'-Vietnamese,'13'-French, '14'-German):")
+                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese,'11'-Ukrainian,'12'-Vietnamese,'13'-French,'14'-German):")
+    albumFolderFormat = Printf.enter(LANG.CHANGE_ALBUM_FOLDER_FORMAT)
+    if albumFolderFormat == '0':
+        albumFolderFormat = CONF.albumFolderFormat
+    else:
+        CONF.albumFolderFormat = albumFolderFormat
+    trackFileFormat = Printf.enter(LANG.CHANGE_TRACK_FILE_FORMAT)
+    if trackFileFormat == '0':
+        trackFileFormat = CONF.trackFileFormat
+    else:
+        CONF.trackFileFormat = trackFileFormat
+
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
@@ -169,7 +182,7 @@ def changeSettings():
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v", ["help", "output=","link=","version"]) 
+        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v:u:p:a:q:r", ["help", "output=","link=","version","username","password","accessToken","quality","resolution"]) 
         link = None
         for opt, val in opts:
             if opt in ('-h', '--help'):
@@ -182,6 +195,20 @@ def mainCommand():
                 link = val
             if opt in ('-o', '--output'):
                 CONF.downloadPath = val
+            if opt in ('-u', '--username'):
+                USER.username = val
+                UserSettings.save(USER)
+            if opt in ('-p', '--password'):
+                USER.password = val
+                UserSettings.save(USER)
+            if opt in ('-a', '--accessToken'):
+                USER.assesstoken = val
+                UserSettings.save(USER)
+            if opt in ('-q', '--quality'):
+                CONF.audioQuality = Settings.getAudioQuality(val)
+            if opt in ('-r', '--resolution'):
+                CONF.videoQuality = Settings.getVideoQuality(val)
+                
         if link is None:
             Printf.err("Please enter the link(url/id/path)! Enter 'tidal-dl -h' for help!");
             return
@@ -231,3 +258,4 @@ if __name__ == "__main__":
     # test example
     # track 70973230 
     # video 155608351
+    # album 58138532  77803199  21993753   79151897  56288918

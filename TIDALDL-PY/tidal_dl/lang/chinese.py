@@ -28,6 +28,9 @@ class LangChinese(object):
     SETTING_LANGUAGE = "语言"
     SETTING_USE_PLAYLIST_FOLDER = "将歌单下载到歌单目录"
     SETTING_MULITHREAD_DOWNLOAD = "多线程下载"
+    SETTING_ALBUM_FOLDER_FORMAT = "专辑目录格式"
+    SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
+    SETTING_SHOW_PROGRESS = "显示进度条"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -63,6 +66,9 @@ class LangChinese(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "专辑目录前添加ID('0'-不,'1'-是):"
     CHANGE_SAVE_COVERS = "保存封面('0'-不,'1'-是):"
     CHANGE_LANGUAGE = "选择语言"
+    CHANGE_ALBUM_FOLDER_FORMAT = "专辑目录格式('0' 不修改):"
+    CHANGE_TRACK_FILE_FORMAT = "歌曲文件名格式('0' 不修改):"
+    CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"
 
     MSG_INVAILD_ACCESSTOKEN = "无效的 AccessToken! 请重新设置."
     MSG_PATH_ERR = "路径错误!"

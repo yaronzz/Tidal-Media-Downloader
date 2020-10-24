@@ -28,6 +28,9 @@ class LangPortuguese(object):
     SETTING_LANGUAGE = "idioma"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
     SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
 
     CHOICE = "ESCOLHER"
     FUNCTION = "FUNÇÃO"
@@ -63,6 +66,9 @@ class LangPortuguese(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Adicionar id antes no nome da pasta do álbum('0'-Não,'1'-Sim):"
     CHANGE_SAVE_COVERS = "Salvar Capas('0'-Não,'1'-Sim):"
     CHANGE_LANGUAGE = "Selecionar idioma"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
     MSG_INVALIDO_ACESSOTOKEN = "AcessoToken Inválido! Tente novamente."
     MSG_PATH_ERR = "Erro no local de salvamento dos arquivos!"

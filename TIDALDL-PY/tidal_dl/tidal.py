@@ -245,7 +245,13 @@ class TidalAPI(object):
                 index = len(array) - 1
             return "", array[index]
         return "Can't get the streamUrl, type is " + resp.manifestMimeType, None
-        
+    
+    def getTrackContributors(self, id):
+        msg, data = self.__get__('tracks/' + str(id) + "/contributors")
+        if msg is not None:
+            return msg, None
+        return None,data
+
     def getCoverUrl(self, sid, width="320", height="320"):
         if sid is None or sid == "":
             return None
@@ -354,7 +360,7 @@ class TidalAPI(object):
             path = os.getenv("APPDATA") + "\\TIDAL\\Logs\\app.log"
             content = self.getFileContent(path.replace("\\","/"))
             if content == "":
-                return None
+                return rets
             array = content.split("[info] - Session was changed")
             for item in array:
                 try:
