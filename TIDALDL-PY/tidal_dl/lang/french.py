@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   french.py
-@Time    :   2020/09/07
-@Author  :   flamme-demon
-@Version :   0.2
+@Time    :   2020/10/25
+@Authors :   flamme-demon & joyel24
+@Version :   0.3
 @Contact :   
 @Desc    :   
 '''
@@ -26,7 +26,7 @@ class LangFrench(object):
     SETTING_INCLUDE_EP = "Inclure les singles & EPs"
     SETTING_SAVE_COVERS = "Sauvegarder les couvertures"
     SETTING_LANGUAGE = "Langue"
-    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_USE_PLAYLIST_FOLDER = "Utiliser dossier de playlist"
     SETTING_MULITHREAD_DOWNLOAD = "Téléchargement multithread"
     SETTING_ALBUM_FOLDER_FORMAT = "Format du dossier d'album"
     SETTING_TRACK_FILE_FORMAT = "Format du fichier de tracklist"
