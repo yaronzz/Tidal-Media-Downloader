@@ -64,3 +64,86 @@
 TIDALDL-PY/__pycache__/setup.cpython-37.pyc
 .gitignore
 .gitignore
+/TIDALDL-PY/settings.json
+/TIDALDL-PY/usersettings.json
+/TIDALDL-PY/__init__.spec
+TIDALDL-PY/tidal_dl/lang/__pycache__/__init__.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/arabic.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/chinese.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/czech.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/english.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/filipino.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/italian.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/language.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/russian.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/turkish.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/__init__.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/__main__.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/cmdHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/configHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/convertHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/ffmpegHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/fileHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/httpHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/logHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/m3u8Helper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/mathHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/netHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/pathHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/pipHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/progressHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/serverHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/stringHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/systemHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/tagHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/threadHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/updateHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/versionHelper.cpython-37.pyc
+TIDALDL-PY-原/build/__main__/aigpy-2020.7.3.0-py3.7.egg/aigpy/__pycache__/zipHelper.cpython-37.pyc
+/TIDALDL-PY-原
+/TIDALDL-UI-原
+/TIDALDL-PY/download
+TIDALDL-PY/tidal_dl/lang/__pycache__/croatian.cpython-37.pyc
+TIDALDL-PY/tidal_dl/lang/__pycache__/spanish.cpython-37.pyc
+TIDALDL-PY/tidal_dl_test.egg-info/dependency_links.txt
+TIDALDL-PY/tidal_dl_test.egg-info/entry_points.txt
+TIDALDL-PY/tidal_dl_test.egg-info/PKG-INFO
+TIDALDL-PY/tidal_dl_test.egg-info/requires.txt
+TIDALDL-PY/tidal_dl_test.egg-info/SOURCES.txt
+TIDALDL-PY/tidal_dl_test.egg-info/top_level.txt
+TIDALDL-PY/downloadd/Album/Capital Cities/[E] Solarize/01 - Space.flac.part
+TIDALDL-PY/downloadd/Album/Capital Cities/[E] Solarize/cover.jpg
+TIDALDL-PY/downloadd/Album/Capital Cities/[E] Solarize/01 - Space.flac.part
+TIDALDL-PY/downloadd/Album/Capital Cities/[E] Solarize/cover.jpg
+TIDALDL-PY/tidal_dl/lang/__pycache__/ukrainian.cpython-37.pyc
+/TIDALDL-PY/tidal_dl/lang/__pycache__
+/旧版备份
+/usersettings.json
+/settings.json
+/download
+download/Album/Ed Sheeran/÷ (Deluxe)/05 - Perfect.flac
+download/Album/Ed Sheeran/÷ (Deluxe)/cover.jpg
+download/Album/Ed Sheeran/÷ (Deluxe)/Tmp0/1.part
+download/Album/Ed Sheeran/÷ (Deluxe)/Tmp0/5.part
+download/Album/Ed Sheeran/÷ (Deluxe)/Tmp0/9.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/0.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/1.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/3.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/4.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/5.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/6.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/7.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/9.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/10.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/11.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/12.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/13.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/14.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/15.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/16.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/17.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/18.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/19.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/20.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/21.part
+download/Playlist/Boy Bands- K-Pop Kings/Tmp0/22.part

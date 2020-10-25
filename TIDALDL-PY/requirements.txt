@@ -1,6 +1,4 @@
-aigpy==2020.2.28.0
-requests==2.21.0
-ffmpeg==1.4
-futures
-pycryptodome==3.7.0
-pydub==0.23.1
+prettytable==0.7.2
+requests==2.20.0
+aigpy==2020.10.9.1
+pycryptodome==3.9.8

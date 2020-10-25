@@ -1,37 +1,130 @@
-#### 2020-03-23
+TYPE tidal-dl
+USE  pip3 install tidal-dl --upgrade
+
+- refresh token
+  
+#### v2020-10-22
+- [x] Settings: album folder format、track file format
+- [x] Settings: show progress
+- [x] Support language: german
+- [x] Tag: composer
+- [X] Add command opts: username\password\accessToken\quality\resolution 
+
+#### v2020-09-26
+- [x] Fix: download video failed. Resolution parse error.
+- [x] Windows: auto get accessToken from tidaldesktop cache
+- [x] Download playlist to playlist folder
+- [x] Fix: check exist
+- [x] Support language vietnamese
+- [x] Fix: download cover error (no album-cover)
+- [x] Settings: usePlaylistFolder、 multiThreadDownload
+- [x] Support language french 
+
+#### v2020-09-06
+- usage by command: tidal-dl --help
+
+#### v2020-08-30
+- support language portuguese
+- multithreading download a track
+
+#### v2020-08-24
+- add errmessage when downloading failed
+- fix: macos - downlod failed
+
+#### v2020-08-22
+- support language spanish\croatian
+  
+#### v2020-08-21
+- fix: get album path
+- support download by file
+- support language arabic\czech\itlian\russian\turkish\filipino
+
+#### v2020-08-20
+- fix: download playlist
+- fix: settings
+- fix: lack of multi-language module
+
+#### v2020-08-19
+- code rebuild
+- multi-language
+
+#### v2020-07-16
+- Enter 10:Set AccessToken(authorization)
+
+#### v2020-07-03
+- Add label [E] before albumtitle #264
+- Volume to CD
+- Fix bug of ssl
+
+#### v2020-06-28
+- Fix bug of download-playlist
+- ArtistName before title(settings)
+- AlbumID before AlbumFolderName(settings)
+- Add require-libs
+- Add errmessage when download err
+
+#### v2020-06-14
+- Reduce the number of logins
+- Use another login method(from Redsea)
+- Download Dolby Atmos(AC4 Codec\Low Quality\Mp4 format)
+- Download SONY_360RA(MHA1 Codec\Low Quality\Mp4 format)
+- Skip convert to mp4 if File-Codec is AC4 or MHA1
+- Fixed the bug of Download-HIRES
+
+#### v2020-05-31
+- Use CDN request
+- Fix bug of redownload(download artist-albums)
+- Add errmessage when login-err
+- Fix bug of save-cover MacOs
+
+#### v2020-05-19
+- by Command(eg. tidal-dl https://tidal.com/browse/track/70973230)
+- Add label [M] before albumtitle
+- Update token
+
+#### v2020-05-15
+- Cloud token
+
+#### v2020-05-14
+- Update token
+
+#### v2020-05-04
+- Hide password
+
+#### v2020-03-23
 - Fix downloading redirects that can be obtained through the
   /playbackinfopostpaywall method.
 - When downloading, download to a .part file, which is then
   either decrypted or renamed into place, to avoid leaving broken files.
 
-#### 2020-3-17 
+#### v2020-3-17 
 - Fix bug of download ArtistAlbum
 
-#### 2020-03-11
+#### v2020-03-11
 - Fix bug of 'Asset is not ready for playback'
 
-#### 2020-03-10
+#### v2020-03-10
 - Update token
   
-#### 2020-02-28
+#### v2020-02-28
 - Fix bug of savepath
 - Add Year: before/After
 - save covers(settings)
 - Flac: add isrc
 - Fix：no version in Tag
 
-#### 2020-02-14
+#### v2020-02-14
 - Fix bug of download track
 - ByUrl: add artist
 - ByUrl: support 'https://tidal.com/browse/'
 
-#### 2020-01-22
+#### v2020-01-22
 - Download artist album include singles(settings)
 - Download by file include artist
 - Fix english typos
 - Fix bug of tracknumber(download playlist)
 
-#### 2020-01-17
+#### v2020-01-17
 - Artists hyphen ';' to ', '
 - Fix bug of download playlist
 - Fix bug of download artwork

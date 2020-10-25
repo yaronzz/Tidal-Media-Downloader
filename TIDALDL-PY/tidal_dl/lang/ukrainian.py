@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   ukrainian.py
+@Time    :   2020/09/07
+@Author  :   Montyzzz
+@Version :   1.0
+@Contact :   ---
+@Desc    :   
+'''
+
+class LangUkrainian(object):
+    SETTING = "НАЛАШТУВАННЯ"
+    VALUE = "ЗНАЧЕННЯ"
+    SETTING_DOWNLOAD_PATH = "Шлях завантаження"
+    SETTING_ONLY_M4A = "Перетворити mp4 на m4a"
+    SETTING_ADD_EXPLICIT_TAG = "Додати тег Нецензурно"
+    SETTING_ADD_HYPHEN = "Додати дефіс"
+    SETTING_ADD_YEAR = "Додати рік перед ім'ям папки-альбому"
+    SETTING_USE_TRACK_NUM = "Додати номер треку"
+    SETTING_AUDIO_QUALITY = "Якість аудіо"
+    SETTING_VIDEO_QUALITY = "Якість відео"
+    SETTING_CHECK_EXIST = "Перевіряти наявність"
+    SETTING_ARTIST_BEFORE_TITLE = "Виконавець перед назвою треку"
+    SETTING_ALBUMID_BEFORE_FOLDER = "ID перед назвою теки"
+    SETTING_INCLUDE_EP = "Включити сингл і міньйон"
+    SETTING_SAVE_COVERS = "Зберегти обкладинки"
+    SETTING_LANGUAGE = "Мова"
+    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
+    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
+    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
+    SETTING_TRACK_FILE_FORMAT = "Track file format"
+    SETTING_SHOW_PROGRESS = "Show progress"
+
+    CHOICE = "ВИБІР"
+    FUNCTION = "ФУНКЦІЇ"
+    CHOICE_ENTER = "Ввід"
+    CHOICE_ENTER_URLID = "Ввід 'Url/ID':"
+    CHOICE_EXIT = "Вихід"
+    CHOICE_LOGIN = "Вхід"
+    CHOICE_SETTINGS = "Налаштування"
+    CHOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
+    CHOICE_DOWNLOAD_BY_URL = "Завантажити за URL-адресою або ідентифікатором"
+
+    PRINT_ERR = "[ПОМИЛКА]"
+    PRINT_INFO = "[ІНФОРМАЦІЯ]"
+    PRINT_SUCCESS = "[УСПІХ]"
+
+    PRINT_ENTER_CHOICE = "Вибір вводу:"
+    PRINT_LATEST_VERSION = "Остання версія:"
+    PRINT_USERNAME = "ім'я користувача:"
+    PRINT_PASSWORD = "пароль:"
+    
+    CHANGE_START_SETTINGS = "Налаштування запуску('0'-повернення,'1'-так):"
+    CHANGE_DOWNLOAD_PATH = "Шлях завантаження('0' не змінювати):"
+    CHANGE_AUDIO_QUALITY = "Якість аудіо('0'-Звичайна,'1'-Висока,'2'-HiFi,'3'-MQA):"
+    CHANGE_VIDEO_QUALITY = "Якість відео('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_ONLYM4A = "Перетворити mp4 на m4a('0'-Ні,'1'-Так):"
+    CHANGE_ADD_EXPLICIT_TAG = "Додати тег 'Нецензурно' ('0'-Ні,'1'-Так):"
+    CHANGE_ADD_HYPHEN = "Використати дефіс замість пробілів в іменах файлів('0'-Ні,'1'-Так):"
+    CHANGE_ADD_YEAR = "Додавати рік до назв тек альбомів ('0'-Ні,'1'-Так):"
+    CHANGE_USE_TRACK_NUM = "Додавати номер доріжки перед назвами файлів ('0'-Ні,'1'-Так):"
+    CHANGE_CHECK_EXIST = "Перевіряти наявний файл перед завантаженням треку ('0'-Ні,'1'-Так):"
+    CHANGE_ARTIST_BEFORE_TITLE = "Додати ім’я виконавця перед заголовком треку ('0'-Ні,'1'-Так):"
+    CHANGE_INCLUDE_EP = "Включати сингли та міньйони під час завантаження альбомів виконавця ('0'-Ні,'1'-Так):"
+    CHANGE_ALBUMID_BEFORE_FOLDER = "Додати ідентифікатор перед текою альбому ('0'-Ні,'1'-Так):"
+    CHANGE_SAVE_COVERS = "Зберігати обкладинки ('0'-Ні,'1'-Так):"
+    CHANGE_LANGUAGE = "Обрати мову"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+
+    MSG_INVAILD_ACCESSTOKEN = "Недійсний AccessToken! Будь ласка, перезавантажте."
+    MSG_PATH_ERR = "Невірний шлях!"
+    MSG_INPUT_ERR = "Помилка введення!"
+
+    MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
+    MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"
+    MODEL_VIDEO_PROPERTY = "VIDEO-PROPERTY"
+    MODEL_ARTIST_PROPERTY = "ARTIST-PROPERTY"
+    MODEL_PLAYLIST_PROPERTY = "PLAYLIST-PROPERTY"
+
+    MODEL_TITLE = 'Назва'
+    MODEL_TRACK_NUMBER = 'Номер доріжки'
+    MODEL_VIDEO_NUMBER = 'Номер відео'
+    MODEL_RELEASE_DATE = 'Дата релізу'
+    MODEL_VERSION = 'Версія'
+    MODEL_EXPLICIT = 'Нецензурно'
+    MODEL_ALBUM = 'Альбом'
+    MODEL_ID = 'ID'
+    MODEL_NAME = 'Ім\'я'
+    MODEL_TYPE = 'Тип'
