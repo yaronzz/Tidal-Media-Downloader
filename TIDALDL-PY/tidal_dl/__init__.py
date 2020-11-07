@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   __init__.py
-@Time    :   2020/08/15
+@Time    :   2020/11/06
 @Author  :   Yaronzz
-@Version :   1.0
+@Version :   1.1
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
@@ -57,6 +57,8 @@ def login(username="", password=""):
     USER.countryCode = API.key.countryCode
     USER.sessionid1 = API.key.sessionId
     USER.sessionid2 = api2.key.sessionId
+    USER.accessToken = API.key.accessToken
+    USER.refreshToken = API.key.refreshToken
     UserSettings.save(USER)
 
 
@@ -73,17 +75,20 @@ def setAccessToken():
             continue
         break
 
-    USER.assesstoken = token
+    USER.accessToken = token	#adjusted to match change in settings.py
     UserSettings.save(USER)
 
 
 
 def checkLogin():
-    if not isNull(USER.assesstoken):
-        mag, check = API.loginByAccessToken(USER.assesstoken)
+    if not isNull(USER.accessToken):
+        print('Checking Access Token')
+        mag, check = API.loginByAccessToken(USER.accessToken)
         if check == False:
             Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
-            USER.assesstoken = ""
+            USER.accessToken = ""
+        else:
+        	print('Good')
     if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
         USER.sessionid1 = ""
     if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
@@ -99,8 +104,8 @@ def autoGetAccessToken():
         msg, check = API.loginByAccessToken(item, USER.userid)
         if check == False:
             continue
-        if item != USER.assesstoken:
-            USER.assesstoken = item
+        if item != USER.accessToken:
+            USER.accessToken = item
             UserSettings.save(USER)
             Printf.info("Auto get accesstoken from tidal cache success!")
             return
@@ -202,7 +207,7 @@ def mainCommand():
                 USER.password = val
                 UserSettings.save(USER)
             if opt in ('-a', '--accessToken'):
-                USER.assesstoken = val
+                USER.accessToken = val
                 UserSettings.save(USER)
             if opt in ('-q', '--quality'):
                 CONF.audioQuality = Settings.getAudioQuality(val)
