@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   settings.py
-@Time    :   2020/08/15
+@Time    :   2020/11/05
 @Author  :   Yaronzz
-@Version :   1.0
+@Version :   1.1
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
@@ -36,7 +36,8 @@ class UserSettings(object):
     sessionid1 = None
     sessionid2 = None
     countryCode = None
-    assesstoken = None
+    accessToken = None	#changed from assesstoken to accessToken
+    refreshToken = None	#added
 
     @staticmethod
     def read():
