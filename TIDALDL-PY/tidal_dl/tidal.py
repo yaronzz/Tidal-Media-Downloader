@@ -32,7 +32,9 @@ class LoginKey(object):
         self.userId = ""
         self.countryCode = ""
         self.sessionId = ""
+        self.authToken = ""
         self.accessToken = ""
+        self.refreshToken = ""
 
 
 class __StreamRespon__(object):
@@ -108,13 +110,13 @@ class TidalAPI(object):
             ret.append(stream)
         return ret
 
-    def login(self, username, password, token):
+    def login(self, username, password, client_id):
         data = {
             'username': username,
             'password': password,
-            'token': token,
-            'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],
-            'client__VERSION__': __VERSION__
+            'token': client_id,
+            #'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],	//optional
+            #'client__VERSION__': __VERSION__								//optional
             }
         result = requests.post(__URL_PRE__ + 'login/username', data=data).json()
         if 'status' in result:
@@ -128,6 +130,23 @@ class TidalAPI(object):
         self.key.userId = result['userId']
         self.key.countryCode = result['countryCode']
         self.key.sessionId = result['sessionId']
+        
+        #get authToken from sessionId
+        params = {'sessionId': self.key.sessionId}
+        result = requests.get(__URL_PRE__ + 'users/{}/loginToken?countryCode={}'.format(self.key.userId, self.key.countryCode), params=params).json()
+        self.key.authToken = result['authenticationToken']
+        
+        #exchange authToken for accessToken and refreshToken
+        data = {
+            'client_id': 'aR7gUaTK1ihpXOEP',
+            'user_auth_token': self.key.authToken,
+            'grant_type': 'user_auth_token',
+            'scope': 'r_usr+w_usr+w_sub'
+            }
+        apiKey = ['aR7gUaTK1ihpXOEP', 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='] #known API key for Fire Stick HD(MQA, Dolby Vision enabled)
+        result = requests.post('https://auth.tidal.com/v1/oauth2/token', data=data, auth=(apiKey[0],apiKey[1])).json()
+        self.key.accessToken = result['access_token']
+        self.key.refreshToken = result['refresh_token']
         return None, True
     
     def loginByAccessToken(self, accessToken, userid = None):
