@@ -1,8 +1,6 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
-- refresh token
-  
 #### v2020-10-22
 - [x] Settings: album folder format、track file format
 - [x] Settings: show progress
