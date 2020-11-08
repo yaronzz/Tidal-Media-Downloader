@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   french.py
-@Time    :   2020/09/07
-@Author  :   flamme-demon
-@Version :   0.2
+@Time    :   2020/10/25
+@Authors :   flamme-demon & joyel24
+@Version :   0.3
 @Contact :   
 @Desc    :   
 '''
@@ -16,42 +16,42 @@ class LangFrench(object):
     SETTING_ONLY_M4A = "Convertir mp4 en m4a"
     SETTING_ADD_EXPLICIT_TAG = "Ajout du tag Explicit - Dossier"
     SETTING_ADD_HYPHEN = "Ajouter un trait d'union"
-    SETTING_ADD_YEAR = "Ajouter l'année avant le nom de l'album - Dosser"
-    SETTING_USE_TRACK_NUM = "Add user track number"
+    SETTING_ADD_YEAR = "Ajouter l'année avant le nom de l'album - Dossier"
+    SETTING_USE_TRACK_NUM = "Ajouter le numéro de piste de l'album"
     SETTING_AUDIO_QUALITY = "Qualité Audio"
     SETTING_VIDEO_QUALITY = "Qualité Video"
     SETTING_CHECK_EXIST = "Vérifier l'existence"
     SETTING_ARTIST_BEFORE_TITLE = "Nom de l'artiste avant le titre du morceau - Fichier"
     SETTING_ALBUMID_BEFORE_FOLDER = "Id avant le nom d'album - Dossier"
-    SETTING_INCLUDE_EP = "Inclure les single&ep"
+    SETTING_INCLUDE_EP = "Inclure les singles & EPs"
     SETTING_SAVE_COVERS = "Sauvegarder les couvertures"
     SETTING_LANGUAGE = "Langue"
-    SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
-    SETTING_MULITHREAD_DOWNLOAD = "Multi thread download"
-    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
-    SETTING_TRACK_FILE_FORMAT = "Track file format"
-    SETTING_SHOW_PROGRESS = "Show progress"
+    SETTING_USE_PLAYLIST_FOLDER = "Utiliser dossier de playlist"
+    SETTING_MULITHREAD_DOWNLOAD = "Téléchargement multithread"
+    SETTING_ALBUM_FOLDER_FORMAT = "Format du dossier d'album"
+    SETTING_TRACK_FILE_FORMAT = "Format du fichier de tracklist"
+    SETTING_SHOW_PROGRESS = "Afficher la Progression"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"
     CHOICE_ENTER = "Saisir"
     CHOICE_ENTER_URLID = "Saisir 'Url/ID':"
     CHOICE_EXIT = "Quitter"
-    CHOICE_LOGIN = "Login"
+    CHOICE_LOGIN = "Se connecter"
     CHOICE_SETTINGS = "Réglages"
-    CHOICE_SET_ACCESS_TOKEN = "Définir AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "Définir le jeton d'accès"
     CHOICE_DOWNLOAD_BY_URL = "Téléchargement par url ou id"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"
-    PRINT_SUCCESS = "[SUCCESS]"
+    PRINT_SUCCESS = "[SUCCES]"
 
     PRINT_ENTER_CHOICE = "Saisir le choix:"
     PRINT_LATEST_VERSION = "Dernière version:"
-    PRINT_USERNAME = "username:"
-    PRINT_PASSWORD = "password:"
+    PRINT_USERNAME = "Utilisateur:"
+    PRINT_PASSWORD = "Mot de passe:"
     
-    CHANGE_START_SETTINGS = "Commencer les règlages ('0'-Retour,'1'-Oui):"
+    CHANGE_START_SETTINGS = "Commencer les réglages ('0'-Retour,'1'-Oui):"
     CHANGE_DOWNLOAD_PATH = "Emplacement des téléchargements('0' ne pas modifier):"
     CHANGE_AUDIO_QUALITY = "Qualité audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
     CHANGE_VIDEO_QUALITY = "Qualité Video('0'-1080,'1'-720,'2'-480,'3'-360):"
@@ -66,19 +66,19 @@ class LangFrench(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Ajouter un identifiant avant le dossier album('0'-Non,'1'-Oui):"
     CHANGE_SAVE_COVERS = "Sauvegarder les couvertures('0'-Non,'1'-Oui):"
     CHANGE_LANGUAGE = "Sélectionnez une langue"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
-    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
-    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Format du dossier d'album('0' ne pas modifier):"
+    CHANGE_TRACK_FILE_FORMAT = "Format du fichier de tracklist('0' ne pas modifier):"
+    CHANGE_SHOW_PROGRESS = "Afficher la progression('0'-Non,'1'-Oui):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Jeton d'accès disponible ! Veuillez recommencer."
-    MSG_PATH_ERR = "L'emplacement est faux"
+    MSG_INVAILD_ACCESSTOKEN = "Jeton d'accès invalide ! Veuillez recommencer."
+    MSG_PATH_ERR = "Erreur du chemin d'accès"
     MSG_INPUT_ERR = "Erreur de saisie !"
 
-    MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
-    MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"
-    MODEL_VIDEO_PROPERTY = "VIDEO-PROPERTY"
-    MODEL_ARTIST_PROPERTY = "ARTIST-PROPERTY"
-    MODEL_PLAYLIST_PROPERTY = "PLAYLIST-PROPERTY"
+    MODEL_ALBUM_PROPERTY = "PROPRIETES-ALBUM"
+    MODEL_TRACK_PROPERTY = "PROPRIETES-PISTES-AUDIO"
+    MODEL_VIDEO_PROPERTY = "PROPRIETES-VIDEO"
+    MODEL_ARTIST_PROPERTY = "PROPRIETES-ARTISTE"
+    MODEL_PLAYLIST_PROPERTY = "PROPERTES-PLAYLIST"
 
     MODEL_TITLE = 'Titre'
     MODEL_TRACK_NUMBER = 'Numéro de piste'
