@@ -37,9 +37,9 @@ class LangVietnamese(object):
     CHOICE_ENTER = "Nhập"
     CHOICE_ENTER_URLID = "Nhập 'Url/ID':"
     CHOICE_EXIT = "Thoát"
-    CHOICE_LOGIN = "Đăng nhập"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Thiết lập"
-    CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
+    #CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
 
     PRINT_ERR = "[LỖI]"
@@ -48,8 +48,8 @@ class LangVietnamese(object):
 
     PRINT_ENTER_CHOICE = "Nhập lựa chọn:"
     PRINT_LATEST_VERSION = "Bản mới nhất:"
-    PRINT_USERNAME = "tên đăng nhập:"
-    PRINT_PASSWORD = "mật khẩu:"
+    #PRINT_USERNAME = "tên đăng nhập:"
+    #PRINT_PASSWORD = "mật khẩu:"
     
     CHANGE_START_SETTINGS = "Bắt đầu thiết lập('0'-Về,'1'-Có):"
     CHANGE_DOWNLOAD_PATH = "Đường dẫn tải về('0' không đổi):"
@@ -70,7 +70,15 @@ class LangVietnamese(object):
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken vô hiệu! Hãy mở lại."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Lỗi đường dẫn!"
     MSG_INPUT_ERR = "Lỗi nhập!"
 

@@ -28,17 +28,17 @@ from tidal_dl.decryption import decrypt_file
 API = TidalAPI()
 
 def __loadAPI__(user):
-    API.key.accessToken = user.assesstoken
+    API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    API.key.sessionId = user.sessionid1
+    #API.key.sessionId = user.sessionid1
 
 
 def __loadVideoAPI__(user):
-    API.key.accessToken = user.assesstoken
+    API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
+    #API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
 
 
 

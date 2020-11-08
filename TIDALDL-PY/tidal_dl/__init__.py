@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   __init__.py
-@Time    :   2020/08/15
+@Time    :   2020/11/06
 @Author  :   Yaronzz
-@Version :   1.0
+@Version :   2.0
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
@@ -14,6 +14,7 @@ import prettytable
 import ssl
 import sys
 import getopt
+import time
 
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
@@ -32,78 +33,85 @@ ssl._create_default_https_context = ssl._create_unverified_context
 API = TidalAPI()
 USER = UserSettings.read()
 CONF = Settings.read()
-TOKEN1, TOKEN2 = API.getToken()
 LANG = initLang(CONF.language)
 
-def login(username="", password=""):
-    while True:
-        if isNull(username) or isNull(password):
-            print("---------------" + LANG.CHOICE_LOGIN + "-----------------")
-            username = Printf.enter(LANG.PRINT_USERNAME)
-            password = Printf.enter(LANG.PRINT_PASSWORD)
-        msg, check = API.login(username, password, TOKEN1)
-        if check == False:
-            Printf.err(msg)
-            username = ""
-            password = ""
-            continue
-        api2 = TidalAPI()
-        msg, check = api2.login(username, password, TOKEN2)
-        break
+def displayTime(seconds, granularity=2):
+    result = []
+    intervals = (
+    ('weeks', 604800),
+    ('days', 86400),
+    ('hours', 3600),
+    ('minutes', 60),
+    ('seconds', 1),
+    )
+
+    for name, count in intervals:
+        value = seconds // count
+        if value:
+            seconds -= value * count
+            if value == 1:
+                name = name.rstrip('s')
+            result.append("{} {}".format(value, name))
+    return ', '.join(result[:granularity])
+
+def login():
+    print(LANG.AUTH_START_LOGIN)
+    msg, check = API.getDeviceCode()
+    if check == False:
+        Printf.err(msg)
+        return
     
-    USER.username = username
-    USER.password = password
-    USER.userid = API.key.userId
-    USER.countryCode = API.key.countryCode
-    USER.sessionid1 = API.key.sessionId
-    USER.sessionid2 = api2.key.sessionId
-    UserSettings.save(USER)
-
-
-
-def setAccessToken():
-    while True:
-        print("-------------AccessToken---------------")
-        token = Printf.enter("accessToken('0' go back):")
-        if token == '0':
-            return
-        msg, check = API.loginByAccessToken(token, USER.userid)
+    print(LANG.AUTH_LOGIN_CODE.format(API.key.userCode))
+    print(LANG.AUTH_NEXT_STEP.format(API.key.verificationUrl, displayTime(API.key.authCheckTimeout)))
+    print(LANG.AUTH_WAITING)
+    start = time.time()
+    elapsed = 0
+    while elapsed < API.key.authCheckTimeout:
+        elapsed = time.time() - start
+        msg, check = API.checkAuthStatus()
         if check == False:
+            if msg == "pending":
+                time.sleep(API.key.authCheckInterval)
+                continue
             Printf.err(msg)
-            continue
-        break
-
-    USER.assesstoken = token
-    UserSettings.save(USER)
-
-
+            break
+        if check == True:
+            Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
+            USER.userid = API.key.userId
+            USER.countryCode = API.key.countryCode
+            USER.accessToken = API.key.accessToken
+            USER.refreshToken = API.key.refreshToken
+            USER.expiresAfter = time.time() + int(API.key.expiresIn)
+            UserSettings.save(USER)
+            break
+    if elapsed >= API.key.authCheckTimeout:
+    	Printf.err(AUTH_TIMEOUT)
+    return
 
 def checkLogin():
-    if not isNull(USER.assesstoken):
-        mag, check = API.loginByAccessToken(USER.assesstoken)
-        if check == False:
-            Printf.err(LANG.MSG_INVAILD_ACCESSTOKEN)
-            USER.assesstoken = ""
-    if not isNull(USER.sessionid1) and not API.isValidSessionID(USER.userid, USER.sessionid1):
-        USER.sessionid1 = ""
-    if not isNull(USER.sessionid2) and API.isValidSessionID(USER.userid, USER.sessionid2):
-        USER.sessionid2 = ""
-    if isNull(USER.sessionid1) or isNull(USER.sessionid2):
-        login(USER.username, USER.password)
-
-def autoGetAccessToken():
-    array = API.tryGetAccessToken(USER.userid)
-    if len(array) <= 0:
-        return
-    for item in array:
-        msg, check = API.loginByAccessToken(item, USER.userid)
-        if check == False:
-            continue
-        if item != USER.assesstoken:
-            USER.assesstoken = item
-            UserSettings.save(USER)
-            Printf.info("Auto get accesstoken from tidal cache success!")
+    if not isNull(USER.accessToken):
+        #print('Checking Access Token...') #add to translations
+        msg, check = API.verifyAccessToken(USER.accessToken)
+        if check == True:
+            Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(USER.expiresAfter - time.time()))))
             return
+        else:
+            Printf.info(LANG.MSG_INVAILD_ACCESSTOKEN)
+            msg, check = API.refreshAccessToken(USER.refreshToken)
+            if check == True:
+                Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
+                USER.userid = API.key.userId
+                USER.countryCode = API.key.countryCode
+                USER.accessToken = API.key.accessToken
+                USER.expiresAfter = time.time() + int(API.key.expiresIn)
+                UserSettings.save(USER)
+                return
+            else:
+                Printf.err(msg)
+                tmp = UserSettings()	#clears saved tokens
+                UserSettings.save(tmp)
+    login()
+    return
         
 def changeSettings():
     global LANG
@@ -182,45 +190,38 @@ def changeSettings():
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ho:l:v:u:p:a:q:r", ["help", "output=","link=","version","username","password","accessToken","quality","resolution"]) 
-        link = None
-        for opt, val in opts:
-            if opt in ('-h', '--help'):
-                Printf.usage()
-                return
-            if opt in ('-v', '--version'):
-                Printf.logo()
-                return
-            if opt in ('-l', '--link'):
-                link = val
-            if opt in ('-o', '--output'):
-                CONF.downloadPath = val
-            if opt in ('-u', '--username'):
-                USER.username = val
-                UserSettings.save(USER)
-            if opt in ('-p', '--password'):
-                USER.password = val
-                UserSettings.save(USER)
-            if opt in ('-a', '--accessToken'):
-                USER.assesstoken = val
-                UserSettings.save(USER)
-            if opt in ('-q', '--quality'):
-                CONF.audioQuality = Settings.getAudioQuality(val)
-            if opt in ('-r', '--resolution'):
-                CONF.videoQuality = Settings.getVideoQuality(val)
-                
-        if link is None:
-            Printf.err("Please enter the link(url/id/path)! Enter 'tidal-dl -h' for help!");
+        opts, args = getopt.getopt(sys.argv[1:], "hvl:o:q:r:", ["help", "version", "link=", "output=", "quality", "resolution"])
+    except getopt.GetoptError as errmsg:
+        Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for useage.")
+        return
+    
+    for opt, val in opts:
+        if opt in ('-h', '--help'):
+            Printf.usage()
             return
+        if opt in ('-v', '--version'):
+            Printf.logo()
+            return
+        if opt in ('-l', '--link'):
+            checkLogin()
+            start(USER, CONF, val)
+            return
+        if opt in ('-o', '--output'):
+            CONF.downloadPath = val
+            Settings.save(CONF)
+            return
+        if opt in ('-q', '--quality'):
+            CONF.audioQuality = Settings.getAudioQuality(val)
+            Settings.save(CONF)
+            return
+        if opt in ('-r', '--resolution'):
+            CONF.videoQuality = Settings.getVideoQuality(val)
+            Settings.save(CONF)
+            return
+        
         if not mkdirs(CONF.downloadPath):
             Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
             return
-
-        checkLogin()
-        start(USER, CONF, link)
-        return
-    except getopt.GetoptError:
-        Printf.err("Argv error! Enter 'tidal -h' for help!");
 
 def main():
     if len(sys.argv) > 1:
@@ -231,7 +232,6 @@ def main():
     Printf.settings(CONF)
 
     checkLogin()
-    autoGetAccessToken()
 
     onlineVer = getLastVersion('tidal-dl')
     if not isNull(onlineVer):
@@ -245,11 +245,9 @@ def main():
         if choice == "0":
             return
         elif choice == "1":
-            login()
+            checkLogin()
         elif choice == "2":
             changeSettings()
-        elif choice == "3":
-            setAccessToken()
         else:
             start(USER, CONF, choice)
 

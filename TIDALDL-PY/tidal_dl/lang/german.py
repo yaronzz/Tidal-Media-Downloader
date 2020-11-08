@@ -37,9 +37,9 @@ class LangGerman(object):
     CHOICE_ENTER = "Mit"
     CHOICE_ENTER_URLID = "'Url/ID' eingeben:"
     CHOICE_EXIT = "Beenden"
-    CHOICE_LOGIN = "Einloggen"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Einstellungen"
-    CHOICE_SET_ACCESS_TOKEN = "AccessToken setzen"
+    #CHOICE_SET_ACCESS_TOKEN = "AccessToken setzen"
     CHOICE_DOWNLOAD_BY_URL = "Herunterladen per URL oder ID"
 
     PRINT_ERR = "[ERR]"
@@ -48,8 +48,8 @@ class LangGerman(object):
 
     PRINT_ENTER_CHOICE = "Auswahl:"
     PRINT_LATEST_VERSION = "Neueste Version:"
-    PRINT_USERNAME = "Benutzername:"
-    PRINT_PASSWORD = "Passwort:"
+    #PRINT_USERNAME = "Benutzername:"
+    #PRINT_PASSWORD = "Passwort:"
     
     CHANGE_START_SETTINGS = "Einstellungen starten ('0'-Zurück,'1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Download Pfad ('0' nicht ändern):"
@@ -70,7 +70,15 @@ class LangGerman(object):
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Ungültiger AccessToken! Bitte zurücksetzen."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Path is error!"
     MSG_INPUT_ERR = "Input error!"
 

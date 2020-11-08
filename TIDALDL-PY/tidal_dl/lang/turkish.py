@@ -37,9 +37,9 @@ class LangTurkish(object):
     CHOICE_ENTER = "Enter"
     CHOICE_ENTER_URLID = "'Url/ID' Gir:"
     CHOICE_EXIT = "Çıkış"
-    CHOICE_LOGIN = "Giriş Yap"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Ayarlar'ı Düzenle"
-    CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
+    #CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
 
     PRINT_ERR = "[HATA OLUŞTU]"
@@ -48,8 +48,8 @@ class LangTurkish(object):
 
     PRINT_ENTER_CHOICE = "Seçim Gir: "
     PRINT_LATEST_VERSION = "Güncelleme Mevcut:"
-    PRINT_USERNAME = "Kullanıcı Adı ya da Mail Adresi:"
-    PRINT_PASSWORD = "Şifre:"
+    #PRINT_USERNAME = "Kullanıcı Adı ya da Mail Adresi:"
+    #PRINT_PASSWORD = "Şifre:"
 
     CHANGE_START_SETTINGS = ">>> Ayarları düzenlemek istediğine emin misin ? ('0'-Geri Dön,'1'-Evet): "
     CHANGE_DOWNLOAD_PATH = ">>> İndirme Konumu ('0' aynı kalsın): "
@@ -70,7 +70,15 @@ class LangTurkish(object):
     CHANGE_TRACK_FILE_FORMAT = "Dosya İsmi Formatı('0' aynı kalsın):"
     CHANGE_SHOW_PROGRESS = "İndirme Çubuğu Görüntülensin mi?('0'-Hayır,'1'-Evet):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Geçersiz AccessToken! Değiştiriniz."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "İndirme konumu ile alakalı bir sorun var! ('/storage/emulated/0/Download/' şeklinde girebilirsiniz.)"
     MSG_INPUT_ERR = "Giriş Hatalı!"
 
