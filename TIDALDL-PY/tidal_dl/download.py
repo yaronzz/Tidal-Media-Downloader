@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   download.py
-@Time    :   2020/08/18
+@Time    :   2020/11/08
 @Author  :   Yaronzz
 @Version :   1.0
 @Contact :   yaronhuang@foxmail.com
@@ -114,6 +114,8 @@ def __getAlbumPath__(conf: Settings, album):
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
         flag = flag.replace("M", "")
+    if not conf.addExplicitTag:
+        flag = flag.replace("E", "")
     if not isNull(flag):
         flag = "[" + flag + "] "
         
@@ -143,6 +145,8 @@ def __getAlbumPath2__(conf, album):
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
         flag = flag.replace("M", "")
+    if not conf.addExplicitTag:
+        flag = flag.replace("E", "")
     if not isNull(flag):
         flag = "[" + flag + "] "
 
