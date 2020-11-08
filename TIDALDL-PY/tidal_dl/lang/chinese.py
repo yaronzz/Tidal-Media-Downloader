@@ -71,14 +71,14 @@ class LangChinese(object):
     CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"
 
     # {} are required in these strings
-    AUTH_START_LOGIN = "Starting login process..."
-    AUTH_LOGIN_CODE = "Your login code is {}"
-    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
-    AUTH_WAITING = "Waiting for authorization..."
-    AUTH_TIMEOUT = "Operation timed out."
+    AUTH_START_LOGIN = "开始启动登录..."
+    AUTH_LOGIN_CODE = "你的登录码为: {}"
+    AUTH_NEXT_STEP = "请打开 {} 并在 {} 之内完成操作."
+    AUTH_WAITING = "等待登录验证..."
+    AUTH_TIMEOUT = "操作超时."
     
-    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
-    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
+    MSG_VALID_ACCESSTOKEN = "AccessToken保质期为 {}."
+    MSG_INVAILD_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
     MSG_PATH_ERR = "路径错误!"
     MSG_INPUT_ERR = "输入错误!"
 

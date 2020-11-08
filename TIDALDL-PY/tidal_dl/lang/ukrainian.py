@@ -39,7 +39,7 @@ class LangUkrainian(object):
     CHOICE_EXIT = "Вихід"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Налаштування"
-    C#HOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
+    #CHOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Завантажити за URL-адресою або ідентифікатором"
 
     PRINT_ERR = "[ПОМИЛКА]"
