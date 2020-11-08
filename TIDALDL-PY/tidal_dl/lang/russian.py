@@ -37,9 +37,9 @@ class LangRussian(object):
     CHOICE_ENTER = "Ввод"
     CHOICE_ENTER_URLID = "Ввод 'Url/ID':"
     CHOICE_EXIT = "Выход"
-    CHOICE_LOGIN = "Вход"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Настройки"
-    CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
+    #CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
 
     PRINT_ERR = "[ОШИБКА]"
@@ -48,8 +48,8 @@ class LangRussian(object):
 
     PRINT_ENTER_CHOICE = "Выбор функции:"
     PRINT_LATEST_VERSION = "Последняя версия:"
-    PRINT_USERNAME = "Имя:"
-    PRINT_PASSWORD = "Пароль:"
+    #PRINT_USERNAME = "Имя:"
+    #PRINT_PASSWORD = "Пароль:"
     
     CHANGE_START_SETTINGS = "Начальная настройка('0'-Отмена,'1'-Да):"
     CHANGE_DOWNLOAD_PATH = "Место сохранения('0'-Отмена):"
@@ -70,7 +70,15 @@ class LangRussian(object):
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Неверный AccessToken! Перезагрузите."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Неверное место!"
     MSG_INPUT_ERR = "Ошибка ввода!"
 
