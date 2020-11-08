@@ -85,7 +85,7 @@ def login():
             UserSettings.save(USER)
             break
     if elapsed >= API.key.authCheckTimeout:
-    	Printf.err(AUTH_TIMEOUT)
+    	Printf.err(LANG.AUTH_TIMEOUT)
     return
 
 def checkLogin():
