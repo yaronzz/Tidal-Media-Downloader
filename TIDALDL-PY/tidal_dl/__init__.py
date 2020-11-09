@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   __init__.py
-@Time    :   2020/11/06
+@Time    :   2020/11/08
 @Author  :   Yaronzz
-@Version :   2.0
+@Version :   2.1
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
