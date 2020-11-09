@@ -37,9 +37,9 @@ class LangUkrainian(object):
     CHOICE_ENTER = "Ввід"
     CHOICE_ENTER_URLID = "Ввід 'Url/ID':"
     CHOICE_EXIT = "Вихід"
-    CHOICE_LOGIN = "Вхід"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Налаштування"
-    CHOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
+    #CHOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Завантажити за URL-адресою або ідентифікатором"
 
     PRINT_ERR = "[ПОМИЛКА]"
@@ -48,8 +48,8 @@ class LangUkrainian(object):
 
     PRINT_ENTER_CHOICE = "Вибір вводу:"
     PRINT_LATEST_VERSION = "Остання версія:"
-    PRINT_USERNAME = "ім'я користувача:"
-    PRINT_PASSWORD = "пароль:"
+    #PRINT_USERNAME = "ім'я користувача:"
+    #PRINT_PASSWORD = "пароль:"
     
     CHANGE_START_SETTINGS = "Налаштування запуску('0'-повернення,'1'-так):"
     CHANGE_DOWNLOAD_PATH = "Шлях завантаження('0' не змінювати):"
@@ -70,7 +70,15 @@ class LangUkrainian(object):
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Недійсний AccessToken! Будь ласка, перезавантажте."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Невірний шлях!"
     MSG_INPUT_ERR = "Помилка введення!"
 

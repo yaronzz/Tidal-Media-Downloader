@@ -37,9 +37,9 @@ class LangCzech(object):
     CHOICE_ENTER = "Enter"
     CHOICE_ENTER_URLID = "Vložit 'Url/ID':"
     CHOICE_EXIT = "Ukončit"
-    CHOICE_LOGIN = "Přihlášení"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Nastavení"
-    CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
+    #CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
     CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď url nebo id"
 
     PRINT_ERR = "[Error]"
@@ -48,8 +48,8 @@ class LangCzech(object):
 
     PRINT_ENTER_CHOICE = "Zvolit volbu:"
     PRINT_LATEST_VERSION = "Nejnovější verze:"
-    PRINT_USERNAME = "přihlašovací jméno:"
-    PRINT_PASSWORD = "heslo"
+    #PRINT_USERNAME = "přihlašovací jméno:"
+    #PRINT_PASSWORD = "heslo"
     
     CHANGE_START_SETTINGS = "Start settings('0'-Zpět,'1'-Ano):"
     CHANGE_DOWNLOAD_PATH = "Cesta stažení('0' not modify):"
@@ -70,7 +70,15 @@ class LangCzech(object):
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
 
-    MSG_INVAILD_ACCESSTOKEN = "Neplatný přístupový token! Prosím restartujte aplikaci."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "Starting login process..."
+    AUTH_LOGIN_CODE = "Your login code is {}"
+    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
+    AUTH_WAITING = "Waiting for authorization..."
+    AUTH_TIMEOUT = "Operation timed out."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
+    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Cesta neexistuje!"
     MSG_INPUT_ERR = "Chyba vstupu!"
 

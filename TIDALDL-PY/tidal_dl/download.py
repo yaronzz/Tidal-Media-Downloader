@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   download.py
-@Time    :   2020/08/18
+@Time    :   2020/11/08
 @Author  :   Yaronzz
 @Version :   1.0
 @Contact :   yaronhuang@foxmail.com
@@ -28,17 +28,17 @@ from tidal_dl.decryption import decrypt_file
 API = TidalAPI()
 
 def __loadAPI__(user):
-    API.key.accessToken = user.assesstoken
+    API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    API.key.sessionId = user.sessionid1
+    #API.key.sessionId = user.sessionid1
 
 
 def __loadVideoAPI__(user):
-    API.key.accessToken = user.assesstoken
+    API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
+    #API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
 
 
 
@@ -107,13 +107,15 @@ def __convertToM4a__(filepath, codec):
 
 
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
-def __getAlbumPath__(conf:Settings, album):
+def __getAlbumPath__(conf: Settings, album):
     base = conf.downloadPath + '/Album/'
     artist = replaceLimitChar(album.artists[0].name, '-')
-    #album folder pre: [ME][ID]
+    # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
         flag = flag.replace("M", "")
+    if not conf.addExplicitTag:
+        flag = flag.replace("E", "")
     if not isNull(flag):
         flag = "[" + flag + "] "
         
@@ -130,20 +132,24 @@ def __getAlbumPath__(conf:Settings, album):
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    retpath = retpath.strip()
     return base + retpath
+
 
 def __getAlbumPath2__(conf, album):
     # outputdir/Album/artist/
     artist = replaceLimitChar(album.artists[0].name, '-')
     base = conf.downloadPath + '/Album/' + artist + '/'
-    
-    #album folder pre: [ME][ID]
+
+    # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
-        flag = flag.replace("M","")
+        flag = flag.replace("M", "")
+    if not conf.addExplicitTag:
+        flag = flag.replace("E", "")
     if not isNull(flag):
         flag = "[" + flag + "] "
-    
+
     sid = "[" + str(album.id) + "] " if conf.addAlbumIDBeforeFolder else ""
 
     #album and addyear
@@ -153,15 +159,18 @@ def __getAlbumPath2__(conf, album):
         year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "] "
     return base + flag + sid + year + albumname + '/'
 
+
 def __getPlaylistPath__(conf, playlist):
     # outputdir/Playlist/
     base = conf.downloadPath + '/Playlist/'
-    #name
+    # name
     name = replaceLimitChar(playlist.title, '-')
     return base + name + '/'
 
 # "{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
-def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
+
+
+def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     if album is not None:
         base = __getAlbumPath__(conf, album) + '/'
         if album.numberOfVolumes > 1:
@@ -181,7 +190,7 @@ def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     title = replaceLimitChar(title, '-')
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
-        #album and addyear
+    #album and addyear
     albumname = replaceLimitChar(album.title, '-')
     year = getSubOnlyEnd(album.releaseDate, '-')
     # extension
@@ -195,7 +204,9 @@ def __getTrackPath__(conf:Settings, track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    retpath = retpath.strip()
     return base + retpath + extension
+
 
 def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
     if album is not None:
@@ -236,7 +247,7 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
         base = __getPlaylistPath__(conf, playlist)
     else:
         base = conf.downloadPath + '/Video/'
-     
+
     # hyphen
     hyphen = ' - ' if conf.addHyphen else ' '
     # get number
@@ -254,7 +265,7 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
     # extension
     extension = ".mp4"
     return base + number + artist + title + explicit + extension
-    
+
 
 def __isNeedDownload__(path, url):
     curSize = getFileSize(path)
@@ -265,6 +276,7 @@ def __isNeedDownload__(path, url):
         return False
     return True
 
+
 def __downloadVideo__(conf, video, album=None, playlist=None):
     msg, stream = API.getVideoStreamUrl(video.id, conf.videoQuality)
     if not isNull(msg):
@@ -274,7 +286,7 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
     if m3u8Helper.download(stream.m3u8Url, path):
         Printf.success(getFileName(path))
     else:
-        Printf.err("\nDownload failed!" + getFileName(path) )
+        Printf.err("\nDownload failed!" + getFileName(path))
 
 
 def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
@@ -292,7 +304,8 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
 
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
         if conf.multiThreadDownload:
-            check, err = downloadFileMultiThread(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
+            check, err = downloadFileMultiThread(stream.url, path + '.part',
+                                                 stimeout=20, showprogress=conf.showProgress)
         else:
             check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         if not check:
@@ -304,7 +317,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
         else:
             key, nonce = decrypt_security_token(stream.encryptionKey)
             decrypt_file(path + '.part', path, key, nonce)
-            os.remove(path +'.part')
+            os.remove(path + '.part')
 
         path = __convertToM4a__(path, stream.codec)
 
@@ -315,6 +328,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
     except Exception as e:
         Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
 
+
 def __downloadCover__(conf, album):
     if album == None:
         return
@@ -322,11 +336,6 @@ def __downloadCover__(conf, album):
     url = API.getCoverUrl(album.cover, "1280", "1280")
     if url is not None:
         downloadFile(url, path)
-
-
-
-
-
 
 
 def __album__(conf, obj):
@@ -342,6 +351,7 @@ def __album__(conf, obj):
     for item in videos:
         __downloadVideo__(conf, item, obj)
 
+
 def __track__(conf, obj):
     Printf.track(obj)
     msg, album = API.getAlbum(obj.album.id)
@@ -349,9 +359,11 @@ def __track__(conf, obj):
         __downloadCover__(conf, album)
     __downloadTrack__(conf, obj, album)
 
+
 def __video__(conf, obj):
     Printf.video(obj)
     __downloadVideo__(conf, obj, obj.album)
+
 
 def __artist__(conf, obj):
     msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
@@ -361,6 +373,7 @@ def __artist__(conf, obj):
         return
     for item in albums:
         __album__(conf, item)
+
 
 def __playlist__(conf, obj):
     Printf.playlist(obj)
@@ -376,6 +389,7 @@ def __playlist__(conf, obj):
     for item in videos:
         __downloadVideo__(conf, item, None)
 
+
 def __file__(user, conf, string):
     txt = getFileContent(string)
     if isNull(txt):
@@ -390,6 +404,7 @@ def __file__(user, conf, string):
         if item[0] == '[':
             continue
         start(user, conf, item)
+
 
 def start(user, conf, string):
     __loadAPI__(user)
@@ -414,6 +429,3 @@ def start(user, conf, string):
         __artist__(conf, obj)
     if etype == Type.Playlist:
         __playlist__(conf, obj)
-
-
-

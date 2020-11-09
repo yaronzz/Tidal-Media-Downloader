@@ -24,16 +24,21 @@ from tidal_dl.enum import Type, AudioQuality, VideoQuality
 
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
+__AUTH_URL__ = 'https://auth.tidal.com/v1/oauth2'
+__API_KEY__ = {'clientId': 'aR7gUaTK1ihpXOEP', 'clientSecret': 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='} #known API key for Fire Stick HD(MQA, Dolby Vision enabled)
 
 class LoginKey(object):
     def __init__(self):
-        self.username = ""
-        self.password = ""
-        self.userId = ""
-        self.countryCode = ""
-        self.sessionId = ""
-        self.accessToken = ""
-
+        self.deviceCode = None
+        self.userCode = None
+        self.verificationUrl = None
+        self.authCheckTimeout = None
+        self.authCheckInterval = None
+        self.userId = None
+        self.countryCode = None
+        self.accessToken = None
+        self.refreshToken = None
+        self.expiresIn = None
 
 class __StreamRespon__(object):
     trackid = None
@@ -53,7 +58,8 @@ class TidalAPI(object):
         self.key = LoginKey()
 
     def __get__(self, path, params={}, retry=3):
-        header = {'X-Tidal-SessionId': self.key.sessionId}
+        #deprecate the sessionId
+        #header = {'X-Tidal-SessionId': self.key.sessionId}
         if not isNull(self.key.accessToken):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
 
@@ -108,49 +114,68 @@ class TidalAPI(object):
             ret.append(stream)
         return ret
 
-    def login(self, username, password, token):
+    def getDeviceCode(self):
         data = {
-            'username': username,
-            'password': password,
-            'token': token,
-            'clientUniqueKey': str(uuid.uuid4()).replace('-', '')[16:],
-            'client__VERSION__': __VERSION__
+            'client_id': __API_KEY__['clientId'],
+            'scope': 'r_usr+w_usr+w_sub'
             }
-        result = requests.post(__URL_PRE__ + 'login/username', data=data).json()
-        if 'status' in result:
-            if 'userMessage' in result and result['userMessage'] is not None:
-                return result['userMessage'], False
-            else:
-                return "Login failed!", False
-
-        self.key.username = username
-        self.key.password = password
-        self.key.userId = result['userId']
-        self.key.countryCode = result['countryCode']
-        self.key.sessionId = result['sessionId']
+        result = requests.post(__AUTH_URL__ + '/device_authorization', data=data).json()
+        if 'status' in result and result['status'] != 200:
+            return "Device authorization failed. Please try again.", False
+        
+        self.key.deviceCode = result['deviceCode']
+        self.key.userCode = result['userCode']
+        self.key.verificationUrl = result['verificationUri']
+        self.key.authCheckTimeout = result['expiresIn']
+        self.key.authCheckInterval = result['interval']
         return None, True
     
-    def loginByAccessToken(self, accessToken, userid = None):
+    def checkAuthStatus(self):
+        data = {
+            'client_id': __API_KEY__['clientId'],
+            'device_code': self.key.deviceCode,
+            'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
+            'scope': 'r_usr+w_usr+w_sub'
+            }
+        result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
+        if 'status' in result and result['status'] != 200:
+            if result['status'] == 400 and result['sub_status'] == 1002:
+                return "pending", False
+            else:
+                return "Error while checking for authorization. Trying again...", False
+        
+        #if auth is successful:
+        self.key.userId = result['user']['userId']
+        self.key.countryCode = result['user']['countryCode']
+        self.key.accessToken = result['access_token']
+        self.key.refreshToken = result['refresh_token']
+        self.key.expiresIn = result['expires_in']
+        return None, True
+    
+    def verifyAccessToken(self, accessToken):
         header = {'authorization': 'Bearer {}'.format(accessToken)}
         result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
         if 'status' in result and result['status'] != 200:
             return "Login failed!", False
-
-        if not isNull(userid):
-            if str(result['userId']) != str(userid):
-                return "User mismatch! Please use your own accesstoken.", False
-
-        self.key.userId = result['userId']
-        self.key.countryCode = result['countryCode']
-        self.key.accessToken = accessToken
         return None, True
-
-    def isValidSessionID(self, userId, sessionId):
-        params = {'sessionId': sessionId}
-        result = requests.get(__URL_PRE__ + 'users/' + str(userId), params=params).json()
-        if 'status' in result and not result['status'] == 200:
-            return False
-        return True
+    
+    def refreshAccessToken(self, refreshToken):
+        data = {
+            'client_id': __API_KEY__['clientId'],
+            'refresh_token': refreshToken,
+            'grant_type': 'refresh_token',
+            'scope': 'r_usr+w_usr+w_sub'
+            }
+        result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
+        if 'status' in result and result['status'] != 200:
+            return "Refresh failed. Please log in again.", False
+        
+        #if auth is successful:
+        self.key.userId = result['user']['userId']
+        self.key.countryCode = result['user']['countryCode']
+        self.key.accessToken = result['access_token']
+        self.key.expiresIn = result['expires_in']
+        return None, True
 
     def getAlbum(self, id):
         msg, data = self.__get__('albums/' + str(id))
@@ -341,7 +366,8 @@ class TidalAPI(object):
         if obj.__class__ == Playlist:
             etype = Type.Playlist
         return msg, etype, obj
-
+   
+    """
     def getToken(self):
         token1 = "MbjR4DLXz1ghC4rV"    
         token2 = "pl4Vc0hemlAXD0mN"    # only lossless
@@ -353,27 +379,7 @@ class TidalAPI(object):
         except Exception as e:
             pass
         return token1,token2
-
-    def tryGetAccessToken(self, userID):
-        rets = []
-        if systemHelper.isWindows():
-            path = os.getenv("APPDATA") + "\\TIDAL\\Logs\\app.log"
-            content = self.getFileContent(path.replace("\\","/"))
-            if content == "":
-                return rets
-            array = content.split("[info] - Session was changed")
-            for item in array:
-                try:
-                    text = item.split('(')[0]
-                    ojson = json.loads(text)
-                    if "oAuthAccessToken" not in ojson:
-                        continue
-                    if ojson["userId"] != userID:
-                        continue
-                    rets.append(ojson["oAuthAccessToken"])
-                except:
-                    continue
-        return rets
+    """
 
     def getFileContent(self,path, isBin=False):
         mode = 'r'

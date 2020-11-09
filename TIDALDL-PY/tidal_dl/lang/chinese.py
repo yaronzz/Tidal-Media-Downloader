@@ -37,9 +37,9 @@ class LangChinese(object):
     CHOICE_ENTER = "输入"
     CHOICE_ENTER_URLID = "输入 'Url或ID':"
     CHOICE_EXIT = "退出"
-    CHOICE_LOGIN = "登录"
+    CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "配置"
-    CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
+    #CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
 
     PRINT_ERR = "[错误]"
@@ -48,8 +48,8 @@ class LangChinese(object):
 
     PRINT_ENTER_CHOICE = "输入选项:"
     PRINT_LATEST_VERSION = "最新版本:"
-    PRINT_USERNAME = "用户:"
-    PRINT_PASSWORD = "密码:"
+    #PRINT_USERNAME = "用户:"
+    #PRINT_PASSWORD = "密码:"
 
     CHANGE_START_SETTINGS = "开始设置('0'-返回,'1'-是):"
     CHANGE_DOWNLOAD_PATH = "下载路径('0' 不修改):"
@@ -70,7 +70,15 @@ class LangChinese(object):
     CHANGE_TRACK_FILE_FORMAT = "歌曲文件名格式('0' 不修改):"
     CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"
 
-    MSG_INVAILD_ACCESSTOKEN = "无效的 AccessToken! 请重新设置."
+    # {} are required in these strings
+    AUTH_START_LOGIN = "开始启动登录..."
+    AUTH_LOGIN_CODE = "你的登录码为: {}"
+    AUTH_NEXT_STEP = "请打开 {} 并在 {} 之内完成操作."
+    AUTH_WAITING = "等待登录验证..."
+    AUTH_TIMEOUT = "操作超时."
+    
+    MSG_VALID_ACCESSTOKEN = "AccessToken保质期为 {}."
+    MSG_INVAILD_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
     MSG_PATH_ERR = "路径错误!"
     MSG_INPUT_ERR = "输入错误!"
 
