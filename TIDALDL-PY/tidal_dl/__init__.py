@@ -22,7 +22,7 @@ from aigpy.pipHelper import getLastVersion
 from aigpy.versionHelper import cmpVersion
 
 from tidal_dl.tidal import TidalAPI
-from tidal_dl.settings import Settings, UserSettings
+from tidal_dl.settings import Settings, TokenSettings
 from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
@@ -30,10 +30,10 @@ from tidal_dl.lang.language import getLang, setLang, initLang
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-API = TidalAPI()
-USER = UserSettings.read()
-CONF = Settings.read()
-LANG = initLang(CONF.language)
+API   = TidalAPI()
+TOKEN = TokenSettings.read()
+CONF  = Settings.read()
+LANG  = initLang(CONF.language)
 
 def displayTime(seconds, granularity=2):
     result = []
@@ -77,39 +77,39 @@ def login():
             break
         if check == True:
             Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
-            USER.userid = API.key.userId
-            USER.countryCode = API.key.countryCode
-            USER.accessToken = API.key.accessToken
-            USER.refreshToken = API.key.refreshToken
-            USER.expiresAfter = time.time() + int(API.key.expiresIn)
-            UserSettings.save(USER)
+            TOKEN.userid = API.key.userId
+            TOKEN.countryCode = API.key.countryCode
+            TOKEN.accessToken = API.key.accessToken
+            TOKEN.refreshToken = API.key.refreshToken
+            TOKEN.expiresAfter = time.time() + int(API.key.expiresIn)
+            TokenSettings.save(TOKEN)
             break
     if elapsed >= API.key.authCheckTimeout:
     	Printf.err(LANG.AUTH_TIMEOUT)
     return
 
 def checkLogin():
-    if not isNull(USER.accessToken):
+    if not isNull(TOKEN.accessToken):
         #print('Checking Access Token...') #add to translations
-        msg, check = API.verifyAccessToken(USER.accessToken)
+        msg, check = API.verifyAccessToken(TOKEN.accessToken)
         if check == True:
-            Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(USER.expiresAfter - time.time()))))
+            Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(TOKEN.expiresAfter - time.time()))))
             return
         else:
             Printf.info(LANG.MSG_INVAILD_ACCESSTOKEN)
-            msg, check = API.refreshAccessToken(USER.refreshToken)
+            msg, check = API.refreshAccessToken(TOKEN.refreshToken)
             if check == True:
                 Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
-                USER.userid = API.key.userId
-                USER.countryCode = API.key.countryCode
-                USER.accessToken = API.key.accessToken
-                USER.expiresAfter = time.time() + int(API.key.expiresIn)
-                UserSettings.save(USER)
+                TOKEN.userid = API.key.userId
+                TOKEN.countryCode = API.key.countryCode
+                TOKEN.accessToken = API.key.accessToken
+                TOKEN.expiresAfter = time.time() + int(API.key.expiresIn)
+                TokenSettings.save(TOKEN)
                 return
             else:
                 Printf.err(msg)
-                tmp = UserSettings()	#clears saved tokens
-                UserSettings.save(tmp)
+                tmp = TokenSettings()	#clears saved tokens
+                TokenSettings.save(tmp)
     login()
     return
         
@@ -204,7 +204,7 @@ def mainCommand():
             return
         if opt in ('-l', '--link'):
             checkLogin()
-            start(USER, CONF, val)
+            start(TOKEN, CONF, val)
             return
         if opt in ('-o', '--output'):
             CONF.downloadPath = val
@@ -249,7 +249,7 @@ def main():
         elif choice == "2":
             changeSettings()
         else:
-            start(USER, CONF, choice)
+            start(TOKEN, CONF, choice)
 
 if __name__ == "__main__":
     main()
