@@ -2,19 +2,18 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   settings.py
-@Time    :   2020/11/05
+@Time    :   2020/11/08
 @Author  :   Yaronzz
-@Version :   1.1
+@Version :   2.0
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 import json
 import base64
+import os
 from aigpy.fileHelper import getFileContent, write
 from aigpy.modelHelper import dictToModel, modelToDict
 from tidal_dl.enum import AudioQuality, VideoQuality
-
-
 
 def __encode__(string):
     sw = bytes(string, 'utf-8')
@@ -29,7 +28,7 @@ def __decode__(string):
     except:
         return string
 
-class UserSettings(object):
+class TokenSettings(object):
     userid = None
     countryCode = None
     accessToken = None
@@ -38,20 +37,27 @@ class UserSettings(object):
 
     @staticmethod
     def read():
-        txt = getFileContent('./usersettings.json', True)
+        txt = ""
+        if "XDG_CONFIG_HOME" in os.environ:
+            txt = getFileContent(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json', True)
+        else:
+            txt = getFileContent(os.environ['HOME'] + '/.tidal-dl.token.json', True)
         if txt == "":
-            return UserSettings()
+            return TokenSettings()
         txt = __decode__(txt)
         data = json.loads(txt)
-        ret = dictToModel(data, UserSettings())
+        ret = dictToModel(data, TokenSettings())
         return ret
-    
+
     @staticmethod
     def save(model):
         data = modelToDict(model)
         txt = json.dumps(data)
         txt = __encode__(txt)
-        write('./usersettings.json', txt, 'wb')
+        if "XDG_CONFIG_HOME" in os.environ:
+            write(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json', txt, 'wb')
+        else:
+            write(os.environ['HOME'] + '/.tidal-dl.token.json', txt, 'wb')
 
 class Settings(object):
     downloadPath = "./download/"
@@ -77,14 +83,18 @@ class Settings(object):
     @staticmethod
     def getDefaultAlbumFolderFormat():
         return R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
-    
+
     @staticmethod
     def getDefaultTrackFileFormat():
         return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
 
     @staticmethod
     def read():
-        txt = getFileContent('./settings.json')
+        txt = ""
+        if "XDG_CONFIG_HOME" in os.environ:
+            txt = getFileContent(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json', True)
+        else:
+            txt = getFileContent(os.environ['HOME'] + '/.tidal-dl.json', True)
         if txt == "":
             return Settings()
         data = json.loads(txt)
@@ -106,6 +116,10 @@ class Settings(object):
         data['videoQuality'] = model.videoQuality.name
         txt = json.dumps(data)
         write('./settings.json', txt, 'w+')
+        if "XDG_CONFIG_HOME" in os.environ:
+            write(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json', txt, 'w+')
+        else:
+            write(os.environ['HOME'] + '/.tidal-dl.json', txt, 'w+')
 
     @staticmethod
     def getAudioQuality(value):
