@@ -75,11 +75,11 @@ class Settings(object):
     showProgress = True
 
     @staticmethod
-    def getDefualtAlbumFolderFormat():
+    def getDefaultAlbumFolderFormat():
         return R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
     
     @staticmethod
-    def getDefualtTrackFileFormat():
+    def getDefaultTrackFileFormat():
         return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
 
     @staticmethod
@@ -94,9 +94,9 @@ class Settings(object):
         ret.usePlaylistFolder = ret.usePlaylistFolder == True or ret.usePlaylistFolder is None
         ret.multiThreadDownload = ret.multiThreadDownload == True or ret.multiThreadDownload is None
         if ret.albumFolderFormat is None:
-            ret.albumFolderFormat = Settings.getDefualtAlbumFolderFormat()
+            ret.albumFolderFormat = Settings.getDefaultAlbumFolderFormat()
         if ret.trackFileFormat is None:
-            ret.trackFileFormat = Settings.getDefualtTrackFileFormat()
+            ret.trackFileFormat = Settings.getDefaultTrackFileFormat()
         return ret
 
     @staticmethod

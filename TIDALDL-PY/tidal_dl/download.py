@@ -126,7 +126,7 @@ def __getAlbumPath__(conf: Settings, album):
     # retpath
     retpath = conf.albumFolderFormat
     if retpath is None or len(retpath) <= 0:
-        retpath = Settings.getDefualtAlbumFolderFormat()
+        retpath = Settings.getDefaultAlbumFolderFormat()
     retpath = retpath.replace(R"{ArtistName}", artist)
     retpath = retpath.replace(R"{Flag}", flag)
     retpath = retpath.replace(R"{AlbumID}", sid)
@@ -197,7 +197,7 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     extension = __getExtension__(stream.url)
     retpath = conf.trackFileFormat
     if retpath is None or len(retpath) <= 0:
-        retpath = Settings.getDefualtTrackFileFormat()
+        retpath = Settings.getDefaultTrackFileFormat()
     retpath = retpath.replace(R"{TrackNumber}", number)
     retpath = retpath.replace(R"{ArtistName}", artist)
     retpath = retpath.replace(R"{TrackTitle}", title)
