@@ -127,18 +127,18 @@ def __getAlbumPath__(conf: Settings, album):
     retpath = conf.albumFolderFormat
     if retpath is None or len(retpath) <= 0:
         retpath = Settings.getDefaultAlbumFolderFormat()
-    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{ArtistName}", artist.strip())
     retpath = retpath.replace(R"{Flag}", flag)
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
-    retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
     retpath = retpath.strip()
     return base + retpath
 
 
 def __getAlbumPath2__(conf, album):
     # outputdir/Album/artist/
-    artist = replaceLimitChar(album.artists[0].name, '-')
+    artist = replaceLimitChar(album.artists[0].name, '-').strip()
     base = conf.downloadPath + '/Album/' + artist + '/'
 
     # album folder pre: [ME][ID]
@@ -153,7 +153,7 @@ def __getAlbumPath2__(conf, album):
     sid = "[" + str(album.id) + "] " if conf.addAlbumIDBeforeFolder else ""
 
     #album and addyear
-    albumname = replaceLimitChar(album.title, '-')
+    albumname = replaceLimitChar(album.title, '-').strip()
     year = ""
     if conf.addYear:
         year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "] "
@@ -199,11 +199,11 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     if retpath is None or len(retpath) <= 0:
         retpath = Settings.getDefaultTrackFileFormat()
     retpath = retpath.replace(R"{TrackNumber}", number)
-    retpath = retpath.replace(R"{ArtistName}", artist)
+    retpath = retpath.replace(R"{ArtistName}", artist.strip())
     retpath = retpath.replace(R"{TrackTitle}", title)
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
     retpath = retpath.replace(R"{AlbumYear}", year)
-    retpath = retpath.replace(R"{AlbumTitle}", albumname)
+    retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
     retpath = retpath.strip()
     return base + retpath + extension
 
@@ -237,7 +237,7 @@ def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
     title = replaceLimitChar(title, '-')
     # extension
     extension = __getExtension__(stream.url)
-    return base + number + artist + title + explicit + extension
+    return base + number + artist.strip() + title + explicit + extension
 
 
 def __getVideoPath__(conf, video, album=None, playlist=None):
@@ -264,7 +264,7 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
     title = replaceLimitChar(video.title, '-')
     # extension
     extension = ".mp4"
-    return base + number + artist + title + explicit + extension
+    return base + number + artist.strip() + title + explicit + extension
 
 
 def __isNeedDownload__(path, url):
