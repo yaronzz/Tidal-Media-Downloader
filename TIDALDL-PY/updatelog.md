@@ -1,6 +1,10 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [x] Chagne settings-file save path: XDG_CONFIG_HOME or HOME 
+- [x] Fix bug of multiThreadDownload 
+- [x] Choice: logout 
+
 #### v2020-11-09 
 - [x] New login-method: get the accessToken by opening the link, accessToken good for one week and auto refresh
 

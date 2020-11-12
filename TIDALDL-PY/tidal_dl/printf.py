@@ -9,7 +9,7 @@
 @Desc    :   
 '''
 import prettytable
-from aigpy.cmdHelper import red, green, blue, yellow, myprint, myinput, TextColor
+from aigpy.cmdHelper import red, green, blue, yellow, TextColor, myprint
 from tidal_dl.lang.language import getLangName, getLang
 from tidal_dl.settings import Settings
 from tidal_dl.model import Album, Track, Video, Playlist, Artist
@@ -90,6 +90,7 @@ class Printf(object):
         tb.add_row([green(LANG.CHOICE_ENTER + " '0':"), LANG.CHOICE_EXIT])
         tb.add_row([green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN])
         tb.add_row([green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
+        tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), "Logout."])
         #tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_SET_ACCESS_TOKEN])
         tb.add_row([green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
         print(tb)
@@ -98,7 +99,7 @@ class Printf(object):
     @staticmethod
     def enter(string):
         myprint(string, TextColor.Yellow, None)
-        ret = myinput("")
+        ret = input("")
         return ret
 
     @staticmethod

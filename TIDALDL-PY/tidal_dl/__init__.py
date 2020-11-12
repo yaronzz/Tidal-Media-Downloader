@@ -20,6 +20,7 @@ from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
 from aigpy.pipHelper import getLastVersion
 from aigpy.versionHelper import cmpVersion
+from aigpy.cmdHelper import red, green, blue, yellow, TextColor
 
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.settings import Settings, TokenSettings
@@ -60,9 +61,9 @@ def login():
     if check == False:
         Printf.err(msg)
         return
-    
-    print(LANG.AUTH_LOGIN_CODE.format(API.key.userCode))
-    print(LANG.AUTH_NEXT_STEP.format(API.key.verificationUrl, displayTime(API.key.authCheckTimeout)))
+
+    print(LANG.AUTH_LOGIN_CODE.format(green(API.key.userCode)))
+    print(LANG.AUTH_NEXT_STEP.format(green(API.key.verificationUrl), yellow(displayTime(API.key.authCheckTimeout))))
     print(LANG.AUTH_WAITING)
     start = time.time()
     elapsed = 0
@@ -110,6 +111,11 @@ def checkLogin():
                 Printf.err(msg)
                 tmp = TokenSettings()	#clears saved tokens
                 TokenSettings.save(tmp)
+    login()
+    return
+
+def checkLogout():
+    global LANG
     login()
     return
         
@@ -248,6 +254,8 @@ def main():
             checkLogin()
         elif choice == "2":
             changeSettings()
+        elif choice == "3":
+            checkLogout()
         else:
             start(TOKEN, CONF, choice)
 

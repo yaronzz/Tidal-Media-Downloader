@@ -8,9 +8,9 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :
 '''
+import os
 import json
 import base64
-import os
 from aigpy.fileHelper import getFileContent, write
 from aigpy.modelHelper import dictToModel, modelToDict
 from tidal_dl.enum import AudioQuality, VideoQuality
@@ -37,11 +37,8 @@ class TokenSettings(object):
 
     @staticmethod
     def read():
-        txt = ""
-        if "XDG_CONFIG_HOME" in os.environ:
-            txt = getFileContent(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json', True)
-        else:
-            txt = getFileContent(os.environ['HOME'] + '/.tidal-dl.token.json', True)
+        path = TokenSettings.__getFilePath__()
+        txt = getFileContent(path, True)
         if txt == "":
             return TokenSettings()
         txt = __decode__(txt)
@@ -54,10 +51,15 @@ class TokenSettings(object):
         data = modelToDict(model)
         txt = json.dumps(data)
         txt = __encode__(txt)
+        path = TokenSettings.__getFilePath__()
+        write(path, txt, 'wb')
+    
+    @staticmethod
+    def __getFilePath__():
         if "XDG_CONFIG_HOME" in os.environ:
-            write(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json', txt, 'wb')
-        else:
-            write(os.environ['HOME'] + '/.tidal-dl.token.json', txt, 'wb')
+            return os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json'
+        else: 
+            return os.environ['HOME'] + '/.tidal-dl.token.json'
 
 class Settings(object):
     downloadPath = "./download/"
@@ -90,11 +92,8 @@ class Settings(object):
 
     @staticmethod
     def read():
-        txt = ""
-        if "XDG_CONFIG_HOME" in os.environ:
-            txt = getFileContent(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json', True)
-        else:
-            txt = getFileContent(os.environ['HOME'] + '/.tidal-dl.json', True)
+        path = Settings.__getFilePath__()
+        txt = getFileContent(path, True)
         if txt == "":
             return Settings()
         data = json.loads(txt)
@@ -115,11 +114,8 @@ class Settings(object):
         data['audioQuality'] = model.audioQuality.name
         data['videoQuality'] = model.videoQuality.name
         txt = json.dumps(data)
-        write('./settings.json', txt, 'w+')
-        if "XDG_CONFIG_HOME" in os.environ:
-            write(os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json', txt, 'w+')
-        else:
-            write(os.environ['HOME'] + '/.tidal-dl.json', txt, 'w+')
+        path = Settings.__getFilePath__()
+        write(path, txt, 'w+')
 
     @staticmethod
     def getAudioQuality(value):
@@ -134,4 +130,11 @@ class Settings(object):
             if item.name == value:
                 return item
         return VideoQuality.P360
+    
+    @staticmethod
+    def __getFilePath__():
+        if "XDG_CONFIG_HOME" in os.environ:
+            return os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json'
+        else:
+            return os.environ['HOME'] + '/.tidal-dl.json'
 
