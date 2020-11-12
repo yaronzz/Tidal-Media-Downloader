@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   vietnamese.py
-@Time    :   2020/09/16
+@Time    :   2020/11/12
 @Author  :   MinhNgo
 @Version :   1.0
 @Contact :   iam.minhnc@outlook.com
@@ -28,16 +28,16 @@ class LangVietnamese(object):
     SETTING_LANGUAGE = "Ngôn ngữ"
     SETTING_USE_PLAYLIST_FOLDER = "Thư mục cho danh sách phát"
     SETTING_MULITHREAD_DOWNLOAD = "Tải về đa luồng"
-    SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
-    SETTING_TRACK_FILE_FORMAT = "Track file format"
-    SETTING_SHOW_PROGRESS = "Show progress"
+    SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
+    SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
+    SETTING_SHOW_PROGRESS = "Hiện tiến trình"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
     CHOICE_ENTER = "Nhập"
     CHOICE_ENTER_URLID = "Nhập 'Url/ID':"
     CHOICE_EXIT = "Thoát"
-    CHOICE_LOGIN = "Check AccessToken"
+    CHOICE_LOGIN = "Kiểm tra AccessToken"
     CHOICE_SETTINGS = "Thiết lập"
     #CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
@@ -66,19 +66,19 @@ class LangVietnamese(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Thêm id phía trước tên thư mục album('0'-Không,'1'-Có):"
     CHANGE_SAVE_COVERS = "Tải ảnh bìa('0'-Không,'1'-Có):"
     CHANGE_LANGUAGE = "Chọn ngôn ngữ"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
-    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
-    CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi):"
+    CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi):"
+    CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
 
     # {} are required in these strings
-    AUTH_START_LOGIN = "Starting login process..."
-    AUTH_LOGIN_CODE = "Your login code is {}"
-    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
-    AUTH_WAITING = "Waiting for authorization..."
-    AUTH_TIMEOUT = "Operation timed out."
+    AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."
+    AUTH_LOGIN_CODE = "Mã đăng nhập của bạn là {}"
+    AUTH_NEXT_STEP = "Vào trang {} trong vòng {} để hoàn tất thiết lập."
+    AUTH_WAITING = "Đang chờ xác minh..."
+    AUTH_TIMEOUT = "Đã vượt quá thời gian chờ."
     
-    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
-    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
+    MSG_VALID_ACCESSTOKEN = "AccessToken vẫn tốt trong {}."
+    MSG_INVAILD_ACCESSTOKEN = "AccessToken hết hạn. Đang cố gắng làm mới."
     MSG_PATH_ERR = "Lỗi đường dẫn!"
     MSG_INPUT_ERR = "Lỗi nhập!"
 
@@ -89,8 +89,8 @@ class LangVietnamese(object):
     MODEL_PLAYLIST_PROPERTY = "THÔNG TIN PLAYLIST"
 
     MODEL_TITLE = 'Tựa đề'
-    MODEL_TRACK_NUMBER = 'STT Track'
-    MODEL_VIDEO_NUMBER = 'STT Video'
+    MODEL_TRACK_NUMBER = 'Số Track'
+    MODEL_VIDEO_NUMBER = 'Số Video'
     MODEL_RELEASE_DATE = 'Ngày phát hành'
     MODEL_VERSION = 'Phiên bản'
     MODEL_EXPLICIT = 'Explicit'
