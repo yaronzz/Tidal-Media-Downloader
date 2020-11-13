@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   spanish.py
-@Time    :   2020/08/21
-@Author  :   JavierSC
-@Version :   1.0
+@Time    :   2020/11/12
+@Author  :   Frikilinux & JavierSC
+@Version :   2.0
 @Contact :
 @Desc    :
 '''
@@ -14,7 +14,7 @@ class LangSpanish(object):
     VALUE = "VALORES"
     SETTING_DOWNLOAD_PATH = "Ruta de descarga"
     SETTING_ONLY_M4A = "Convertir mp4 a m4a"
-    SETTING_ADD_EXPLICIT_TAG = "Añadir tag de 'Contenido explícito'"
+    SETTING_ADD_EXPLICIT_TAG = "Agregar etiqueta de 'Contenido explícito'"
     SETTING_ADD_HYPHEN = "Agregar guión"
     SETTING_ADD_YEAR = "Agregar año en la carpeta del álbum"
     SETTING_USE_TRACK_NUM = "Agregar número de la pista"
@@ -37,48 +37,48 @@ class LangSpanish(object):
     CHOICE_ENTER = "Ingresar"
     CHOICE_ENTER_URLID = "Ingresar 'Url/ID':"
     CHOICE_EXIT = "Salir"
-    CHOICE_LOGIN = "Check AccessToken"
+    CHOICE_LOGIN = "Verificar el token de acceso"
     CHOICE_SETTINGS = "Ajustes"
     #CHOICE_SET_ACCESS_TOKEN = "Establecer AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Descargar por Url o ID"
 
-    PRINT_ERR = "[ERR]"
+    PRINT_ERR = "[ERROR]"
     PRINT_INFO = "[INFO]"
-    PRINT_SUCCESS = "[EXITO]"
+    PRINT_SUCCESS = "[ÉXITO]"
 
     PRINT_ENTER_CHOICE = "Ingresar Selección:"
-    PRINT_LATEST_VERSION = "Ultima versión:"
+    PRINT_LATEST_VERSION = "Última versión:"
     #PRINT_USERNAME = "nombre de usuario:"
     #PRINT_PASSWORD = "contraseña:"
 
-    CHANGE_START_SETTINGS = "Iniciar ajustes('0'-Volver,'1'-Si):"
-    CHANGE_DOWNLOAD_PATH = "Ruta de descarga('0' No modificar):"
-    CHANGE_AUDIO_QUALITY = "Calidad de audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
-    CHANGE_VIDEO_QUALITY = "Calidad de video('0'-1080,'1'-720,'2'-480,'3'-360):"
-    CHANGE_ONLYM4A = "Convertir mp4 a m4a('0'-No,'1'-Si):"
-    CHANGE_ADD_EXPLICIT_TAG = "Agregar tag de contenido explícito a los nombres de archivo('0'-No,'1'-Si):"
-    CHANGE_ADD_HYPHEN = "Usar guiones en lugar de espacios en el nombre de los archivos('0'-No,'1'-Si):"
-    CHANGE_ADD_YEAR = "Agregar año a el nombre de las carpetas del álbum('0'-No,'1'-Si):"
-    CHANGE_USE_TRACK_NUM = "Agregar número de la pista('0'-No,'1'-Si):"
-    CHANGE_CHECK_EXIST = "Verificar si el archivo existe antes de descargar la pista('0'-No,'1'-Si):"
-    CHANGE_ARTIST_BEFORE_TITLE = "Añadir el nombre del artista en el título de la pista('0'-No,'1'-Si):"
-    CHANGE_INCLUDE_EP = "Incluir Sencillos y EPs al descargar el álbum del artista('0'-No,'1'-Si):"
-    CHANGE_ALBUMID_BEFORE_FOLDER = "Añadir ID de la carpeta del álbum('0'-No,'1'-Si):"
-    CHANGE_SAVE_COVERS = "Guardar carátulas('0'-No,'1'-Si):"
+    CHANGE_START_SETTINGS = "¿Iniciar ajustes? ('0'-Volver,'1'-Sí):"
+    CHANGE_DOWNLOAD_PATH = "Ruta de descarga ('0' No modificar):"
+    CHANGE_AUDIO_QUALITY = "Calidad de audio ('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_VIDEO_QUALITY = "Calidad de video ('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_ONLYM4A = "¿Convertir mp4 a m4a? ('0'-No,'1'-Sí):"
+    CHANGE_ADD_EXPLICIT_TAG = "¿Agregar etiqueta de contenido explícito a los nombres de archivo? ('0'-No,'1'-Sí):"
+    CHANGE_ADD_HYPHEN = "¿Usar guiones en lugar de espacios en el nombre de los archivos? ('0'-No,'1'-Sí):"
+    CHANGE_ADD_YEAR = "¿Agregar año a el nombre de las carpetas del álbum? ('0'-No,'1'-Sí):"
+    CHANGE_USE_TRACK_NUM = "¿Agregar número de la pista? ('0'-No,'1'-Sí):"
+    CHANGE_CHECK_EXIST = "¿Verificar si el archivo existe antes de descargar la pista? ('0'-No,'1'-Sí):"
+    CHANGE_ARTIST_BEFORE_TITLE = "¿Añadir el nombre del artista en el título de la pista? ('0'-No,'1'-Sí):"
+    CHANGE_INCLUDE_EP = "¿Incluir Sencillos y EPs al descargar el álbum del artista? ('0'-No,'1'-Sí):"
+    CHANGE_ALBUMID_BEFORE_FOLDER = "¿Añadir ID de la carpeta del álbum? ('0'-No,'1'-Sí):"
+    CHANGE_SAVE_COVERS = "¿Guardar carátulas?('0'-No,'1'-Sí):"
     CHANGE_LANGUAGE = "Seleccione el idioma"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum('0' No modificar):"
-    CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista('0' No modificar):"
-    CHANGE_SHOW_PROGRESS = "Mostrar progreso('0'-No,'1'-Yes):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
+    CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
+    CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
 
     # {} are required in these strings
-    AUTH_START_LOGIN = "Starting login process..."
-    AUTH_LOGIN_CODE = "Your login code is {}"
-    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
-    AUTH_WAITING = "Waiting for authorization..."
-    AUTH_TIMEOUT = "Operation timed out."
-    
-    MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
-    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
+    AUTH_START_LOGIN = "Iniciando sesión..."
+    AUTH_LOGIN_CODE = "Su código para autorizar la sesión es {}"
+    AUTH_NEXT_STEP = "Diríjase a {} en los próximos {} para completar la autorización."
+    AUTH_WAITING = "Esperando la autorización..."
+    AUTH_TIMEOUT = "Se superó el tiempo de espera."
+
+    MSG_VALID_ACCESSTOKEN = "Token de acceso válido por {}."
+    MSG_INVAILD_ACCESSTOKEN = "El token de acceso ha expirado. Tratando de renovarlo."
     MSG_PATH_ERR = "La ruta no es correcta!"
     MSG_INPUT_ERR = "Error de entrada!"
 
@@ -89,8 +89,8 @@ class LangSpanish(object):
     MODEL_PLAYLIST_PROPERTY = "PROPIEDAD-DE-PLAYLIST"
 
     MODEL_TITLE = 'Título'
-    MODEL_TRACK_NUMBER = 'Numero de pista'
-    MODEL_VIDEO_NUMBER = 'Numero de video'
+    MODEL_TRACK_NUMBER = 'Numero de pistas'
+    MODEL_VIDEO_NUMBER = 'Numero de videos'
     MODEL_RELEASE_DATE = 'Fecha de lanzamiento'
     MODEL_VERSION = 'Versión'
     MODEL_EXPLICIT = 'Explícito'
