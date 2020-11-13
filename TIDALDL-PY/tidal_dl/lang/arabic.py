@@ -41,6 +41,7 @@ class LangArabic(object):
     CHOICE_SETTINGS = "الاعدادات"
     #CHOICE_SET_ACCESS_TOKEN = "اعداد AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "التحميل عبر الرابط او رقم التتبع"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[خطأ]"
     PRINT_INFO = "[معلومة]"

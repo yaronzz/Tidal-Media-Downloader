@@ -129,7 +129,7 @@ class TidalAPI(object):
         self.key.authCheckTimeout = result['expiresIn']
         self.key.authCheckInterval = result['interval']
         return None, True
-    
+        
     def checkAuthStatus(self):
         data = {
             'client_id': __API_KEY__['clientId'],

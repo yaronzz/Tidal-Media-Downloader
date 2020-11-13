@@ -41,6 +41,7 @@ class LangFilipino(object):
     CHOICE_SETTINGS = "Settings"
     #CHOICE_SET_ACCESS_TOKEN = "I-set ang AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Mag download gamit ang url o id"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"

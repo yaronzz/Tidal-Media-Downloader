@@ -41,6 +41,7 @@ class LangItalian(object):
     CHOICE_SETTINGS = "Impostazioni"
     #CHOICE_SET_ACCESS_TOKEN = "Imposta AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Scarica per URL o Id"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"

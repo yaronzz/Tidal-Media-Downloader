@@ -41,6 +41,7 @@ class LangTurkish(object):
     CHOICE_SETTINGS = "Ayarlar'ı Düzenle"
     #CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[HATA OLUŞTU]"
     PRINT_INFO = "[BİLGİ]"

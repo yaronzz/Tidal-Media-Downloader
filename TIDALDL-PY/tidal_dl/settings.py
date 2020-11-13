@@ -28,6 +28,12 @@ def __decode__(string):
     except:
         return string
 
+def getSettingsPath():
+    if "XDG_CONFIG_HOME" in os.environ:
+        return os.environ['XDG_CONFIG_HOME']
+    else: 
+        return os.environ['HOME']
+
 class TokenSettings(object):
     userid = None
     countryCode = None
@@ -56,10 +62,7 @@ class TokenSettings(object):
     
     @staticmethod
     def __getFilePath__():
-        if "XDG_CONFIG_HOME" in os.environ:
-            return os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.token.json'
-        else: 
-            return os.environ['HOME'] + '/.tidal-dl.token.json'
+        return getSettingsPath() + '/.tidal-dl.token.json'
 
 class Settings(object):
     downloadPath = "./download/"
@@ -133,8 +136,5 @@ class Settings(object):
     
     @staticmethod
     def __getFilePath__():
-        if "XDG_CONFIG_HOME" in os.environ:
-            return os.environ['XDG_CONFIG_HOME'] + '/.tidal-dl.json'
-        else:
-            return os.environ['HOME'] + '/.tidal-dl.json'
+        return getSettingsPath() + '/.tidal-dl.json'
 

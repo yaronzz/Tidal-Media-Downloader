@@ -1,7 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
-- [x] Chagne settings-file save path: XDG_CONFIG_HOME or HOME 
+#### v2020-11-13
+- [x] Change settings-file save path: XDG_CONFIG_HOME or HOME 
 - [x] Fix bug of multiThreadDownload 
 - [x] Choice: logout 
 
@@ -17,7 +18,7 @@ USE  pip3 install tidal-dl --upgrade
 
 #### v2020-09-26
 - [x] Fix: download video failed. Resolution parse error.
-- [x] Windows: auto get accessToken from tidaldesktop cache
+- [x] Windows: auto get accessToken from tidal-desktop cache
 - [x] Download playlist to playlist folder
 - [x] Fix: check exist
 - [x] Support language vietnamese
@@ -34,7 +35,7 @@ USE  pip3 install tidal-dl --upgrade
 
 #### v2020-08-24
 - add errmessage when downloading failed
-- fix: macos - downlod failed
+- fix: macos - download failed
 
 #### v2020-08-22
 - support language spanish\croatian

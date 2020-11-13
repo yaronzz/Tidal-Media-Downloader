@@ -41,6 +41,7 @@ class LangEnglish(object):
     CHOICE_SETTINGS = "Settings"
     #CHOICE_SET_ACCESS_TOKEN = "Set AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Download by url or id"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"

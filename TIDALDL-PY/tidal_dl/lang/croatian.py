@@ -1,5 +1,4 @@
  #!/usr/bin/env python
-
 # -*- encoding: utf-8 -*-
 '''
 @File    :   croatian.py
@@ -42,6 +41,7 @@ class LangCroatian(object):
     CHOICE_SETTINGS = "Postavke"
     #CHOICE_SET_ACCESS_TOKEN = "Postavi AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Preuzmi po url-u ili ID-u"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"

@@ -41,6 +41,7 @@ class LangUkrainian(object):
     CHOICE_SETTINGS = "Налаштування"
     #CHOICE_SET_ACCESS_TOKEN = "Застосувати AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Завантажити за URL-адресою або ідентифікатором"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ПОМИЛКА]"
     PRINT_INFO = "[ІНФОРМАЦІЯ]"

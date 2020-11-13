@@ -11,7 +11,7 @@
 import prettytable
 from aigpy.cmdHelper import red, green, blue, yellow, TextColor, myprint
 from tidal_dl.lang.language import getLangName, getLang
-from tidal_dl.settings import Settings
+from tidal_dl.settings import Settings, getSettingsPath
 from tidal_dl.model import Album, Track, Video, Playlist, Artist
 
 __LOGO__ = '''
@@ -26,7 +26,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.11.09.0'
+VERSION = '2020.11.13.0'
 
 class Printf(object):
 
@@ -58,6 +58,7 @@ class Printf(object):
         tb = prettytable.PrettyTable()
         tb.field_names = [green(LANG.SETTING), green(LANG.VALUE)]
         tb.align = 'l'
+        tb.add_row(["Settings path", getSettingsPath()])
         tb.add_row([LANG.SETTING_DOWNLOAD_PATH, data.downloadPath])
         tb.add_row([LANG.SETTING_ONLY_M4A, data.onlyM4a])
         # tb.add_row([LANG.SETTING_ADD_EXPLICIT_TAG, data.addExplicitTag])
@@ -90,7 +91,7 @@ class Printf(object):
         tb.add_row([green(LANG.CHOICE_ENTER + " '0':"), LANG.CHOICE_EXIT])
         tb.add_row([green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN])
         tb.add_row([green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
-        tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), "Logout."])
+        tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_LOGOUT])
         #tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_SET_ACCESS_TOKEN])
         tb.add_row([green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
         print(tb)

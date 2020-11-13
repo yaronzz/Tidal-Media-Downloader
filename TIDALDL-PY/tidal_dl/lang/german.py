@@ -41,6 +41,7 @@ class LangGerman(object):
     CHOICE_SETTINGS = "Einstellungen"
     #CHOICE_SET_ACCESS_TOKEN = "AccessToken setzen"
     CHOICE_DOWNLOAD_BY_URL = "Herunterladen per URL oder ID"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"

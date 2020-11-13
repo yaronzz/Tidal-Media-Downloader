@@ -41,6 +41,7 @@ class LangChinese(object):
     CHOICE_SETTINGS = "配置"
     #CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
+    CHOICE_LOGOUT = "注销"
 
     PRINT_ERR = "[错误]"
     PRINT_INFO = "[提示]"

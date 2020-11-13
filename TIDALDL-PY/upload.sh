@@ -53,9 +53,3 @@ pip uninstall -y tidal-dl
 
 # upload
 twine upload dist/*
-
-[TEST-VERSION]
-TYPE tidal-dl
-USE  pip3 install tidal-dl --upgrade
-#### v2020-11-09 
-- [x] New login-method: get the accessToken by opening the link, accessToken good for one week and auto refresh

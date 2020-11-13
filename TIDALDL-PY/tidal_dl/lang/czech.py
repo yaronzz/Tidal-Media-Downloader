@@ -41,6 +41,7 @@ class LangCzech(object):
     CHOICE_SETTINGS = "Nastavení"
     #CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
     CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď url nebo id"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[Error]"
     PRINT_INFO = "[Info]"

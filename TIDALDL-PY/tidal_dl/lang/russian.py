@@ -41,6 +41,7 @@ class LangRussian(object):
     CHOICE_SETTINGS = "Настройки"
     #CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
+    CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ОШИБКА]"
     PRINT_INFO = "[СВЕДЕНИЯ]"
