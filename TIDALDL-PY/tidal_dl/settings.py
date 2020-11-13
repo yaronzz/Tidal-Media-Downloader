@@ -31,8 +31,10 @@ def __decode__(string):
 def getSettingsPath():
     if "XDG_CONFIG_HOME" in os.environ:
         return os.environ['XDG_CONFIG_HOME']
-    else: 
+    elif "HOME" in os.environ: 
         return os.environ['HOME']
+    else:
+        return os.path._getfullpathname("./")
 
 class TokenSettings(object):
     userid = None
