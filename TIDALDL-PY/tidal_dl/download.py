@@ -122,7 +122,9 @@ def __getAlbumPath__(conf: Settings, album):
     sid = str(album.id)
     #album and addyear
     albumname = replaceLimitChar(album.title, '-')
-    year = getSubOnlyEnd(album.releaseDate, '-')
+    year = ""
+    if album.releaseDate is not None:
+        year = getSubOnlyEnd(album.releaseDate, '-')
     # retpath
     retpath = conf.albumFolderFormat
     if retpath is None or len(retpath) <= 0:
@@ -155,7 +157,7 @@ def __getAlbumPath2__(conf, album):
     #album and addyear
     albumname = replaceLimitChar(album.title, '-').strip()
     year = ""
-    if conf.addYear:
+    if conf.addYear and album.releaseDate is not None:
         year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "] "
     return base + flag + sid + year + albumname + '/'
 
@@ -192,7 +194,9 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
     #album and addyear
     albumname = replaceLimitChar(album.title, '-')
-    year = getSubOnlyEnd(album.releaseDate, '-')
+    year = ""
+    if album.releaseDate is not None:
+        year = getSubOnlyEnd(album.releaseDate, '-')
     # extension
     extension = __getExtension__(stream.url)
     retpath = conf.trackFileFormat
@@ -309,7 +313,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
         else:
             check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         if not check:
-            Printf.err("Download failed!" + getFileName(path) + ' (' + str(err) + ')')
+            Printf.err("Download failed! " + getFileName(path) + ' (' + str(err) + ')')
             return
         # encrypted -> decrypt and remove encrypted file
         if isNull(stream.encryptionKey):
@@ -326,7 +330,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
         __setMetaData__(track, album, path, contributors)
         Printf.success(getFileName(path))
     except Exception as e:
-        Printf.err("Download failed!" + track.title + ' (' + str(e) + ')')
+        Printf.err("Download failed! " + track.title + ' (' + str(e) + ')')
 
 
 def __downloadCover__(conf, album):
