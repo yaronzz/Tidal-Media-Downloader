@@ -408,24 +408,32 @@ def __file__(user, conf, string):
 
 def start(user, conf, string):
     __loadAPI__(user)
+    strings = string.split(" ")
+    if not strings:
+        msg, etype, obj = API.getByString(string)
+        if etype == Type.Null or not isNull(msg):
+            Printf.err(msg)
+            return
+    for string in strings:
+        if string == "":
+            continue
+        if os.path.exists(string):
+            __file__(user, conf, string)
+            return
 
-    if os.path.exists(string):
-        __file__(user, conf, string)
-        return
+        msg, etype, obj = API.getByString(string)
+        if etype == Type.Null or not isNull(msg):
+            Printf.err(msg)
+            return
 
-    msg, etype, obj = API.getByString(string)
-    if etype == Type.Null or not isNull(msg):
-        Printf.err(msg)
-        return
-
-    if etype == Type.Album:
-        __album__(conf, obj)
-    if etype == Type.Track:
-        __track__(conf, obj)
-    if etype == Type.Video:
-        __loadVideoAPI__(user)
-        __video__(conf, obj)
-    if etype == Type.Artist:
-        __artist__(conf, obj)
-    if etype == Type.Playlist:
-        __playlist__(conf, obj)
+        if etype == Type.Album:
+            __album__(conf, obj)
+        if etype == Type.Track:
+            __track__(conf, obj)
+        if etype == Type.Video:
+            __loadVideoAPI__(user)
+            __video__(conf, obj)
+        if etype == Type.Artist:
+            __artist__(conf, obj)
+        if etype == Type.Playlist:
+            __playlist__(conf, obj)
