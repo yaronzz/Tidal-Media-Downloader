@@ -408,22 +408,21 @@ def __file__(user, conf, string):
 
 def start(user, conf, string):
     __loadAPI__(user)
+    if isNull(string):
+        Printf.err('Please enter something.')
+        return
+
     strings = string.split(" ")
-    if not strings:
-        msg, etype, obj = API.getByString(string)
-        if etype == Type.Null or not isNull(msg):
-            Printf.err(msg)
-            return
-    for string in strings:
-        if string == "":
+    for item in strings:
+        if isNull(item):
             continue
-        if os.path.exists(string):
-            __file__(user, conf, string)
+        if os.path.exists(item):
+            __file__(user, conf, item)
             return
 
-        msg, etype, obj = API.getByString(string)
+        msg, etype, obj = API.getByString(item)
         if etype == Type.Null or not isNull(msg):
-            Printf.err(msg)
+            Printf.err(msg + " [" + item + "]")
             return
 
         if etype == Type.Album:

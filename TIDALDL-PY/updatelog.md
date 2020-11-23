@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [x] Fix bug of settings-path
+- [x] Ability to download multiple urls at a time. 
+
 #### v2020-11-13
 - [x] Change settings-file save path: XDG_CONFIG_HOME or HOME 
 - [x] Fix bug of multiThreadDownload 

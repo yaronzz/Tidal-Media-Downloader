@@ -11,7 +11,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "pythonPath": "python.exe",
+            "python": "python.exe",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
@@ -22,7 +22,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
             "console": "integratedTerminal",
-            "pythonPath": "python.exe",
+            "python": "python.exe",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
@@ -41,7 +41,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
             "console": "integratedTerminal",
-            "pythonPath": "python.exe",
+            "python": "python.exe",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
