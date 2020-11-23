@@ -412,24 +412,31 @@ def __file__(user, conf, string):
 
 def start(user, conf, string):
     __loadAPI__(user)
-
-    if os.path.exists(string):
-        __file__(user, conf, string)
+    if isNull(string):
+        Printf.err('Please enter something.')
         return
 
-    msg, etype, obj = API.getByString(string)
-    if etype == Type.Null or not isNull(msg):
-        Printf.err(msg)
-        return
+    strings = string.split(" ")
+    for item in strings:
+        if isNull(item):
+            continue
+        if os.path.exists(item):
+            __file__(user, conf, item)
+            return
 
-    if etype == Type.Album:
-        __album__(conf, obj)
-    if etype == Type.Track:
-        __track__(conf, obj)
-    if etype == Type.Video:
-        __loadVideoAPI__(user)
-        __video__(conf, obj)
-    if etype == Type.Artist:
-        __artist__(conf, obj)
-    if etype == Type.Playlist:
-        __playlist__(conf, obj)
+        msg, etype, obj = API.getByString(item)
+        if etype == Type.Null or not isNull(msg):
+            Printf.err(msg + " [" + item + "]")
+            return
+
+        if etype == Type.Album:
+            __album__(conf, obj)
+        if etype == Type.Track:
+            __track__(conf, obj)
+        if etype == Type.Video:
+            __loadVideoAPI__(user)
+            __video__(conf, obj)
+        if etype == Type.Artist:
+            __artist__(conf, obj)
+        if etype == Type.Playlist:
+            __playlist__(conf, obj)
