@@ -60,14 +60,14 @@ class LangEnglish(object):
     CHANGE_ADD_HYPHEN = "Use hyphens instead of spaces in file names('0'-No,'1'-Yes):"
     CHANGE_ADD_YEAR = "Add year to album folder names('0'-No,'1'-Yes):"
     CHANGE_USE_TRACK_NUM = "Add track number before file names('0'-No,'1'-Yes):"
-    CHANGE_CHECK_EXIST = "Check exist file befor download track('0'-No,'1'-Yes):"
+    CHANGE_CHECK_EXIST = "Check exist file before download track('0'-No,'1'-Yes):"
     CHANGE_ARTIST_BEFORE_TITLE = "Add artistName before track title('0'-No,'1'-Yes):"
     CHANGE_INCLUDE_EP = "Include singles and EPs when downloading an artist's albums('0'-No,'1'-Yes):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Add id before album folder('0'-No,'1'-Yes):"
     CHANGE_SAVE_COVERS = "Save covers('0'-No,'1'-Yes):"
     CHANGE_LANGUAGE = "Select language"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
-    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify,'default' to set default):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify,'default' to set default):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
     
     # {} are required in these strings
