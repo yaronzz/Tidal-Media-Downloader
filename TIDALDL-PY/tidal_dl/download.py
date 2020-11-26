@@ -8,7 +8,10 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+
+import csv
 import os
+from io import StringIO
 
 import aigpy.m3u8Helper as m3u8Helper
 from aigpy.tagHelper import TagTool
@@ -415,9 +418,17 @@ def start(user, conf, string):
     if isNull(string):
         Printf.err('Please enter something.')
         return
-
-    strings = string.split(" ")
-    for item in strings:
+    items = StringIO(string)
+    items = csv.reader(items, delimiter=' ')
+    for item in next(items):
+        if os.path.splitext(item)[1] == '.txt':
+            string = ""
+            with open(item.replace("\"", "")) as file:
+                lines = file.readlines()
+                for line in lines:
+                    string += line.strip() + " "
+            start(user, conf, string)
+            continue
         if isNull(item):
             continue
         if os.path.exists(item):
