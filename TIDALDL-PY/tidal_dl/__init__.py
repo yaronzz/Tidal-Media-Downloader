@@ -182,17 +182,16 @@ def changeSettings():
     if albumFolderFormat == '0' or isNull(albumFolderFormat):
         pass
     elif albumFolderFormat.lower() == 'default':
-        CONF.albumFolderFormat = Settings.getDefualtAlbumFolderFormat()
+        CONF.albumFolderFormat = Settings.getDefaultAlbumFolderFormat()
     else:
         CONF.albumFolderFormat = albumFolderFormat
     trackFileFormat = Printf.enter(LANG.CHANGE_TRACK_FILE_FORMAT)
     if trackFileFormat == '0' or isNull(trackFileFormat):
         pass
     elif trackFileFormat.lower() == "default":
-        CONF.trackFileFormat = Settings.getDefualtTrackFileFormat()
+        CONF.trackFileFormat = Settings.getDefaultAlbumFolderFormat()
     else:
         CONF.trackFileFormat = trackFileFormat
-
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
