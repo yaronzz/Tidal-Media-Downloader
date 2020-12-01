@@ -179,13 +179,17 @@ def changeSettings():
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE +
                                  "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese,'11'-Ukrainian,'12'-Vietnamese,'13'-French,'14'-German):")
     albumFolderFormat = Printf.enter(LANG.CHANGE_ALBUM_FOLDER_FORMAT)
-    if albumFolderFormat == '0':
-        albumFolderFormat = CONF.albumFolderFormat
+    if albumFolderFormat == '0' or isNull(albumFolderFormat):
+        pass
+    elif albumFolderFormat.lower() == 'default':
+        CONF.albumFolderFormat = Settings.getDefualtAlbumFolderFormat()
     else:
         CONF.albumFolderFormat = albumFolderFormat
     trackFileFormat = Printf.enter(LANG.CHANGE_TRACK_FILE_FORMAT)
-    if trackFileFormat == '0':
-        trackFileFormat = CONF.trackFileFormat
+    if trackFileFormat == '0' or isNull(trackFileFormat):
+        pass
+    elif trackFileFormat.lower() == "default":
+        CONF.trackFileFormat = Settings.getDefualtTrackFileFormat()
     else:
         CONF.trackFileFormat = trackFileFormat
 
