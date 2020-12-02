@@ -57,14 +57,14 @@ class TidalAPI(object):
     def __init__(self):
         self.key = LoginKey()
 
-    def __get__(self, path, params={}, retry=3):
+    def __get__(self, path, params={}, retry=3, urlpre=__URL_PRE__):
         #deprecate the sessionId
         #header = {'X-Tidal-SessionId': self.key.sessionId}
         if not isNull(self.key.accessToken):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
-
         params['countryCode'] = self.key.countryCode
-        result = requests.get(__URL_PRE__ + path,  headers=header, params=params).json()
+        respond = requests.get(urlpre + path,  headers=header, params=params)
+        result = respond.json()
         if 'status' in result:
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], None
@@ -196,6 +196,10 @@ class TidalAPI(object):
     def getVideo(self, id):
         msg, data = self.__get__('videos/' + str(id))
         return msg, dictToModel(data, Video())
+
+    def getLyrics(self, id):
+        msg, data = self.__get__('tracks/' + str(id) + "/lyrics")
+        return msg, data
 
     def getItems(self, id, type:Type):
         if type == Type.Playlist:

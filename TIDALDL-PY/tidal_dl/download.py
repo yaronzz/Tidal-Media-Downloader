@@ -440,3 +440,8 @@ def start(user, conf, string):
             __artist__(conf, obj)
         if etype == Type.Playlist:
             __playlist__(conf, obj)
+
+
+def test(user, conf):
+    __loadAPI__(user)
+    API.getLyrics("55172078")

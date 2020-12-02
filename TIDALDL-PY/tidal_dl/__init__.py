@@ -25,7 +25,7 @@ from aigpy.cmdHelper import red, green, blue, yellow, TextColor
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.settings import Settings, TokenSettings
 from tidal_dl.printf import Printf, VERSION
-from tidal_dl.download import start
+from tidal_dl.download import start, test
 from tidal_dl.enum import AudioQuality, VideoQuality
 from tidal_dl.lang.language import getLang, setLang, initLang
 
@@ -247,7 +247,7 @@ def main():
         icmp = cmpVersion(onlineVer, VERSION)
         if icmp > 0:
             Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
-
+            
     while True:
         Printf.choices()
         choice = Printf.enter(LANG.PRINT_ENTER_CHOICE)

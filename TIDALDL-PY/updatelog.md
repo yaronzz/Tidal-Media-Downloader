@@ -1,6 +1,7 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2020-12-01
 - [x] Fix bug of settings-path
 - [x] Ability to download multiple urls at a time. 
 
