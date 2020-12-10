@@ -105,6 +105,19 @@ def __convertToM4a__(filepath, codec):
     os.rename(filepath, newpath)
     return newpath
 
+def __stripPathParts__(stripped_path, separator):
+    result = ""
+    stripped_path = stripped_path.split(separator)
+    for stripped_path_part in stripped_path:
+        result += stripped_path_part.strip()
+        if not stripped_path.index(stripped_path_part) == len(stripped_path) - 1:
+            result += separator
+    return result.strip()
+
+def __stripPath__(path):
+    result = __stripPathParts__(path, "/")
+    result = __stripPathParts__(result, "\\")
+    return result.strip()
 
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
 def __getAlbumPath__(conf: Settings, album):
@@ -134,7 +147,7 @@ def __getAlbumPath__(conf: Settings, album):
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
-    retpath = retpath.strip()
+    retpath = __stripPath__(retpath.strip())
     return base + retpath
 
 
