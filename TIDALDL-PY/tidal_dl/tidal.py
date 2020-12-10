@@ -309,20 +309,25 @@ class TidalAPI(object):
 
     def getFlag(self, data, type : Type, short = True, separator = " / "):
         master = False
+        atmos = False
         explicit = False
         if type == Type.Album or type == Type.Track:
             if data.audioQuality == "HI_RES":
                 master = True
-            if data.explicit == True:
+            if "DOLBY_ATMOS" in data.audioModes:
+                atmos = True
+            if data.explicit is True:
                 explicit = True
         if type == Type.Video:
-            if data.explicit == True:
+            if data.explicit is True:
                 explicit = True
-        if master == False and explicit == False:
+        if not master and not atmos and not explicit:
             return ""
         array = []
         if master:
             array.append("M" if short else "Master")
+        if atmos:
+            array.append("A" if short else "Dolby Atmos")
         if explicit:
             array.append("E" if short else "Explicit")
         return separator.join(array)

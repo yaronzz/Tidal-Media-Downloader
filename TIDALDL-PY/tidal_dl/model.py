@@ -41,6 +41,7 @@ class Album(object):
     cover = None
     explicit = False
     audioQuality = None
+    audioModes = None
     artist = Artist()
     artists = Artist()
 
