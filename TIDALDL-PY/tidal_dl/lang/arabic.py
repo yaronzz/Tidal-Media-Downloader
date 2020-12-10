@@ -39,7 +39,7 @@ class LangArabic(object):
     CHOICE_EXIT = "اخرج"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "الاعدادات"
-    #CHOICE_SET_ACCESS_TOKEN = "اعداد AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "اعداد AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "التحميل عبر الرابط او رقم التتبع"
     CHOICE_LOGOUT = "Logout"
 

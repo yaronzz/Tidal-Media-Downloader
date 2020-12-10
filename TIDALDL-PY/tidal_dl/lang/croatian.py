@@ -39,7 +39,7 @@ class LangCroatian(object):
     CHOICE_EXIT = "Izlaz"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Postavke"
-    #CHOICE_SET_ACCESS_TOKEN = "Postavi AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "Postavi AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Preuzmi po url-u ili ID-u"
     CHOICE_LOGOUT = "Logout"
 

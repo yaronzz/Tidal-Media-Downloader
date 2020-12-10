@@ -39,7 +39,7 @@ class LangGerman(object):
     CHOICE_EXIT = "Beenden"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Einstellungen"
-    #CHOICE_SET_ACCESS_TOKEN = "AccessToken setzen"
+    CHOICE_SET_ACCESS_TOKEN = "AccessToken setzen"
     CHOICE_DOWNLOAD_BY_URL = "Herunterladen per URL oder ID"
     CHOICE_LOGOUT = "Logout"
 

@@ -39,7 +39,7 @@ class LangRussian(object):
     CHOICE_EXIT = "Выход"
     CHOICE_LOGIN = "Проверить AccessToken"
     CHOICE_SETTINGS = "Настройки"
-    #CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
     CHOICE_LOGOUT = "Переподключение"
 

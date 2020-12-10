@@ -37,6 +37,9 @@ CONF  = Settings.read()
 LANG  = initLang(CONF.language)
 
 def displayTime(seconds, granularity=2):
+    if seconds <= 0:
+        return "unknown"
+
     result = []
     intervals = (
     ('weeks', 604800),
@@ -88,6 +91,29 @@ def login():
     if elapsed >= API.key.authCheckTimeout:
     	Printf.err(LANG.AUTH_TIMEOUT)
     return
+
+
+def setAccessToken():
+    while True:
+        print("-------------AccessToken---------------")
+        token = Printf.enter("accessToken('0' go back):")
+        if token == '0':
+            return
+        msg, check = API.loginByAccessToken(token, TOKEN.userid)
+        if check == False:
+            Printf.err(msg)
+            continue
+        break
+
+    print("-------------RefreshToken---------------")
+    refreshToken = Printf.enter("refreshToken('0' to skip):")
+    if refreshToken == '0':
+        refreshToken = TOKEN.refreshToken
+
+    TOKEN.assesstoken = token
+    TOKEN.refreshToken = refreshToken
+    TOKEN.expiresAfter = 0
+    TokenSettings.save(TOKEN)
 
 def checkLogin():
     if not isNull(TOKEN.accessToken):
@@ -259,6 +285,8 @@ def main():
             changeSettings()
         elif choice == "3":
             checkLogout()
+        elif choice == "4":
+            setAccessToken()
         else:
             start(TOKEN, CONF, choice)
 

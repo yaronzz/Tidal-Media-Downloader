@@ -39,7 +39,7 @@ class LangVietnamese(object):
     CHOICE_EXIT = "Thoát"
     CHOICE_LOGIN = "Kiểm tra AccessToken"
     CHOICE_SETTINGS = "Thiết lập"
-    #CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
     CHOICE_LOGOUT = "Logout"
 

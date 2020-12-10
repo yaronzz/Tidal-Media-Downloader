@@ -39,7 +39,7 @@ class LangTurkish(object):
     CHOICE_EXIT = "Çıkış"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Ayarlar'ı Düzenle"
-    #CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
+    CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
     CHOICE_LOGOUT = "Logout"
 

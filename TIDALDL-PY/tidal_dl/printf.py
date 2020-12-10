@@ -26,7 +26,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.12.01.0'
+VERSION = '2020.12.10.0'
 
 class Printf(object):
 
@@ -92,7 +92,7 @@ class Printf(object):
         tb.add_row([green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN])
         tb.add_row([green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
         tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_LOGOUT])
-        #tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_SET_ACCESS_TOKEN])
+        tb.add_row([green(LANG.CHOICE_ENTER + " '4':"), LANG.CHOICE_SET_ACCESS_TOKEN])
         tb.add_row([green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
         print(tb)
         print("====================================================")
