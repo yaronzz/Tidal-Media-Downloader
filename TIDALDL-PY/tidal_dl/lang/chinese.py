@@ -39,7 +39,7 @@ class LangChinese(object):
     CHOICE_EXIT = "退出"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "配置"
-    #CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
     CHOICE_LOGOUT = "注销"
 

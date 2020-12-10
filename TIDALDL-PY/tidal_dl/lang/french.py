@@ -39,7 +39,7 @@ class LangFrench(object):
     CHOICE_EXIT = "Quitter"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Réglages"
-    #CHOICE_SET_ACCESS_TOKEN = "Définir le jeton d'accès"
+    CHOICE_SET_ACCESS_TOKEN = "Définir le jeton d'accès"
     CHOICE_DOWNLOAD_BY_URL = "Téléchargement par url ou id"
     CHOICE_LOGOUT = "Logout"
 

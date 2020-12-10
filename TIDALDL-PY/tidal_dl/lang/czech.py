@@ -39,7 +39,7 @@ class LangCzech(object):
     CHOICE_EXIT = "Ukončit"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Nastavení"
-    #CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
+    CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
     CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď url nebo id"
     CHOICE_LOGOUT = "Logout"
 

@@ -39,7 +39,7 @@ class LangEnglish(object):
     CHOICE_EXIT = "Exit"
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Settings"
-    #CHOICE_SET_ACCESS_TOKEN = "Set AccessToken"
+    CHOICE_SET_ACCESS_TOKEN = "Set AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Download by url or id"
     CHOICE_LOGOUT = "Logout"
 

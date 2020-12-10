@@ -177,6 +177,21 @@ class TidalAPI(object):
         self.key.expiresIn = result['expires_in']
         return None, True
 
+    def loginByAccessToken(self, accessToken, userid=None):
+        header = {'authorization': 'Bearer {}'.format(accessToken)}
+        result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
+        if 'status' in result and result['status'] != 200:
+            return "Login failed!", False
+
+        if not isNull(userid):
+            if str(result['userId']) != str(userid):
+                return "User mismatch! Please use your own accesstoken.", False
+
+        self.key.userId = result['userId']
+        self.key.countryCode = result['countryCode']
+        self.key.accessToken = accessToken
+        return None, True
+
     def getAlbum(self, id):
         msg, data = self.__get__('albums/' + str(id))
         return msg, dictToModel(data, Album())
