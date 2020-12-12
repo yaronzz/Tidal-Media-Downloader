@@ -215,7 +215,7 @@ def changeSettings():
     if trackFileFormat == '0' or isNull(trackFileFormat):
         pass
     elif trackFileFormat.lower() == "default":
-        CONF.trackFileFormat = Settings.getDefaultAlbumFolderFormat()
+        CONF.trackFileFormat = Settings.getDefaultTrackFileFormat()
     else:
         CONF.trackFileFormat = trackFileFormat
 
