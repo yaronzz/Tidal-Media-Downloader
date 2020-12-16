@@ -17,6 +17,7 @@ import base64
 import aigpy.stringHelper as stringHelper
 import aigpy.systemHelper as systemHelper
 import aigpy.fileHelper as fileHelper
+from requests.packages import urllib3
 from aigpy.modelHelper import dictToModel
 from aigpy.stringHelper import isNull
 from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl
@@ -26,6 +27,11 @@ __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
 __AUTH_URL__ = 'https://auth.tidal.com/v1/oauth2'
 __API_KEY__ = {'clientId': 'aR7gUaTK1ihpXOEP', 'clientSecret': 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='} #known API key for Fire Stick HD(MQA, Dolby Vision enabled)
+
+# SSL Warnings
+urllib3.disable_warnings()
+# add retry number 
+requests.adapters.DEFAULT_RETRIES = 5  
 
 class LoginKey(object):
     def __init__(self):
@@ -40,7 +46,7 @@ class LoginKey(object):
         self.refreshToken = None
         self.expiresIn = None
 
-class __StreamRespon__(object):
+class __StreamRespond__(object):
     trackid = None
     videoid = None
     streamType = None
@@ -56,6 +62,7 @@ class __StreamRespon__(object):
 class TidalAPI(object):
     def __init__(self):
         self.key = LoginKey()
+        self.__debugVar = 0
 
     def __get__(self, path, params={}, retry=3, urlpre=__URL_PRE__):
         #deprecate the sessionId
@@ -114,12 +121,32 @@ class TidalAPI(object):
             ret.append(stream)
         return ret
 
+    def __post__(self, url, data, auth = None):
+        retry = 3
+        while retry > 0:
+            try:
+                result = requests.post(url, data=data, auth=auth, verify=False).json()
+            except (
+                requests.ConnectionError,
+                requests.exceptions.ReadTimeout,
+                requests.exceptions.Timeout,
+                requests.exceptions.ConnectTimeout,
+            ) as e:
+                retry -= 1
+                if retry <= 0:
+                    return e, None
+                continue
+            return None, result
+
     def getDeviceCode(self):
         data = {
             'client_id': __API_KEY__['clientId'],
             'scope': 'r_usr+w_usr+w_sub'
             }
-        result = requests.post(__AUTH_URL__ + '/device_authorization', data=data).json()
+        e, result = self.__post__(__AUTH_URL__ + '/device_authorization', data)
+        if e is not None:
+            return e, False
+
         if 'status' in result and result['status'] != 200:
             return "Device authorization failed. Please try again.", False
         
@@ -137,7 +164,10 @@ class TidalAPI(object):
             'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
             'scope': 'r_usr+w_usr+w_sub'
             }
-        result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
+        e, result = self.__post__(__AUTH_URL__ + '/token', data, (__API_KEY__['clientId'], __API_KEY__['clientSecret']))
+        if e is not None:
+            return e, False
+
         if 'status' in result and result['status'] != 200:
             if result['status'] == 400 and result['sub_status'] == 1002:
                 return "pending", False
@@ -256,7 +286,7 @@ class TidalAPI(object):
         msg, data = self.__get__('tracks/' + str(id) + "/playbackinfopostpaywall", paras)
         if msg is not None:
             return msg, None
-        resp = dictToModel(data, __StreamRespon__())
+        resp = dictToModel(data, __StreamRespond__())
         
         if "vnd.tidal.bt" in resp.manifestMimeType:
             manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
@@ -274,7 +304,7 @@ class TidalAPI(object):
         msg, data = self.__get__('videos/' + str(id) + "/playbackinfopostpaywall", paras)
         if msg is not None:
             return msg, None
-        resp = dictToModel(data, __StreamRespon__())
+        resp = dictToModel(data, __StreamRespond__())
         
         if "vnd.tidal.emu" in resp.manifestMimeType:
             manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))

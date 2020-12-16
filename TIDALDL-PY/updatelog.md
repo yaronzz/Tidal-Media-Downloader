@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [x] Show DOLBY_ATMOS flag [A]
+- [x] Fix bug of "Connection aborted"(Linux platform)
+
 #### v2020-12-10
 - [x] Add feature: set the accessToken manually
 

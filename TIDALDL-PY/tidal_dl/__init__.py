@@ -72,10 +72,11 @@ def login():
     elapsed = 0
     while elapsed < API.key.authCheckTimeout:
         elapsed = time.time() - start
+        # print("Check auth status...")
         msg, check = API.checkAuthStatus()
         if check == False:
             if msg == "pending":
-                time.sleep(API.key.authCheckInterval)
+                time.sleep(API.key.authCheckInterval + 1)
                 continue
             Printf.err(msg)
             break
