@@ -9,7 +9,8 @@
 @Desc    :   
 '''
 import prettytable
-from aigpy.cmdHelper import red, green, blue, yellow, TextColor, myprint
+from aigpy.stringHelper import isNull
+from aigpy.cmdHelper import red, green, blue, yellow, TextColor, myprint, inputPath, inputLimit
 from tidal_dl.lang.language import getLangName, getLang
 from tidal_dl.settings import Settings, getSettingsPath
 from tidal_dl.model import Album, Track, Video, Playlist, Artist
@@ -26,7 +27,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.12.10.0'
+VERSION = '2020.12.17.0'
 
 class Printf(object):
 
@@ -101,6 +102,29 @@ class Printf(object):
     def enter(string):
         myprint(string, TextColor.Yellow, None)
         ret = input("")
+        return ret
+
+    @staticmethod
+    def enterPath(string, errmsg, retWord = '0', default = ""):
+        LANG = getLang()
+        ret = inputPath(yellow(string), red(LANG.PRINT_ERR + " ") + errmsg, True, '0')
+        if ret == retWord:
+            return default
+        return ret
+
+    @staticmethod
+    def enterLimit(string, errmsg, limit=[]):
+        LANG = getLang()
+        ret = inputLimit(yellow(string), red(LANG.PRINT_ERR + " ") + errmsg, True, limit)
+        return ret
+
+    @staticmethod
+    def enterFormat(string, current, default):
+        ret = Printf.enter(string)
+        if ret == '0' or isNull(ret):
+            return current
+        if ret.lower() == 'default':
+            return default
         return ret
 
     @staticmethod

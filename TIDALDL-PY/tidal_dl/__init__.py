@@ -27,7 +27,7 @@ from tidal_dl.settings import Settings, TokenSettings
 from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start, test
 from tidal_dl.enum import AudioQuality, VideoQuality
-from tidal_dl.lang.language import getLang, setLang, initLang
+from tidal_dl.lang.language import getLang, setLang, initLang, getLangChoicePrint
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -148,77 +148,22 @@ def checkLogout():
         
 def changeSettings():
     global LANG
-    
     Printf.settings(CONF)
     choice = Printf.enter(LANG.CHANGE_START_SETTINGS)
     if choice == '0':
         return
 
-    while True:
-        choice = Printf.enter(LANG.CHANGE_DOWNLOAD_PATH)
-        if choice == '0':
-            choice = CONF.downloadPath
-        elif not os.path.isdir(choice):
-            if not mkdirs(choice):
-                Printf.err(LANG.MSG_PATH_ERR)
-                continue
-        CONF.downloadPath = choice
-        break
-    while True:
-        choice = Printf.enter(LANG.CHANGE_AUDIO_QUALITY)
-        if choice != '1' and choice != '2' and choice != '3' and choice != '0':
-            Printf.err(LANG.MSG_INPUT_ERR)
-            continue
-        if choice == '0':
-            CONF.audioQuality = AudioQuality.Normal
-        if choice == '1':
-            CONF.audioQuality = AudioQuality.High
-        if choice == '2':
-            CONF.audioQuality = AudioQuality.HiFi
-        if choice == '3':
-            CONF.audioQuality = AudioQuality.Master
-        break
-    while True:
-        choice = Printf.enter(LANG.CHANGE_VIDEO_QUALITY)
-        if choice != '1' and choice != '2' and choice != '3' and choice != '0':
-            Printf.err(LANG.MSG_INPUT_ERR)
-            continue
-        if choice == '0':
-            CONF.videoQuality = VideoQuality.P1080
-        if choice == '1':
-            CONF.videoQuality = VideoQuality.P720
-        if choice == '2':
-            CONF.videoQuality = VideoQuality.P480
-        if choice == '3':
-            CONF.videoQuality = VideoQuality.P360
-        break
+    CONF.downloadPath = Printf.enterPath(LANG.CHANGE_DOWNLOAD_PATH, LANG.MSG_PATH_ERR, '0', CONF.downloadPath)
+    CONF.audioQuality = AudioQuality(int(Printf.enterLimit(LANG.CHANGE_AUDIO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
+    CONF.videoQuality = AudioQuality(int(Printf.enterLimit(LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
     CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
-    # CONF.addExplicitTag = Printf.enter(LANG.CHANGE_ADD_EXPLICIT_TAG) == '1'
-    # CONF.addHyphen = Printf.enter(LANG.CHANGE_ADD_HYPHEN) == '1'
-    # CONF.addYear = Printf.enter(LANG.CHANGE_ADD_YEAR) == '1'
-    # CONF.useTrackNumber = Printf.enter(LANG.CHANGE_USE_TRACK_NUM) == '1'
     CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
-    # CONF.artistBeforeTitle = Printf.enter(LANG.CHANGE_ARTIST_BEFORE_TITLE) == '1'
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
-    # CONF.addAlbumIDBeforeFolder = Printf.enter(LANG.CHANGE_ALBUMID_BEFORE_FOLDER) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
-    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE +
-                                 "('0'-English,'1'-中文,'2'-Turkish,'3'-Italiano,'4'-Czech,'5'-Arabic,'6'-Russian,'7'-Filipino,'8'-Croatian,'9'-Spanish,'10'-Portuguese,'11'-Ukrainian,'12'-Vietnamese,'13'-French,'14'-German):")
-    albumFolderFormat = Printf.enter(LANG.CHANGE_ALBUM_FOLDER_FORMAT)
-    if albumFolderFormat == '0' or isNull(albumFolderFormat):
-        pass
-    elif albumFolderFormat.lower() == 'default':
-        CONF.albumFolderFormat = Settings.getDefaultAlbumFolderFormat()
-    else:
-        CONF.albumFolderFormat = albumFolderFormat
-    trackFileFormat = Printf.enter(LANG.CHANGE_TRACK_FILE_FORMAT)
-    if trackFileFormat == '0' or isNull(trackFileFormat):
-        pass
-    elif trackFileFormat.lower() == "default":
-        CONF.trackFileFormat = Settings.getDefaultTrackFileFormat()
-    else:
-        CONF.trackFileFormat = trackFileFormat
+    CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
+    CONF.albumFolderFormat = Printf.enterFormat(LANG.CHANGE_ALBUM_FOLDER_FORMAT, CONF.albumFolderFormat, Settings.getDefaultAlbumFolderFormat())
+    CONF.trackFileFormat = Printf.enterFormat(LANG.CHANGE_TRACK_FILE_FORMAT, CONF.trackFileFormat, Settings.getDefaultTrackFileFormat())
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)

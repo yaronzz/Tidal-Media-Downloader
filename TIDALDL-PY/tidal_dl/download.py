@@ -12,7 +12,7 @@ import os
 
 import aigpy.m3u8Helper as m3u8Helper
 from aigpy.tagHelper import TagTool
-from aigpy.netHelper import downloadFile, downloadFileMultiThread
+from aigpy.netHelper import downloadFile, downloadFileMultiThread, downloadFileMultiThread2
 from aigpy.stringHelper import isNull, getSubOnlyEnd
 from aigpy.pathHelper import replaceLimitChar, getFileName, remove
 from aigpy.fileHelper import getFileContent, getFileSize
@@ -321,7 +321,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
 
         # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
         if conf.multiThreadDownload:
-            check, err = downloadFileMultiThread(stream.url, path + '.part',
+            check, err = downloadFileMultiThread2(stream.url, path + '.part',
                                                  stimeout=20, showprogress=conf.showProgress)
         else:
             check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)

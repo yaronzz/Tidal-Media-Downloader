@@ -102,4 +102,15 @@ def getLangName(index):
         return "French"
     if str(index) == '14':
         return "German"
-    return "English"
+    return ""
+
+def getLangChoicePrint():
+    array = []
+    index = 0
+    while True:
+        name = getLangName(index)
+        if name == "":
+            break
+        array.append('\'' + str(index) + '\'-' + name)
+        index += 1
+    return ','.join(array)

@@ -1,8 +1,10 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2020-12-17
 - [x] Show DOLBY_ATMOS flag [A]
 - [x] Fix bug of "Connection aborted"(Linux platform)
+- [x] Fix bug of download failed "stat: path should be string, bytes, os.PathLike or integer, not list" 
 
 #### v2020-12-10
 - [x] Add feature: set the accessToken manually
