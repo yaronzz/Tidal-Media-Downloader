@@ -37,11 +37,11 @@ class LangTurkish(object):
     CHOICE_ENTER = "Enter"
     CHOICE_ENTER_URLID = "'Url/ID' Gir:"
     CHOICE_EXIT = "Çıkış"
-    CHOICE_LOGIN = "Check AccessToken"
+    CHOICE_LOGIN = "AccessToken kontrolü"
     CHOICE_SETTINGS = "Ayarlar'ı Düzenle"
     CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
-    CHOICE_LOGOUT = "Logout"
+    CHOICE_LOGOUT = "Çıkış"
 
     PRINT_ERR = "[HATA OLUŞTU]"
     PRINT_INFO = "[BİLGİ]"
@@ -72,11 +72,11 @@ class LangTurkish(object):
     CHANGE_SHOW_PROGRESS = "İndirme Çubuğu Görüntülensin mi?('0'-Hayır,'1'-Evet):"
 
     # {} are required in these strings
-    AUTH_START_LOGIN = "Starting login process..."
-    AUTH_LOGIN_CODE = "Your login code is {}"
-    AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
-    AUTH_WAITING = "Waiting for authorization..."
-    AUTH_TIMEOUT = "Operation timed out."
+    AUTH_START_LOGIN = "Giriş işlemleri başlatıldı..."
+    AUTH_LOGIN_CODE = "Girmen gereken kod: {}"
+    AUTH_NEXT_STEP = "Bu siteden {} hesabınıza giriş yapınız ve üstteki kodu giriniz. ({} dakikanız var.)"
+    AUTH_WAITING = "İşlemleri tamamlamanız bekleniyor..."
+    AUTH_TIMEOUT = "Lütfen size verilen süre içerisinde işlemleriniz tamamlayınız."
     
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
     MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
