@@ -4,4 +4,4 @@ prettytable==0.7.2
 mutagen==1.45.1
 psutil==5.7.3
 pycryptodome==3.9.9
-aigpy==2021.2.18.0
+aigpy==2021.2.18.1

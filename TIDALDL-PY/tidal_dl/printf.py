@@ -27,7 +27,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2020.12.17.0'
+VERSION = '2021.2.20.0'
 
 class Printf(object):
 
@@ -132,7 +132,7 @@ class Printf(object):
     @staticmethod
     def enterFormat(string, current, default):
         ret = Printf.enter(string)
-        if ret == '0' or aigpy.cmd.isNull(ret):
+        if ret == '0' or aigpy.string.isNull(ret):
             return current
         if ret.lower() == 'default':
             return default

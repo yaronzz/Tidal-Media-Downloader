@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-02-20
+- [x] Add log
+
 #### v2020-12-17
 - [x] Show DOLBY_ATMOS flag [A]
 - [x] Fix bug of "Connection aborted"(Linux platform)
