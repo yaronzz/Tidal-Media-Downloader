@@ -8,6 +8,7 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+import logging
 import os
 import requests
 import prettytable
@@ -19,22 +20,27 @@ import time
 from aigpy.stringHelper import isNull
 from aigpy.pathHelper import mkdirs
 from aigpy.pipHelper import getLastVersion
-from aigpy.versionHelper import cmpVersion
+from aigpy.systemHelper import cmpVersion
 from aigpy.cmdHelper import red, green, blue, yellow, TextColor
 
 from tidal_dl.tidal import TidalAPI
-from tidal_dl.settings import Settings, TokenSettings
+from tidal_dl.settings import Settings, TokenSettings, getLogPath
 from tidal_dl.printf import Printf, VERSION
-from tidal_dl.download import start, test
+from tidal_dl.download import start
 from tidal_dl.enum import AudioQuality, VideoQuality
 from tidal_dl.lang.language import getLang, setLang, initLang, getLangChoicePrint
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-API   = TidalAPI()
+API = TidalAPI()
 TOKEN = TokenSettings.read()
-CONF  = Settings.read()
-LANG  = initLang(CONF.language)
+CONF = Settings.read()
+LANG = initLang(CONF.language)
+
+logging.basicConfig(filename=getLogPath(),
+                    level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s: %(message)s')
+
 
 def displayTime(seconds, granularity=2):
     if seconds <= 0:
@@ -42,11 +48,11 @@ def displayTime(seconds, granularity=2):
 
     result = []
     intervals = (
-    ('weeks', 604800),
-    ('days', 86400),
-    ('hours', 3600),
-    ('minutes', 60),
-    ('seconds', 1),
+        ('weeks', 604800),
+        ('days', 86400),
+        ('hours', 3600),
+        ('minutes', 60),
+        ('seconds', 1),
     )
 
     for name, count in intervals:
@@ -57,6 +63,7 @@ def displayTime(seconds, granularity=2):
                 name = name.rstrip('s')
             result.append("{} {}".format(value, name))
     return ', '.join(result[:granularity])
+
 
 def login():
     print(LANG.AUTH_START_LOGIN)
@@ -90,7 +97,7 @@ def login():
             TokenSettings.save(TOKEN)
             break
     if elapsed >= API.key.authCheckTimeout:
-    	Printf.err(LANG.AUTH_TIMEOUT)
+        Printf.err(LANG.AUTH_TIMEOUT)
     return
 
 
@@ -116,9 +123,10 @@ def setAccessToken():
     TOKEN.expiresAfter = 0
     TokenSettings.save(TOKEN)
 
+
 def checkLogin():
     if not isNull(TOKEN.accessToken):
-        #print('Checking Access Token...') #add to translations
+        # print('Checking Access Token...') #add to translations
         msg, check = API.verifyAccessToken(TOKEN.accessToken)
         if check == True:
             Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(TOKEN.expiresAfter - time.time()))))
@@ -136,16 +144,18 @@ def checkLogin():
                 return
             else:
                 Printf.err(msg)
-                tmp = TokenSettings()	#clears saved tokens
+                tmp = TokenSettings()  # clears saved tokens
                 TokenSettings.save(tmp)
     login()
     return
+
 
 def checkLogout():
     global LANG
     login()
     return
-        
+
+
 def changeSettings():
     global LANG
     Printf.settings(CONF)
@@ -154,16 +164,20 @@ def changeSettings():
         return
 
     CONF.downloadPath = Printf.enterPath(LANG.CHANGE_DOWNLOAD_PATH, LANG.MSG_PATH_ERR, '0', CONF.downloadPath)
-    CONF.audioQuality = AudioQuality(int(Printf.enterLimit(LANG.CHANGE_AUDIO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
-    CONF.videoQuality = AudioQuality(int(Printf.enterLimit(LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
+    CONF.audioQuality = AudioQuality(int(Printf.enterLimit(
+        LANG.CHANGE_AUDIO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
+    CONF.videoQuality = AudioQuality(int(Printf.enterLimit(
+        LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
     CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
     CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
-    CONF.albumFolderFormat = Printf.enterFormat(LANG.CHANGE_ALBUM_FOLDER_FORMAT, CONF.albumFolderFormat, Settings.getDefaultAlbumFolderFormat())
-    CONF.trackFileFormat = Printf.enterFormat(LANG.CHANGE_TRACK_FILE_FORMAT, CONF.trackFileFormat, Settings.getDefaultTrackFileFormat())
+    CONF.albumFolderFormat = Printf.enterFormat(
+        LANG.CHANGE_ALBUM_FOLDER_FORMAT, CONF.albumFolderFormat, Settings.getDefaultAlbumFolderFormat())
+    CONF.trackFileFormat = Printf.enterFormat(LANG.CHANGE_TRACK_FILE_FORMAT,
+                                              CONF.trackFileFormat, Settings.getDefaultTrackFileFormat())
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)
@@ -171,11 +185,12 @@ def changeSettings():
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hvl:o:q:r:", ["help", "version", "link=", "output=", "quality", "resolution"])
+        opts, args = getopt.getopt(sys.argv[1:], "hvl:o:q:r:", ["help", "version",
+                                                                "link=", "output=", "quality", "resolution"])
     except getopt.GetoptError as errmsg:
         Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for useage.")
         return
-    
+
     for opt, val in opts:
         if opt in ('-h', '--help'):
             Printf.usage()
@@ -199,10 +214,11 @@ def mainCommand():
             CONF.videoQuality = Settings.getVideoQuality(val)
             Settings.save(CONF)
             return
-        
+
         if not mkdirs(CONF.downloadPath):
             Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
             return
+
 
 def main():
     if len(sys.argv) > 1:
@@ -219,7 +235,7 @@ def main():
         icmp = cmpVersion(onlineVer, VERSION)
         if icmp > 0:
             Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
-            
+
     while True:
         Printf.choices()
         choice = Printf.enter(LANG.PRINT_ENTER_CHOICE)
@@ -235,6 +251,7 @@ def main():
             setAccessToken()
         else:
             start(TOKEN, CONF, choice)
+
 
 if __name__ == "__main__":
     main()

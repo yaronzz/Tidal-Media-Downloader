@@ -9,14 +9,8 @@
 @Desc    :   
 '''
 import os
-
-import aigpy.m3u8Helper as m3u8Helper
-from aigpy.tagHelper import TagTool
-from aigpy.netHelper import downloadFile, downloadFileMultiThread, downloadFileMultiThread2
-from aigpy.stringHelper import isNull, getSubOnlyEnd
-from aigpy.pathHelper import replaceLimitChar, getFileName, remove
-from aigpy.fileHelper import getFileContent, getFileSize
-import aigpy.netHelper as netHelper
+import aigpy
+import logging
 
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
@@ -38,7 +32,7 @@ def __loadVideoAPI__(user):
     API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    #API.key.sessionId = user.sessionid2 if not isNull(user.sessionid2) else user.sessionid1
+    #API.key.sessionId = user.sessionid2 if not aigpy.string.isNull(user.sessionid2) else user.sessionid1
 
 
 
@@ -77,7 +71,7 @@ def __parseContributors__(roleType, Contributors):
 
 
 def __setMetaData__(track, album, filepath, contributors):
-    obj = TagTool(filepath)
+    obj = aigpy.tag.TagTool(filepath)
     obj.album = track.album.title
     obj.title = track.title
     obj.artist = __getArtists__(track.artists)
@@ -101,7 +95,7 @@ def __convertToM4a__(filepath, codec):
     if '.mp4' not in filepath:
         return filepath
     newpath = filepath.replace('.mp4', '.m4a')
-    remove(newpath)
+    aigpy.path.remove(newpath)
     os.rename(filepath, newpath)
     return newpath
 
@@ -122,22 +116,22 @@ def __stripPath__(path):
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
 def __getAlbumPath__(conf: Settings, album):
     base = conf.downloadPath + '/Album/'
-    artist = replaceLimitChar(album.artists[0].name, '-')
+    artist = aigpy.path.replaceLimitChar(album.artists[0].name, '-')
     # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
         flag = flag.replace("M", "")
     if not conf.addExplicitTag:
         flag = flag.replace("E", "")
-    if not isNull(flag):
+    if not aigpy.string.isNull(flag):
         flag = "[" + flag + "] "
         
     sid = str(album.id)
     #album and addyear
-    albumname = replaceLimitChar(album.title, '-')
+    albumname = aigpy.path.replaceLimitChar(album.title, '-')
     year = ""
     if album.releaseDate is not None:
-        year = getSubOnlyEnd(album.releaseDate, '-')
+        year = aigpy.string.getSubOnlyEnd(album.releaseDate, '-')
     # retpath
     retpath = conf.albumFolderFormat
     if retpath is None or len(retpath) <= 0:
@@ -153,7 +147,7 @@ def __getAlbumPath__(conf: Settings, album):
 
 def __getAlbumPath2__(conf, album):
     # outputdir/Album/artist/
-    artist = replaceLimitChar(album.artists[0].name, '-').strip()
+    artist = aigpy.path.replaceLimitChar(album.artists[0].name, '-').strip()
     base = conf.downloadPath + '/Album/' + artist + '/'
 
     # album folder pre: [ME][ID]
@@ -162,16 +156,16 @@ def __getAlbumPath2__(conf, album):
         flag = flag.replace("M", "")
     if not conf.addExplicitTag:
         flag = flag.replace("E", "")
-    if not isNull(flag):
+    if not aigpy.string.isNull(flag):
         flag = "[" + flag + "] "
 
     sid = "[" + str(album.id) + "] " if conf.addAlbumIDBeforeFolder else ""
 
     #album and addyear
-    albumname = replaceLimitChar(album.title, '-').strip()
+    albumname = aigpy.path.replaceLimitChar(album.title, '-').strip()
     year = ""
     if conf.addYear and album.releaseDate is not None:
-        year = "[" + getSubOnlyEnd(album.releaseDate, '-') + "] "
+        year = "[" + aigpy.string.getSubOnlyEnd(album.releaseDate, '-') + "] "
     return base + flag + sid + year + albumname + '/'
 
 
@@ -179,7 +173,7 @@ def __getPlaylistPath__(conf, playlist):
     # outputdir/Playlist/
     base = conf.downloadPath + '/Playlist/'
     # name
-    name = replaceLimitChar(playlist.title, '-')
+    name = aigpy.path.replaceLimitChar(playlist.title, '-')
     return base + name + '/'
 
 # "{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
@@ -197,19 +191,19 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     if playlist is not None:
         number = __getIndexStr__(track.trackNumberOnPlaylist)
     # artist
-    artist = replaceLimitChar(track.artists[0].name, '-')
+    artist = aigpy.path.replaceLimitChar(track.artists[0].name, '-')
     # title
     title = track.title
-    if not isNull(track.version):
+    if not aigpy.string.isNull(track.version):
         title += ' (' + track.version + ')'
-    title = replaceLimitChar(title, '-')
+    title = aigpy.path.replaceLimitChar(title, '-')
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
     #album and addyear
-    albumname = replaceLimitChar(album.title, '-')
+    albumname = aigpy.path.replaceLimitChar(album.title, '-')
     year = ""
     if album.releaseDate is not None:
-        year = getSubOnlyEnd(album.releaseDate, '-')
+        year = aigpy.string.getSubOnlyEnd(album.releaseDate, '-')
     # extension
     extension = __getExtension__(stream.url)
     retpath = conf.trackFileFormat
@@ -244,14 +238,14 @@ def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
     # get artist
     artist = ''
     if conf.artistBeforeTitle:
-        artist = replaceLimitChar(track.artists[0].name, '-') + hyphen
+        artist = aigpy.path.replaceLimitChar(track.artists[0].name, '-') + hyphen
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
     # title
     title = track.title
-    if not isNull(track.version):
+    if not aigpy.string.isNull(track.version):
         title += ' - ' + track.version
-    title = replaceLimitChar(title, '-')
+    title = aigpy.path.replaceLimitChar(title, '-')
     # extension
     extension = __getExtension__(stream.url)
     return base + number + artist.strip() + title + explicit + extension
@@ -274,21 +268,21 @@ def __getVideoPath__(conf, video, album=None, playlist=None):
     # get artist
     artist = ''
     if conf.artistBeforeTitle:
-        artist = replaceLimitChar(video.artists[0].name, '-') + hyphen
+        artist = aigpy.path.replaceLimitChar(video.artists[0].name, '-') + hyphen
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and video.explicit else ''
     # title
-    title = replaceLimitChar(video.title, '-')
+    title = aigpy.path.replaceLimitChar(video.title, '-')
     # extension
     extension = ".mp4"
     return base + number + artist.strip() + title + explicit + extension
 
 
 def __isNeedDownload__(path, url):
-    curSize = getFileSize(path)
+    curSize = aigpy.file.getSize(path)
     if curSize <= 0:
         return True
-    netSize = netHelper.getFileSize(url)
+    netSize = aigpy.net.getSize(url)
     if curSize >= netSize:
         return False
     return True
@@ -296,40 +290,39 @@ def __isNeedDownload__(path, url):
 
 def __downloadVideo__(conf, video, album=None, playlist=None):
     msg, stream = API.getVideoStreamUrl(video.id, conf.videoQuality)
-    if not isNull(msg):
+    if not aigpy.string.isNull(msg):
         Printf.err(video.title + "." + msg)
         return
     path = __getVideoPath__(conf, video, album, playlist)
-    if m3u8Helper.download(stream.m3u8Url, path):
-        Printf.success(getFileName(path))
+
+    logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
+    if aigpy.m3u8.download(stream.m3u8Url, path):
+        Printf.success(aigpy.path.getFileName(path))
     else:
-        Printf.err("\nDownload failed!" + getFileName(path))
+        Printf.err("\nDownload failed!" + aigpy.path.getFileName(path))
 
 
 def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
     try:
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
-        if not isNull(msg) or stream is None:
+        if not aigpy.string.isNull(msg) or stream is None:
             Printf.err(track.title + "." + msg)
             return
         path = __getTrackPath__(conf, track, stream, album, playlist)
 
         # check exist
         if conf.checkExist and __isNeedDownload__(path, stream.url) == False:
-            Printf.success(getFileName(path) + " (skip:already exists!)")
+            Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
             return
+        logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
+        tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
+        check, err = tool.start(conf.showProgress)
 
-        # Printf.info("Download \"" + track.title + "\" Codec: " + stream.codec)
-        if conf.multiThreadDownload:
-            check, err = downloadFileMultiThread2(stream.url, path + '.part',
-                                                 stimeout=20, showprogress=conf.showProgress)
-        else:
-            check, err = downloadFile(stream.url, path + '.part', stimeout=20, showprogress=conf.showProgress)
         if not check:
-            Printf.err("Download failed! " + getFileName(path) + ' (' + str(err) + ')')
+            Printf.err("Download failed! " + aigpy.path.getFileName(path) + ' (' + str(err) + ')')
             return
         # encrypted -> decrypt and remove encrypted file
-        if isNull(stream.encryptionKey):
+        if aigpy.string.isNull(stream.encryptionKey):
             os.replace(path + '.part', path)
         else:
             key, nonce = decrypt_security_token(stream.encryptionKey)
@@ -341,7 +334,7 @@ def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
         # contributors
         contributors = API.getTrackContributors(track.id)
         __setMetaData__(track, album, path, contributors)
-        Printf.success(getFileName(path))
+        Printf.success(aigpy.path.getFileName(path))
     except Exception as e:
         Printf.err("Download failed! " + track.title + ' (' + str(e) + ')')
 
@@ -352,13 +345,13 @@ def __downloadCover__(conf, album):
     path = __getAlbumPath__(conf, album) + '/cover.jpg'
     url = API.getCoverUrl(album.cover, "1280", "1280")
     if url is not None:
-        downloadFile(url, path)
+        aigpy.net.downloadFile(url, path)
 
 
 def __album__(conf, obj):
     Printf.album(obj)
     msg, tracks, videos = API.getItems(obj.id, Type.Album)
-    if not isNull(msg):
+    if not aigpy.string.isNull(msg):
         Printf.err(msg)
         return
     if conf.saveCovers:
@@ -385,7 +378,7 @@ def __video__(conf, obj):
 def __artist__(conf, obj):
     msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
     Printf.artist(obj, len(albums))
-    if not isNull(msg):
+    if not aigpy.string.isNull(msg):
         Printf.err(msg)
         return
     for item in albums:
@@ -395,7 +388,7 @@ def __artist__(conf, obj):
 def __playlist__(conf, obj):
     Printf.playlist(obj)
     msg, tracks, videos = API.getItems(obj.uuid, Type.Playlist)
-    if not isNull(msg):
+    if not aigpy.string.isNull(msg):
         Printf.err(msg)
         return
 
@@ -408,13 +401,13 @@ def __playlist__(conf, obj):
 
 
 def __file__(user, conf, string):
-    txt = getFileContent(string)
-    if isNull(txt):
+    txt = aigpy.file.getContent(string)
+    if aigpy.string.isNull(txt):
         Printf.err("Nothing can read!")
         return
     array = txt.split('\n')
     for item in array:
-        if isNull(item):
+        if aigpy.string.isNull(item):
             continue
         if item[0] == '#':
             continue
@@ -425,20 +418,20 @@ def __file__(user, conf, string):
 
 def start(user, conf, string):
     __loadAPI__(user)
-    if isNull(string):
+    if aigpy.string.isNull(string):
         Printf.err('Please enter something.')
         return
 
     strings = string.split(" ")
     for item in strings:
-        if isNull(item):
+        if aigpy.string.isNull(item):
             continue
         if os.path.exists(item):
             __file__(user, conf, item)
             return
 
         msg, etype, obj = API.getByString(item)
-        if etype == Type.Null or not isNull(msg):
+        if etype == Type.Null or not aigpy.string.isNull(msg):
             Printf.err(msg + " [" + item + "]")
             return
 
@@ -454,7 +447,3 @@ def start(user, conf, string):
         if etype == Type.Playlist:
             __playlist__(conf, obj)
 
-
-def test(user, conf):
-    __loadAPI__(user)
-    API.getLyrics("55172078")

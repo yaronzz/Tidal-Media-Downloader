@@ -8,9 +8,9 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+import aigpy
+import logging
 import prettytable
-from aigpy.stringHelper import isNull
-from aigpy.cmdHelper import red, green, blue, yellow, TextColor, myprint, inputPath, inputLimit
 from tidal_dl.lang.language import getLangName, getLang
 from tidal_dl.settings import Settings, getSettingsPath
 from tidal_dl.model import Album, Track, Video, Playlist, Artist
@@ -33,14 +33,15 @@ class Printf(object):
 
     @staticmethod
     def logo():
-        print(__LOGO__)
-        print('                      v' + VERSION)
+        string = __LOGO__ + '\n                      v' + VERSION
+        print(string)
+        logging.info(string)
 
     @staticmethod
     def usage():
         print("=============TIDAL-DL HELP==============")
         tb = prettytable.PrettyTable()
-        tb.field_names = [green("OPTION"), green("DESC")]
+        tb.field_names = [aigpy.cmd.green("OPTION"), aigpy.cmd.green("DESC")]
         tb.align = 'l'
         tb.add_row(["-h or --help", "show help-message"])
         tb.add_row(["-v or --version", "show version"])
@@ -57,7 +58,7 @@ class Printf(object):
     def settings(data:Settings):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.SETTING), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.SETTING), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row(["Settings path", getSettingsPath()])
         tb.add_row([LANG.SETTING_DOWNLOAD_PATH, data.downloadPath])
@@ -89,39 +90,49 @@ class Printf(object):
         tb.field_names = [LANG.CHOICE, LANG.FUNCTION]
         tb.align = 'l'
         tb.set_style(prettytable.PLAIN_COLUMNS)
-        tb.add_row([green(LANG.CHOICE_ENTER + " '0':"), LANG.CHOICE_EXIT])
-        tb.add_row([green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN])
-        tb.add_row([green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
-        tb.add_row([green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_LOGOUT])
-        tb.add_row([green(LANG.CHOICE_ENTER + " '4':"), LANG.CHOICE_SET_ACCESS_TOKEN])
-        tb.add_row([green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '0':"), LANG.CHOICE_EXIT])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_LOGOUT])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '4':"), LANG.CHOICE_SET_ACCESS_TOKEN])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
         print(tb)
         print("====================================================")
 
     @staticmethod
     def enter(string):
-        myprint(string, TextColor.Yellow, None)
+        aigpy.cmd.colorPrint(string, aigpy.cmd.TextColor.Yellow, None)
         ret = input("")
         return ret
 
     @staticmethod
     def enterPath(string, errmsg, retWord = '0', default = ""):
         LANG = getLang()
-        ret = inputPath(yellow(string), red(LANG.PRINT_ERR + " ") + errmsg, True, '0')
-        if ret == retWord:
-            return default
+        while True:
+            ret = aigpy.cmd.inputPath(aigpy.cmd.yellow(string), retWord)
+            if ret == retWord:
+                return default
+            elif ret == "":
+                print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + errmsg)
+            else:
+                break
         return ret
 
     @staticmethod
     def enterLimit(string, errmsg, limit=[]):
         LANG = getLang()
-        ret = inputLimit(yellow(string), red(LANG.PRINT_ERR + " ") + errmsg, True, limit)
+        while True:
+            ret = aigpy.cmd.inputLimit(aigpy.cmd.yellow(string), limit)
+            if ret is None:
+                print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + errmsg)
+            else:
+                break
         return ret
 
     @staticmethod
     def enterFormat(string, current, default):
         ret = Printf.enter(string)
-        if ret == '0' or isNull(ret):
+        if ret == '0' or aigpy.cmd.isNull(ret):
             return current
         if ret.lower() == 'default':
             return default
@@ -130,23 +141,24 @@ class Printf(object):
     @staticmethod
     def err(string):
         LANG = getLang()
-        print(red(LANG.PRINT_ERR + " ") + string)
+        print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + string)
+        logging.error(string)
     
     @staticmethod
     def info(string):
         LANG = getLang()
-        print(blue(LANG.PRINT_INFO + " ") + string)
+        print(aigpy.cmd.blue(LANG.PRINT_INFO + " ") + string)
 
     @staticmethod
     def success(string):
         LANG = getLang()
-        print(green(LANG.PRINT_SUCCESS + " ") + string)
+        print(aigpy.cmd.green(LANG.PRINT_SUCCESS + " ") + string)
 
     @staticmethod
     def album(data: Album):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.MODEL_ALBUM_PROPERTY), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_ALBUM_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
         tb.add_row(["ID", data.id])
@@ -156,12 +168,18 @@ class Printf(object):
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
         print(tb)
+        logging.info("====album " + str(data.id) + "====\n" +
+                     "title:" + data.title + "\n" + 
+                     "track num:" + str(data.numberOfTracks) + "\n" + 
+                     "video num:" + str(data.numberOfVideos) + "\n" +
+                     "==================================")
+        
 
     @staticmethod
     def track(data:Track):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.MODEL_TRACK_PROPERTY), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_TRACK_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
         tb.add_row(["ID", data.id])
@@ -169,39 +187,56 @@ class Printf(object):
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
         print(tb)
+        logging.info("====track " + str(data.id) + "====\n" + \
+                     "title:" + data.title + "\n" + \
+                     "version:" + str(data.version) + "\n" + \
+                     "==================================")
     
     @staticmethod
     def video(data):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.MODEL_VIDEO_PROPERTY), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_VIDEO_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
         tb.add_row([LANG.MODEL_ALBUM, data.album.title if data.album != None else None])
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
         print(tb)
+        logging.info("====video " + str(data.id) + "====\n" +
+                     "title:" + data.title + "\n" +
+                     "version:" + str(data.version) + "\n" +
+                     "==================================")
 
     @staticmethod
     def artist(data:Artist, num):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.MODEL_ARTIST_PROPERTY), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_ARTIST_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_ID, data.id])
         tb.add_row([LANG.MODEL_NAME, data.name])
         tb.add_row(["Number of albums", num])
         tb.add_row([LANG.MODEL_TYPE, str(data.type)])
         print(tb)
+        logging.info("====artist " + str(data.id) + "====\n" +
+                     "name:" + data.name + "\n" +
+                     "album num:" + str(num) + "\n" +
+                     "==================================")
 
     @staticmethod
     def playlist(data):
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [green(LANG.MODEL_PLAYLIST_PROPERTY), green(LANG.VALUE)]
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_PLAYLIST_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
         tb.add_row([LANG.MODEL_TITLE, data.title])
         tb.add_row([LANG.MODEL_TRACK_NUMBER, data.numberOfTracks])
         tb.add_row([LANG.MODEL_VIDEO_NUMBER, data.numberOfVideos])
         print(tb)
+        logging.info("====playlist " + str(data.uuid) + "====\n" +
+                     "title:" + data.title + "\n" +
+                     "track num:" + str(data.numberOfTracks) + "\n" +
+                     "video num:" + str(data.numberOfVideos) + "\n" +
+                     "==================================")
 

@@ -11,7 +11,7 @@
 import os
 import json
 import base64
-from aigpy.fileHelper import getFileContent, write
+from aigpy.fileHelper import getContent, write
 from aigpy.modelHelper import dictToModel, modelToDict
 from tidal_dl.enum import AudioQuality, VideoQuality
 
@@ -36,6 +36,9 @@ def getSettingsPath():
     else:
         return os.path._getfullpathname("./")
 
+def getLogPath():
+    return getSettingsPath() + '/.tidal-dl.log'
+
 class TokenSettings(object):
     userid = None
     countryCode = None
@@ -46,7 +49,7 @@ class TokenSettings(object):
     @staticmethod
     def read():
         path = TokenSettings.__getFilePath__()
-        txt = getFileContent(path, True)
+        txt = getContent(path, True)
         if txt == "":
             return TokenSettings()
         txt = __decode__(txt)
@@ -98,7 +101,7 @@ class Settings(object):
     @staticmethod
     def read():
         path = Settings.__getFilePath__()
-        txt = getFileContent(path, True)
+        txt = getContent(path, True)
         if txt == "":
             return Settings()
         data = json.loads(txt)

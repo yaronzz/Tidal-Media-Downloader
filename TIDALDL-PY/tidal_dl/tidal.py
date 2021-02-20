@@ -26,12 +26,14 @@ from tidal_dl.enum import Type, AudioQuality, VideoQuality
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
 __AUTH_URL__ = 'https://auth.tidal.com/v1/oauth2'
-__API_KEY__ = {'clientId': 'aR7gUaTK1ihpXOEP', 'clientSecret': 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='} #known API key for Fire Stick HD(MQA, Dolby Vision enabled)
+# known API key for Fire Stick HD(MQA, Dolby Vision enabled)
+__API_KEY__ = {'clientId': 'aR7gUaTK1ihpXOEP', 'clientSecret': 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='}
 
 # SSL Warnings
 urllib3.disable_warnings()
-# add retry number 
-requests.adapters.DEFAULT_RETRIES = 5  
+# add retry number
+requests.adapters.DEFAULT_RETRIES = 5
+
 
 class LoginKey(object):
     def __init__(self):
@@ -46,6 +48,7 @@ class LoginKey(object):
         self.refreshToken = None
         self.expiresIn = None
 
+
 class __StreamRespond__(object):
     trackid = None
     videoid = None
@@ -58,20 +61,28 @@ class __StreamRespond__(object):
     manifest = None
 
 
-
 class TidalAPI(object):
     def __init__(self):
         self.key = LoginKey()
         self.__debugVar = 0
 
+    def __toJson__(self, string: str):
+        try:
+            json_object = json.loads(string)
+        except:
+            return None
+        return json_object
+
     def __get__(self, path, params={}, retry=3, urlpre=__URL_PRE__):
-        #deprecate the sessionId
+        # deprecate the sessionId
         #header = {'X-Tidal-SessionId': self.key.sessionId}
         if not isNull(self.key.accessToken):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
         params['countryCode'] = self.key.countryCode
         respond = requests.get(urlpre + path,  headers=header, params=params)
-        result = respond.json()
+        result = self.__toJson__(respond.text)
+        if result is None:
+            return "Get operation err!"+respond.text, None
         if 'status' in result:
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], None
@@ -79,7 +90,7 @@ class TidalAPI(object):
                 return "Get operation err!", None
         return None, result
 
-    def __getItems__(self, path, params={}, retry = 3):
+    def __getItems__(self, path, params={}, retry=3):
         params['limit'] = 50
         params['offset'] = 0
         ret = []
@@ -96,7 +107,7 @@ class TidalAPI(object):
             params['offset'] += num
         return None, ret
 
-    def __getQualityString__(self, quality:AudioQuality):
+    def __getQualityString__(self, quality: AudioQuality):
         if quality == AudioQuality.Normal:
             return "LOW"
         if quality == AudioQuality.High:
@@ -104,7 +115,7 @@ class TidalAPI(object):
         if quality == AudioQuality.HiFi:
             return "LOSSLESS"
         return "HI_RES"
-    
+
     def __getResolutionList__(self, url):
         ret = []
         txt = requests.get(url).text
@@ -121,7 +132,7 @@ class TidalAPI(object):
             ret.append(stream)
         return ret
 
-    def __post__(self, url, data, auth = None):
+    def __post__(self, url, data, auth=None):
         retry = 3
         while retry > 0:
             try:
@@ -142,65 +153,70 @@ class TidalAPI(object):
         data = {
             'client_id': __API_KEY__['clientId'],
             'scope': 'r_usr+w_usr+w_sub'
-            }
+        }
         e, result = self.__post__(__AUTH_URL__ + '/device_authorization', data)
         if e is not None:
-            return e, False
+            return str(e), False
 
         if 'status' in result and result['status'] != 200:
             return "Device authorization failed. Please try again.", False
-        
+
         self.key.deviceCode = result['deviceCode']
         self.key.userCode = result['userCode']
         self.key.verificationUrl = result['verificationUri']
         self.key.authCheckTimeout = result['expiresIn']
         self.key.authCheckInterval = result['interval']
         return None, True
-        
+
     def checkAuthStatus(self):
         data = {
             'client_id': __API_KEY__['clientId'],
             'device_code': self.key.deviceCode,
             'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
             'scope': 'r_usr+w_usr+w_sub'
-            }
+        }
         e, result = self.__post__(__AUTH_URL__ + '/token', data, (__API_KEY__['clientId'], __API_KEY__['clientSecret']))
         if e is not None:
-            return e, False
+            return str(e), False
 
         if 'status' in result and result['status'] != 200:
             if result['status'] == 400 and result['sub_status'] == 1002:
                 return "pending", False
             else:
                 return "Error while checking for authorization. Trying again...", False
-        
-        #if auth is successful:
+
+        # if auth is successful:
         self.key.userId = result['user']['userId']
         self.key.countryCode = result['user']['countryCode']
         self.key.accessToken = result['access_token']
         self.key.refreshToken = result['refresh_token']
         self.key.expiresIn = result['expires_in']
         return None, True
-    
+
     def verifyAccessToken(self, accessToken):
         header = {'authorization': 'Bearer {}'.format(accessToken)}
         result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
         if 'status' in result and result['status'] != 200:
             return "Login failed!", False
         return None, True
-    
+
     def refreshAccessToken(self, refreshToken):
         data = {
             'client_id': __API_KEY__['clientId'],
             'refresh_token': refreshToken,
             'grant_type': 'refresh_token',
             'scope': 'r_usr+w_usr+w_sub'
-            }
-        result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
+        }
+
+        e, result = self.__post__(__AUTH_URL__ + '/token', data, (__API_KEY__['clientId'], __API_KEY__['clientSecret']))
+        if e is not None:
+            return str(e), False
+
+        # result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
         if 'status' in result and result['status'] != 200:
             return "Refresh failed. Please log in again.", False
-        
-        #if auth is successful:
+
+        # if auth is successful:
         self.key.userId = result['user']['userId']
         self.key.countryCode = result['user']['countryCode']
         self.key.accessToken = result['access_token']
@@ -246,7 +262,7 @@ class TidalAPI(object):
         msg, data = self.__get__('tracks/' + str(id) + "/lyrics")
         return msg, data
 
-    def getItems(self, id, type:Type):
+    def getItems(self, id, type: Type):
         if type == Type.Playlist:
             msg, data = self.__getItems__('playlists/' + str(id) + "/items")
         elif type == Type.Album:
@@ -264,7 +280,7 @@ class TidalAPI(object):
                 videos.append(dictToModel(item['item'], Video()))
         return msg, tracks, videos
 
-    def getArtistAlbums(self, id, includeEP = False):
+    def getArtistAlbums(self, id, includeEP=False):
         albums = []
         msg, data = self.__getItems__('artists/' + str(id) + "/albums")
         if msg is not None:
@@ -287,7 +303,7 @@ class TidalAPI(object):
         if msg is not None:
             return msg, None
         resp = dictToModel(data, __StreamRespond__())
-        
+
         if "vnd.tidal.bt" in resp.manifestMimeType:
             manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
             ret = StreamUrl()
@@ -305,7 +321,7 @@ class TidalAPI(object):
         if msg is not None:
             return msg, None
         resp = dictToModel(data, __StreamRespond__())
-        
+
         if "vnd.tidal.emu" in resp.manifestMimeType:
             manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
             array = self.__getResolutionList__(manifest['urls'][0])
@@ -319,25 +335,25 @@ class TidalAPI(object):
                 index = len(array) - 1
             return "", array[index]
         return "Can't get the streamUrl, type is " + resp.manifestMimeType, None
-    
+
     def getTrackContributors(self, id):
         msg, data = self.__get__('tracks/' + str(id) + "/contributors")
         if msg is not None:
             return msg, None
-        return None,data
+        return None, data
 
     def getCoverUrl(self, sid, width="320", height="320"):
         if sid is None or sid == "":
             return None
         return "https://resources.tidal.com/images/" + sid.replace("-", "/") + "/" + width + "x" + height + ".jpg"
 
-    def getArtistsName(self, artists = []):
+    def getArtistsName(self, artists=[]):
         array = []
         for item in artists:
             array.append(item.name)
         return " / ".join(array)
 
-    def getFlag(self, data, type : Type, short = True, separator = " / "):
+    def getFlag(self, data, type: Type, short=True, separator=" / "):
         master = False
         atmos = False
         explicit = False
@@ -379,7 +395,7 @@ class TidalAPI(object):
             etype = Type.Video
         if 'playlist' in url:
             etype = Type.Playlist
-        
+
         if etype == Type.Null:
             return etype, sid
 
@@ -420,7 +436,7 @@ class TidalAPI(object):
         if obj.__class__ == Playlist:
             etype = Type.Playlist
         return msg, etype, obj
-   
+
     """
     def getToken(self):
         token1 = "MbjR4DLXz1ghC4rV"    
@@ -435,16 +451,3 @@ class TidalAPI(object):
         return token1,token2
     """
 
-    def getFileContent(self,path, isBin=False):
-        mode = 'r'
-        if isBin:
-            mode = 'rb'
-        try:
-            size = fileHelper.getFileSize(path)
-            if size <= 0:
-                return ""
-            with open(path, mode, encoding="utf-8") as fd:
-                content = fd.read(size)
-            return content
-        except Exception as e:
-            return ""
