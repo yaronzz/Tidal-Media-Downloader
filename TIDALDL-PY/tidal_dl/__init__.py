@@ -191,33 +191,38 @@ def mainCommand():
         Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for useage.")
         return
 
+    link = None
     for opt, val in opts:
         if opt in ('-h', '--help'):
             Printf.usage()
-            return
+            continue
         if opt in ('-v', '--version'):
             Printf.logo()
-            return
+            continue
         if opt in ('-l', '--link'):
             checkLogin()
-            start(TOKEN, CONF, val)
-            return
+            link = val
+            continue
         if opt in ('-o', '--output'):
             CONF.downloadPath = val
             Settings.save(CONF)
-            return
+            continue
         if opt in ('-q', '--quality'):
             CONF.audioQuality = Settings.getAudioQuality(val)
             Settings.save(CONF)
-            return
+            continue
         if opt in ('-r', '--resolution'):
             CONF.videoQuality = Settings.getVideoQuality(val)
             Settings.save(CONF)
-            return
+            continue
 
-        if not mkdirs(CONF.downloadPath):
-            Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
-            return
+    if not mkdirs(CONF.downloadPath):
+        Printf.err(LANG.MSG_PATH_ERR + CONF.downloadPath)
+        return
+
+    if link is not None:
+        Printf.info(LANG.SETTING_DOWNLOAD_PATH + ':' + CONF.downloadPath)
+        start(TOKEN, CONF, link)
 
 
 def main():
