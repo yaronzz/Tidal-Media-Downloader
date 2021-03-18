@@ -49,7 +49,7 @@ class TokenSettings(object):
     @staticmethod
     def read():
         path = TokenSettings.__getFilePath__()
-        txt = getContent(path, True)
+        txt = getContent(path)
         if txt == "":
             return TokenSettings()
         txt = __decode__(txt)
@@ -101,7 +101,7 @@ class Settings(object):
     @staticmethod
     def read():
         path = Settings.__getFilePath__()
-        txt = getContent(path, True)
+        txt = getContent(path)
         if txt == "":
             return Settings()
         data = json.loads(txt)
