@@ -1,6 +1,7 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-03-24
 - [x] Fix bug of 'Command line download'
 
 #### v2021-02-20

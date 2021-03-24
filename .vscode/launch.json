@@ -11,7 +11,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "python": "python3",
+            // "python": "python3",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
@@ -22,15 +22,15 @@
             "request": "launch",
             "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
             "console": "integratedTerminal",
-            "python": "python3",
+            // "python": "python3",
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
             "args": [
                 "--link",
-                "https://tidal.com/browse/track/153955724",
+                "https://tidal.com/browse/track/70973230",
                 "-o",
-                "./download/",
+                "e:\\test",
                 "-q",
                 "0"
             ]
