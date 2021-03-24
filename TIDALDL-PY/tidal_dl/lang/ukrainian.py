@@ -55,7 +55,7 @@ class LangUkrainian(object):
     CHANGE_START_SETTINGS = "Налаштування запуску('0'-повернення,'1'-так):"
     CHANGE_DOWNLOAD_PATH = "Шлях завантаження('0' не змінювати):"
     CHANGE_AUDIO_QUALITY = "Якість аудіо('0'-Звичайна,'1'-Висока,'2'-HiFi,'3'-MQA):"
-    CHANGE_VIDEO_QUALITY = "Якість відео('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_VIDEO_QUALITY = "Якість відео(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Перетворити mp4 на m4a('0'-Ні,'1'-Так):"
     CHANGE_ADD_EXPLICIT_TAG = "Додати тег 'Нецензурно' ('0'-Ні,'1'-Так):"
     CHANGE_ADD_HYPHEN = "Використати дефіс замість пробілів в іменах файлів('0'-Ні,'1'-Так):"

@@ -55,7 +55,7 @@ class LangSpanish(object):
     CHANGE_START_SETTINGS = "¿Iniciar ajustes? ('0'-Volver,'1'-Sí):"
     CHANGE_DOWNLOAD_PATH = "Ruta de descarga ('0' No modificar):"
     CHANGE_AUDIO_QUALITY = "Calidad de audio ('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
-    CHANGE_VIDEO_QUALITY = "Calidad de video ('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_VIDEO_QUALITY = "Calidad de video (1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "¿Convertir mp4 a m4a? ('0'-No,'1'-Sí):"
     CHANGE_ADD_EXPLICIT_TAG = "¿Agregar etiqueta de contenido explícito a los nombres de archivo? ('0'-No,'1'-Sí):"
     CHANGE_ADD_HYPHEN = "¿Usar guiones en lugar de espacios en el nombre de los archivos? ('0'-No,'1'-Sí):"

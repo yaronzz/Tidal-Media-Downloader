@@ -55,7 +55,7 @@ class LangFilipino(object):
     CHANGE_START_SETTINGS = "Simulan ang settings('0'-Bumalik,'1'-Oo):"
     CHANGE_DOWNLOAD_PATH = "Paroroonan ng Download('0' walang babaguhin):"
     CHANGE_AUDIO_QUALITY = "Kalidad ng Audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
-    CHANGE_VIDEO_QUALITY = "Kalidad ng Audio Video('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_VIDEO_QUALITY = "Kalidad ng Audio Video(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "I-convert ang mp4 bilang m4a('0'-Hindi,'1'-Oo):"
     CHANGE_ADD_EXPLICIT_TAG = "Lagyan ng explicit tag sa pangalan ng files('0'-Hindi,'1'-Oo):"
     CHANGE_ADD_HYPHEN = "Gamitin ang hyphens kesa sa spaces sa pangalan ng files('0'-Hindi,'1'-Oo):"

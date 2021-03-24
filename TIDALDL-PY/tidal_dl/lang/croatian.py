@@ -55,7 +55,7 @@ class LangCroatian(object):
     CHANGE_START_SETTINGS = "Pokreni postavke (0'-Izlaz,'1'-Da):"
     CHANGE_DOWNLOAD_PATH = "Putanja preuzimanja('0' ne mijenjaj):"
     CHANGE_AUDIO_QUALITY = "Kvaliteta zvuka('0'-Normalna,'1'-Visoka,'2'-HiFi,'3'-Master):"
-    CHANGE_VIDEO_QUALITY = "Kvaliteta videozapisa('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_VIDEO_QUALITY = "Kvaliteta videozapisa(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Pretvori mp4 u m4a('0'-Ne,'1'-Da):"
     CHANGE_ADD_EXPLICIT_TAG = "Dodaj eksplicitni znak u imeni datoteke('0'-Ne,'1'-Da):"
     CHANGE_ADD_HYPHEN = "Koristi crtice umjesto razmaka u imeni datoteke ('0'-Ne,'1'-Da):"

@@ -55,7 +55,7 @@ class LangChinese(object):
     CHANGE_START_SETTINGS = "开始设置('0'-返回,'1'-是):"
     CHANGE_DOWNLOAD_PATH = "下载路径('0' 不修改):"
     CHANGE_AUDIO_QUALITY = "音频质量('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
-    CHANGE_VIDEO_QUALITY = "视频质量('0'-1080,'1'-720,'2'-480,'3'-360):"
+    CHANGE_VIDEO_QUALITY = "视频质量(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "将Mp4格式的音频转为M4a('0'-不,'1'-是):"
     CHANGE_ADD_EXPLICIT_TAG = "歌名后添加脏话标签('0'-不,'1'-是):"
     CHANGE_ADD_HYPHEN = "文件名中用'-'代替空格('0'-不,'1'-是):"

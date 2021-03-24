@@ -166,8 +166,8 @@ def changeSettings():
     CONF.downloadPath = Printf.enterPath(LANG.CHANGE_DOWNLOAD_PATH, LANG.MSG_PATH_ERR, '0', CONF.downloadPath)
     CONF.audioQuality = AudioQuality(int(Printf.enterLimit(
         LANG.CHANGE_AUDIO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
-    CONF.videoQuality = AudioQuality(int(Printf.enterLimit(
-        LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['0', '1', '2', '3'])))
+    CONF.videoQuality = VideoQuality(int(Printf.enterLimit(
+        LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['1080', '720', '480', '360'])))
     CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
     CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'

@@ -328,7 +328,7 @@ class TidalAPI(object):
             icmp = int(quality.value)
             index = 0
             for item in array:
-                if icmp >= int(item.resolutions[1]):
+                if icmp <= int(item.resolutions[1]):
                     break
                 index += 1
             if index >= len(array):

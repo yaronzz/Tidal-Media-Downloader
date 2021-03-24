@@ -55,7 +55,7 @@ class LangItalian(object):
     CHANGE_START_SETTINGS = "Impostazioni all'avvio ('0'-Ritorna,'1'-Sì):"
     CHANGE_DOWNLOAD_PATH = "Percorso Download ('0' non modificare):"
     CHANGE_AUDIO_QUALITY = "Qualità Audio ('0'-Normale, '1'-Alta, '2'-HiFi, '3'-Master):"
-    CHANGE_VIDEO_QUALITY = "Qualità Video ('0'-1080, '1'-720, '2'-480, '3'-360):"
+    CHANGE_VIDEO_QUALITY = "Qualità Video (1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Convertire mp4 in m4a ('0'-No,'1'-):"
     CHANGE_ADD_EXPLICIT_TAG = "Aggiungi tag 'Contenuto Esplicito' ai nomi dei file ('0'-No,'1'-Sì):"
     CHANGE_ADD_HYPHEN = "Usare trattini al posto degli spazi nei nomi dei file ('0'-No,'1'-Sì):"
