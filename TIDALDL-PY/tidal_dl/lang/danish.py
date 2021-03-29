@@ -9,7 +9,8 @@
 @Desc    :   
 '''
 
-class LangEnglish(object):
+
+class LangDanish(object):
     SETTING = "INDSTILLINGER"
     VALUE = "Værdi"
     SETTING_DOWNLOAD_PATH = "Download sti"
