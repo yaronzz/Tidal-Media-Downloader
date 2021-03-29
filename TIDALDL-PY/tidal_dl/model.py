@@ -60,6 +60,7 @@ class Track(object):
     artist = Artist()
     artists = Artist()
     album = Album()
+    allowStreaming = False
 
 class Video(object):
     id = None
@@ -74,6 +75,7 @@ class Video(object):
     artist = Artist()
     artists =  Artist()
     album = Album()
+    allowStreaming = False
 
 class Playlist(object):
     uuid = None

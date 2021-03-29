@@ -173,6 +173,7 @@ def changeSettings():
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
+    CONF.usePlaylistFolder = Printf.enter(LANG.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):") == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
     CONF.albumFolderFormat = Printf.enterFormat(
         LANG.CHANGE_ALBUM_FOLDER_FORMAT, CONF.albumFolderFormat, Settings.getDefaultAlbumFolderFormat())
@@ -254,6 +255,14 @@ def main():
             checkLogout()
         elif choice == "4":
             setAccessToken()
+        elif choice == "10":  # test track
+            start(TOKEN, CONF, '70973230')
+        elif choice == "11":  # test video
+            start(TOKEN, CONF, '155608351')
+        elif choice == "12":  # test album
+            start(TOKEN, CONF, '58138532')
+        elif choice == "13":  # test playlist
+            start(TOKEN, CONF, '98235845-13e8-43b4-94e2-d9f8e603cee7')
         else:
             start(TOKEN, CONF, choice)
 
@@ -264,3 +273,4 @@ if __name__ == "__main__":
     # track 70973230  77798028
     # video 155608351
     # album 58138532  77803199  21993753   79151897  56288918
+    # playlist 98235845-13e8-43b4-94e2-d9f8e603cee7

@@ -1,6 +1,10 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [x] Show get-quality
+- [x] Update language
+- [x] Update settings: usePlaylistFolder
+
 #### v2021-03-24
 - [x] Fix bug of download video
 - [x] Fix bug of 'Command line download'

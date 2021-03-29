@@ -15,6 +15,7 @@ import logging
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.enum import Type, AudioQuality, VideoQuality
+from tidal_dl.model import Track, Video, Album
 from tidal_dl.printf import Printf
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
@@ -184,11 +185,11 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
         base = __getAlbumPath__(conf, album) + '/'
         if album.numberOfVolumes > 1:
             base += 'CD' + str(track.volumeNumber) + '/'
-    if playlist is not None:
+    if playlist is not None and conf.usePlaylistFolder:
         base = __getPlaylistPath__(conf, playlist)
     # number
     number = __getIndexStr__(track.trackNumber)
-    if playlist is not None:
+    if playlist is not None and conf.usePlaylistFolder:
         number = __getIndexStr__(track.trackNumberOnPlaylist)
     # artist
     artist = aigpy.path.replaceLimitChar(track.artists[0].name, '-')
@@ -224,7 +225,7 @@ def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
         base = __getAlbumPath__(conf, album)
         if album.numberOfVolumes > 1:
             base += 'CD' + str(track.volumeNumber) + '/'
-    if playlist is not None:
+    if playlist is not None and conf.usePlaylistFolder:
         base = __getPlaylistPath__(conf, playlist)
 
     # hyphen
@@ -254,7 +255,7 @@ def __getTrackPath2__(conf, track, stream, album=None, playlist=None):
 def __getVideoPath__(conf, video, album=None, playlist=None):
     if album is not None and album.title is not None:
         base = __getAlbumPath__(conf, album)
-    elif playlist is not None:
+    elif playlist is not None and conf.usePlaylistFolder:
         base = __getPlaylistPath__(conf, playlist)
     else:
         base = conf.downloadPath + '/Video/'
@@ -288,8 +289,13 @@ def __isNeedDownload__(path, url):
     return True
 
 
-def __downloadVideo__(conf, video, album=None, playlist=None):
+def __downloadVideo__(conf, video:Video, album=None, playlist=None):
+    if video.allowStreaming is False:
+        Printf.err("Download failed! " + video.title + ' not allow streaming.')
+        return
+
     msg, stream = API.getVideoStreamUrl(video.id, conf.videoQuality)
+    Printf.video(video, stream)
     if not aigpy.string.isNull(msg):
         Printf.err(video.title + "." + msg)
         return
@@ -302,9 +308,14 @@ def __downloadVideo__(conf, video, album=None, playlist=None):
         Printf.err("\nDownload failed!" + aigpy.path.getFileName(path))
 
 
-def __downloadTrack__(conf: Settings, track, album=None, playlist=None):
+def __downloadTrack__(conf: Settings, track:Track, album=None, playlist=None):
     try:
+        if track.allowStreaming is False:
+            Printf.err("Download failed! " + track.title + ' not allow streaming.')
+            return
+
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
+        Printf.track(track, stream)
         if not aigpy.string.isNull(msg) or stream is None:
             Printf.err(track.title + "." + msg)
             return
@@ -363,7 +374,7 @@ def __album__(conf, obj):
 
 
 def __track__(conf, obj):
-    Printf.track(obj)
+    # Printf.track(obj)
     msg, album = API.getAlbum(obj.album.id)
     if conf.saveCovers:
         __downloadCover__(conf, album)
@@ -371,7 +382,7 @@ def __track__(conf, obj):
 
 
 def __video__(conf, obj):
-    Printf.video(obj)
+    # Printf.video(obj)
     __downloadVideo__(conf, obj, obj.album)
 
 

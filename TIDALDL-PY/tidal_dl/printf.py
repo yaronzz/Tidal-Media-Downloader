@@ -13,7 +13,7 @@ import logging
 import prettytable
 from tidal_dl.lang.language import getLangName, getLang
 from tidal_dl.settings import Settings, getSettingsPath
-from tidal_dl.model import Album, Track, Video, Playlist, Artist
+from tidal_dl.model import Album, Track, Video, Playlist, Artist, StreamUrl, VideoStreamUrl
 
 __LOGO__ = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -176,7 +176,7 @@ class Printf(object):
         
 
     @staticmethod
-    def track(data:Track):
+    def track(data:Track, stream:StreamUrl = None):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.MODEL_TRACK_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
@@ -186,6 +186,10 @@ class Printf(object):
         tb.add_row([LANG.MODEL_ALBUM, data.album.title])
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
+        tb.add_row(["Max-Q", data.audioQuality])
+        if stream is not None:
+            tb.add_row(["Get-Q", str(stream.soundQuality)])
+            tb.add_row(["Get-Codec", str(stream.codec)])
         print(tb)
         logging.info("====track " + str(data.id) + "====\n" + \
                      "title:" + data.title + "\n" + \
@@ -193,7 +197,7 @@ class Printf(object):
                      "==================================")
     
     @staticmethod
-    def video(data):
+    def video(data:Video, stream:VideoStreamUrl = None):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.MODEL_VIDEO_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
@@ -202,6 +206,11 @@ class Printf(object):
         tb.add_row([LANG.MODEL_ALBUM, data.album.title if data.album != None else None])
         tb.add_row([LANG.MODEL_VERSION, data.version])
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
+        tb.add_row(["Max-Q", data.quality])
+        if stream is not None:
+            tb.add_row(["Get-Q", str(stream.resolution)])
+            tb.add_row(["Get-Codec", str(stream.codec)])
+
         print(tb)
         logging.info("====video " + str(data.id) + "====\n" +
                      "title:" + data.title + "\n" +
