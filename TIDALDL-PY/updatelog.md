@@ -1,6 +1,7 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-04-23
 - [x] Show get-quality
 - [x] Update language
 - [x] Update settings: usePlaylistFolder

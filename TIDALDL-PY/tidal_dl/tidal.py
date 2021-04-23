@@ -14,6 +14,7 @@ import uuid
 import requests
 import json
 import base64
+import logging
 import aigpy.stringHelper as stringHelper
 import aigpy.systemHelper as systemHelper
 import aigpy.fileHelper as fileHelper
@@ -87,6 +88,7 @@ class TidalAPI(object):
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], None
             else:
+                logging.error("[Get operation err] path=" + path + ". respon=" + respond.text)
                 return "Get operation err!", None
         return None, result
 
