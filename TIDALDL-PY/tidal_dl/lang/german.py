@@ -31,6 +31,7 @@ class LangGerman(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat"
     SETTING_TRACK_FILE_FORMAT = "Track-Dateiformat"
     SETTING_SHOW_PROGRESS = "Fortschritt anzeigen"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "AUSWAHL"
     FUNCTION = "FUNKTION"
@@ -70,6 +71,7 @@ class LangGerman(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat('0' überspringen):"
     CHANGE_TRACK_FILE_FORMAT = "Track-Dateiformat('0' überspringen):"
     CHANGE_SHOW_PROGRESS = "Fortschritt anzeigen('0'-Nein,'1'-Ja):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starte Loginprozess..."

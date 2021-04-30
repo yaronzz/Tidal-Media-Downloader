@@ -31,6 +31,7 @@ class LangSpanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -70,6 +71,7 @@ class LangSpanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."

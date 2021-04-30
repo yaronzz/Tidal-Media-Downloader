@@ -31,6 +31,7 @@ class LangVietnamese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -70,6 +71,7 @@ class LangVietnamese(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi):"
     CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."

@@ -359,6 +359,33 @@ def __downloadCover__(conf, album):
     if url is not None:
         aigpy.net.downloadFile(url, path)
 
+def __saveAlbumInfo__(conf, album, tracks):
+    if album == None:
+        return
+    path = __getAlbumPath__(conf, album) + '/AlbumInfo.txt'
+
+    infos = ""
+    infos += "[ID]          %s\n" % (str(album.id))
+    infos += "[Title]       %s\n" % (str(album.title))
+    infos += "[Artists]     %s\n" % (str(album.artist.name))
+    infos += "[ReleaseDate] %s\n" % (str(album.releaseDate))
+    infos += "[SongNum]     %s\n" % (str(album.numberOfTracks))
+    infos += "[Duration]    %s\n" % (str(album.duration))
+    infos += '\n'
+
+    i = 0
+    while True:
+        if i >= int(album.numberOfVolumes):
+            break
+        i = i + 1
+        infos += "===========CD %d=============\n" % i
+        for item in tracks:
+            if item.volumeNumber != i:
+                continue
+            infos += '{:<8}'.format("[%d]" % item.trackNumber)
+            infos += "%s\n" % item.title
+    aigpy.file.write(path, infos, "w+")
+
 
 def __album__(conf, obj):
     Printf.album(obj)
@@ -366,6 +393,8 @@ def __album__(conf, obj):
     if not aigpy.string.isNull(msg):
         Printf.err(msg)
         return
+    if conf.saveAlbumInfo:
+        __saveAlbumInfo__(conf, obj, tracks)
     if conf.saveCovers:
         __downloadCover__(conf, obj)
     for item in tracks:

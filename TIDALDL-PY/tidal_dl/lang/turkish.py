@@ -31,6 +31,7 @@ class LangTurkish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Klasör ismi formatı:"
     SETTING_TRACK_FILE_FORMAT = "Dosya ismi formatı:"
     SETTING_SHOW_PROGRESS = "İndirme Çubuğu Görüntüleme:"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "Seçim"
     FUNCTION = "İşlemler"
@@ -70,6 +71,7 @@ class LangTurkish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Albüm Klasör İsmi Formatı('0' aynı kalsın):"
     CHANGE_TRACK_FILE_FORMAT = "Dosya İsmi Formatı('0' aynı kalsın):"
     CHANGE_SHOW_PROGRESS = "İndirme Çubuğu Görüntülensin mi?('0'-Hayır,'1'-Evet):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Giriş işlemleri başlatıldı..."

@@ -71,6 +71,7 @@ class Printf(object):
         tb.add_row([LANG.SETTING_VIDEO_QUALITY, data.videoQuality])
         tb.add_row([LANG.SETTING_CHECK_EXIST, data.checkExist])
         tb.add_row([LANG.SETTING_SHOW_PROGRESS, data.showProgress])
+        tb.add_row([LANG.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo])
         # tb.add_row([LANG.SETTING_ARTIST_BEFORE_TITLE, data.artistBeforeTitle])
         # tb.add_row([LANG.SETTING_ALBUMID_BEFORE_FOLDER, data.addAlbumIDBeforeFolder])
         tb.add_row([LANG.SETTING_INCLUDE_EP, data.includeEP])

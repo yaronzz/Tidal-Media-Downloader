@@ -32,6 +32,7 @@ class LangDanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Albummappens format"
     SETTING_TRACK_FILE_FORMAT = "Musiknummerets filformat"
     SETTING_SHOW_PROGRESS = "Vis fremskridt"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "VALG"
     FUNCTION = "FUNKTION"
@@ -71,7 +72,8 @@ class LangDanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Albummappeformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_TRACK_FILE_FORMAT = "Musiknummerets filformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_SHOW_PROGRESS = "Vis fremskridt('0'-Nej,'1'-Ja):"
-    
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+
     # {} are required in these strings
     AUTH_START_LOGIN = "Starter login-processen."
     AUTH_LOGIN_CODE = "Din login kode er {}"

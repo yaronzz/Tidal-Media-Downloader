@@ -173,6 +173,7 @@ def changeSettings():
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
+    CONF.saveAlbumInfo = Printf.enter(LANG.CHANGE_SAVE_ALBUM_INFO) == '1'
     CONF.usePlaylistFolder = Printf.enter(LANG.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):") == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
     CONF.albumFolderFormat = Printf.enterFormat(

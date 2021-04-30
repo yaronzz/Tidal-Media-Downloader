@@ -31,6 +31,7 @@ class LangEnglish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
     SETTING_SHOW_PROGRESS = "Show progress"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "CHOICE"
     FUNCTION = "FUNCTION"
@@ -70,6 +71,7 @@ class LangEnglish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify,'default' to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify,'default' to set default):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

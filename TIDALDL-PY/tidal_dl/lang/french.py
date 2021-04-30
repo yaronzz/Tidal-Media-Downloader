@@ -31,6 +31,7 @@ class LangFrench(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Format du dossier d'album"
     SETTING_TRACK_FILE_FORMAT = "Format du fichier de tracklist"
     SETTING_SHOW_PROGRESS = "Afficher la Progression"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"
@@ -70,6 +71,7 @@ class LangFrench(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Format du dossier d'album('0' ne pas modifier):"
     CHANGE_TRACK_FILE_FORMAT = "Format du fichier de tracklist('0' ne pas modifier):"
     CHANGE_SHOW_PROGRESS = "Afficher la progression('0'-Non,'1'-Oui):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

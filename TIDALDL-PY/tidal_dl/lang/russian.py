@@ -31,6 +31,7 @@ class LangRussian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
+    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -70,6 +71,7 @@ class LangRussian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0' не менять):"
     CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"
+    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."

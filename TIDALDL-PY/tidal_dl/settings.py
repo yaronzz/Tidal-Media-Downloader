@@ -89,6 +89,7 @@ class Settings(object):
     albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
     trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
     showProgress = True
+    saveAlbumInfo = False
 
     @staticmethod
     def getDefaultAlbumFolderFormat():
