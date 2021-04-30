@@ -1,7 +1,7 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
-
+#### v2021-04-30
 - [x] Fix bug of download video
 
 #### v2021-04-23

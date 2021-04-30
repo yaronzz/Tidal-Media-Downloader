@@ -4,6 +4,7 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         
         {
             "name": "Python: current",
@@ -40,6 +41,19 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceRoot}/TIDALDL-PY/tidal_dl/__init__.py",
+            "console": "integratedTerminal",
+            // "python": "python3",
+            "env": {
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+            },
+            "justMyCode": false
+
+        },
+        {
+            "name": "Python: gui",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/TIDALDL-PY/tidal_gui/__init__.py",
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
