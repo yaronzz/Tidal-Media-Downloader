@@ -302,10 +302,11 @@ def __downloadVideo__(conf, video:Video, album=None, playlist=None):
     path = __getVideoPath__(conf, video, album, playlist)
 
     logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
-    if aigpy.m3u8.download(stream.m3u8Url, path):
+    check, msg = aigpy.m3u8.download(stream.m3u8Url, path)
+    if check is True:
         Printf.success(aigpy.path.getFileName(path))
     else:
-        Printf.err("\nDownload failed!" + aigpy.path.getFileName(path))
+        Printf.err("\nDownload failed!" + msg + '(' + aigpy.path.getFileName(path) + ')')
 
 
 def __downloadTrack__(conf: Settings, track:Track, album=None, playlist=None):

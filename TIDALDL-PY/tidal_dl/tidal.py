@@ -121,9 +121,12 @@ class TidalAPI(object):
     def __getResolutionList__(self, url):
         ret = []
         txt = requests.get(url).text
-        array = txt.split("#EXT-X-STREAM-INF")
+        # array = txt.split("#EXT-X-STREAM-INF")
+        array = txt.split("#")
         for item in array:
             if "RESOLUTION=" not in item:
+                continue
+            if "EXT-X-STREAM-INF:" not in item:
                 continue
             stream = VideoStreamUrl()
             stream.codec = stringHelper.getSub(item, "CODECS=\"", "\"")
