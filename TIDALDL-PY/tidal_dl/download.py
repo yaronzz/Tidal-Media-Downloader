@@ -441,7 +441,7 @@ def __playlist__(conf, obj):
         __downloadVideo__(conf, item, None)
 
 
-def __file__(user, conf, string):
+def file(user, conf, string):
     txt = aigpy.file.getContent(string)
     if aigpy.string.isNull(txt):
         Printf.err("Nothing can read!")
@@ -468,7 +468,7 @@ def start(user, conf, string):
         if aigpy.string.isNull(item):
             continue
         if os.path.exists(item):
-            __file__(user, conf, item)
+            file(user, conf, item)
             return
 
         msg, etype, obj = API.getByString(item)
