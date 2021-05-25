@@ -11,8 +11,9 @@
 import os
 import json
 import base64
+
 from aigpy.fileHelper import getContent, write
-from aigpy.modelHelper import dictToModel, modelToDict
+from aigpy.modelHelper import dictToModel, modelToDict, ModelBase
 from tidal_dl.enum import AudioQuality, VideoQuality
 
 def __encode__(string):
@@ -39,7 +40,8 @@ def getSettingsPath():
 def getLogPath():
     return getSettingsPath() + '/.tidal-dl.log'
 
-class TokenSettings(object):
+
+class TokenSettings(ModelBase):
     userid = None
     countryCode = None
     accessToken = None
@@ -69,7 +71,8 @@ class TokenSettings(object):
     def __getFilePath__():
         return getSettingsPath() + '/.tidal-dl.token.json'
 
-class Settings(object):
+
+class Settings(ModelBase):
     downloadPath = "./download/"
     onlyM4a = False
     addExplicitTag = True
