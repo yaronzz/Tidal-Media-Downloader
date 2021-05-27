@@ -73,6 +73,8 @@ class TokenSettings(ModelBase):
 
 
 class Settings(ModelBase):
+    addLyrics = False
+    lyricsServerProxy = ''
     downloadPath = "./download/"
     onlyM4a = False
     addExplicitTag = True

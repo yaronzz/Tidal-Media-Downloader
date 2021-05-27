@@ -11,6 +11,7 @@
 import os
 import aigpy
 import logging
+import lyricsgenius
 
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
@@ -21,6 +22,7 @@ from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.decryption import decrypt_file
 
 API = TidalAPI()
+
 
 def __loadAPI__(user):
     API.key.accessToken = user.accessToken
@@ -71,7 +73,21 @@ def __parseContributors__(roleType, Contributors):
         return None
 
 
-def __setMetaData__(track, album, filepath, contributors):
+GEMIUS = lyricsgenius.Genius('vNKbAWAE3rVY_48nRaiOrDcWNLvsxS-Z8qyG5XfEzTOtZvkTfg6P3pxOVlA2BjaW')
+def __getLyrics__(trackName, artistName, proxy):
+    try:
+        if not aigpy.string.isNull(proxy):
+            GEMIUS._session.proxies = {
+                'http': f'http://{proxy}',
+                'https': f'http://{proxy}',
+            }
+        
+        song = GEMIUS.search_song(trackName, artistName)
+        return song.lyrics
+    except:
+        return ""
+
+def __setMetaData__(track, album, filepath, contributors, lyrics):
     obj = aigpy.tag.TagTool(filepath)
     obj.album = track.album.title
     obj.title = track.title
@@ -84,6 +100,7 @@ def __setMetaData__(track, album, filepath, contributors):
     obj.albumartist = __getArtists__(album.artists)
     obj.date = album.releaseDate
     obj.totaldisc = album.numberOfVolumes
+    obj.lyrics = lyrics
     if obj.totaldisc <= 1:
         obj.totaltrack = album.numberOfTracks
     coverpath = API.getCoverUrl(album.cover, "1280", "1280")
@@ -345,7 +362,11 @@ def __downloadTrack__(conf: Settings, track:Track, album=None, playlist=None):
 
         # contributors
         contributors = API.getTrackContributors(track.id)
-        __setMetaData__(track, album, path, contributors)
+        lyrics = ''
+        if conf.addLyrics:
+            lyrics = __getLyrics__(track.title, track.artists[0].name, conf.lyricsServerProxy)
+            
+        __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(aigpy.path.getFileName(path))
     except Exception as e:
         Printf.err("Download failed! " + track.title + ' (' + str(e) + ')')

@@ -32,6 +32,8 @@ class LangSpanish(object):
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -72,6 +74,8 @@ class LangSpanish(object):
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."

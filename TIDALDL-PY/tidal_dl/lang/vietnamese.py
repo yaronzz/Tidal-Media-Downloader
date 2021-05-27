@@ -32,6 +32,8 @@ class LangVietnamese(object):
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -72,6 +74,8 @@ class LangVietnamese(object):
     CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."
