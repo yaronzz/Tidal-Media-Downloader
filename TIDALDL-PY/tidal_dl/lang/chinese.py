@@ -32,6 +32,8 @@ class LangChinese(object):
     SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
     SETTING_SHOW_PROGRESS = "显示进度条"
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "添加歌词"
+    SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -72,6 +74,8 @@ class LangChinese(object):
     CHANGE_TRACK_FILE_FORMAT = "歌曲文件名格式('0' 不修改):"
     CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"
     CHANGE_SAVE_ALBUM_INFO = "保存AlbumInfo.txt('0'-否,'1'-是):"
+    CHANGE_ADD_LYRICS = "添加歌词('0'-否,'1'-是):"
+    CHANGE_LYRICS_SERVER_PROXY = "歌词服务器代理('0' 不修改):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "开始启动登录..."

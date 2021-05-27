@@ -32,6 +32,8 @@ class LangRussian(object):
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -72,6 +74,8 @@ class LangRussian(object):
     CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."

@@ -8,27 +8,29 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+from aigpy.modelHelper import ModelBase
 
-class StreamUrl(object):
+
+class StreamUrl(ModelBase):
     trackid = None
     url = None
     codec = None
     encryptionKey = None
     soundQuality = None
 
-class VideoStreamUrl(object):
+class VideoStreamUrl(ModelBase):
     codec = None
     resolution = None
     resolutions = None
     m3u8Url = None
 
-class Artist(object):
+class Artist(ModelBase):
     id = None
     name = None
     type = None
     picture = None
 
-class Album(object):
+class Album(ModelBase):
     id = None
     title = None
     duration = 0
@@ -45,7 +47,7 @@ class Album(object):
     artist = Artist()
     artists = Artist()
 
-class Track(object):
+class Track(ModelBase):
     id = None
     title = None
     duration = 0
@@ -62,7 +64,7 @@ class Track(object):
     album = Album()
     allowStreaming = False
 
-class Video(object):
+class Video(ModelBase):
     id = None
     title = None
     duration = 0
@@ -77,7 +79,7 @@ class Video(object):
     album = Album()
     allowStreaming = False
 
-class Playlist(object):
+class Playlist(ModelBase):
     uuid = None
     title = None
     numberOfTracks = 0

@@ -32,6 +32,8 @@ class LangGerman(object):
     SETTING_TRACK_FILE_FORMAT = "Track-Dateiformat"
     SETTING_SHOW_PROGRESS = "Fortschritt anzeigen"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "AUSWAHL"
     FUNCTION = "FUNKTION"
@@ -72,6 +74,8 @@ class LangGerman(object):
     CHANGE_TRACK_FILE_FORMAT = "Track-Dateiformat('0' überspringen):"
     CHANGE_SHOW_PROGRESS = "Fortschritt anzeigen('0'-Nein,'1'-Ja):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starte Loginprozess..."

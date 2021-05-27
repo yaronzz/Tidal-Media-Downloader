@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   spanish.py
-@Time    :   2020/11/12
+@Time    :   2021/05/12
 @Author  :   Frikilinux & JavierSC
-@Version :   2.0
+@Version :   2.1
 @Contact :
 @Desc    :
 '''
@@ -31,7 +31,9 @@ class LangSpanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
-    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -42,7 +44,7 @@ class LangSpanish(object):
     CHOICE_SETTINGS = "Ajustes"
     CHOICE_SET_ACCESS_TOKEN = "Establecer AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Descargar por Url o ID"
-    CHOICE_LOGOUT = "Logout"
+    CHOICE_LOGOUT = "Cerrar sesión"
 
     PRINT_ERR = "[ERROR]"
     PRINT_INFO = "[INFO]"
@@ -71,7 +73,9 @@ class LangSpanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
-    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+    CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
@@ -82,8 +86,8 @@ class LangSpanish(object):
 
     MSG_VALID_ACCESSTOKEN = "Token de acceso válido por {}."
     MSG_INVAILD_ACCESSTOKEN = "El token de acceso ha expirado. Tratando de renovarlo."
-    MSG_PATH_ERR = "La ruta no es correcta!"
-    MSG_INPUT_ERR = "Error de entrada!"
+    MSG_PATH_ERR = "¡La ruta no es correcta!"
+    MSG_INPUT_ERR = "¡Error de entrada!"
 
     MODEL_ALBUM_PROPERTY = "PROPIEDAD-DE-ÁLBUM"
     MODEL_TRACK_PROPERTY = "PROPIEDAD-DE-PISTA"

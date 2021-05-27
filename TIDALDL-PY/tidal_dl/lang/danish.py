@@ -33,6 +33,8 @@ class LangDanish(object):
     SETTING_TRACK_FILE_FORMAT = "Musiknummerets filformat"
     SETTING_SHOW_PROGRESS = "Vis fremskridt"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Add lyrics"
+    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
 
     CHOICE = "VALG"
     FUNCTION = "FUNKTION"
@@ -73,6 +75,8 @@ class LangDanish(object):
     CHANGE_TRACK_FILE_FORMAT = "Musiknummerets filformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_SHOW_PROGRESS = "Vis fremskridt('0'-Nej,'1'-Ja):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
+    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starter login-processen."

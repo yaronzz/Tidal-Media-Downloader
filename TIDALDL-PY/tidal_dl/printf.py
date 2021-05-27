@@ -27,7 +27,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2021.4.30.1'
+VERSION = '2021.5.25.1'
 
 class Printf(object):
 
@@ -81,6 +81,8 @@ class Printf(object):
         tb.add_row([LANG.SETTING_MULITHREAD_DOWNLOAD, data.multiThreadDownload])
         tb.add_row([LANG.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat])
         tb.add_row([LANG.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat])
+        tb.add_row([LANG.SETTING_ADD_LYRICS, data.addLyrics])
+        tb.add_row([LANG.SETTING_LYRICS_SERVER_PROXY, data.lyricsServerProxy])
         print(tb)
 
     @staticmethod

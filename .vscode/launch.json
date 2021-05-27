@@ -53,11 +53,11 @@
             "name": "Python: gui",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceRoot}/TIDALDL-PY/tidal_gui/__init__.py",
+            "program": "${workspaceRoot}/TIDALDL-GUI/tidal_gui/__init__.py",
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
-                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-GUI/"
             },
             "justMyCode": false
 
