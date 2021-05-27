@@ -75,7 +75,7 @@ class LangSpanish(object):
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
     CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
-    CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modifcar):"
+    CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
