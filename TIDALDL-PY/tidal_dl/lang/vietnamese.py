@@ -3,7 +3,7 @@
 '''
 @File    :   vietnamese.py
 @Time    :   2020/11/12
-@Author  :   MinhNgo
+@Author  :   MinhNgo, CDzungx
 @Version :   1.0
 @Contact :   iam.minhnc@outlook.com
 @Desc    :   
@@ -17,7 +17,7 @@ class LangVietnamese(object):
     SETTING_ADD_EXPLICIT_TAG = "Thêm tag explicit"
     SETTING_ADD_HYPHEN = "Thêm dấu nối"
     SETTING_ADD_YEAR = "Thêm năm trước thư mục album"
-    SETTING_USE_TRACK_NUM = "Thêm STT track"
+    SETTING_USE_TRACK_NUM = "Thêm số thứ tự bài"
     SETTING_AUDIO_QUALITY = "Chất lượng âm thanh"
     SETTING_VIDEO_QUALITY = "Chất lượng video"
     SETTING_CHECK_EXIST = "Kiểm tra tồn tại"
@@ -31,9 +31,9 @@ class LangVietnamese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
-    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
-    SETTING_ADD_LYRICS = "Add lyrics"
-    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
+    SETTING_SAVE_ALBUMINFO = "Lưu AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Thêm lời bài hát"
+    SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -44,10 +44,10 @@ class LangVietnamese(object):
     CHOICE_SETTINGS = "Thiết lập"
     CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
-    CHOICE_LOGOUT = "Logout"
+    CHOICE_LOGOUT = "Đăng xuất"
 
     PRINT_ERR = "[LỖI]"
-    PRINT_INFO = "[INFO]"
+    PRINT_INFO = "[THÔNG TIN]"
     PRINT_SUCCESS = "[XONG]"
 
     PRINT_ENTER_CHOICE = "Nhập lựa chọn:"
@@ -63,19 +63,19 @@ class LangVietnamese(object):
     CHANGE_ADD_EXPLICIT_TAG = "Thêm tag explicit vào tên tệp('0'-Không,'1'-Có):"
     CHANGE_ADD_HYPHEN = "Dùng gạch nối thay vì spaces trong tên tệp('0'-Không,'1'-Có):"
     CHANGE_ADD_YEAR = "Thêm năm phía trước tên thư mục album('0'-Không,'1'-Có):"
-    CHANGE_USE_TRACK_NUM = "Thêm STT track đầu tên tệp('0'-Không,'1'-Có):"
+    CHANGE_USE_TRACK_NUM = "Thêm số thứ tự bài ở đầu tên tệp('0'-Không,'1'-Có):"
     CHANGE_CHECK_EXIST = "Kiểm tra tệp đã tồn tại chưa trước khi tải('0'-Không,'1'-Có):"
     CHANGE_ARTIST_BEFORE_TITLE = "Thêm tên nghệ sĩ trước tựa đề('0'-Không,'1'-Có):"
     CHANGE_INCLUDE_EP = "Bao gồm đĩa đơn và EPs khi tải tất cả nhạc của nghệ sĩ('0'-Không,'1'-Có):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Thêm id phía trước tên thư mục album('0'-Không,'1'-Có):"
     CHANGE_SAVE_COVERS = "Tải ảnh bìa('0'-Không,'1'-Có):"
     CHANGE_LANGUAGE = "Chọn ngôn ngữ"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi):"
-    CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi,'default' để đặt về mặc định):"
+    CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
-    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
-    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
-    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
+    CHANGE_SAVE_ALBUM_INFO = "Lưu AlbumInfo.txt('0'-Không,'1'-Có):"
+    CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
+    CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."
@@ -85,21 +85,21 @@ class LangVietnamese(object):
     AUTH_TIMEOUT = "Đã vượt quá thời gian chờ."
     
     MSG_VALID_ACCESSTOKEN = "AccessToken vẫn tốt trong {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken hết hạn. Đang cố gắng làm mới."
+    MSG_INVAILD_ACCESSTOKEN = "AccessToken hết hạn. Đang cố làm mới."
     MSG_PATH_ERR = "Lỗi đường dẫn!"
     MSG_INPUT_ERR = "Lỗi nhập!"
 
-    MODEL_ALBUM_PROPERTY = "THÔNG TIN ALBUM"
-    MODEL_TRACK_PROPERTY = "THÔNG TIN TRACK"
-    MODEL_VIDEO_PROPERTY = "THÔNG TIN VIDEO"
-    MODEL_ARTIST_PROPERTY = "THÔNG TIN NGHỆ SĨ"
-    MODEL_PLAYLIST_PROPERTY = "THÔNG TIN PLAYLIST"
+    MODEL_ALBUM_PROPERTY = "THÔNG-TIN-ALBUM"
+    MODEL_TRACK_PROPERTY = "THÔNG-TIN-BÀI"
+    MODEL_VIDEO_PROPERTY = "THÔNG-TIN-VIDEO"
+    MODEL_ARTIST_PROPERTY = "THÔNG-TIN-NGHỆ-SĨ"
+    MODEL_PLAYLIST_PROPERTY = "THÔNG-TIN-DANH-SÁCH-PHÁT"
 
-    MODEL_TITLE = 'Tựa đề'
-    MODEL_TRACK_NUMBER = 'Số Track'
+    MODEL_TITLE = 'Tựa Đề'
+    MODEL_TRACK_NUMBER = 'Số Bài'
     MODEL_VIDEO_NUMBER = 'Số Video'
-    MODEL_RELEASE_DATE = 'Ngày phát hành'
-    MODEL_VERSION = 'Phiên bản'
+    MODEL_RELEASE_DATE = 'Ngày Phát Hành'
+    MODEL_VERSION = 'Phiên Bản'
     MODEL_EXPLICIT = 'Explicit'
     MODEL_ALBUM = 'Album'
     MODEL_ID = 'ID'
