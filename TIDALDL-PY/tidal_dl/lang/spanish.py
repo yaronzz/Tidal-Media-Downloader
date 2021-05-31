@@ -34,6 +34,7 @@ class LangSpanish(object):
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
+    SETTING_PATH = "Ruta de ajustes"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
