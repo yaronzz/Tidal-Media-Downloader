@@ -63,7 +63,7 @@ If you really like my projects and want to support me, you can buy me a coffee a
 
 ## 🎂 Contributors
 This project exists thanks to all the people who contribute. 
-<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://opencollective.com/Tidal-Media-Downloader/contributors.svg?width=890" /></a>
+<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://contributors-img.web.app/image?repo=yaronzz/Tidal-Media-Downloader" /></a>
 
 ## 🎨 Libraries and reference
 
