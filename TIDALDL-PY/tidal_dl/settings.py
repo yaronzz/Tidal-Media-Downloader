@@ -57,6 +57,8 @@ class TokenSettings(ModelBase):
         txt = __decode__(txt)
         data = json.loads(txt)
         ret = dictToModel(data, TokenSettings())
+        if ret is None:
+            return TokenSettings()
         return ret
 
     @staticmethod
@@ -112,6 +114,8 @@ class Settings(ModelBase):
             return Settings()
         data = json.loads(txt)
         ret = dictToModel(data, Settings())
+        if ret is None:
+            return Settings()
         ret.audioQuality = Settings.getAudioQuality(ret.audioQuality)
         ret.videoQuality = Settings.getVideoQuality(ret.videoQuality)
         ret.usePlaylistFolder = ret.usePlaylistFolder == True or ret.usePlaylistFolder is None

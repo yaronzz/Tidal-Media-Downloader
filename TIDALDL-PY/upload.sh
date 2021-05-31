@@ -15,7 +15,7 @@ mv dist/__init__.exe exe/tidal-dl.exe
 pip uninstall -y tidal-dl
 
 # creat requirements.txt
-pipreqs ./ --force --encoding=utf8
+# pipreqs ./ --force --encoding=utf8
 
 # python setup.py install
 

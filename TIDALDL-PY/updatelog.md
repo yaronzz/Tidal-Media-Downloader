@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-05-31
+- [x] Add lyrics
+
 #### v2021-04-30
 - [x] Add 'album info.txt' 
 - [x] Fix bug of download video
