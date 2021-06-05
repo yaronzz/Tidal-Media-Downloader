@@ -35,6 +35,9 @@ class LangSpanish(object):
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_PATH = "Ruta de ajustes"
+    SETTING_ADD_LYRICS = "Añadir letras"
+    SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
+    SETTING_PATH = "Ruta de ajustes"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -75,8 +78,8 @@ class LangSpanish(object):
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
-    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
-    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
+    CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
+    CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
