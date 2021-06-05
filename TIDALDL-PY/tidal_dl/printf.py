@@ -60,7 +60,8 @@ class Printf(object):
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.SETTING), aigpy.cmd.green(LANG.VALUE)]
         tb.align = 'l'
-        tb.add_row(["Settings path", getSettingsPath()])
+        # tb.add_row(["Settings path", getSettingsPath()])
+        tb.add_row([LANG.SETTING_PATH, getSettingsPath()])
         tb.add_row([LANG.SETTING_DOWNLOAD_PATH, data.downloadPath])
         tb.add_row([LANG.SETTING_ONLY_M4A, data.onlyM4a])
         # tb.add_row([LANG.SETTING_ADD_EXPLICIT_TAG, data.addExplicitTag])

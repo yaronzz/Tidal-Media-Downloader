@@ -34,6 +34,7 @@ class LangChinese(object):
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
+    SETTING_PATH = "Settings path"
 
     CHOICE = "选项"
     FUNCTION = "功能"
