@@ -31,10 +31,10 @@ class LangRussian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
-    SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
-    SETTING_ADD_LYRICS = "Add lyrics"
-    SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
-    SETTING_PATH = "Settings path"
+    SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
+    SETTING_ADD_LYRICS = "Добавлять текст песень"
+    SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
+    SETTING_PATH = "Путь для настроек"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -74,9 +74,9 @@ class LangRussian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0' не менять):"
     CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"
-    CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
-    CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
-    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
+    CHANGE_SAVE_ALBUM_INFO = "Сохранять AlbumInfo.txt('0'-Нет,'1'-Да):"
+    CHANGE_ADD_LYRICS = "Добавлять тексты песень ('0'-Нет,'1'-Да):"
+    CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песень('0' не менять):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."
