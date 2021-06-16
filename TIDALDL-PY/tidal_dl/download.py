@@ -91,6 +91,8 @@ def __setMetaData__(track, album, filepath, contributors, lyrics):
     obj = aigpy.tag.TagTool(filepath)
     obj.album = track.album.title
     obj.title = track.title
+    if not aigpy.string.isNull(track.version):
+        obj.title += ' (' + track.version + ')'
     obj.artist = __getArtists__(track.artists)
     obj.copyright = track.copyRight
     obj.tracknumber = track.trackNumber
