@@ -148,3 +148,9 @@ download/Playlist/Boy Bands- K-Pop Kings/Tmp0/20.part
 download/Playlist/Boy Bands- K-Pop Kings/Tmp0/21.part
 download/Playlist/Boy Bands- K-Pop Kings/Tmp0/22.part
 /TIDALDL-GUI
+/.vscode/.env
+/.vscode/settings.json
+/TIDALDL-PY/test/track.json
+/TIDALDL-PY/test/video.json
+/__init__.spec
+/test.py
