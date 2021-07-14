@@ -23,8 +23,8 @@
   «Tidal-Media-Downloader» is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl and tidal-gui. (This repository only contains tidal-dl, and the release isn't the newest gui version.)
     <br>
         <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO/releases">Download</a> |
-        <a href="https://yaronzz.top/post/tidal_dl_installation/">Documentation</a> |
-        <a href="https://yaronzz.top/post/tidal_dl_installation_chn/">中文文档</a> |
+        <a href="https://yaronzz.com/post/tidal_dl_installation/">Documentation</a> |
+        <a href="https://yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
         <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
     <br>
 </p>
@@ -33,7 +33,7 @@
 | Name           | platform                          | Install                                                      |
 | -------------- | --------------------------------- | ------------------------------------------------------------ |
 | tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
-| tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.top/post/tidal_dl_installation/#Install) |
+| tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
 
 **Renewal cycle:** Once a month. (25th to 30th)
 
