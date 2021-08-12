@@ -460,6 +460,8 @@ def __playlist__(conf, obj):
         mag, album = API.getAlbum(item.album.id)
         item.trackNumberOnPlaylist = index + 1
         __downloadTrack__(conf, item, album, obj)
+        if conf.saveCovers and not conf.usePlaylistFolder:
+            __downloadCover__(conf,album)
     for item in videos:
         __downloadVideo__(conf, item, None)
 
