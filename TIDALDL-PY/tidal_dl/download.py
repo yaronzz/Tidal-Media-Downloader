@@ -108,7 +108,7 @@ def __setMetaData__(track, album, filepath, contributors, lyrics):
         for artist in album.artists:
             obj.albumartist.append(artist.name)
     else:
-        obj.albumartist = __getArtists__(track.albumartist)
+        obj.albumartist = __getArtists__(album.artists)
     obj.date = album.releaseDate
     obj.totaldisc = album.numberOfVolumes
     obj.lyrics = lyrics
