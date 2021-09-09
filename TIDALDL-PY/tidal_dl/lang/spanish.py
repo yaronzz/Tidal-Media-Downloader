@@ -9,6 +9,7 @@
 @Desc    :
 '''
 
+
 class LangSpanish(object):
     SETTING = "AJUSTES"
     VALUE = "VALORES"
@@ -31,6 +32,7 @@ class LangSpanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
@@ -53,8 +55,8 @@ class LangSpanish(object):
 
     PRINT_ENTER_CHOICE = "Ingresar Selección:"
     PRINT_LATEST_VERSION = "Última versión:"
-    #PRINT_USERNAME = "nombre de usuario:"
-    #PRINT_PASSWORD = "contraseña:"
+    # PRINT_USERNAME = "nombre de usuario:"
+    # PRINT_PASSWORD = "contraseña:"
 
     CHANGE_START_SETTINGS = "¿Iniciar ajustes? ('0'-Volver,'1'-Sí):"
     CHANGE_DOWNLOAD_PATH = "Ruta de descarga ('0' No modificar):"
@@ -74,6 +76,7 @@ class LangSpanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
     CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
     CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"

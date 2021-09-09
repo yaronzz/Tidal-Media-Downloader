@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangGerman(object):
     SETTING = "EINSTELLUNG"
     VALUE = "WERT"
@@ -31,6 +32,7 @@ class LangGerman(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat"
     SETTING_TRACK_FILE_FORMAT = "Track-Dateiformat"
     SETTING_SHOW_PROGRESS = "Fortschritt anzeigen"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -53,9 +55,9 @@ class LangGerman(object):
 
     PRINT_ENTER_CHOICE = "Auswahl:"
     PRINT_LATEST_VERSION = "Neueste Version:"
-    #PRINT_USERNAME = "Benutzername:"
-    #PRINT_PASSWORD = "Passwort:"
-    
+    # PRINT_USERNAME = "Benutzername:"
+    # PRINT_PASSWORD = "Passwort:"
+
     CHANGE_START_SETTINGS = "Einstellungen starten ('0'-Zurück,'1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Downloadpfad ('0' nicht ändern):"
     CHANGE_AUDIO_QUALITY = "Tonqualität ('0'-Normal,'1'-Hoch,'2'-HiFi,'3'-Master):"
@@ -74,6 +76,7 @@ class LangGerman(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat('0' überspringen):"
     CHANGE_TRACK_FILE_FORMAT = "Track-Dateiformat('0' überspringen):"
     CHANGE_SHOW_PROGRESS = "Fortschritt anzeigen('0'-Nein,'1'-Ja):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
@@ -84,7 +87,7 @@ class LangGerman(object):
     AUTH_NEXT_STEP = "Gehe auf {} in den nächsten {} um das Setup abzuschließen."
     AUTH_WAITING = "Auf Autorisierung warten..."
     AUTH_TIMEOUT = "Zeitüberschreitung der Operation."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken gültig für {}."
     MSG_INVAILD_ACCESSTOKEN = "AccessToken abgelaufen. Versuche zu erneuern."
     MSG_PATH_ERR = "Ungültiger Pfad!"

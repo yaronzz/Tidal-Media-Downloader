@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangRussian(object):
     SETTING = "НАСТРОЙКА"
     VALUE = "УСТАНОВКА"
@@ -31,6 +32,7 @@ class LangRussian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
@@ -53,9 +55,9 @@ class LangRussian(object):
 
     PRINT_ENTER_CHOICE = "Выбор функции:"
     PRINT_LATEST_VERSION = "Последняя версия:"
-    #PRINT_USERNAME = "Имя:"
-    #PRINT_PASSWORD = "Пароль:"
-    
+    # PRINT_USERNAME = "Имя:"
+    # PRINT_PASSWORD = "Пароль:"
+
     CHANGE_START_SETTINGS = "Начальная настройка('0'-Отмена,'1'-Да):"
     CHANGE_DOWNLOAD_PATH = "Место сохранения('0'-Отмена):"
     CHANGE_AUDIO_QUALITY = "Качество аудио('0'-Стандарт,'1'-Высокое,'2'-HiFi,'3'-MQA):"
@@ -74,6 +76,7 @@ class LangRussian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0' не менять):"
     CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Сохранять AlbumInfo.txt('0'-Нет,'1'-Да):"
     CHANGE_ADD_LYRICS = "Добавлять тексты песень ('0'-Нет,'1'-Да):"
     CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песень('0' не менять):"
@@ -84,7 +87,7 @@ class LangRussian(object):
     AUTH_NEXT_STEP = "Перейдите к {} в течении {}, для завершения настройки."
     AUTH_WAITING = "Ожидание авторизации..."
     AUTH_TIMEOUT = "Закончилось время ожидания."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken успешно применён {}."
     MSG_INVAILD_ACCESSTOKEN = "Срок действия AccessToken истек.  Попытка обновления."
     MSG_PATH_ERR = "Неверное место!"

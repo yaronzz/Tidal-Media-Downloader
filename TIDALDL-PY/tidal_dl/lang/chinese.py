@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangChinese(object):
     SETTING = "设置"
     VALUE = "值"
@@ -31,6 +32,7 @@ class LangChinese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "专辑目录格式"
     SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
     SETTING_SHOW_PROGRESS = "显示进度条"
+    SETTING_SHOW_TRACKIFNO = "显示歌曲信息"
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
@@ -53,8 +55,8 @@ class LangChinese(object):
 
     PRINT_ENTER_CHOICE = "输入选项:"
     PRINT_LATEST_VERSION = "最新版本:"
-    #PRINT_USERNAME = "用户:"
-    #PRINT_PASSWORD = "密码:"
+    # PRINT_USERNAME = "用户:"
+    # PRINT_PASSWORD = "密码:"
 
     CHANGE_START_SETTINGS = "开始设置('0'-返回,'1'-是):"
     CHANGE_DOWNLOAD_PATH = "下载路径('0' 不修改):"
@@ -74,6 +76,7 @@ class LangChinese(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "专辑目录格式('0' 不修改):"
     CHANGE_TRACK_FILE_FORMAT = "歌曲文件名格式('0' 不修改):"
     CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"
+    CHANGE_SHOW_TRACKINFO = "显示歌曲信息('0'-否,'1'-是):"
     CHANGE_SAVE_ALBUM_INFO = "保存AlbumInfo.txt('0'-否,'1'-是):"
     CHANGE_ADD_LYRICS = "添加歌词('0'-否,'1'-是):"
     CHANGE_LYRICS_SERVER_PROXY = "歌词服务器代理('0' 不修改):"
@@ -84,7 +87,7 @@ class LangChinese(object):
     AUTH_NEXT_STEP = "请打开 {} 并在 {} 之内完成操作."
     AUTH_WAITING = "等待登录验证..."
     AUTH_TIMEOUT = "操作超时."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken保质期为 {}."
     MSG_INVAILD_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
     MSG_PATH_ERR = "路径错误!"

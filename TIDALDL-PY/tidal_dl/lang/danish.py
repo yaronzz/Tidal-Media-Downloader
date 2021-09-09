@@ -16,7 +16,7 @@ class LangDanish(object):
     SETTING_DOWNLOAD_PATH = "Download sti"
     SETTING_ONLY_M4A = "Konverter mp4 til m4a"
     SETTING_ADD_EXPLICIT_TAG = "Tilføj eksplicit tag"
-    SETTING_ADD_HYPHEN = "Tilføj bindestreg" 
+    SETTING_ADD_HYPHEN = "Tilføj bindestreg"
     SETTING_ADD_YEAR = "Tilføj år før album mappe"
     SETTING_USE_TRACK_NUM = "Tilføj titelnummer"
     SETTING_AUDIO_QUALITY = "Lydkvalitet"
@@ -32,6 +32,7 @@ class LangDanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Albummappens format"
     SETTING_TRACK_FILE_FORMAT = "Musiknummerets filformat"
     SETTING_SHOW_PROGRESS = "Vis fremskridt"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -54,9 +55,9 @@ class LangDanish(object):
 
     PRINT_ENTER_CHOICE = "Indtast Valg:"
     PRINT_LATEST_VERSION = "Seneste version:"
-    #PRINT_USERNAME = "username:"
-    #PRINT_PASSWORD = "password:"
-    
+    # PRINT_USERNAME = "username:"
+    # PRINT_PASSWORD = "password:"
+
     CHANGE_START_SETTINGS = "Start indstillinger('0'-Tilbage,'1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Download stil('0' ændrer ikke):"
     CHANGE_AUDIO_QUALITY = "Lydkvalitet('0'-Normal,'1'-Høj,'2'-HiFi,'3'-Master):"
@@ -75,6 +76,7 @@ class LangDanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Albummappeformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_TRACK_FILE_FORMAT = "Musiknummerets filformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_SHOW_PROGRESS = "Vis fremskridt('0'-Nej,'1'-Ja):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
@@ -85,7 +87,7 @@ class LangDanish(object):
     AUTH_NEXT_STEP = "Gå til {} inden for de næste {} for at afslutte opsætningen."
     AUTH_WAITING = "Venter på godkendelse..."
     AUTH_TIMEOUT = "Tiden løb ud."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken tilgængelig for {}."
     MSG_INVAILD_ACCESSTOKEN = "AccessToken udløb. Forsøger at opdatere"
     MSG_PATH_ERR = "Sti fejl!"

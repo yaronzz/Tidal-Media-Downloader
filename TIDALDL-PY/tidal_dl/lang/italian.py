@@ -9,6 +9,7 @@
 @Desc    :
 '''
 
+
 class LangItalian(object):
     SETTING = "IMPOSTAZIONI"
     VALUE = "VALORE"
@@ -31,6 +32,7 @@ class LangItalian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
     SETTING_SHOW_PROGRESS = "Show progress"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -53,8 +55,8 @@ class LangItalian(object):
 
     PRINT_ENTER_CHOICE = "Inserire scelta:"
     PRINT_LATEST_VERSION = "Ultima versione:"
-    #PRINT_USERNAME = "username:"
-    #PRINT_PASSWORD = "password:"
+    # PRINT_USERNAME = "username:"
+    # PRINT_PASSWORD = "password:"
 
     CHANGE_START_SETTINGS = "Impostazioni all'avvio ('0'-Ritorna,'1'-Sì):"
     CHANGE_DOWNLOAD_PATH = "Percorso Download ('0' non modificare):"
@@ -74,6 +76,7 @@ class LangItalian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
@@ -84,7 +87,7 @@ class LangItalian(object):
     AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
     AUTH_WAITING = "Waiting for authorization..."
     AUTH_TIMEOUT = "Operation timed out."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
     MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Percorso errato!"

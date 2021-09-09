@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangVietnamese(object):
     SETTING = "THIẾT LẬP"
     VALUE = "GIÁ TRỊ"
@@ -31,6 +32,7 @@ class LangVietnamese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Lưu AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Thêm lời bài hát"
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
@@ -53,9 +55,9 @@ class LangVietnamese(object):
 
     PRINT_ENTER_CHOICE = "Nhập lựa chọn:"
     PRINT_LATEST_VERSION = "Bản mới nhất:"
-    #PRINT_USERNAME = "tên đăng nhập:"
-    #PRINT_PASSWORD = "mật khẩu:"
-    
+    # PRINT_USERNAME = "tên đăng nhập:"
+    # PRINT_PASSWORD = "mật khẩu:"
+
     CHANGE_START_SETTINGS = "Bắt đầu thiết lập('0'-Về,'1'-Có):"
     CHANGE_DOWNLOAD_PATH = "Đường dẫn tải về('0' không đổi):"
     CHANGE_AUDIO_QUALITY = "Chất lượng âm thanh('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
@@ -74,6 +76,7 @@ class LangVietnamese(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Lưu AlbumInfo.txt('0'-Không,'1'-Có):"
     CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
@@ -84,7 +87,7 @@ class LangVietnamese(object):
     AUTH_NEXT_STEP = "Vào trang {} trong vòng {} để hoàn tất thiết lập."
     AUTH_WAITING = "Đang chờ xác minh..."
     AUTH_TIMEOUT = "Đã vượt quá thời gian chờ."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken vẫn tốt trong {}."
     MSG_INVAILD_ACCESSTOKEN = "AccessToken hết hạn. Đang cố làm mới."
     MSG_PATH_ERR = "Lỗi đường dẫn!"

@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangHungarian(object):
     SETTING = "BEÁLLÍTÁSOK"
     VALUE = "ÉRTÉK"
@@ -31,6 +32,7 @@ class LangHungarian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album mappa formátum"
     SETTING_TRACK_FILE_FORMAT = "Track fájlformátum"
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
@@ -53,8 +55,8 @@ class LangHungarian(object):
 
     PRINT_ENTER_CHOICE = "Válasszon:"
     PRINT_LATEST_VERSION = "Legújabb verzió:"
-    #PRINT_USERNAME = "felhasználónév:"
-    #PRINT_PASSWORD = "jelszó
+    # PRINT_USERNAME = "felhasználónév:"
+    # PRINT_PASSWORD = "jelszó
 
     CHANGE_START_SETTINGS = "Beállítások indítása('0'- Vissza, '1'-Igen):"
     CHANGE_DOWNLOAD_PATH = "Letöltési útvonal('0' nincs módosítás):"
@@ -74,6 +76,7 @@ class LangHungarian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album mappa formátum('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_TRACK_FILE_FORMAT = "Track fájl neve('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-nem, '1'-igen):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-nem, '1'-igen):"
     CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-nem,'1'-igen):"
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló prox('0' nincs módosítás):"

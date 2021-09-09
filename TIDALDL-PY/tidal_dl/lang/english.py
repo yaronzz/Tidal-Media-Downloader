@@ -9,6 +9,7 @@
 @Desc    :   
 '''
 
+
 class LangEnglish(object):
     SETTING = "SETTINGS"
     VALUE = "VALUE"
@@ -31,6 +32,7 @@ class LangEnglish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
     SETTING_SHOW_PROGRESS = "Show progress"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -53,9 +55,9 @@ class LangEnglish(object):
 
     PRINT_ENTER_CHOICE = "Enter Choice:"
     PRINT_LATEST_VERSION = "Latest version:"
-    #PRINT_USERNAME = "username:"
-    #PRINT_PASSWORD = "password:"
-    
+    # PRINT_USERNAME = "username:"
+    # PRINT_PASSWORD = "password:"
+
     CHANGE_START_SETTINGS = "Start settings('0'-Return,'1'-Yes):"
     CHANGE_DOWNLOAD_PATH = "Download path('0' not modify):"
     CHANGE_AUDIO_QUALITY = "Audio quality('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
@@ -74,17 +76,18 @@ class LangEnglish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify,'default' to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify,'default' to set default):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
-    
+
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."
     AUTH_LOGIN_CODE = "Your login code is {}"
     AUTH_NEXT_STEP = "Go to {} within the next {} to complete setup."
     AUTH_WAITING = "Waiting for authorization..."
     AUTH_TIMEOUT = "Operation timed out."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
     MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Path is error!"

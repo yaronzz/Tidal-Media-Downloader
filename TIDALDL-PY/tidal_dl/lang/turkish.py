@@ -9,6 +9,7 @@
 @Desc    :   Yanlış çeviri ya da düzenleme için 'realmutlusen@gmail.com'a mail atabilirsiniz.   
 '''
 
+
 class LangTurkish(object):
     SETTING = "AYARLAR"
     VALUE = "VERİLER"
@@ -31,6 +32,7 @@ class LangTurkish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Klasör ismi formatı:"
     SETTING_TRACK_FILE_FORMAT = "Dosya ismi formatı:"
     SETTING_SHOW_PROGRESS = "İndirme Çubuğu Görüntüleme:"
+    SETTING_SHOW_TRACKIFNO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -53,8 +55,8 @@ class LangTurkish(object):
 
     PRINT_ENTER_CHOICE = "Seçim Gir: "
     PRINT_LATEST_VERSION = "Güncelleme Mevcut:"
-    #PRINT_USERNAME = "Kullanıcı Adı ya da Mail Adresi:"
-    #PRINT_PASSWORD = "Şifre:"
+    # PRINT_USERNAME = "Kullanıcı Adı ya da Mail Adresi:"
+    # PRINT_PASSWORD = "Şifre:"
 
     CHANGE_START_SETTINGS = ">>> Ayarları düzenlemek istediğine emin misin ? ('0'-Geri Dön,'1'-Evet): "
     CHANGE_DOWNLOAD_PATH = ">>> İndirme Konumu ('0' aynı kalsın): "
@@ -74,6 +76,7 @@ class LangTurkish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Albüm Klasör İsmi Formatı('0' aynı kalsın):"
     CHANGE_TRACK_FILE_FORMAT = "Dosya İsmi Formatı('0' aynı kalsın):"
     CHANGE_SHOW_PROGRESS = "İndirme Çubuğu Görüntülensin mi?('0'-Hayır,'1'-Evet):"
+    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
@@ -84,7 +87,7 @@ class LangTurkish(object):
     AUTH_NEXT_STEP = "Bu siteden {} hesabınıza giriş yapınız ve üstteki kodu giriniz. ({} dakikanız var.)"
     AUTH_WAITING = "İşlemleri tamamlamanız bekleniyor..."
     AUTH_TIMEOUT = "Lütfen size verilen süre içerisinde işlemleriniz tamamlayınız."
-    
+
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
     MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "İndirme konumu ile alakalı bir sorun var! ('/storage/emulated/0/Download/' şeklinde girebilirsiniz.)"

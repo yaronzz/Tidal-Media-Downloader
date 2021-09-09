@@ -9,29 +9,31 @@
 @Desc    :   
 '''
 
-from tidal_dl.lang.english import LangEnglish
-from tidal_dl.lang.chinese import LangChinese
-from tidal_dl.lang.turkish import LangTurkish
-from tidal_dl.lang.italian import LangItalian
-from tidal_dl.lang.czech import LangCzech
 from tidal_dl.lang.arabic import LangArabic
-from tidal_dl.lang.russian import LangRussian
-from tidal_dl.lang.filipino import LangFilipino
+from tidal_dl.lang.chinese import LangChinese
 from tidal_dl.lang.croatian import LangCroatian
-from tidal_dl.lang.spanish import LangSpanish
-from tidal_dl.lang.portuguese import LangPortuguese
-from tidal_dl.lang.ukrainian import  LangUkrainian
-from tidal_dl.lang.vietnamese import LangVietnamese
+from tidal_dl.lang.czech import LangCzech
+from tidal_dl.lang.danish import LangDanish
+from tidal_dl.lang.english import LangEnglish
+from tidal_dl.lang.filipino import LangFilipino
 from tidal_dl.lang.french import LangFrench
 from tidal_dl.lang.german import LangGerman
-from tidal_dl.lang.danish import LangDanish
 from tidal_dl.lang.hungarian import LangHungarian
+from tidal_dl.lang.italian import LangItalian
+from tidal_dl.lang.portuguese import LangPortuguese
+from tidal_dl.lang.russian import LangRussian
+from tidal_dl.lang.spanish import LangSpanish
+from tidal_dl.lang.turkish import LangTurkish
+from tidal_dl.lang.ukrainian import LangUkrainian
+from tidal_dl.lang.vietnamese import LangVietnamese
 
 LANG = None
+
 
 def initLang(index):  # 初始化
     global LANG
     return setLang(index)
+
 
 def setLang(index):
     global LANG
@@ -73,9 +75,11 @@ def setLang(index):
         LANG = LangEnglish()
     return LANG
 
+
 def getLang():
     global LANG
     return LANG
+
 
 def getLangName(index):
     if str(index) == '0':
@@ -113,6 +117,7 @@ def getLangName(index):
     if str(index) == '16':
         return "Hungarian"
     return ""
+
 
 def getLangChoicePrint():
     array = []
