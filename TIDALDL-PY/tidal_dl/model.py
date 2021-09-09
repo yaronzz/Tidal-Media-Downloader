@@ -18,17 +18,20 @@ class StreamUrl(ModelBase):
     encryptionKey = None
     soundQuality = None
 
+
 class VideoStreamUrl(ModelBase):
     codec = None
     resolution = None
     resolutions = None
     m3u8Url = None
 
+
 class Artist(ModelBase):
     id = None
     name = None
     type = None
     picture = None
+
 
 class Album(ModelBase):
     id = None
@@ -47,6 +50,7 @@ class Album(ModelBase):
     artist = Artist()
     artists = Artist()
 
+
 class Track(ModelBase):
     id = None
     title = None
@@ -64,6 +68,7 @@ class Track(ModelBase):
     album = Album()
     allowStreaming = False
 
+
 class Video(ModelBase):
     id = None
     title = None
@@ -75,9 +80,10 @@ class Video(ModelBase):
     quality = None
     explicit = False
     artist = Artist()
-    artists =  Artist()
+    artists = Artist()
     album = Album()
     allowStreaming = False
+
 
 class Playlist(ModelBase):
     uuid = None
@@ -90,5 +96,34 @@ class Playlist(ModelBase):
     squareImage = None
 
 
+class SearchDataBase(ModelBase):
+    limit = 0
+    offset = 0
 
 
+class SearchAlbums(SearchDataBase):
+    items = Album()
+
+
+class SearchArtists(SearchDataBase):
+    items = Artist()
+
+
+class SearchTracks(SearchDataBase):
+    items = Track()
+
+
+class SearchVideos(SearchDataBase):
+    items = Video()
+
+
+class SearchPlaylists(SearchDataBase):
+    items = Playlist()
+
+
+class SearchResult(ModelBase):
+    artists = SearchArtists()
+    albums = SearchAlbums()
+    tracks = SearchTracks()
+    videos = SearchVideos()
+    playlists = SearchPlaylists()

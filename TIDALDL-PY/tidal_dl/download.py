@@ -8,18 +8,18 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
-import os
-import aigpy
 import logging
-import lyricsgenius
+import os
 
+import aigpy
+import lyricsgenius
+from tidal_dl.decryption import decrypt_file
+from tidal_dl.decryption import decrypt_security_token
+from tidal_dl.enums import Type, AudioQuality
+from tidal_dl.model import Track, Video
+from tidal_dl.printf import Printf
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
-from tidal_dl.enum import Type, AudioQuality, VideoQuality
-from tidal_dl.model import Track, Video, Album
-from tidal_dl.printf import Printf
-from tidal_dl.decryption import decrypt_security_token
-from tidal_dl.decryption import decrypt_file
 
 API = TidalAPI()
 
@@ -28,24 +28,24 @@ def __loadAPI__(user):
     API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    #API.key.sessionId = user.sessionid1
+    # API.key.sessionId = user.sessionid1
 
 
 def __loadVideoAPI__(user):
     API.key.accessToken = user.accessToken
     API.key.userId = user.userid
     API.key.countryCode = user.countryCode
-    #API.key.sessionId = user.sessionid2 if not aigpy.string.isNull(user.sessionid2) else user.sessionid1
-
+    # API.key.sessionId = user.sessionid2 if not aigpy.string.isNull(user.sessionid2) else user.sessionid1
 
 
 def __getIndexStr__(index):
     pre = "0"
     if index < 10:
-        return pre+str(index)
+        return pre + str(index)
     if index < 99:
         return str(index)
     return str(index)
+
 
 def __getExtension__(url):
     if '.flac' in url:
@@ -54,11 +54,13 @@ def __getExtension__(url):
         return '.mp4'
     return '.m4a'
 
+
 def __getArtists__(array):
     ret = []
     for item in array:
         ret.append(item.name)
     return ret
+
 
 def __parseContributors__(roleType, Contributors):
     if Contributors is None:
@@ -74,6 +76,8 @@ def __parseContributors__(roleType, Contributors):
 
 
 GEMIUS = lyricsgenius.Genius('vNKbAWAE3rVY_48nRaiOrDcWNLvsxS-Z8qyG5XfEzTOtZvkTfg6P3pxOVlA2BjaW')
+
+
 def __getLyrics__(trackName, artistName, proxy):
     try:
         if not aigpy.string.isNull(proxy):
@@ -81,11 +85,12 @@ def __getLyrics__(trackName, artistName, proxy):
                 'http': f'http://{proxy}',
                 'https': f'http://{proxy}',
             }
-        
+
         song = GEMIUS.search_song(trackName, artistName)
         return song.lyrics
     except:
         return ""
+
 
 def __setMetaData__(track, album, filepath, contributors, lyrics):
     obj = aigpy.tag.TagTool(filepath)
@@ -109,6 +114,7 @@ def __setMetaData__(track, album, filepath, contributors, lyrics):
     obj.save(coverpath)
     return
 
+
 def __convertToM4a__(filepath, codec):
     if 'ac4' in codec or 'mha1' in codec:
         return filepath
@@ -119,6 +125,7 @@ def __convertToM4a__(filepath, codec):
     os.rename(filepath, newpath)
     return newpath
 
+
 def __stripPathParts__(stripped_path, separator):
     result = ""
     stripped_path = stripped_path.split(separator)
@@ -128,10 +135,12 @@ def __stripPathParts__(stripped_path, separator):
             result += separator
     return result.strip()
 
+
 def __stripPath__(path):
     result = __stripPathParts__(path, "/")
     result = __stripPathParts__(result, "\\")
     return result.strip()
+
 
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
 def __getAlbumPath__(conf: Settings, album):
@@ -145,9 +154,9 @@ def __getAlbumPath__(conf: Settings, album):
         flag = flag.replace("E", "")
     if not aigpy.string.isNull(flag):
         flag = "[" + flag + "] "
-        
+
     sid = str(album.id)
-    #album and addyear
+    # album and addyear
     albumname = aigpy.path.replaceLimitChar(album.title, '-')
     year = ""
     if album.releaseDate is not None:
@@ -181,7 +190,7 @@ def __getAlbumPath2__(conf, album):
 
     sid = "[" + str(album.id) + "] " if conf.addAlbumIDBeforeFolder else ""
 
-    #album and addyear
+    # album and addyear
     albumname = aigpy.path.replaceLimitChar(album.title, '-').strip()
     year = ""
     if conf.addYear and album.releaseDate is not None:
@@ -195,6 +204,7 @@ def __getPlaylistPath__(conf, playlist):
     # name
     name = aigpy.path.replaceLimitChar(playlist.title, '-')
     return base + name + '/'
+
 
 # "{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
 
@@ -219,7 +229,7 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     title = aigpy.path.replaceLimitChar(title, '-')
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and track.explicit else ''
-    #album and addyear
+    # album and addyear
     albumname = aigpy.path.replaceLimitChar(album.title, '-')
     year = ""
     if album.releaseDate is not None:
@@ -308,7 +318,7 @@ def __isNeedDownload__(path, url):
     return True
 
 
-def __downloadVideo__(conf, video:Video, album=None, playlist=None):
+def __downloadVideo__(conf, video: Video, album=None, playlist=None):
     if video.allowStreaming is False:
         Printf.err("Download failed! " + video.title + ' not allow streaming.')
         return
@@ -328,14 +338,15 @@ def __downloadVideo__(conf, video:Video, album=None, playlist=None):
         Printf.err("\nDownload failed!" + msg + '(' + aigpy.path.getFileName(path) + ')')
 
 
-def __downloadTrack__(conf: Settings, track:Track, album=None, playlist=None):
+def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
     try:
         if track.allowStreaming is False:
             Printf.err("Download failed! " + track.title + ' not allow streaming.')
             return
 
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
-        Printf.track(track, stream)
+        if conf.showTrackInfo:
+            Printf.track(track, stream)
         if not aigpy.string.isNull(msg) or stream is None:
             Printf.err(track.title + "." + msg)
             return
@@ -367,7 +378,7 @@ def __downloadTrack__(conf: Settings, track:Track, album=None, playlist=None):
         lyrics = ''
         if conf.addLyrics:
             lyrics = __getLyrics__(track.title, track.artists[0].name, conf.lyricsServerProxy)
-            
+
         __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(aigpy.path.getFileName(path))
     except Exception as e:
@@ -381,6 +392,7 @@ def __downloadCover__(conf, album):
     url = API.getCoverUrl(album.cover, "1280", "1280")
     if url is not None:
         aigpy.net.downloadFile(url, path)
+
 
 def __saveAlbumInfo__(conf, album, tracks):
     if album == None:
@@ -427,7 +439,6 @@ def __album__(conf, obj):
 
 
 def __track__(conf, obj):
-    # Printf.track(obj)
     msg, album = API.getAlbum(obj.album.id)
     if conf.saveCovers:
         __downloadCover__(conf, album)
@@ -510,4 +521,3 @@ def start(user, conf, string):
             __artist__(conf, obj)
         if etype == Type.Playlist:
             __playlist__(conf, obj)
-

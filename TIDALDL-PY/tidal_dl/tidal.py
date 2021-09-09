@@ -8,21 +8,17 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   tidal api
 '''
-import os
-import re
-import uuid
-import requests
-import json
 import base64
+import json
 import logging
+
 import aigpy.stringHelper as stringHelper
-import aigpy.systemHelper as systemHelper
-import aigpy.fileHelper as fileHelper
-from requests.packages import urllib3
+import requests
 from aigpy.modelHelper import dictToModel
 from aigpy.stringHelper import isNull
-from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl
-from tidal_dl.enum import Type, AudioQuality, VideoQuality
+from requests.packages import urllib3
+from tidal_dl.enums import Type, AudioQuality, VideoQuality
+from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult
 
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
@@ -76,14 +72,15 @@ class TidalAPI(object):
 
     def __get__(self, path, params={}, retry=3, urlpre=__URL_PRE__):
         # deprecate the sessionId
-        #header = {'X-Tidal-SessionId': self.key.sessionId}
+        # header = {'X-Tidal-SessionId': self.key.sessionId}
+        header = {}
         if not isNull(self.key.accessToken):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
         params['countryCode'] = self.key.countryCode
-        respond = requests.get(urlpre + path,  headers=header, params=params)
+        respond = requests.get(urlpre + path, headers=header, params=params)
         result = self.__toJson__(respond.text)
         if result is None:
-            return "Get operation err!"+respond.text, None
+            return "Get operation err!" + respond.text, None
         if 'status' in result:
             if 'userMessage' in result and result['userMessage'] is not None:
                 return result['userMessage'], None
@@ -143,10 +140,10 @@ class TidalAPI(object):
             try:
                 result = requests.post(url, data=data, auth=auth, verify=False).json()
             except (
-                requests.ConnectionError,
-                requests.exceptions.ReadTimeout,
-                requests.exceptions.Timeout,
-                requests.exceptions.ConnectTimeout,
+                    requests.ConnectionError,
+                    requests.exceptions.ReadTimeout,
+                    requests.exceptions.Timeout,
+                    requests.exceptions.ConnectTimeout,
             ) as e:
                 retry -= 1
                 if retry <= 0:
@@ -262,6 +259,27 @@ class TidalAPI(object):
     def getVideo(self, id):
         msg, data = self.__get__('videos/' + str(id))
         return msg, dictToModel(data, Video())
+
+    def search(self, text: str, type: Type, offset: int, limit: int):
+        typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
+        if type == Type.Album:
+            typeStr = "ALBUMS"
+        if type == Type.Artist:
+            typeStr = "ARTISTS"
+        if type == Type.Track:
+            typeStr = "TRACKS"
+        if type == Type.Video:
+            typeStr = "VIDEOS"
+        if type == Type.Playlist:
+            typeStr = "PLAYLISTS"
+
+        params = {"query": text,
+                  "offset": offset,
+                  "limit": limit,
+                  "types": typeStr}
+
+        msg, data = self.__get__('search', params=params)
+        return msg, dictToModel(data, SearchResult())
 
     def getLyrics(self, id):
         msg, data = self.__get__('tracks/' + str(id) + "/lyrics")
@@ -455,4 +473,3 @@ class TidalAPI(object):
             pass
         return token1,token2
     """
-

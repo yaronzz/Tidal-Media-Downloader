@@ -8,27 +8,24 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+import getopt
+import gettext
 import logging
-import os
-import requests
-import prettytable
 import ssl
 import sys
-import getopt
 import time
 
-from aigpy.stringHelper import isNull
+from aigpy.cmdHelper import green, yellow
 from aigpy.pathHelper import mkdirs
 from aigpy.pipHelper import getLastVersion
+from aigpy.stringHelper import isNull
 from aigpy.systemHelper import cmpVersion
-from aigpy.cmdHelper import red, green, blue, yellow, TextColor
-
-from tidal_dl.tidal import TidalAPI
-from tidal_dl.settings import Settings, TokenSettings, getLogPath
-from tidal_dl.printf import Printf, VERSION
 from tidal_dl.download import start
-from tidal_dl.enum import AudioQuality, VideoQuality
-from tidal_dl.lang.language import getLang, setLang, initLang, getLangChoicePrint
+from tidal_dl.enums import AudioQuality, VideoQuality, Type
+from tidal_dl.lang.language import setLang, initLang, getLangChoicePrint
+from tidal_dl.printf import Printf, VERSION
+from tidal_dl.settings import Settings, TokenSettings, getLogPath
+from tidal_dl.tidal import TidalAPI
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -68,7 +65,7 @@ def displayTime(seconds, granularity=2):
 def login():
     print(LANG.AUTH_START_LOGIN)
     msg, check = API.getDeviceCode()
-    if check == False:
+    if not check:
         Printf.err(msg)
         return
 
@@ -81,13 +78,13 @@ def login():
         elapsed = time.time() - start
         # print("Check auth status...")
         msg, check = API.checkAuthStatus()
-        if check == False:
+        if not check:
             if msg == "pending":
                 time.sleep(API.key.authCheckInterval + 1)
                 continue
             Printf.err(msg)
             break
-        if check == True:
+        if check:
             Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
             TOKEN.userid = API.key.userId
             TOKEN.countryCode = API.key.countryCode
@@ -108,7 +105,7 @@ def setAccessToken():
         if token == '0':
             return
         msg, check = API.loginByAccessToken(token, TOKEN.userid)
-        if check == False:
+        if not check:
             Printf.err(msg)
             continue
         break
@@ -128,13 +125,13 @@ def checkLogin():
     if not isNull(TOKEN.accessToken):
         # print('Checking Access Token...') #add to translations
         msg, check = API.verifyAccessToken(TOKEN.accessToken)
-        if check == True:
+        if check:
             Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(TOKEN.expiresAfter - time.time()))))
             return
         else:
             Printf.info(LANG.MSG_INVAILD_ACCESSTOKEN)
             msg, check = API.refreshAccessToken(TOKEN.refreshToken)
-            if check == True:
+            if check:
                 Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
                 TOKEN.userid = API.key.userId
                 TOKEN.countryCode = API.key.countryCode
@@ -174,6 +171,7 @@ def changeSettings():
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'
     CONF.saveAlbumInfo = Printf.enter(LANG.CHANGE_SAVE_ALBUM_INFO) == '1'
+    CONF.showTrackInfo = Printf.enter(LANG.CHANGE_SHOW_TRACKINFO) == '1'
     CONF.usePlaylistFolder = Printf.enter(LANG.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):") == '1'
     CONF.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
     CONF.albumFolderFormat = Printf.enterFormat(
@@ -230,6 +228,15 @@ def mainCommand():
         start(TOKEN, CONF, link)
 
 
+def debug():
+    checkLogin()
+    API.key.accessToken = TOKEN.accessToken
+    API.key.userId = TOKEN.userid
+    API.key.countryCode = TOKEN.countryCode
+    msg, result = API.search('LOVE', Type.Null, 0, 10)
+    pass
+
+
 def main():
     if len(sys.argv) > 1:
         mainCommand()
@@ -272,6 +279,7 @@ def main():
 
 
 if __name__ == "__main__":
+    debug()
     main()
     # test example
     # track 70973230  77798028 212657

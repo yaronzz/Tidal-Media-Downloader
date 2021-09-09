@@ -8,18 +8,20 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :
 '''
-import os
-import json
 import base64
+import json
+import os
 
 from aigpy.fileHelper import getContent, write
 from aigpy.modelHelper import dictToModel, modelToDict, ModelBase
-from tidal_dl.enum import AudioQuality, VideoQuality
+from tidal_dl.enums import AudioQuality, VideoQuality
+
 
 def __encode__(string):
     sw = bytes(string, 'utf-8')
     st = base64.b64encode(sw)
     return st
+
 
 def __decode__(string):
     try:
@@ -29,13 +31,17 @@ def __decode__(string):
     except:
         return string
 
+
 def getSettingsPath():
     if "XDG_CONFIG_HOME" in os.environ:
         return os.environ['XDG_CONFIG_HOME']
-    elif "HOME" in os.environ: 
+    elif "HOME" in os.environ:
         return os.environ['HOME']
+    elif "HOMEDRIVE" in os.environ and "HOMEPATH" in os.environ:
+        return os.environ['HOMEDRIVE'] + os.environ['HOMEPATH']
     else:
         return os.path._getfullpathname("./")
+
 
 def getLogPath():
     return getSettingsPath() + '/.tidal-dl.log'
@@ -68,7 +74,7 @@ class TokenSettings(ModelBase):
         txt = __encode__(txt)
         path = TokenSettings.__getFilePath__()
         write(path, txt, 'wb')
-    
+
     @staticmethod
     def __getFilePath__():
         return getSettingsPath() + '/.tidal-dl.token.json'
@@ -96,6 +102,7 @@ class Settings(ModelBase):
     albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
     trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
     showProgress = True
+    showTrackInfo = True
     saveAlbumInfo = False
 
     @staticmethod
@@ -148,8 +155,7 @@ class Settings(ModelBase):
             if item.name == value:
                 return item
         return VideoQuality.P360
-    
+
     @staticmethod
     def __getFilePath__():
         return getSettingsPath() + '/.tidal-dl.json'
-

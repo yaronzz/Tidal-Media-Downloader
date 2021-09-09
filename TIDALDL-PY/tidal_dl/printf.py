@@ -8,12 +8,13 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
-import aigpy
 import logging
+
+import aigpy
 import prettytable
 from tidal_dl.lang.language import getLangName, getLang
+from tidal_dl.model import Album, Track, Video, Artist, StreamUrl, VideoStreamUrl
 from tidal_dl.settings import Settings, getSettingsPath
-from tidal_dl.model import Album, Track, Video, Playlist, Artist, StreamUrl, VideoStreamUrl
 
 __LOGO__ = '''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
@@ -28,6 +29,7 @@ __LOGO__ = '''
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
 VERSION = '2021.7.6.2'
+
 
 class Printf(object):
 
@@ -49,13 +51,13 @@ class Printf(object):
         tb.add_row(["-l or --link", "url/id/filePath"])
         tb.add_row(["-q or --quality", "track quality('Normal','High,'HiFi','Master')"])
         tb.add_row(["-r or --resolution", "video resolution('P1080', 'P720', 'P480', 'P360')"])
-        #tb.add_row(["-u or --username", "account-email"])
-        #tb.add_row(["-p or --password", "account-password"])
-        #tb.add_row(["-a or --accessToken", "account-accessToken"])
+        # tb.add_row(["-u or --username", "account-email"])
+        # tb.add_row(["-p or --password", "account-password"])
+        # tb.add_row(["-a or --accessToken", "account-accessToken"])
         print(tb)
 
     @staticmethod
-    def settings(data:Settings):
+    def settings(data: Settings):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.SETTING), aigpy.cmd.green(LANG.VALUE)]
@@ -73,6 +75,7 @@ class Printf(object):
         tb.add_row([LANG.SETTING_CHECK_EXIST, data.checkExist])
         tb.add_row([LANG.SETTING_SHOW_PROGRESS, data.showProgress])
         tb.add_row([LANG.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo])
+        tb.add_row([LANG.SETTING_SHOW_TRACKIFNO, data.showTrackInfo])
         # tb.add_row([LANG.SETTING_ARTIST_BEFORE_TITLE, data.artistBeforeTitle])
         # tb.add_row([LANG.SETTING_ALBUMID_BEFORE_FOLDER, data.addAlbumIDBeforeFolder])
         tb.add_row([LANG.SETTING_INCLUDE_EP, data.includeEP])
@@ -110,7 +113,7 @@ class Printf(object):
         return ret
 
     @staticmethod
-    def enterPath(string, errmsg, retWord = '0', default = ""):
+    def enterPath(string, errmsg, retWord='0', default=""):
         LANG = getLang()
         while True:
             ret = aigpy.cmd.inputPath(aigpy.cmd.yellow(string), retWord)
@@ -147,7 +150,7 @@ class Printf(object):
         LANG = getLang()
         print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + string)
         logging.error(string)
-    
+
     @staticmethod
     def info(string):
         LANG = getLang()
@@ -173,14 +176,13 @@ class Printf(object):
         tb.add_row([LANG.MODEL_EXPLICIT, data.explicit])
         print(tb)
         logging.info("====album " + str(data.id) + "====\n" +
-                     "title:" + data.title + "\n" + 
-                     "track num:" + str(data.numberOfTracks) + "\n" + 
+                     "title:" + data.title + "\n" +
+                     "track num:" + str(data.numberOfTracks) + "\n" +
                      "video num:" + str(data.numberOfVideos) + "\n" +
                      "==================================")
-        
 
     @staticmethod
-    def track(data:Track, stream:StreamUrl = None):
+    def track(data: Track, stream: StreamUrl = None):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.MODEL_TRACK_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
@@ -199,9 +201,9 @@ class Printf(object):
                      "title:" + data.title + "\n" + \
                      "version:" + str(data.version) + "\n" + \
                      "==================================")
-    
+
     @staticmethod
-    def video(data:Video, stream:VideoStreamUrl = None):
+    def video(data: Video, stream: VideoStreamUrl = None):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.MODEL_VIDEO_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
@@ -222,7 +224,7 @@ class Printf(object):
                      "==================================")
 
     @staticmethod
-    def artist(data:Artist, num):
+    def artist(data: Artist, num):
         LANG = getLang()
         tb = prettytable.PrettyTable()
         tb.field_names = [aigpy.cmd.green(LANG.MODEL_ARTIST_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
@@ -252,4 +254,3 @@ class Printf(object):
                      "track num:" + str(data.numberOfTracks) + "\n" +
                      "video num:" + str(data.numberOfVideos) + "\n" +
                      "==================================")
-
