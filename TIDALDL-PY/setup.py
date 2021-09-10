@@ -1,17 +1,18 @@
 from setuptools import setup, find_packages
 from tidal_dl.printf import VERSION
+
 setup(
-    name = 'tidal-dl',
-    version = VERSION,
-    license = "Apache2",
-    description = "Tidal Music Downloader.",
+    name='tidal-dl',
+    version=VERSION,
+    license="Apache2",
+    description="Tidal Music Downloader.",
 
-    author = 'YaronH',
-    author_email = "yaronhuang@foxmail.com",
+    author='YaronH',
+    author_email="yaronhuang@foxmail.com",
 
-    packages = find_packages(),
-    include_package_data = True,
-    platforms = "any",
-    install_requires=["aigpy>=2021.5.27.1", "requests>=2.22.0", "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
-    entry_points={'console_scripts': [ 'tidal-dl = tidal_dl:main', ]}
+    packages=find_packages(),
+    include_package_data=True,
+    platforms="any",
+    install_requires=["aigpy>=2021.9.10.3", "requests>=2.22.0", "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
+    entry_points={'console_scripts': ['tidal-dl = tidal_dl:main', ]}
 )

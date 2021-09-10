@@ -9,7 +9,6 @@
 @Desc    :   
 '''
 import getopt
-import gettext
 import logging
 import ssl
 import sys
@@ -279,7 +278,7 @@ def main():
 
 
 if __name__ == "__main__":
-    debug()
+    # debug()
     main()
     # test example
     # track 70973230  77798028 212657
