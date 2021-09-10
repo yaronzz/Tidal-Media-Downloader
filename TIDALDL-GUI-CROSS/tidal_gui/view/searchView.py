@@ -8,6 +8,7 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
+import tidal_dl.model
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTabWidget
 
@@ -73,21 +74,55 @@ class SearchView(QWidget):
         return layout
 
     def __initAlbumTable__(self):
-        columnHeads = ['', '#', 'Img', 'Title', 'Quality', 'Artists', 'Duration']
+        columnHeads = ['#', 'Q', 'Title', 'Artists', 'Release', 'Duration']
         self._albumTable = TableWidget(columnHeads, self._rowCount)
-
-        for index in range(0, self._rowCount):
-            self._albumTable.addItem(index, 0, str(index))
-            self._albumTable.addItem(index, 1, str(index))
-            self._albumTable.addItem(index, 2, "test" + str(index))
-            self._albumTable.addItem(index, 3, "test" + str(index))
-            self._albumTable.addItem(index, 4, "test" + str(index))
-            self._albumTable.addItem(index, 5, "test" + str(index))
-            self._albumTable.addItem(index, 6, "test" + str(index))
-
         return self._albumTable
+
+    def setAlbumTableItems(self, albums: list[tidal_dl.model.Album]):
+        # self._albumTable.ro
+        for index, item in enumerate(albums):
+            self._albumTable.addItem(index, 0, str(index + 1))
+            self._albumTable.addItem(index, 1, item.audioQuality)
+            self._albumTable.addItem(index, 2, item.title)
+            self._albumTable.addItem(index, 3, item.artists[0].name)
+            self._albumTable.addItem(index, 4, str(item.releaseDate))
+            self._albumTable.addItem(index, 5, str(item.duration))
 
     def __initTrackTable__(self):
         columnHeads = ['', '#', 'Img', 'Title', 'Quality', 'Artists', 'Album']
         self._trackTable = TableWidget(columnHeads)
         return self._trackTable
+
+    def getSearchText(self):
+        return self._searchEdit.text()
+
+    def setPageIndex(self, index):
+        self._pageIndexEdit.setText(str(index))
+
+    def getPageIndex(self):
+        return int(self._pageIndexEdit.text())
+
+    def getSelectedTabIndex(self):
+        return self._tabWidget.currentIndex()
+
+    def setTrackQualityItems(self, items:list):
+        self._trackQualityComboBox.setItems(items)
+
+    def setVideoQualityItems(self, items: list):
+        self._videoQualityComboBox.setItems(items)
+
+    def getTrackQualityText(self):
+        return self._trackQualityComboBox.currentText()
+
+    def getVideoQualityText(self):
+        return self._videoQualityComboBox.currentText()
+
+    def connectButton(self, name: str, func):
+        if name == 'search':
+            self._searchBtn.clicked.connect(func)
+        elif name == 'prePage':
+            self._prePageBtn.clicked.connect(func)
+        elif name == 'nextPage':
+            self._nextPageBtn.clicked.connect(func)
+        elif name == 'download':
+            self._downloadBtn.clicked.connect(func)

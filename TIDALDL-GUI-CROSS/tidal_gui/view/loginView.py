@@ -19,6 +19,7 @@ from tidal_gui.control.layout import createHBoxLayout
 from tidal_gui.control.lineEdit import LineEdit
 from tidal_gui.control.pushButton import PushButton
 from tidal_gui.style import ButtonStyle, LabelStyle
+from tidal_gui.theme import getPackagePath
 
 
 class LoginView(FramelessWidget):
@@ -78,8 +79,8 @@ class LoginView(FramelessWidget):
     def __initIconWidget__(self):
         self._icon = Label('')
         self._icon.setStyleSheet("QLabel{background-color:rgb(0,0,0);}")
-        self._icon.setPixmap(
-            QPixmap("E:\\OneDrive\\code\\Tidal-Media-Downloader\\TIDALDL-PY-GUI\\tidal_gui\\resource\\svg\\V.svg"))
+
+        self._icon.setPixmap(QPixmap(getPackagePath() + "/resource/svg/V.svg"))
         self._icon.setAlignment(Qt.AlignCenter)
 
         self._iconLabel = Label('', LabelStyle.LogoBottom)

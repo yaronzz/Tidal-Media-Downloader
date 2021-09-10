@@ -20,7 +20,14 @@ class FramelessWidget(QWidget):
     def __init__(self):
         super(FramelessWidget, self).__init__()
         self.setWindowFlags(Qt.FramelessWindowHint)
+
+        self.borderWidget = QWidget()
+        self.borderWidget.setObjectName("widgetMain")
+        self.borderWidget.setStyleSheet("QWidget#widgetMain{border: 1px solid #000000;};")
+
         self.contentGrid = QGridLayout()
+        self.contentGrid.setContentsMargins(1, 1, 1, 1)
+
         self.windowBtnGrid = self.__createWindowsButtonLayout__()
         self.enableMove = True
         self.validMoveWidget = None
@@ -29,8 +36,8 @@ class FramelessWidget(QWidget):
         self.grid = QGridLayout()
         self.grid.setSpacing(0)
         self.grid.setContentsMargins(0, 0, 0, 0)
+        self.grid.addWidget(self.borderWidget, 0, 0)
         self.grid.addLayout(self.contentGrid, 0, 0)
-        # self.grid.addLayout(self.windowBtnGrid, 0, 0, Qt.AlignTop | Qt.AlignRight)
         self.setLayout(self.grid)
 
     def __showMaxWindows__(self):
@@ -50,7 +57,7 @@ class FramelessWidget(QWidget):
 
         layout = QHBoxLayout()
         layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(1, 1, 1, 1)
         layout.addWidget(self.minBtn)
         layout.addWidget(self.maxBtn)
         layout.addWidget(self.closeBtn)

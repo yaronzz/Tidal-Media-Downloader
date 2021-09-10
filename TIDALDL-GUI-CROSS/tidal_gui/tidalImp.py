@@ -10,6 +10,7 @@
 """
 import time
 
+import tidal_dl.model
 from aigpy.stringHelper import isNull
 from tidal_dl import TokenSettings, TOKEN, TidalAPI
 
@@ -24,6 +25,9 @@ class TidalImp(TidalAPI):
 
         msg, check = self.verifyAccessToken(TOKEN.accessToken)
         if check:
+            self.key.countryCode = TOKEN.countryCode
+            self.key.userId = TOKEN.userid
+            self.key.accessToken = TOKEN.accessToken
             return True
 
         msg, check = self.refreshAccessToken(TOKEN.refreshToken)
@@ -59,6 +63,13 @@ class TidalImp(TidalAPI):
                 TokenSettings.save(TOKEN)
                 return True
         return False
+
+    @staticmethod
+    def getArtistsNames(self, artists: list[tidal_dl.model.Artist]):
+        ret = []
+        for item in artists:
+            ret.append(item.name)
+        return ','.join(ret)
 
 
 tidalImp = TidalImp()

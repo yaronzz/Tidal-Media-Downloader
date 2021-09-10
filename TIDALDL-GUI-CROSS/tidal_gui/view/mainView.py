@@ -36,6 +36,7 @@ class MainView(FramelessWidget):
         self.setMinimumWidth(self.viewWidth)
         self.__initPages__()
         self.__initView__()
+        self.setWindowButton(True, True, True)
 
     def __initPages__(self):
         self._pages = []
@@ -43,9 +44,14 @@ class MainView(FramelessWidget):
             self._pages.append(None)
 
     def __initView__(self):
+        leftTab = self.__initLeftTab__()
+        content = self.__initContent__()
+
         grid = self.getGrid()
-        grid.addWidget(self.__initLeftTab__(), 0, 0, Qt.AlignLeft)
-        grid.addLayout(self.__initContent__(), 0, 1)
+        grid.addWidget(leftTab, 0, 0, Qt.AlignLeft)
+        grid.addLayout(content, 0, 1)
+
+        self.setValidMoveWidget(leftTab)
 
     def __initLeftTab__(self):
         self._icon = PushButton("", ButtonStyle.SoftwareIcon)
