@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   spanish.py
-@Time    :   2021/05/12
+@Time    :   2021/09/15
 @Author  :   Frikilinux & JavierSC
-@Version :   2.1
+@Version :   2.2
 @Contact :
 @Desc    :
 '''
@@ -24,7 +24,7 @@ class LangSpanish(object):
     SETTING_CHECK_EXIST = "Verificar si existe"
     SETTING_ARTIST_BEFORE_TITLE = "Nombre del artista en el título de la pista"
     SETTING_ALBUMID_BEFORE_FOLDER = "Añadir ID de la carpeta del álbum"
-    SETTING_INCLUDE_EP = "Incluir Sencillos y EPs"
+    SETTING_INCLUDE_EP = "Incluir sencillos y EPs"
     SETTING_SAVE_COVERS = "Guardar carátulas"
     SETTING_LANGUAGE = "Idioma"
     SETTING_USE_PLAYLIST_FOLDER = "Usar directorio de la lista de reproducción"
@@ -32,12 +32,12 @@ class LangSpanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKIFNO = "Mostrar información de pista"
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
     SETTING_PATH = "Ruta de ajustes"
-    SETTINGS_ADD_LRC_FILE = "Añadir cronometrado letras (.lrc file)"
+    SETTINGS_ADD_LRC_FILE = "Añadir letras cronometradas (archivo .lrc)"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -77,11 +77,11 @@ class LangSpanish(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
-    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "¿Mostrar información de pista?('0'-No,'1'-Sí):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
     CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
     CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
-    CHANGE_ADD_LRC_FILE = "¿Añadir cronometrado letras .lrc file? ('0'-No,'1'-Sí):"
+    CHANGE_ADD_LRC_FILE = "¿Añadir letras cronometradas en un archivo .lrc? ('0'-No,'1'-Sí):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
