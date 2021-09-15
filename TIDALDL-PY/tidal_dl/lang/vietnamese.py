@@ -37,6 +37,7 @@ class LangVietnamese(object):
     SETTING_ADD_LYRICS = "Thêm lời bài hát"
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
     SETTING_PATH = "Settings path"
+    SETTINGS_ADD_LRC_FILE = "Add timed lyrics (.lrc file)"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -80,6 +81,7 @@ class LangVietnamese(object):
     CHANGE_SAVE_ALBUM_INFO = "Lưu AlbumInfo.txt('0'-Không,'1'-Có):"
     CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
+    CHANGE_ADD_LRC_FILE = "Add timed lyrics .lrc file ('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."

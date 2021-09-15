@@ -37,6 +37,7 @@ class LangChinese(object):
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
     SETTING_PATH = "Settings path"
+    SETTINGS_ADD_LRC_FILE = "Add timed lyrics (.lrc file)"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -80,6 +81,7 @@ class LangChinese(object):
     CHANGE_SAVE_ALBUM_INFO = "保存AlbumInfo.txt('0'-否,'1'-是):"
     CHANGE_ADD_LYRICS = "添加歌词('0'-否,'1'-是):"
     CHANGE_LYRICS_SERVER_PROXY = "歌词服务器代理('0' 不修改):"
+    CHANGE_ADD_LRC_FILE = "Add timed lyrics .lrc file ('0'-否,'1'-是):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "开始启动登录..."

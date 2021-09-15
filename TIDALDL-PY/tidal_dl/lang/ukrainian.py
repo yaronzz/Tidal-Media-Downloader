@@ -37,6 +37,7 @@ class LangUkrainian(object):
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_PATH = "Settings path"
+    SETTINGS_ADD_LRC_FILE = "Add timed lyrics (.lrc file)"
 
     CHOICE = "ВИБІР"
     FUNCTION = "ФУНКЦІЇ"
@@ -80,6 +81,7 @@ class LangUkrainian(object):
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
+    CHANGE_ADD_LRC_FILE = "Add timed lyrics .lrc file ('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

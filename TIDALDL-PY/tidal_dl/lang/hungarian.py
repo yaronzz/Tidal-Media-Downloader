@@ -37,6 +37,7 @@ class LangHungarian(object):
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
     SETTING_PATH = "Beállítások elérési útvonala"
+    SETTINGS_ADD_LRC_FILE = "Add timed lyrics (.lrc file)"
 
     CHOICE = "VÁLASZTÁS"
     FUNCTION = "FUNKCIÓ"
@@ -80,6 +81,7 @@ class LangHungarian(object):
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-nem, '1'-igen):"
     CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-nem,'1'-igen):"
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló prox('0' nincs módosítás):"
+    CHANGE_ADD_LRC_FILE = "Add timed lyrics .lrc file ('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."
