@@ -28,8 +28,8 @@ class VideoQuality(Enum):
 
 class Type(Enum):
     Album = 0
-    Artist = 1
-    Playlist = 2
-    Track = 3
-    Video = 4
+    Track = 1
+    Video = 2
+    Playlist = 3
+    Artist = 4
     Null = 5

@@ -99,6 +99,7 @@ class Playlist(ModelBase):
 class SearchDataBase(ModelBase):
     limit = 0
     offset = 0
+    totalNumberOfItems = 0
 
 
 class SearchAlbums(SearchDataBase):

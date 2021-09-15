@@ -72,13 +72,22 @@ class TidalAPI(object):
 
     def __get__(self, path, params={}, retry=3, urlpre=__URL_PRE__):
         # deprecate the sessionId
-        # header = {'X-Tidal-SessionId': self.key.sessionId}
+        # header = {'X-Tidal-SessionId': self.key.sessionId}T
         header = {}
         if not isNull(self.key.accessToken):
             header = {'authorization': 'Bearer {}'.format(self.key.accessToken)}
         params['countryCode'] = self.key.countryCode
-        respond = requests.get(urlpre + path, headers=header, params=params)
-        result = self.__toJson__(respond.text)
+
+        result = None
+        respond = None
+        for index in range(0, retry):
+            try:
+                respond = requests.get(urlpre + path, headers=header, params=params)
+                result = self.__toJson__(respond.text)
+                break
+            except:
+                continue
+
         if result is None:
             return "Get operation err!" + respond.text, None
         if 'status' in result:
@@ -383,7 +392,7 @@ class TidalAPI(object):
         if type == Type.Album or type == Type.Track:
             if data.audioQuality == "HI_RES":
                 master = True
-            if "DOLBY_ATMOS" in data.audioModes:
+            if type == Type.Album and "DOLBY_ATMOS" in data.audioModes:
                 atmos = True
             if data.explicit is True:
                 explicit = True
