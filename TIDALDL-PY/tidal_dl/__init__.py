@@ -180,6 +180,7 @@ def changeSettings():
     CONF.addLyrics = Printf.enter(LANG.CHANGE_ADD_LYRICS) == '1'
     CONF.lyricsServerProxy = Printf.enterFormat(
         LANG.CHANGE_LYRICS_SERVER_PROXY, CONF.lyricsServerProxy, CONF.lyricsServerProxy)
+    CONF.lyricFile = Printf.enter(LANG.CHANGE_ADD_LRC_FILE) == '1'
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)

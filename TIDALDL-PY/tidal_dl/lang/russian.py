@@ -37,6 +37,7 @@ class LangRussian(object):
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
     SETTING_PATH = "Путь для настроек"
+    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -80,6 +81,7 @@ class LangRussian(object):
     CHANGE_SAVE_ALBUM_INFO = "Сохранять AlbumInfo.txt('0'-Нет,'1'-Да):"
     CHANGE_ADD_LYRICS = "Добавлять тексты песень ('0'-Нет,'1'-Да):"
     CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песень('0' не менять):"
+    CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."

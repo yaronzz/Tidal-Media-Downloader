@@ -104,6 +104,7 @@ class Settings(ModelBase):
     showProgress = True
     showTrackInfo = True
     saveAlbumInfo = False
+    lyricFile = False
 
     @staticmethod
     def getDefaultAlbumFolderFormat():

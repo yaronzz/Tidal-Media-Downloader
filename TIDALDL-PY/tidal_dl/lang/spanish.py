@@ -37,6 +37,7 @@ class LangSpanish(object):
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
     SETTING_PATH = "Ruta de ajustes"
+    SETTINGS_ADD_LRC_FILE = "Añadir cronometrado letras (.lrc file)"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -80,6 +81,7 @@ class LangSpanish(object):
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
     CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
     CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
+    CHANGE_ADD_LRC_FILE = "¿Añadir cronometrado letras .lrc file? ('0'-No,'1'-Sí):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
