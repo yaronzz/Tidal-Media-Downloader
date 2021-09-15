@@ -16,7 +16,7 @@ from tidal_gui.style import ButtonStyle
 
 class PushButton(QPushButton):
     def __init__(self,
-                 text: str,
+                 text: str = '',
                  style: ButtonStyle = ButtonStyle.Default,
                  width=0,
                  iconUrl=''):

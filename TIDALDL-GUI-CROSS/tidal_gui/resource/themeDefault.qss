@@ -393,8 +393,9 @@ QTabBar::tab {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 3px;
-    font-size: var(--Font_Size);
+    font-size: var(--Font_Size_TableHeader);
     font-weight: bold;
+    min-width: 70;
 }
 QTabBar::tab:selected {
     color: var(--Color_Primary);
@@ -581,3 +582,52 @@ QTableWidget QScrollBar::handle{
 QTableWidget QScrollBar::handle:hover{background:gray;}
 QTableWidget QScrollBar::sub-line{background:transparent;}
 QTableWidget QScrollBar::add-line{background:transparent;}
+
+
+
+/* QTableView */
+QTableView {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid var(--Color_Border);
+
+    text-align: center;
+    color: var(--Color_DefaultText);
+    background: var(--Color_DefaultHover);
+    padding:5px;
+
+}
+
+QTableView::item{
+    margin-top: 5px;
+    background: var(--Color_Default);
+}
+QTableView::item:selected{
+    color: var(--Color_PrimaryText);
+    background: var(--Color_Primary);
+}
+
+
+QTableView QHeaderView::section {
+    color: var(--Color_DefaultText);
+    background: var(--Color_DefaultHover);
+    text-align: center;
+    height: var(--Size_HeaderHeight);
+    border: none;
+    font-size: var(--Font_Size_TableHeader);
+    font-weight: bold;
+}
+
+QTableView QScrollBar::vertical{
+    background:transparent;
+    width: 4px;
+    border-radius:6px;
+}
+QTableView QScrollBar::handle{
+    background: lightgray;
+    border-radius:6px;
+}
+QTableView QScrollBar::handle:hover{background:gray;}
+QTableView QScrollBar::sub-line{background:transparent;}
+QTableView QScrollBar::add-line{background:transparent;}

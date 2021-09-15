@@ -8,7 +8,7 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout
 
 
 def createHBoxLayout(widgets):
@@ -17,3 +17,9 @@ def createHBoxLayout(widgets):
         layout.addWidget(item)
     return layout
 
+
+def createVBoxLayout(widgets):
+    layout = QVBoxLayout()
+    for item in widgets:
+        layout.addWidget(item)
+    return layout

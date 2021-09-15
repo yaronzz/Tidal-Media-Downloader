@@ -154,3 +154,12 @@ download/Playlist/Boy Bands- K-Pop Kings/Tmp0/22.part
 /TIDALDL-PY/test/video.json
 /__init__.spec
 /test.py
+/TIDALDL-GUI-CROSS/MANIFEST.in
+/TIDALDL-GUI-CROSS/__init__.spec
+/TIDALDL-GUI-CROSS/workspace.code-workspace
+/TIDALDL-GUI-CROSS/.idea
+/TIDALDL-GUI-CROSS/tidal_gui/__pycache__
+/TIDALDL-GUI-CROSS/tidal_gui/.tidal-dl.log
+.idea
+tidal_dl-BAK
+/TIDALDL-PY2/tidal_dl

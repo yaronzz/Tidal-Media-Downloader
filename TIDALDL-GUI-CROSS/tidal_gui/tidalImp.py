@@ -10,6 +10,7 @@
 """
 import time
 
+import requests
 import tidal_dl.model
 from aigpy.stringHelper import isNull
 from tidal_dl import TokenSettings, TOKEN, TidalAPI
@@ -70,6 +71,20 @@ class TidalImp(TidalAPI):
         for item in artists:
             ret.append(item.name)
         return ','.join(ret)
+
+    @staticmethod
+    def getDurationString(seconds: int):
+        m, s = divmod(seconds, 60)
+        h, m = divmod(m, 60)
+        return "%02d:%02d:%02d" % (h, m, s)
+
+    def getCoverData(self, sid, width="320", height="320"):
+        url = self.getCoverUrl(sid, width, height)
+        try:
+            respond = requests.get(url)
+            return respond.content
+        except:
+            return ''
 
 
 tidalImp = TidalImp()

@@ -9,6 +9,7 @@
 @Desc    :
 """
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView
 
 
@@ -34,9 +35,21 @@ class TableWidget(QTableWidget):
 
         self.setFocusPolicy(Qt.NoFocus)
 
+    def changeRowCount(self, rows: int):
+        if rows != self.rowCount():
+            self.setRowCount(rows)
+            for index in range(0, rows):
+                self.setRowHeight(index, 50)
+
     def addItem(self, rowIdx: int, colIdx: int, text: str):
         item = QTableWidgetItem(text)
         item.setTextAlignment(Qt.AlignCenter)
+        self.setItem(rowIdx, colIdx, item)
+
+    def addPicItem(self, rowIdx: int, colIdx: int, url: str):
+        item = QTableWidgetItem()
+        item.setTextAlignment(Qt.AlignCenter)
+        item.setIcon(QIcon(url))
         self.setItem(rowIdx, colIdx, item)
 
     def addWidgetItem(self, rowIdx: int, colIdx: int, widget):

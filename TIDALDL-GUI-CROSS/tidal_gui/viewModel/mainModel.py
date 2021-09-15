@@ -21,12 +21,13 @@ class MainModel(ViewModel):
     def __init__(self):
         super(MainModel, self).__init__()
         self.loginModel = LoginModel()
-        self.loginModel.SIGNAL_LOGIN_SUCCESS.connect(self.__loginSuccess__)
-
         self.searchModel = SearchModel()
         self.taskModel = TaskModel()
         self.settingsModel = SettingsModel()
         self.aboutModel = AboutModel()
+
+        self.loginModel.SIGNAL_LOGIN_SUCCESS.connect(self.__loginSuccess__)
+        self.searchModel.SIGNAL_ADD_TASKITEM.connect(self.taskModel.addTaskItem)
 
         self.view = MainView()
         self.view.setSearchView(self.searchModel.view)
