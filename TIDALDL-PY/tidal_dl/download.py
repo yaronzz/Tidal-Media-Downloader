@@ -16,13 +16,13 @@ import lyricsgenius
 from tidal_dl.decryption import decrypt_file
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.enums import Type, AudioQuality
-from tidal_dl.model import Track, Video
+from tidal_dl.model import Track, Video, Lyrics
 from tidal_dl.printf import Printf
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
 
 API = TidalAPI()
-__URL_LYRC__ = 'https://listen.tidal.com/v1/tracks/'
+
 
 def __loadAPI__(user):
     API.key.accessToken = user.accessToken
@@ -380,30 +380,25 @@ def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
         path = __convertToM4a__(path, stream.codec)
 
         # contributors
-        contributors = API.getTrackContributors(track.id)
-        lyrics = ''
-        if conf.addLyrics:
+        msg, contributors = API.getTrackContributors(track.id)
+        msg, tidalLyrics = API.getLyrics(track.id)
+
+        lyrics = '' if tidalLyrics is None else tidalLyrics.subtitles
+        if conf.addLyrics and lyrics == '':
             lyrics = __getLyrics__(track.title, __getArtistsString__(track.artists), conf.lyricsServerProxy)
 
         if conf.lyricFile:
-            lrc_path = path.rsplit(".", 1)[0] + '.lrc'
-            url_path = str(track.id) + '/lyrics'
-            response = API.__get__(path=url_path, urlpre=__URL_LYRC__)
-            if response[1] is not None:
-                __saveLyrcFile__(response[1], lrc_path)
+            if tidalLyrics is None:
+                Printf.info(f'Failed to get lyrics from tidal!"{track.title}"')
             else:
-                Printf.err(lrc_path.rsplit('/', 1)[1])
+                lrcPath = path.rsplit(".", 1)[0] + '.lrc'
+                aigpy.fileHelper.write(lrcPath, tidalLyrics.subtitles, 'w')
 
         __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(aigpy.path.getFileName(path))
     except Exception as e:
         Printf.err("Download failed! " + track.title + ' (' + str(e) + ')')
 
-def __saveLyrcFile__(response, lrc_path):
-    f = open(lrc_path, 'w')
-    f.write(response["subtitles"])
-    f.close()
-    Printf.success(lrc_path.rsplit('/', 1)[1])
 
 def __downloadCover__(conf, album):
     if album == None:

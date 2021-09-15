@@ -18,7 +18,7 @@ from aigpy.modelHelper import dictToModel
 from aigpy.stringHelper import isNull
 from requests.packages import urllib3
 from tidal_dl.enums import Type, AudioQuality, VideoQuality
-from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult
+from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult, Lyrics
 
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
@@ -291,8 +291,8 @@ class TidalAPI(object):
         return msg, dictToModel(data, SearchResult())
 
     def getLyrics(self, id):
-        msg, data = self.__get__('tracks/' + str(id) + "/lyrics")
-        return msg, data
+        msg, data = self.__get__('tracks/' + str(id) + "/lyrics", urlpre='https://listen.tidal.com/v1/')
+        return msg, dictToModel(data, Lyrics())
 
     def getItems(self, id, type: Type):
         if type == Type.Playlist:
@@ -370,9 +370,7 @@ class TidalAPI(object):
 
     def getTrackContributors(self, id):
         msg, data = self.__get__('tracks/' + str(id) + "/contributors")
-        if msg is not None:
-            return msg, None
-        return None, data
+        return msg, data
 
     def getCoverUrl(self, sid, width="320", height="320"):
         if sid is None or sid == "":

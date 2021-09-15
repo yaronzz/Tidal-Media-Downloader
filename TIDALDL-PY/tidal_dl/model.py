@@ -96,6 +96,15 @@ class Playlist(ModelBase):
     squareImage = None
 
 
+class Lyrics(ModelBase):
+    trackId = None
+    lyricsProvider = None
+    providerCommontrackId = None
+    providerLyricsId = None
+    lyrics = None
+    subtitles = None
+
+
 class SearchDataBase(ModelBase):
     limit = 0
     offset = 0

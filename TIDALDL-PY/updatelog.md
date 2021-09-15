@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [x] Get lyrics from tidal
+
 #### v2021-09-10
 - [x] Add settings: show track-info
 - [x] Fix bug of "Illegal characters in path"

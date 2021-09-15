@@ -19,6 +19,7 @@ from aigpy.pathHelper import mkdirs
 from aigpy.pipHelper import getLastVersion
 from aigpy.stringHelper import isNull
 from aigpy.systemHelper import cmpVersion
+
 from tidal_dl.download import start
 from tidal_dl.enums import AudioQuality, VideoQuality, Type
 from tidal_dl.lang.language import setLang, initLang, getLangChoicePrint
@@ -233,8 +234,10 @@ def debug():
     API.key.accessToken = TOKEN.accessToken
     API.key.userId = TOKEN.userid
     API.key.countryCode = TOKEN.countryCode
-    msg, result = API.search('LOVE', Type.Null, 0, 10)
+    # msg, result = API.search('Mojito', Type.Null, 0, 10)
+    msg, lyric = API.getLyrics('144909909')
     pass
+
 
 
 def main():
