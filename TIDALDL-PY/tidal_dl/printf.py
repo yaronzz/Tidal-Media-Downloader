@@ -87,6 +87,7 @@ class Printf(object):
         tb.add_row([LANG.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat])
         tb.add_row([LANG.SETTING_ADD_LYRICS, data.addLyrics])
         tb.add_row([LANG.SETTING_LYRICS_SERVER_PROXY, data.lyricsServerProxy])
+        tb.add_row([LANG.SETTINGS_ADD_LRC_FILE, data.lyricFile])
         print(tb)
 
     @staticmethod
