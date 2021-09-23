@@ -1,7 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-09-22
 - [x] Get lyrics from tidal
+- [x] Support mixes 
 
 #### v2021-09-10
 - [x] Add settings: show track-info

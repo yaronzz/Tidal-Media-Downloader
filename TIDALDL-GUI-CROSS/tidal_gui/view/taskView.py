@@ -70,3 +70,4 @@ class TaskView(QWidget):
                 self._pageMap[name].show()
             else:
                 self._pageMap[name].hide()
+    

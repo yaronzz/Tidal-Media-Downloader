@@ -20,6 +20,6 @@ class TaskModel(ViewModel):
         super(TaskModel, self).__init__()
         self.view = TaskView()
 
-    def addTaskItem(self, stype: Type, data):
-        item = TaskItemModel(stype, data)
+    def addTaskItem(self, data):
+        item = TaskItemModel(data)
 

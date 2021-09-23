@@ -16,7 +16,7 @@ import lyricsgenius
 from tidal_dl.decryption import decrypt_file
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.enums import Type, AudioQuality
-from tidal_dl.model import Track, Video, Lyrics
+from tidal_dl.model import Track, Video, Lyrics, Mix
 from tidal_dl.printf import Printf
 from tidal_dl.settings import Settings
 from tidal_dl.tidal import TidalAPI
@@ -490,6 +490,18 @@ def __playlist__(conf, obj):
             __downloadCover__(conf, album)
     for item in videos:
         __downloadVideo__(conf, item, None)
+        
+
+def __mix__(conf, obj: Mix):
+    Printf.mix(obj)
+    for index, item in enumerate(obj.tracks):
+        mag, album = API.getAlbum(item.album.id)
+        item.trackNumberOnPlaylist = index + 1
+        __downloadTrack__(conf, item, album)
+        if conf.saveCovers and not conf.usePlaylistFolder:
+            __downloadCover__(conf, album)
+    for item in obj.videos:
+        __downloadVideo__(conf, item, None)
 
 
 def file(user, conf, string):
@@ -538,3 +550,5 @@ def start(user, conf, string):
             __artist__(conf, obj)
         if etype == Type.Playlist:
             __playlist__(conf, obj)
+        if etype == Type.Mix:
+            __mix__(conf, obj)

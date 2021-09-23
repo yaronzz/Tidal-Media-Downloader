@@ -18,7 +18,7 @@ from aigpy.modelHelper import dictToModel
 from aigpy.stringHelper import isNull
 from requests.packages import urllib3
 from tidal_dl.enums import Type, AudioQuality, VideoQuality
-from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult, Lyrics
+from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult, Lyrics, Mix
 
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
@@ -101,11 +101,18 @@ class TidalAPI(object):
     def __getItems__(self, path, params={}, retry=3):
         params['limit'] = 50
         params['offset'] = 0
+        total = 0
         ret = []
         while True:
             msg, data = self.__get__(path, params, retry)
             if msg is not None:
                 return msg, None
+            
+            if 'totalNumberOfItems'in data:
+                total = data['totalNumberOfItems']
+            if total > 0 and total <= len(ret):
+                return None, ret
+            
             num = 0
             for item in data["items"]:
                 num += 1
@@ -268,7 +275,17 @@ class TidalAPI(object):
     def getVideo(self, id):
         msg, data = self.__get__('videos/' + str(id))
         return msg, dictToModel(data, Video())
-
+    
+    def getMix(self, id):
+        msg, tracks, videos = self.getItems(id, Type.Mix)
+        if msg is not None:
+            return msg, None
+        mix = Mix()
+        mix.id = id
+        mix.tracks = tracks
+        mix.videos = videos
+        return None, mix
+        
     def search(self, text: str, type: Type, offset: int, limit: int):
         typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
         if type == Type.Album:
@@ -299,6 +316,8 @@ class TidalAPI(object):
             msg, data = self.__getItems__('playlists/' + str(id) + "/items")
         elif type == Type.Album:
             msg, data = self.__getItems__('albums/' + str(id) + "/items")
+        elif type == Type.Mix:
+            msg, data = self.__getItems__('mixes/' + str(id) + '/items')
         else:
             return "invalid Type!", None, None
         if msg is not None:
@@ -425,6 +444,8 @@ class TidalAPI(object):
             etype = Type.Video
         if 'playlist' in url:
             etype = Type.Playlist
+        if 'mix' in url:
+            etype = Type.Mix
 
         if etype == Type.Null:
             return etype, sid
@@ -452,6 +473,8 @@ class TidalAPI(object):
             msg, obj = self.getVideo(sid)
         if obj is None and (etype == Type.Null or etype == Type.Playlist):
             msg, obj = self.getPlaylist(sid)
+        if obj is None and (etype == Type.Null or etype == Type.Mix):
+            msg, obj = self.getMix(sid)
 
         if obj is None or etype != Type.Null:
             return msg, etype, obj
@@ -465,6 +488,8 @@ class TidalAPI(object):
             etype = Type.Video
         if obj.__class__ == Playlist:
             etype = Type.Playlist
+        if obj.__class__ == Mix:
+            etype = Type.Mix
         return msg, etype, obj
 
     """

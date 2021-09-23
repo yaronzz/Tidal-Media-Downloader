@@ -255,3 +255,18 @@ class Printf(object):
                      "track num:" + str(data.numberOfTracks) + "\n" +
                      "video num:" + str(data.numberOfVideos) + "\n" +
                      "==================================")
+
+    @staticmethod
+    def mix(data):
+        LANG = getLang()
+        tb = prettytable.PrettyTable()
+        tb.field_names = [aigpy.cmd.green(LANG.MODEL_PLAYLIST_PROPERTY), aigpy.cmd.green(LANG.VALUE)]
+        tb.align = 'l'
+        tb.add_row([LANG.MODEL_ID, data.id])
+        tb.add_row([LANG.MODEL_TRACK_NUMBER, len(data.tracks)])
+        tb.add_row([LANG.MODEL_VIDEO_NUMBER, len(data.videos)])
+        print(tb)
+        logging.info("====Mix " + str(data.id) + "====\n" +
+                     "track num:" + str(len(data.tracks)) + "\n" +
+                     "video num:" + str(len(data.videos)) + "\n" +
+                     "==================================")

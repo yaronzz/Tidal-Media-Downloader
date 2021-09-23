@@ -234,6 +234,8 @@ def debug():
     API.key.accessToken = TOKEN.accessToken
     API.key.userId = TOKEN.userid
     API.key.countryCode = TOKEN.countryCode
+    # https://api.tidal.com/v1/mixes/{01453963b7dbd41c8b82ccb678d127/items?countryCode={country}
+    API.getMix("01453963b7dbd41c8b82ccb678d127")
     # msg, result = API.search('Mojito', Type.Null, 0, 10)
     msg, lyric = API.getLyrics('144909909')
     pass
@@ -277,6 +279,8 @@ def main():
             start(TOKEN, CONF, '58138532')
         elif choice == "13":  # test playlist
             start(TOKEN, CONF, '98235845-13e8-43b4-94e2-d9f8e603cee7')
+        elif choice == "14":  # test playlist
+            start(TOKEN, CONF, '01453963b7dbd41c8b82ccb678d127')
         else:
             start(TOKEN, CONF, choice)
 

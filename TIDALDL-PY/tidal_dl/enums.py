@@ -32,4 +32,5 @@ class Type(Enum):
     Video = 2
     Playlist = 3
     Artist = 4
-    Null = 5
+    Mix = 5
+    Null = 6

@@ -96,6 +96,12 @@ class Playlist(ModelBase):
     squareImage = None
 
 
+class Mix(ModelBase):
+    id = None
+    tracks = Track()
+    videos = Video()
+
+
 class Lyrics(ModelBase):
     trackId = None
     lyricsProvider = None

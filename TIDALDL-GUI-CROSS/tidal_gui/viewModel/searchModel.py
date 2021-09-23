@@ -24,7 +24,7 @@ from tidal_gui.viewModel.viewModel import ViewModel
 
 
 class SearchModel(ViewModel):
-    SIGNAL_ADD_TASKITEM = pyqtSignal(tidal_dl.Type, ModelBase)
+    SIGNAL_ADD_TASKITEM = pyqtSignal(ModelBase)
 
     def __init__(self):
         super(SearchModel, self).__init__()
@@ -98,4 +98,4 @@ class SearchModel(ViewModel):
             data = self._resultData.playlists.items[index]
 
         if data is not None:
-            self.SIGNAL_ADD_TASKITEM.emit(stype, data)
+            self.SIGNAL_ADD_TASKITEM.emit(data)

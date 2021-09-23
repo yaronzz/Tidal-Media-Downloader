@@ -20,16 +20,16 @@ from tidal_gui.viewModel.viewModel import ViewModel
 
 
 class TaskItemModel(ViewModel):
-    def __init__(self, stype: Type, data):
+    def __init__(self, data):
         super(TaskItemModel, self).__init__()
         self.view = TaskItemView()
-        if stype == Type.Album:
+        if isinstance(data, Album):
             self.__initAlbum__(data)
-        elif stype == Type.Track:
+        elif isinstance(data, Track):
             self.__initTrack__(data)
-        elif stype == Type.Video:
+        elif isinstance(data, Video):
             self.__initVideo__(data)
-        elif stype == Type.Playlist:
+        elif isinstance(data, Playlist):
             self.__initPlaylist__(data)
 
     def __initAlbum__(self, data: Album):
