@@ -70,6 +70,7 @@ This project exists thanks to all the people who contribute.
 - [aigpy](https://github.com/yaronzz/AIGPY)
 - [python-tidal](https://github.com/tamland/python-tidal)
 - [redsea](https://github.com/redsudo/RedSea)
+- [tidal-wiki](https://github.com/Fokka-Engineering/TIDAL/wiki)
 
 ## 📜 Disclaimer
 - Private use only.
