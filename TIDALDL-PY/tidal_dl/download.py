@@ -65,6 +65,8 @@ def __getArtists__(array):
 def __getArtistsString__(artists):
     return ", ".join(map(lambda artist: artist.name, artists))
 
+def __getArtistString__(artist):
+    return artist.name
 
 def __parseContributors__(roleType, Contributors):
     if Contributors is None:
@@ -152,6 +154,7 @@ def __stripPath__(path):
 def __getAlbumPath__(conf: Settings, album):
     base = conf.downloadPath + '/Album/'
     artist = aigpy.path.replaceLimitChar(__getArtistsString__(album.artists), '-')
+    albumArtistName = __getArtistString__(album.artist)
     # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
@@ -172,6 +175,7 @@ def __getAlbumPath__(conf: Settings, album):
     if retpath is None or len(retpath) <= 0:
         retpath = Settings.getDefaultAlbumFolderFormat()
     retpath = retpath.replace(R"{ArtistName}", artist.strip())
+    retpath = retpath.replace(R"{AlbumArtistName}", albumArtistName.strip())
     retpath = retpath.replace(R"{Flag}", flag)
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
