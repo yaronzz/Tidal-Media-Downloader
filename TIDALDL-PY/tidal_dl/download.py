@@ -10,6 +10,7 @@
 '''
 import logging
 import os
+import datetime
 
 import aigpy
 import lyricsgenius
@@ -150,6 +151,13 @@ def __stripPath__(path):
     return result.strip()
 
 
+def __secondsToTimeStr__(seconds):
+    time_string = str(datetime.timedelta(seconds=seconds))
+    if time_string.startswith('0:'):
+        time_string = time_string[2:]
+    return time_string
+
+
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
 def __getAlbumPath__(conf: Settings, album):
     base = conf.downloadPath + '/Album/'
@@ -180,6 +188,14 @@ def __getAlbumPath__(conf: Settings, album):
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
+    retpath = retpath.replace(R"{AudioQuality}", album.audioQuality)
+    retpath = retpath.replace(R"{DurationSeconds}", str(album.duration))
+    retpath = retpath.replace(R"{Duration}", __secondsToTimeStr__(album.duration))
+    retpath = retpath.replace(R"{NumberOfTracks}", str(album.numberOfTracks))
+    retpath = retpath.replace(R"{NumberOfVideos}", str(album.numberOfVideos))
+    retpath = retpath.replace(R"{NumberOfVolumes}", str(album.numberOfVolumes))
+    retpath = retpath.replace(R"{ReleaseDate}", album.releaseDate)
+    retpath = retpath.replace(R"{RecordType}", album.type)
     retpath = __stripPath__(retpath.strip())
     return base + retpath
 
@@ -255,6 +271,9 @@ def __getTrackPath__(conf: Settings, track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
+    retpath = retpath.replace(R"{AudioQuality}", track.audioQuality)
+    retpath = retpath.replace(R"{DurationSeconds}", str(track.duration))
+    retpath = retpath.replace(R"{Duration}", __secondsToTimeStr__(track.duration))
     retpath = retpath.strip()
     return base + retpath + extension
 
