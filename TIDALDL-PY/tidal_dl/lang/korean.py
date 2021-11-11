@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   korean.py
-@Time    :   2021/11/12
+@Time    :   2021/11/11
 @Author  :   jee019
 @Version :   1.0
 @Contact :   qwer010910@gmail.com
