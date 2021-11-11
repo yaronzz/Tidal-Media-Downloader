@@ -24,7 +24,7 @@ class LangKorean(object):
     SETTING_CHECK_EXIST = "존재 유무 확인"
     SETTING_ARTIST_BEFORE_TITLE = "트랙 제목 앞 아티스트 이름"
     SETTING_ALBUMID_BEFORE_FOLDER = "앨범 폴더 앞 ID"
-    SETTING_INCLUDE_EP = "싱글 및 ep 포함"
+    SETTING_INCLUDE_EP = "싱글 및 EP 포함"
     SETTING_SAVE_COVERS = "커버 저장"
     SETTING_LANGUAGE = "언어"
     SETTING_USE_PLAYLIST_FOLDER = "재생목록 폴더 사용"
