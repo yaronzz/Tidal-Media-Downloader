@@ -24,7 +24,7 @@ class LangEnglish(object):
     SETTING_CHECK_EXIST = "Check exist"
     SETTING_ARTIST_BEFORE_TITLE = "ArtistName before track-title"
     SETTING_ALBUMID_BEFORE_FOLDER = "Id before album-folder"
-    SETTING_INCLUDE_EP = "Include single&EP"
+    SETTING_INCLUDE_EP = "Include singles & EPs"
     SETTING_SAVE_COVERS = "Save covers"
     SETTING_LANGUAGE = "Language"
     SETTING_USE_PLAYLIST_FOLDER = "Use playlist folder"
