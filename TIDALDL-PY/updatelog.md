@@ -1,6 +1,11 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-11-15
+- [x] Add language:Korean
+- [x] Update vietnamese
+- [x] Additional tags for album path and track name
+
 #### v2021-09-23
 - [x] Get lyrics from tidal
 - [x] Support mixes 
