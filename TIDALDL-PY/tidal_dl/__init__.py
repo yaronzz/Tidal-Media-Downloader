@@ -26,10 +26,10 @@ from tidal_dl.lang.language import setLang, initLang, getLangChoicePrint
 from tidal_dl.printf import Printf, VERSION
 from tidal_dl.settings import Settings, TokenSettings, getLogPath
 from tidal_dl.tidal import TidalAPI
+from tidal_dl.util import API
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-API = TidalAPI()
 TOKEN = TokenSettings.read()
 CONF = Settings.read()
 LANG = initLang(CONF.language)
@@ -274,7 +274,7 @@ def main():
         elif choice == "10":  # test track
             start(TOKEN, CONF, '70973230')
         elif choice == "11":  # test video
-            start(TOKEN, CONF, '155608351')
+            start(TOKEN, CONF, '188932980')
         elif choice == "12":  # test album
             start(TOKEN, CONF, '58138532')
         elif choice == "13":  # test playlist
@@ -290,6 +290,6 @@ if __name__ == "__main__":
     main()
     # test example
     # track 70973230  77798028 212657
-    # video 155608351
+    # video 155608351 188932980
     # album 58138532  77803199  21993753   79151897  56288918
     # playlist 98235845-13e8-43b4-94e2-d9f8e603cee7
