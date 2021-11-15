@@ -35,8 +35,6 @@
 | tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
 | tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
 
-**Renewal cycle:** Once a month. (25th to 30th)
-
 ## 📡 Telegram
 
 - [Group](https://t.me/tidal_group) : Feed back
@@ -59,22 +57,22 @@
 
 ### Album
 
-| Tag               | Example value                 |
-| ----------------- | ----------------------------- |
-| {ArtistName}      | The Beatles                   |
-| {AlbumArtistName} | The Beatles                   |
-| {Flag}            |                               |
-| {AlbumID}         | 55163243                      |
-| {AlbumYear}       | 1963                          |
-| {AlbumTitle}      | Please Please Me (Remastered) |
-| {AudioQuality}    | LOSSLESS                      |
-| {DurationSeconds} | 1919                          |
-| {Duration}        | 31:59                         |
-| {NumberOfTracks}  | 14                            |
-| {NumberOfVideos}  | 0                             |
-| {NumberOfVolumes} | 1                             |
-| {ReleaseDate}     | 1963-03-22                    |
-| {RecordType}      | ALBUM                         |
+| Tag               | Example value                        |
+| ----------------- | ------------------------------------ |
+| {ArtistName}      | The Beatles                          |
+| {AlbumArtistName} | The Beatles                          |
+| {Flag}            | M/A/E  (Master/Dolby Atmos/Explicit) |
+| {AlbumID}         | 55163243                             |
+| {AlbumYear}       | 1963                                 |
+| {AlbumTitle}      | Please Please Me (Remastered)        |
+| {AudioQuality}    | LOSSLESS                             |
+| {DurationSeconds} | 1919                                 |
+| {Duration}        | 31:59                                |
+| {NumberOfTracks}  | 14                                   |
+| {NumberOfVideos}  | 0                                    |
+| {NumberOfVolumes} | 1                                    |
+| {ReleaseDate}     | 1963-03-22                           |
+| {RecordType}      | ALBUM                                |
 
 ### Track
 
@@ -83,7 +81,7 @@
 | {TrackNumber}     | 01                                         |
 | {ArtistName}      | The Beatles                                |
 | {TrackTitle}      | I Saw Her Standing There (Remastered 2009) |
-| {ExplicitFlag}    |                                            |
+| {ExplicitFlag}    | (*Explicit*)                               |
 | {AlbumYear}       | 1963                                       |
 | {AlbumTitle}      | Please Please Me (Remastered)              |
 | {AudioQuality}    | LOSSLESS                                   |
@@ -115,6 +113,9 @@ This project exists thanks to all the people who contribute.
 
 ## Developing
 
+```shell
 pip3 uninstall tidal-dl
 pip3 install -r requirements.txt --user
 python3 setup.py install
+```
+
