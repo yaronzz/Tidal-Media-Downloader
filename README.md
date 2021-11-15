@@ -55,6 +55,41 @@
 
 ![image-20200806013705425](https://i.loli.net/2020/08/06/sPLowIlCGyOdpVN.png)
 
+## Settings - Possible Tags
+
+### Album
+
+| Tag               | Example value                 |
+| ----------------- | ----------------------------- |
+| {ArtistName}      | The Beatles                   |
+| {AlbumArtistName} | The Beatles                   |
+| {Flag}            |                               |
+| {AlbumID}         | 55163243                      |
+| {AlbumYear}       | 1963                          |
+| {AlbumTitle}      | Please Please Me (Remastered) |
+| {AudioQuality}    | LOSSLESS                      |
+| {DurationSeconds} | 1919                          |
+| {Duration}        | 31:59                         |
+| {NumberOfTracks}  | 14                            |
+| {NumberOfVideos}  | 0                             |
+| {NumberOfVolumes} | 1                             |
+| {ReleaseDate}     | 1963-03-22                    |
+| {RecordType}      | ALBUM                         |
+
+### Track
+
+| Tag               | Example Value                              |
+| ----------------- | ------------------------------------------ |
+| {TrackNumber}     | 01                                         |
+| {ArtistName}      | The Beatles                                |
+| {TrackTitle}      | I Saw Her Standing There (Remastered 2009) |
+| {ExplicitFlag}    |                                            |
+| {AlbumYear}       | 1963                                       |
+| {AlbumTitle}      | Please Please Me (Remastered)              |
+| {AudioQuality}    | LOSSLESS                                   |
+| {DurationSeconds} | 173                                        |
+| {Duration}        | 02:53                                      |
+
 ## ☕ Support
 
 If you really like my projects and want to support me, you can buy me a coffee and star this project. 

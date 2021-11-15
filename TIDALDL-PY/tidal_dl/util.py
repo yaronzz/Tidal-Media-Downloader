@@ -42,6 +42,12 @@ def __getExtension__(url):
     return '.m4a'
 
 
+def __secondsToTimeStr__(seconds):
+    time_string = str(datetime.timedelta(seconds=seconds))
+    if time_string.startswith('0:'):
+        time_string = time_string[2:]
+    return time_string
+
 def __parseContributors__(roleType, Contributors):
     if Contributors is None:
         return None
@@ -96,6 +102,7 @@ def getArtistsName(artists):
 def getAlbumPath(conf: Settings, album):
     base = conf.downloadPath + '/Album/'
     artist = aigpy.path.replaceLimitChar(getArtistsName(album.artists), '-')
+    albumArtistName = album.artist.name if album.artist is not None else "None"
     # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
@@ -116,10 +123,19 @@ def getAlbumPath(conf: Settings, album):
     if retpath is None or len(retpath) <= 0:
         retpath = Settings.getDefaultAlbumFolderFormat()
     retpath = retpath.replace(R"{ArtistName}", artist.strip())
+    retpath = retpath.replace(R"{AlbumArtistName}", albumArtistName.strip())
     retpath = retpath.replace(R"{Flag}", flag)
     retpath = retpath.replace(R"{AlbumID}", sid)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
+    retpath = retpath.replace(R"{AudioQuality}", album.audioQuality)
+    retpath = retpath.replace(R"{DurationSeconds}", str(album.duration))
+    retpath = retpath.replace(R"{Duration}", __secondsToTimeStr__(album.duration))
+    retpath = retpath.replace(R"{NumberOfTracks}", str(album.numberOfTracks))
+    retpath = retpath.replace(R"{NumberOfVideos}", str(album.numberOfVideos))
+    retpath = retpath.replace(R"{NumberOfVolumes}", str(album.numberOfVolumes))
+    retpath = retpath.replace(R"{ReleaseDate}", album.releaseDate)
+    retpath = retpath.replace(R"{RecordType}", album.type)
     retpath = stripPath(retpath.strip())
     return base + retpath
 
@@ -169,6 +185,9 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
     retpath = retpath.replace(R"{AlbumYear}", year)
     retpath = retpath.replace(R"{AlbumTitle}", albumname.strip())
+    retpath = retpath.replace(R"{AudioQuality}", track.audioQuality)
+    retpath = retpath.replace(R"{DurationSeconds}", str(track.duration))
+    retpath = retpath.replace(R"{Duration}", __secondsToTimeStr__(track.duration))
     retpath = retpath.strip()
     return base + retpath + extension
 
