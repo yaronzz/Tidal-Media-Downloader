@@ -14,6 +14,7 @@ import os
 
 import aigpy
 import lyricsgenius
+import datetime
 from tidal_dl.decryption import decrypt_file
 from tidal_dl.decryption import decrypt_security_token
 from tidal_dl.enums import Type, AudioQuality
