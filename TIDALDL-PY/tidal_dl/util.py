@@ -238,14 +238,14 @@ def setMetaData(track, album, filepath, contributors, lyrics):
     if not aigpy.string.isNull(track.version):
         obj.title += ' (' + track.version + ')'
 
-    obj.artist = map(lambda artist: artist.name, track.artists)  # __getArtists__(track.artists)
+    obj.artist = list(map(lambda artist: artist.name, track.artists))  # __getArtists__(track.artists)
     obj.copyright = track.copyRight
     obj.tracknumber = track.trackNumber
     obj.discnumber = track.volumeNumber
     obj.composer = __parseContributors__('Composer', contributors)
     obj.isrc = track.isrc
 
-    obj.albumartist = map(lambda artist: artist.name, album.artists)  # __getArtists__(album.artists)
+    obj.albumartist = list(map(lambda artist: artist.name, album.artists))  # __getArtists__(album.artists)
     obj.date = album.releaseDate
     obj.totaldisc = album.numberOfVolumes
     obj.lyrics = lyrics
