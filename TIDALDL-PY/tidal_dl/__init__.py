@@ -257,6 +257,8 @@ def main():
         icmp = cmpVersion(onlineVer, VERSION)
         if icmp > 0:
             Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
+    
+    Printf.info("For some reasons, this version only supports LOSSLESS.")
 
     while True:
         Printf.choices()
