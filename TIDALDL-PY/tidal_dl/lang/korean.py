@@ -47,7 +47,7 @@ class LangKorean(object):
     CHOICE_LOGIN = "액세스 토큰 확인"
     CHOICE_SETTINGS = "설정"
     CHOICE_SET_ACCESS_TOKEN = "액세스 토큰 설정"
-    CHOICE_DOWNLOAD_BY_URL = "url 또는 id로 다운로드"
+    CHOICE_DOWNLOAD_BY_URL = "Url 또는 id로 다운로드"
     CHOICE_LOGOUT = "로그아웃"
 
     PRINT_ERR = "[에러]"
