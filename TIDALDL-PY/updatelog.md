@@ -1,6 +1,10 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2021-11-30
+- [x] Add language:Japanese 
+- [x] Support select apikey(Different keys support different formats) 
+
 #### v2021-11-15
 - [x] Add language:Korean
 - [x] Update vietnamese

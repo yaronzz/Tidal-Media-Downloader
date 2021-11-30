@@ -27,6 +27,7 @@ from tidal_dl.lang.turkish import LangTurkish
 from tidal_dl.lang.ukrainian import LangUkrainian
 from tidal_dl.lang.vietnamese import LangVietnamese
 from tidal_dl.lang.korean import LangKorean
+from tidal_dl.lang.japanese import LangJapanese
 
 LANG = None
 
@@ -74,6 +75,8 @@ def setLang(index):
         LANG = LangHungarian()
     elif str(index) == '17':
         LANG = LangKorean()
+    elif str(index) == '18':
+        LANG = LangJapanese()
     else:
         LANG = LangEnglish()
     return LANG
@@ -121,6 +124,8 @@ def getLangName(index):
         return "Hungarian"
     if str(index) == '17':
         return "Korean"
+    if str(index) == '18':
+        return "Japanese"
     return ""
 
 

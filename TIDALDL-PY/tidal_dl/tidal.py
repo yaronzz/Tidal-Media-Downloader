@@ -19,14 +19,13 @@ from aigpy.stringHelper import isNull
 from requests.packages import urllib3
 from tidal_dl.enums import Type, AudioQuality, VideoQuality
 from tidal_dl.model import Album, Track, Video, Artist, Playlist, StreamUrl, VideoStreamUrl, SearchResult, Lyrics, Mix
+import tidal_dl.apiKey as apiKey
 
 __VERSION__ = '1.9.1'
 __URL_PRE__ = 'https://api.tidalhifi.com/v1/'
 __AUTH_URL__ = 'https://auth.tidal.com/v1/oauth2'
-# known API key for Fire Stick HD(MQA, Dolby Vision enabled)
-__API_KEY__ = {'clientId': 'OmDtrzFgyVVL6uW56OnFA2COiabqm',
-               'clientSecret': 'zxen1r3pO0hgtOC7j6twMo9UAqngGrmRiWpV7QC1zJ8='}
-# __API_KEY__ = {'clientId': 'aR7gUaTK1ihpXOEP', 'clientSecret': 'eVWBEkuL2FCjxgjOkR3yK0RYZEbcrMXRc2l8fU3ZCdE='}
+__API_KEY__ = {'clientId': '7m7Ap0JC9j1cOM3n',
+               'clientSecret': 'vRAdA108tlvkJpTsGZS8rGZ7xTlbJ0qaZ2K9saEzsgY='}
 
 # SSL Warnings
 urllib3.disable_warnings()
@@ -62,6 +61,7 @@ class __StreamRespond__(object):
 
 class TidalAPI(object):
     def __init__(self):
+        self.apiKey = __API_KEY__
         self.key = LoginKey()
         self.__debugVar = 0
 
@@ -171,7 +171,7 @@ class TidalAPI(object):
 
     def getDeviceCode(self):
         data = {
-            'client_id': __API_KEY__['clientId'],
+            'client_id': self.apiKey['clientId'],
             'scope': 'r_usr+w_usr+w_sub'
         }
         e, result = self.__post__(__AUTH_URL__ + '/device_authorization', data)
@@ -190,12 +190,12 @@ class TidalAPI(object):
 
     def checkAuthStatus(self):
         data = {
-            'client_id': __API_KEY__['clientId'],
+            'client_id': self.apiKey['clientId'],
             'device_code': self.key.deviceCode,
             'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
             'scope': 'r_usr+w_usr+w_sub'
         }
-        e, result = self.__post__(__AUTH_URL__ + '/token', data, (__API_KEY__['clientId'], __API_KEY__['clientSecret']))
+        e, result = self.__post__(__AUTH_URL__ + '/token', data, (self.apiKey['clientId'], self.apiKey['clientSecret']))
         if e is not None:
             return str(e), False
 
@@ -222,17 +222,17 @@ class TidalAPI(object):
 
     def refreshAccessToken(self, refreshToken):
         data = {
-            'client_id': __API_KEY__['clientId'],
+            'client_id': self.apiKey['clientId'],
             'refresh_token': refreshToken,
             'grant_type': 'refresh_token',
             'scope': 'r_usr+w_usr+w_sub'
         }
 
-        e, result = self.__post__(__AUTH_URL__ + '/token', data, (__API_KEY__['clientId'], __API_KEY__['clientSecret']))
+        e, result = self.__post__(__AUTH_URL__ + '/token', data, (self.apiKey['clientId'], self.apiKey['clientSecret']))
         if e is not None:
             return str(e), False
 
-        # result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(__API_KEY__['clientId'], __API_KEY__['clientSecret'])).json()
+        # result = requests.post(__AUTH_URL__ + '/token', data=data, auth=(self.apiKey['clientId'], self.apiKey['clientSecret'])).json()
         if 'status' in result and result['status'] != 200:
             return "Refresh failed. Please log in again.", False
 

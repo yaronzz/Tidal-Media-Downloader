@@ -27,12 +27,14 @@ from tidal_dl.printf import Printf, VERSION
 from tidal_dl.settings import Settings, TokenSettings, getLogPath
 from tidal_dl.tidal import TidalAPI
 from tidal_dl.util import API
+import tidal_dl.apiKey as apiKey
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
 TOKEN = TokenSettings.read()
 CONF = Settings.read()
 LANG = initLang(CONF.language)
+API.apiKey = apiKey.getItem(CONF.apiKeyIndex)
 
 logging.basicConfig(filename=getLogPath(),
                     level=logging.INFO,
@@ -119,6 +121,21 @@ def setAccessToken():
     TOKEN.refreshToken = refreshToken
     TOKEN.expiresAfter = 0
     TokenSettings.save(TOKEN)
+
+
+def setAPIKey():
+    global LANG
+    item = apiKey.getItem(CONF.apiKeyIndex)
+    Printf.info(f'Current APIKeys: {str(CONF.apiKeyIndex)} {item["platform"]}-{item["formats"]}')
+    Printf.apikeys(apiKey.getItems())
+    index = int(Printf.enterLimit("APIKEY index:", LANG.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
+    
+    if index != CONF.apiKeyIndex:
+        CONF.apiKeyIndex = index
+        Settings.save(CONF)
+        API.apiKey = apiKey.getItem(index)
+        return True
+    return False
 
 
 def checkLogin():
@@ -241,7 +258,6 @@ def debug():
     pass
 
 
-
 def main():
     if len(sys.argv) > 1:
         mainCommand()
@@ -257,8 +273,8 @@ def main():
         icmp = cmpVersion(onlineVer, VERSION)
         if icmp > 0:
             Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
-    
-    Printf.info("For some reasons, this version only supports LOSSLESS.")
+
+    # Printf.info("For some reasons, this version only supports LOSSLESS.")
 
     while True:
         Printf.choices()
@@ -273,6 +289,9 @@ def main():
             checkLogout()
         elif choice == "4":
             setAccessToken()
+        elif choice == '5':
+            if setAPIKey():
+                checkLogout()
         elif choice == "10":  # test track
             start(TOKEN, CONF, '70973230')
         elif choice == "11":  # test video

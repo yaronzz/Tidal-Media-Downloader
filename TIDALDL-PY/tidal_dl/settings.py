@@ -105,6 +105,7 @@ class Settings(ModelBase):
     showTrackInfo = True
     saveAlbumInfo = False
     lyricFile = False
+    apiKeyIndex = 0
 
     @staticmethod
     def getDefaultAlbumFolderFormat():
@@ -132,6 +133,8 @@ class Settings(ModelBase):
             ret.albumFolderFormat = Settings.getDefaultAlbumFolderFormat()
         if ret.trackFileFormat is None:
             ret.trackFileFormat = Settings.getDefaultTrackFileFormat()
+        if ret.apiKeyIndex is None:
+            ret.apiKeyIndex = 0
         return ret
 
     @staticmethod
