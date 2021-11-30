@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   korean.py
-@Time    :   2021/11/11
+@Time    :   2021/11/24
 @Author  :   jee019
-@Version :   1.0
+@Version :   1.1
 @Contact :   qwer010910@gmail.com
 @Desc    :   
 '''
@@ -36,7 +36,7 @@ class LangKorean(object):
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt 저장"
     SETTING_ADD_LYRICS = "가사 추가"
     SETTING_LYRICS_SERVER_PROXY = "가사 서버 프록시"
-    SETTINGS_ADD_LRC_FILE = "맞춤 가사 저장 (.lrc 파일)"
+    SETTINGS_ADD_LRC_FILE = "timed 가사 저장 (.lrc 파일)"
     SETTING_PATH = "설정 경로"
 
     CHOICE = "선택"
@@ -47,7 +47,7 @@ class LangKorean(object):
     CHOICE_LOGIN = "액세스 토큰 확인"
     CHOICE_SETTINGS = "설정"
     CHOICE_SET_ACCESS_TOKEN = "액세스 토큰 설정"
-    CHOICE_DOWNLOAD_BY_URL = "url 또는 id로 다운로드"
+    CHOICE_DOWNLOAD_BY_URL = "Url 또는 id로 다운로드"
     CHOICE_LOGOUT = "로그아웃"
 
     PRINT_ERR = "[에러]"
@@ -60,7 +60,7 @@ class LangKorean(object):
     # PRINT_PASSWORD = "비밀번호:"
 
     CHANGE_START_SETTINGS = "설정 시작('0'-뒤로가기,'1'-예):"
-    CHANGE_DOWNLOAD_PATH = "다운로드 경로('0' 변경 안 함):"
+    CHANGE_DOWNLOAD_PATH = "다운로드 경로('0'-변경 안 함):"
     CHANGE_AUDIO_QUALITY = "음질('0'-보통,'1'-높음,'2'-HiFi,'3'-Master):"
     CHANGE_VIDEO_QUALITY = "영상 화질(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "mp4를 m4a로 변환('0'-아니요,'1'-예):"
@@ -74,14 +74,14 @@ class LangKorean(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "앨범 폴더 앞에 ID 추가('0'-아니요,'1'-예):"
     CHANGE_SAVE_COVERS = "커버 저장('0'-아니요,'1'-예):"
     CHANGE_LANGUAGE = "언어 선택"
-    CHANGE_ALBUM_FOLDER_FORMAT = "앨범 폴더 형식('0' 변경 안 함,'default' 기본 설정):"
-    CHANGE_TRACK_FILE_FORMAT = "트랙 파일 형식('0' 변경 안 함,'default' 기본 설정):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "앨범 폴더 형식('0'-변경 안 함,'default'-기본 설정):"
+    CHANGE_TRACK_FILE_FORMAT = "트랙 파일 형식('0'-변경 안 함,'default'-기본 설정):"
     CHANGE_SHOW_PROGRESS = "진행 상태 표시('0'-아니요,'1'-예):"
     CHANGE_SHOW_TRACKINFO = "트랙 정보 표시('0'-아니요,'1'-예):"
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt 저장('0'-아니요,'1'-예):"
     CHANGE_ADD_LYRICS = "가사 추가('0'-아니요,'1'-예):"
-    CHANGE_LYRICS_SERVER_PROXY = "가사 서버 프록시('0' 변경 안 함):"
-    CHANGE_ADD_LRC_FILE = "맞춤 가사 .lrc 파일 저장 ('0'-아니요,'1'-예):"
+    CHANGE_LYRICS_SERVER_PROXY = "가사 서버 프록시('0'-변경 안 함):"
+    CHANGE_ADD_LRC_FILE = "timed 가사 .lrc 파일 저장 ('0'-아니요,'1'-예):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "로그인 중..."
@@ -90,7 +90,7 @@ class LangKorean(object):
     AUTH_WAITING = "승인 대기 중..."
     AUTH_TIMEOUT = "작업 시간 초과"
 
-    MSG_VALID_ACCESSTOKEN = "{}에 대해 액세스토큰이 유효합니다."
+    MSG_VALID_ACCESSTOKEN = "{}에 대해 액세스 토큰이 유효합니다."
     MSG_INVAILD_ACCESSTOKEN = "만료된 액세스 토큰입니다. 새로 고침 중입니다."
     MSG_PATH_ERR = "경로 오류!"
     MSG_INPUT_ERR = "입력 오류!"

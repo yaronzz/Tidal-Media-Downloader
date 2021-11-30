@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   english.py
-@Time    :   2021/11/11
+@Time    :   2021/11/24
 @Author  :   Yaronzz & jee019
-@Version :   1.1
+@Version :   1.2
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
@@ -47,7 +47,7 @@ class LangEnglish(object):
     CHOICE_LOGIN = "Check AccessToken"
     CHOICE_SETTINGS = "Settings"
     CHOICE_SET_ACCESS_TOKEN = "Set AccessToken"
-    CHOICE_DOWNLOAD_BY_URL = "Download by url or id"
+    CHOICE_DOWNLOAD_BY_URL = "Download by url or ID"
     CHOICE_LOGOUT = "Logout"
 
     PRINT_ERR = "[ERR]"
@@ -60,7 +60,7 @@ class LangEnglish(object):
     # PRINT_PASSWORD = "password:"
 
     CHANGE_START_SETTINGS = "Start settings('0'-Return,'1'-Yes):"
-    CHANGE_DOWNLOAD_PATH = "Download path('0' not modify):"
+    CHANGE_DOWNLOAD_PATH = "Download path('0'-not modify):"
     CHANGE_AUDIO_QUALITY = "Audio quality('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
     CHANGE_VIDEO_QUALITY = "Video quality(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Convert mp4 to m4a('0'-No,'1'-Yes):"
@@ -74,13 +74,13 @@ class LangEnglish(object):
     CHANGE_ALBUMID_BEFORE_FOLDER = "Add id before album folder('0'-No,'1'-Yes):"
     CHANGE_SAVE_COVERS = "Save covers('0'-No,'1'-Yes):"
     CHANGE_LANGUAGE = "Select language"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0' not modify,'default' to set default):"
-    CHANGE_TRACK_FILE_FORMAT = "Track file format('0' not modify,'default' to set default):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Album folder format('0'-not modify,'default'-to set default):"
+    CHANGE_TRACK_FILE_FORMAT = "Track file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Show progress('0'-No,'1'-Yes):"
     CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
-    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
+    CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0'-not modify):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
 
     # {} are required in these strings
