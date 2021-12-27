@@ -38,6 +38,8 @@ class LangSpanish(object):
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
     SETTING_PATH = "Ruta de ajustes"
     SETTINGS_ADD_LRC_FILE = "Añadir letras cronometradas (archivo .lrc)"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -49,6 +51,7 @@ class LangSpanish(object):
     CHOICE_SET_ACCESS_TOKEN = "Establecer AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Descargar por Url o ID"
     CHOICE_LOGOUT = "Cerrar sesión"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[ERROR]"
     PRINT_INFO = "[INFO]"
@@ -82,6 +85,7 @@ class LangSpanish(object):
     CHANGE_ADD_LYRICS = "¿Añadir letras?('0'-No,'1'-Sí):"
     CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
     CHANGE_ADD_LRC_FILE = "¿Añadir letras cronometradas en un archivo .lrc? ('0'-No,'1'-Sí):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."

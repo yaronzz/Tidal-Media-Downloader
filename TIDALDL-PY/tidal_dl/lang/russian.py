@@ -38,6 +38,8 @@ class LangRussian(object):
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
     SETTING_PATH = "Путь для настроек"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -49,6 +51,7 @@ class LangRussian(object):
     CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
     CHOICE_LOGOUT = "Переподключение"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[ОШИБКА]"
     PRINT_INFO = "[СВЕДЕНИЯ]"
@@ -82,6 +85,7 @@ class LangRussian(object):
     CHANGE_ADD_LYRICS = "Добавлять тексты песень ('0'-Нет,'1'-Да):"
     CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песень('0' не менять):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."

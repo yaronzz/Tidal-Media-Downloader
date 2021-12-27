@@ -101,7 +101,9 @@ def getArtistsName(artists):
 
 # "{ArtistName}/{Flag} [{AlbumID}] [{AlbumYear}] {AlbumTitle}"
 def getAlbumPath(conf: Settings, album):
-    base = conf.downloadPath + '/Album/'
+    base = conf.downloadPath + '/'
+    if conf.addTypeFolder:
+        base = base + 'Album/'
     artist = aigpy.path.replaceLimitChar(getArtistsName(album.artists), '-')
     albumArtistName = album.artist.name if album.artist is not None else "None"
     # album folder pre: [ME][ID]
@@ -143,7 +145,9 @@ def getAlbumPath(conf: Settings, album):
 
 def getPlaylistPath(conf: Settings, playlist):
     # outputdir/Playlist/
-    base = conf.downloadPath + '/Playlist/'
+    base = conf.downloadPath + '/'
+    if conf.addTypeFolder:
+        base = base + 'Playlist/'
     # name
     name = aigpy.path.replaceLimitChar(playlist.title, '-')
     return base + name + '/'
@@ -199,7 +203,9 @@ def getVideoPath(conf, video, album=None, playlist=None):
     elif playlist is not None and conf.usePlaylistFolder:
         base = getPlaylistPath(conf, playlist)
     else:
-        base = conf.downloadPath + '/Video/'
+        base = conf.downloadPath + '/'
+        if conf.addTypeFolder:
+            base = base + 'Video/'
 
     # hyphen
     hyphen = ' - ' if conf.addHyphen else ' '

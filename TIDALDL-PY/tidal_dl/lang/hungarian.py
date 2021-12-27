@@ -38,6 +38,8 @@ class LangHungarian(object):
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
     SETTING_PATH = "Beállítások elérési útvonala"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "VÁLASZTÁS"
     FUNCTION = "FUNKCIÓ"
@@ -49,6 +51,7 @@ class LangHungarian(object):
     CHOICE_SET_ACCESS_TOKEN = "AccessToken beállítása"
     CHOICE_DOWNLOAD_BY_URL = "Letöltés URL vagy ID alapján"
     CHOICE_LOGOUT = "Kijelentkezés"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[HIBA]"
     PRINT_INFO = "[INFÓ]"
@@ -82,6 +85,7 @@ class LangHungarian(object):
     CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-nem,'1'-igen):"
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló prox('0' nincs módosítás):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."

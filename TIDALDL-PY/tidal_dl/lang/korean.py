@@ -38,6 +38,8 @@ class LangKorean(object):
     SETTING_LYRICS_SERVER_PROXY = "가사 서버 프록시"
     SETTINGS_ADD_LRC_FILE = "timed 가사 저장 (.lrc 파일)"
     SETTING_PATH = "설정 경로"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "선택"
     FUNCTION = "기능"
@@ -49,6 +51,7 @@ class LangKorean(object):
     CHOICE_SET_ACCESS_TOKEN = "액세스 토큰 설정"
     CHOICE_DOWNLOAD_BY_URL = "Url 또는 id로 다운로드"
     CHOICE_LOGOUT = "로그아웃"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[에러]"
     PRINT_INFO = "[정보]"
@@ -82,6 +85,7 @@ class LangKorean(object):
     CHANGE_ADD_LYRICS = "가사 추가('0'-아니요,'1'-예):"
     CHANGE_LYRICS_SERVER_PROXY = "가사 서버 프록시('0'-변경 안 함):"
     CHANGE_ADD_LRC_FILE = "timed 가사 .lrc 파일 저장 ('0'-아니요,'1'-예):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "로그인 중..."

@@ -13,6 +13,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     platforms="any",
-    install_requires=["aigpy>=2021.9.10.3", "requests>=2.22.0", "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
+    install_requires=["aigpy>=2021.12.10.1", "requests>=2.22.0", "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
     entry_points={'console_scripts': ['tidal-dl = tidal_dl:main', ]}
 )

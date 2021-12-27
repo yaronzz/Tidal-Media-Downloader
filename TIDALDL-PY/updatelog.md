@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [X] Settings: add type-folder(eg Album/Video/Playlist)
+
 #### v2021-11-30
 - [x] Add language:Japanese 
 - [x] Support select apikey(Different keys support different formats) 

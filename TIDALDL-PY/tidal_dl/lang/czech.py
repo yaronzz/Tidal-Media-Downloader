@@ -38,6 +38,8 @@ class LangCzech(object):
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_PATH = "Settings path"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
@@ -49,6 +51,7 @@ class LangCzech(object):
     CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
     CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď url nebo id"
     CHOICE_LOGOUT = "Logout"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[Error]"
     PRINT_INFO = "[Info]"
@@ -82,6 +85,7 @@ class LangCzech(object):
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

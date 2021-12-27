@@ -199,6 +199,7 @@ def changeSettings():
     CONF.lyricsServerProxy = Printf.enterFormat(
         LANG.CHANGE_LYRICS_SERVER_PROXY, CONF.lyricsServerProxy, CONF.lyricsServerProxy)
     CONF.lyricFile = Printf.enter(LANG.CHANGE_ADD_LRC_FILE) == '1'
+    CONF.addTypeFolder = Printf.enter(LANG.CHANGE_ADD_TYPE_FOLDER) == '1'
 
     LANG = setLang(CONF.language)
     Settings.save(CONF)

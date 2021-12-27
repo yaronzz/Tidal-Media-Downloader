@@ -38,6 +38,8 @@ class LangTurkish(object):
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_PATH = "Settings path"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "Seçim"
     FUNCTION = "İşlemler"
@@ -49,6 +51,7 @@ class LangTurkish(object):
     CHOICE_SET_ACCESS_TOKEN = "'AccessToken' Gir"
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
     CHOICE_LOGOUT = "Çıkış"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[HATA OLUŞTU]"
     PRINT_INFO = "[BİLGİ]"
@@ -82,6 +85,7 @@ class LangTurkish(object):
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Giriş işlemleri başlatıldı..."

@@ -38,6 +38,8 @@ class LangVietnamese(object):
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
     SETTINGS_ADD_LRC_FILE = "Lưu timed lyrics (tệp .lrc)"
     SETTING_PATH = "Đường dẫn cài đặt"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -49,6 +51,7 @@ class LangVietnamese(object):
     CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
     CHOICE_LOGOUT = "Đăng xuất"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[LỖI]"
     PRINT_INFO = "[THÔNG TIN]"
@@ -82,6 +85,7 @@ class LangVietnamese(object):
     CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
     CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."

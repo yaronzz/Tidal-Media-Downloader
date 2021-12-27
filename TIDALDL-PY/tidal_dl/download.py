@@ -8,6 +8,7 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+import requests
 import logging
 import os
 import datetime
@@ -338,7 +339,19 @@ def __downloadVideo__(conf, video: Video, album=None, playlist=None):
     path = getVideoPath(conf, video, album, playlist)
 
     logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
-    check, msg = aigpy.m3u8.download(stream.m3u8Url, path)
+    m3u8content = requests.get(stream.m3u8Url).content
+    if m3u8content is None:
+        Printf.err(video.title + ' get m3u8 content failed.')
+        return
+    
+    urls = aigpy.m3u8.parseTsUrls(m3u8content)
+    if len(urls) <= 0:
+        Printf.err(video.title + ' parse ts urls failed.')
+        logging.info("[DL Video] title=" + video.title + "\m3u8Content=" + str(m3u8content))
+        return
+    
+    check, msg = aigpy.m3u8.downloadByTsUrls(urls, path)
+    # check, msg = aigpy.m3u8.download(stream.m3u8Url, path)
     if check is True:
         Printf.success(aigpy.path.getFileName(path))
     else:

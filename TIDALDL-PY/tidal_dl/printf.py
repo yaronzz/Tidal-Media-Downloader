@@ -30,7 +30,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2021.11.30.1'
+VERSION = '2021.12.10.1'
 
 
 class Printf(object):
@@ -90,7 +90,8 @@ class Printf(object):
         tb.add_row([LANG.SETTING_ADD_LYRICS, data.addLyrics])
         tb.add_row([LANG.SETTING_LYRICS_SERVER_PROXY, data.lyricsServerProxy])
         tb.add_row([LANG.SETTINGS_ADD_LRC_FILE, data.lyricFile])
-        tb.add_row(['APIKey support', apiKey.getItem(data.apiKeyIndex)['formats']])
+        tb.add_row([LANG.SETTING_ADD_TYPE_FOLDER, data.addTypeFolder])
+        tb.add_row([LANG.SETTING_APIKEY, apiKey.getItem(data.apiKeyIndex)['formats']])
         print(tb)
 
     @staticmethod
@@ -106,7 +107,7 @@ class Printf(object):
         tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_SETTINGS])
         tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_LOGOUT])
         tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '4':"), LANG.CHOICE_SET_ACCESS_TOKEN])
-        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '5':"), 'Select APIKey'])
+        tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER + " '5':"), LANG.CHOICE_APIKEY])
         tb.add_row([aigpy.cmd.green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL])
         print(tb)
         print("====================================================")

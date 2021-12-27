@@ -38,6 +38,8 @@ class LangChinese(object):
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
     SETTING_PATH = "Settings path"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_APIKEY = "APIKey支持"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -49,6 +51,7 @@ class LangChinese(object):
     CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
     CHOICE_LOGOUT = "注销"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[错误]"
     PRINT_INFO = "[提示]"
@@ -82,6 +85,7 @@ class LangChinese(object):
     CHANGE_ADD_LYRICS = "添加歌词('0'-否,'1'-是):"
     CHANGE_LYRICS_SERVER_PROXY = "歌词服务器代理('0' 不修改):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-否,'1'-是):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "开始启动登录..."

@@ -38,6 +38,8 @@ class LangJapanese(object):
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_PATH = "設定パス"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "選択"
     FUNCTION = "関数"
@@ -49,6 +51,7 @@ class LangJapanese(object):
     CHOICE_SET_ACCESS_TOKEN = "AccessTokenを設定する"
     CHOICE_DOWNLOAD_BY_URL = "UrlまたはIDでダウンロード"
     CHOICE_LOGOUT = "ログアウト"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[エラー]"
     PRINT_INFO = "[情報]"
@@ -82,6 +85,7 @@ class LangJapanese(object):
     CHANGE_ADD_LYRICS = "歌詞を追加('0'-いいえ,'1'-はい):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0'-変更しない):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-いいえ,'1'-はい):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

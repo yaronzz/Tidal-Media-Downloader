@@ -3,6 +3,7 @@ rm -rf dist
 rm -rf build 
 rm -rf exe 
 rm -rf tidal_dl.egg-info
+rm -rf tidal_dl_test.egg-info
 mkdir exe
 
 # pack

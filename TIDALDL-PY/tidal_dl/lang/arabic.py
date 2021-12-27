@@ -38,6 +38,8 @@ class LangArabic(object):
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_PATH = "Settings path"
     SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_APIKEY = "APIKey support"
+    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 
     CHOICE = "خيار"
     FUNCTION = "وظيفة"
@@ -49,6 +51,7 @@ class LangArabic(object):
     CHOICE_SET_ACCESS_TOKEN = "اعداد AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "التحميل عبر الرابط او رقم التتبع"
     CHOICE_LOGOUT = "Logout"
+    CHOICE_APIKEY = "Select APIKey"
 
     PRINT_ERR = "[خطأ]"
     PRINT_INFO = "[معلومة]"
@@ -82,6 +85,7 @@ class LangArabic(object):
     CHANGE_ADD_LYRICS = "Add lyrics('0'-No,'1'-Yes):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0' not modify):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
+    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."
