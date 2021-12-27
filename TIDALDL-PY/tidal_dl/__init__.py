@@ -309,7 +309,7 @@ def main():
 
 if __name__ == "__main__":
     # debug()
-    main()
+    main() 
     # test example
     # track 70973230  77798028 212657
     # video 155608351 188932980

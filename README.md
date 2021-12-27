@@ -73,6 +73,7 @@
 | {NumberOfVolumes} | 1                                    |
 | {ReleaseDate}     | 1963-03-22                           |
 | {RecordType}      | ALBUM                                |
+| {None}            |                                      |
 
 ### Track
 
@@ -80,6 +81,7 @@
 | ----------------- | ------------------------------------------ |
 | {TrackNumber}     | 01                                         |
 | {ArtistName}      | The Beatles                                |
+| {ArtistsName}     | The Beatles                                |
 | {TrackTitle}      | I Saw Her Standing There (Remastered 2009) |
 | {ExplicitFlag}    | (*Explicit*)                               |
 | {AlbumYear}       | 1963                                       |

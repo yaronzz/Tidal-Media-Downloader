@@ -105,7 +105,7 @@ def getAlbumPath(conf: Settings, album):
     if conf.addTypeFolder:
         base = base + 'Album/'
     artist = aigpy.path.replaceLimitChar(getArtistsName(album.artists), '-')
-    albumArtistName = album.artist.name if album.artist is not None else "None"
+    albumArtistName = album.artist.name if album.artist is not None else ""
     # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
@@ -139,6 +139,7 @@ def getAlbumPath(conf: Settings, album):
     retpath = retpath.replace(R"{NumberOfVolumes}", str(album.numberOfVolumes))
     retpath = retpath.replace(R"{ReleaseDate}", album.releaseDate)
     retpath = retpath.replace(R"{RecordType}", album.type)
+    retpath = retpath.replace(R"{None}", "")
     retpath = stripPath(retpath.strip())
     return base + retpath
 
@@ -166,7 +167,8 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
     if playlist is not None and conf.usePlaylistFolder:
         number = __getIndexStr__(track.trackNumberOnPlaylist)
     # artist
-    artist = aigpy.path.replaceLimitChar(getArtistsName(track.artists), '-')
+    artists = aigpy.path.replaceLimitChar(getArtistsName(track.artists), '-')
+    artist = track.artist.name if track.artist is not None else ""
     # title
     title = track.title
     if not aigpy.string.isNull(track.version):
@@ -186,6 +188,7 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
         retpath = Settings.getDefaultTrackFileFormat()
     retpath = retpath.replace(R"{TrackNumber}", number)
     retpath = retpath.replace(R"{ArtistName}", artist.strip())
+    retpath = retpath.replace(R"{ArtistsName}", artists.strip())
     retpath = retpath.replace(R"{TrackTitle}", title)
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
     retpath = retpath.replace(R"{AlbumYear}", year)
