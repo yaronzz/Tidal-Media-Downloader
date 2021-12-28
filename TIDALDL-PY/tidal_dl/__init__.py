@@ -71,8 +71,8 @@ def login():
         Printf.err(msg)
         return
 
-    print(LANG.AUTH_LOGIN_CODE.format(green(API.key.userCode)))
-    print(LANG.AUTH_NEXT_STEP.format(green(API.key.verificationUrl), yellow(displayTime(API.key.authCheckTimeout))))
+    # print(LANG.AUTH_LOGIN_CODE.format(green(API.key.userCode)))
+    print(LANG.AUTH_NEXT_STEP.format(green("http://" + API.key.verificationUrl + "/" + API.key.userCode), yellow(displayTime(API.key.authCheckTimeout))))
     print(LANG.AUTH_WAITING)
     start = time.time()
     elapsed = 0
