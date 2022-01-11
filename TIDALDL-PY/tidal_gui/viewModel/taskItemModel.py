@@ -29,9 +29,7 @@ class TaskItemModel(ViewModel):
         self.view = TaskItemView()
         self.data = data
         self.downloadModelList = []
-        self.path = tidalImp.getBasePath(data)
-
-        aigpy.path.mkdirs(self.path)
+        self.path = ''
 
         if isinstance(data, Album):
             self.__initAlbum__(data)
@@ -71,10 +69,14 @@ class TaskItemModel(ViewModel):
             item.stopDownload()
 
     def __btnFuncOpen__(self):
+        if self.path == '':
+            return
         if os.path.exists(self.path):
             os.startfile(self.path)
 
     def __initAlbum__(self, data: Album):
+        self.path = tidalImp.getBasePath(data)
+        
         title = data.title
         desc = f"by {tidalImp.getArtistsNames(data.artists)} " \
                f"{tidalImp.getDurationString(data.duration)} " \

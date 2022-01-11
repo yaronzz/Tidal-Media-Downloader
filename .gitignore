@@ -163,3 +163,7 @@ download/Playlist/Boy Bands- K-Pop Kings/Tmp0/22.part
 .idea
 tidal_dl-BAK
 /TIDALDL-PY2/tidal_dl
+/TIDALDL-GUI-CROSS/tidal_gui/view/__pycache__
+/TIDALDL-GUI-CROSS/tidal_gui/viewModel/__pycache__
+/TIDALDL-GUI-CROSS/tidal_gui/control/__pycache__
+__pycache__

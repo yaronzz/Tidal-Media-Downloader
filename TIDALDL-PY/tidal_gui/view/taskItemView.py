@@ -62,7 +62,7 @@ class TaskItemView(QWidget):
 
     def __initList__(self):
         self._list = ListWidget(ListWidgetStyle.DownloadItems)
-        self._list.setResizeMode(QListView.Adjust)
+        self._list.setMinimumHeight(200)
         return self._list
 
     def setLabel(self, title, desc):
@@ -82,9 +82,9 @@ class TaskItemView(QWidget):
 
     def __expandClick__(self):
         if self._list.isHidden():
-            self._list.show()
+            self._list.setVisible(True)
         else:
-            self._list.hide()
+            self._list.setVisible(False)
 
     def connectButton(self, name: str, func):
         if name == 'retry':

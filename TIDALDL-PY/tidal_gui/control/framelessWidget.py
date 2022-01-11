@@ -86,36 +86,36 @@ class FramelessWidget(QWidget):
 
     def nativeEvent(self, eventType, message):
         retVal, result = super(FramelessWidget, self).nativeEvent(eventType, message)
-        if eventType == "windows_generic_MSG":
-            msg = ctypes.wintypes.MSG.from_address(message.__int__())
-            if msg.message != win32con.WM_NCHITTEST:
-                return retVal, result
+        # if eventType == "windows_generic_MSG":
+        #     msg = ctypes.wintypes.MSG.from_address(message.__int__())
+        #     if msg.message != win32con.WM_NCHITTEST:
+        #         return retVal, result
 
-            # 获取鼠标移动经过时的坐标
-            x = win32api.LOWORD(msg.lParam) - self.frameGeometry().x()
-            y = win32api.HIWORD(msg.lParam) - self.frameGeometry().y()
+        #     # 获取鼠标移动经过时的坐标
+        #     x = win32api.LOWORD(msg.lParam) - self.frameGeometry().x()
+        #     y = win32api.HIWORD(msg.lParam) - self.frameGeometry().y()
 
-            w, h = self.width(), self.height()
-            lx = x < self.BorderWidth
-            rx = x > w - self.BorderWidth
-            ty = y < self.BorderWidth
-            by = y > h - self.BorderWidth
-            if (lx and ty):# 左上角
-                return True, win32con.HTTOPLEFT
-            elif (rx and by):# 右下角
-                return True, win32con.HTBOTTOMRIGHT
-            elif (rx and ty):# 右上角
-                return True, win32con.HTTOPRIGHT
-            elif (lx and by):# 左下角
-                return True, win32con.HTBOTTOMLEFT
-            elif ty:# 上
-                return True, win32con.HTTOP
-            elif by:# 下
-                return True, win32con.HTBOTTOM
-            elif lx:# 左
-                return True, win32con.HTLEFT
-            elif rx:# 右
-                return True, win32con.HTRIGHT
+        #     w, h = self.width(), self.height()
+        #     lx = x < self.BorderWidth
+        #     rx = x > w - self.BorderWidth
+        #     ty = y < self.BorderWidth
+        #     by = y > h - self.BorderWidth
+        #     if (lx and ty):# 左上角
+        #         return True, win32con.HTTOPLEFT
+        #     elif (rx and by):# 右下角
+        #         return True, win32con.HTBOTTOMRIGHT
+        #     elif (rx and ty):# 右上角
+        #         return True, win32con.HTTOPRIGHT
+        #     elif (lx and by):# 左下角
+        #         return True, win32con.HTBOTTOMLEFT
+        #     elif ty:# 上
+        #         return True, win32con.HTTOP
+        #     elif by:# 下
+        #         return True, win32con.HTBOTTOM
+        #     elif lx:# 左
+        #         return True, win32con.HTLEFT
+        #     elif rx:# 右
+        #         return True, win32con.HTRIGHT
         return retVal, result
 
     def mousePressEvent(self, e: QMouseEvent):

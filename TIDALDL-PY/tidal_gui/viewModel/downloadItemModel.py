@@ -10,6 +10,7 @@
 """
 
 import _thread
+import os
 import time
 from enum import Enum
 import aigpy.stringHelper
@@ -73,12 +74,12 @@ class DownloadItemModel(ViewModel):
     def download(self):
         self.__setStatus__(DownloadStatus.Running)
         
-        # if self.isTrack:
-        #     if not self.__dlTrack__(index):
-        #         return
-        # else:
-        #     if not self.__dlVideo__(index):
-        #         return
+        if self.isTrack:
+            if not self.__dlTrack__():
+                return
+        else:
+            if not self.__dlVideo__():
+                return
             
         self.view.setProgress(100)
         self.__setStatus__(DownloadStatus.Finish)
@@ -93,12 +94,12 @@ class DownloadItemModel(ViewModel):
                 self.__setStatus__(DownloadStatus.Error)
                 return False
             
-            tidalImp.getBasePath(model)
+            tidalImp.getBasePath(track)
             path = tidalImp.getTackPath(self.basePath, track, stream) 
 
-            # check exist
-            if conf.checkExist and __isNeedDownload__(path, stream.url) == False:
-                return True
+            # # check exist
+            # if conf.checkExist and tidalImp.__isNeedDownload__(path, stream.url) == False:
+            #     return True
             
             tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
             check, err = tool.start(conf.showProgress)
