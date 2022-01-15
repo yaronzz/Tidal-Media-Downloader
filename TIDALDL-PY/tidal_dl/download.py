@@ -363,7 +363,6 @@ def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
         # if track.allowStreaming is False:
         #     Printf.err("Download failed! " + track.title + ' not allow streaming.')
         #     return
-
         msg, stream = API.getStreamUrl(track.id, conf.audioQuality)
         if conf.showTrackInfo:
             Printf.track(track, stream)
@@ -371,11 +370,16 @@ def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
             Printf.err(track.title + "." + msg)
             return
         path = getTrackPath(conf, track, stream, album, playlist)
-
+        print(path)
         # check exist
-        if conf.checkExist and isNeedDownload(path, stream.url) == False:
-            Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
-            return
+        if conf.onlyM4a:
+            if conf.checkExist and isNeedDownload(path.replace(".mp4", ".m4a"), stream.url) == False:                
+                Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
+                return
+        else:
+            if conf.checkExist and isNeedDownload(path, stream.url) == False:                
+                Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
+                return
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
         tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
         check, err = tool.start(conf.showProgress)
