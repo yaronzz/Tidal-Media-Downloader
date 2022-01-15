@@ -184,6 +184,7 @@ def changeSettings():
         LANG.CHANGE_VIDEO_QUALITY, LANG.MSG_INPUT_ERR, ['1080', '720', '480', '360'])))
     CONF.onlyM4a = Printf.enter(LANG.CHANGE_ONLYM4A) == '1'
     CONF.checkExist = Printf.enter(LANG.CHANGE_CHECK_EXIST) == '1'
+    CONF.checkAlbumExist = Printf.enter(LANG.CHANGE_CHECK_ALBUM_EXIST) == '1'
     CONF.includeEP = Printf.enter(LANG.CHANGE_INCLUDE_EP) == '1'
     CONF.saveCovers = Printf.enter(LANG.CHANGE_SAVE_COVERS) == '1'
     CONF.showProgress = Printf.enter(LANG.CHANGE_SHOW_PROGRESS) == '1'

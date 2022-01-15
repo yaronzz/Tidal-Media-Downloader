@@ -1,0 +1,3 @@
+    if os.path.exists(getAlbumPath(conf, obj)):
+        Printf.success("%s (skip: Album already exists!)" % obj.title)
+        return

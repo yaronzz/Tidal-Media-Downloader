@@ -92,6 +92,7 @@ class Settings(ModelBase):
     audioQuality = AudioQuality.Normal
     videoQuality = VideoQuality.P360
     checkExist = True
+    checkAlbumExist = False
     artistBeforeTitle = False
     includeEP = True
     addAlbumIDBeforeFolder = False

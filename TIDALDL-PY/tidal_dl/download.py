@@ -369,8 +369,9 @@ def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
         if not aigpy.string.isNull(msg) or stream is None:
             Printf.err(track.title + "." + msg)
             return
+        
         path = getTrackPath(conf, track, stream, album, playlist)
-        print(path)
+
         # check exist
         if conf.onlyM4a:
             if conf.checkExist and isNeedDownload(path.replace(".mp4", ".m4a"), stream.url) == False:                
@@ -461,6 +462,13 @@ def __album__(conf, obj):
     if not aigpy.string.isNull(msg):
         Printf.err(msg)
         return
+    
+    if conf.checkAlbumExist:
+        # Check if the album folder exists and if it contains all of the tracks in the album
+        albumPath = getAlbumPath(conf,obj)
+        if os.path.exists(albumPath) and obj.numberOfTracks == len([n for n in os.listdir(albumPath) if os.path.isfile(os.path.join(albumPath, n)) and (n.endswith(".m4a") or n.endswith(".mp4"))]):
+            Printf.success("%s (skip: Album already exists!)" % obj.title)
+            return
     if conf.saveAlbumInfo:
         __saveAlbumInfo__(conf, obj, tracks)
     if conf.saveCovers:

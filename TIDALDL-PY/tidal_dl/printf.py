@@ -75,6 +75,7 @@ class Printf(object):
         tb.add_row([LANG.SETTING_AUDIO_QUALITY, data.audioQuality])
         tb.add_row([LANG.SETTING_VIDEO_QUALITY, data.videoQuality])
         tb.add_row([LANG.SETTING_CHECK_EXIST, data.checkExist])
+        tb.add_row([LANG.SETTING_CHECK_ALBUM_EXIST, data.checkAlbumExist])
         tb.add_row([LANG.SETTING_SHOW_PROGRESS, data.showProgress])
         tb.add_row([LANG.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo])
         tb.add_row([LANG.SETTING_SHOW_TRACKIFNO, data.showTrackInfo])
