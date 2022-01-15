@@ -370,7 +370,6 @@ def __downloadTrack__(conf: Settings, track: Track, album=None, playlist=None):
             Printf.err(track.title + "." + msg)
             return
         path = getTrackPath(conf, track, stream, album, playlist)
-        print(path)
         # check exist
         if conf.onlyM4a:
             if conf.checkExist and isNeedDownload(path.replace(".mp4", ".m4a"), stream.url) == False:                
