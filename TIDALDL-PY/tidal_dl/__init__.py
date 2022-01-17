@@ -26,43 +26,10 @@ from tidal_dl.lang.language import setLang, initLang, getLangChoicePrint
 from tidal_dl.printf import Printf, VERSION
 from tidal_dl.settings import Settings, TokenSettings, getLogPath
 from tidal_dl.tidal import TidalAPI
-from tidal_dl.util import API
+from tidal_dl.util import API, CONF, TOKEN, LANG, displayTime, loginByConfig, loginByWeb
 import tidal_dl.apiKey as apiKey
 
 ssl._create_default_https_context = ssl._create_unverified_context
-
-TOKEN = TokenSettings.read()
-CONF = Settings.read()
-LANG = initLang(CONF.language)
-API.apiKey = apiKey.getItem(CONF.apiKeyIndex)
-
-logging.basicConfig(filename=getLogPath(),
-                    level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s: %(message)s')
-
-
-def displayTime(seconds, granularity=2):
-    if seconds <= 0:
-        return "unknown"
-
-    result = []
-    intervals = (
-        ('weeks', 604800),
-        ('days', 86400),
-        ('hours', 3600),
-        ('minutes', 60),
-        ('seconds', 1),
-    )
-
-    for name, count in intervals:
-        value = seconds // count
-        if value:
-            seconds -= value * count
-            if value == 1:
-                name = name.rstrip('s')
-            result.append("{} {}".format(value, name))
-    return ', '.join(result[:granularity])
-
 
 def login():
     print(LANG.AUTH_START_LOGIN)
@@ -74,29 +41,7 @@ def login():
     # print(LANG.AUTH_LOGIN_CODE.format(green(API.key.userCode)))
     print(LANG.AUTH_NEXT_STEP.format(green("http://" + API.key.verificationUrl + "/" + API.key.userCode), yellow(displayTime(API.key.authCheckTimeout))))
     print(LANG.AUTH_WAITING)
-    start = time.time()
-    elapsed = 0
-    while elapsed < API.key.authCheckTimeout:
-        elapsed = time.time() - start
-        # print("Check auth status...")
-        msg, check = API.checkAuthStatus()
-        if not check:
-            if msg == "pending":
-                time.sleep(API.key.authCheckInterval + 1)
-                continue
-            Printf.err(msg)
-            break
-        if check:
-            Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
-            TOKEN.userid = API.key.userId
-            TOKEN.countryCode = API.key.countryCode
-            TOKEN.accessToken = API.key.accessToken
-            TOKEN.refreshToken = API.key.refreshToken
-            TOKEN.expiresAfter = time.time() + int(API.key.expiresIn)
-            TokenSettings.save(TOKEN)
-            break
-    if elapsed >= API.key.authCheckTimeout:
-        Printf.err(LANG.AUTH_TIMEOUT)
+    loginByWeb()
     return
 
 
@@ -139,33 +84,13 @@ def setAPIKey():
 
 
 def checkLogin():
-    if not isNull(TOKEN.accessToken):
-        # print('Checking Access Token...') #add to translations
-        msg, check = API.verifyAccessToken(TOKEN.accessToken)
-        if check:
-            Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(TOKEN.expiresAfter - time.time()))))
-            return
-        else:
-            Printf.info(LANG.MSG_INVAILD_ACCESSTOKEN)
-            msg, check = API.refreshAccessToken(TOKEN.refreshToken)
-            if check:
-                Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
-                TOKEN.userid = API.key.userId
-                TOKEN.countryCode = API.key.countryCode
-                TOKEN.accessToken = API.key.accessToken
-                TOKEN.expiresAfter = time.time() + int(API.key.expiresIn)
-                TokenSettings.save(TOKEN)
-                return
-            else:
-                Printf.err(msg)
-                tmp = TokenSettings()  # clears saved tokens
-                TokenSettings.save(tmp)
+    if loginByConfig():
+        return
     login()
     return
 
 
 def checkLogout():
-    global LANG
     login()
     return
 

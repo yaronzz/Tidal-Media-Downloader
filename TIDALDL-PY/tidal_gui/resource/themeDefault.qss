@@ -94,7 +94,18 @@ QWidget#AboutWidget {
 
 }
 
-
+QScrollBar::vertical{
+    background:transparent;
+    width: 4px;
+    border-radius:6px;
+}
+QScrollBar::handle{
+    background: lightgray;
+    border-radius:6px;
+}
+QScrollBar::handle:hover{background:gray;}
+QScrollBar::sub-line{background:transparent;}
+QScrollBar::add-line{background:transparent;}
 
 /* PushButton Style */
 

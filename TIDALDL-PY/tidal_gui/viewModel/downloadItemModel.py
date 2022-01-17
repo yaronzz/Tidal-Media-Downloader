@@ -9,17 +9,18 @@
 @Desc    :  
 """
 
-import _thread
 import os
-import time
+from abc import ABC, ABCMeta
 from enum import Enum
+from pickle import FALSE
+from aigpy.downloadHelper import UserProgress
 import aigpy.stringHelper
-from tidal_dl import Type
-from tidal_dl.model import Album, Track, Video, Playlist
 
-from tidal_gui.tidalImp import tidalImp
+from tidal_dl.model import Track
+from tidal_dl.util import downloadTrack, downloadVideo, getArtistsNames, setMetaData
 from tidal_gui.view.downloadItemView import DownloadItemView
 from tidal_gui.viewModel.viewModel import ViewModel
+
 
 class DownloadStatus(Enum):
     Wait = 0,
@@ -27,8 +28,22 @@ class DownloadStatus(Enum):
     Finish = 2,
     Error = 3,
     Cancel = 4,
-    
+
+
 _endStatus_ = [DownloadStatus.Finish, DownloadStatus.Error, DownloadStatus.Cancel]
+
+
+class Progress(UserProgress):
+    def __init__(self, model):
+        super().__init__()
+        self.model = model
+
+    def updateCurNum(self):
+        self.model.update(self.curNum, self.maxNum)
+
+    def updateMaxNum(self):
+        pass
+
 
 class DownloadItemModel(ViewModel):
     def __init__(self, index, data, basePath):
@@ -37,8 +52,9 @@ class DownloadItemModel(ViewModel):
         self.data = data
         self.basePath = basePath
         self.isTrack = isinstance(data, Track)
+        self.progress = Progress(self)
         self.__setStatus__(DownloadStatus.Wait)
-        
+
         if self.isTrack:
             self.__initTrack__(index)
         else:
@@ -50,7 +66,12 @@ class DownloadItemModel(ViewModel):
             self.view.setAction(status.name)
         else:
             self.view.setAction(status.name + '-' + desc)
-    
+
+    def __setErrStatus__(self, errmsg: str):
+        self.status = DownloadStatus.Error
+        self.view.setAction(self.status.name)
+        self.view.setErrmsg(errmsg)
+
     def __initTrack__(self, index):
         title = self.data.title
         own = self.data.album.title
@@ -58,84 +79,36 @@ class DownloadItemModel(ViewModel):
 
     def __initVideo__(self, index):
         title = self.data.title
-        own = tidalImp.getArtistsNames(self.data.artists)
+        own = getArtistsNames(self.data.artists)
         self.view.setLabel(index, title, own)
+
+    def update(self, curNum, maxNum):
+        per = curNum * 100 / maxNum
+        self.view.setProgress(per)
 
     def isInWait(self):
         return self.status == DownloadStatus.Wait
-        
+
     def stopDownload(self):
         if self.status not in _endStatus_:
             self.__setStatus__(DownloadStatus.Cancel)
 
     def retry(self):
         self.__setStatus__(DownloadStatus.Wait)
-        
+
     def download(self):
         self.__setStatus__(DownloadStatus.Running)
-        
+
         if self.isTrack:
-            if not self.__dlTrack__():
-                return
+            check, msg = downloadTrack(self.data, self.data.album, self.data.playlist, self.progress)
         else:
-            if not self.__dlVideo__():
-                return
+            check, msg = downloadVideo(self.data)
             
+        if check is False:
+            self.__setErrStatus__(msg)
+        else:
+            self.__setStatus__(DownloadStatus.Finish)
+
         self.view.setProgress(100)
         self.__setStatus__(DownloadStatus.Finish)
-    
-    def __dlTrack__(self):
-        try:
-            track = self.data
-            conf = tidalImp.getConfig()
-            
-            msg, stream = tidalImp.getStreamUrl(track.id, conf.audioQuality)
-            if not aigpy.string.isNull(msg) or stream is None:
-                self.__setStatus__(DownloadStatus.Error)
-                return False
-            
-            tidalImp.getBasePath(track)
-            path = tidalImp.getTackPath(self.basePath, track, stream) 
 
-            # # check exist
-            # if conf.checkExist and tidalImp.__isNeedDownload__(path, stream.url) == False:
-            #     return True
-            
-            tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
-            check, err = tool.start(conf.showProgress)
-
-            if not check:
-                Printf.err("Download failed! " + aigpy.path.getFileName(path) + ' (' + str(err) + ')')
-                return
-            # encrypted -> decrypt and remove encrypted file
-            if aigpy.string.isNull(stream.encryptionKey):
-                os.replace(path + '.part', path)
-            else:
-                key, nonce = decrypt_security_token(stream.encryptionKey)
-                decrypt_file(path + '.part', path, key, nonce)
-                os.remove(path + '.part')
-
-            path = __convertToM4a__(path, stream.codec)
-
-            # contributors
-            msg, contributors = API.getTrackContributors(track.id)
-            msg, tidalLyrics = API.getLyrics(track.id)
-
-            lyrics = '' if tidalLyrics is None else tidalLyrics.subtitles
-            if conf.addLyrics and lyrics == '':
-                lyrics = __getLyrics__(track.title, __getArtistsString__(track.artists), conf.lyricsServerProxy)
-
-            if conf.lyricFile:
-                if tidalLyrics is None:
-                    Printf.info(f'Failed to get lyrics from tidal!"{track.title}"')
-                else:
-                    lrcPath = path.rsplit(".", 1)[0] + '.lrc'
-                    aigpy.fileHelper.write(lrcPath, tidalLyrics.subtitles, 'w')
-
-            __setMetaData__(track, album, path, contributors, lyrics)
-            Printf.success(aigpy.path.getFileName(path))
-        except Exception as e:
-            Printf.err("Download failed! " + track.title + ' (' + str(e) + ')')
-    
-    def __dlVideo__(self):
-        pass

@@ -8,7 +8,6 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QWidget
 

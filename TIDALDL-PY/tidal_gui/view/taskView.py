@@ -9,8 +9,9 @@
 @Desc    :
 """
 from enum import Enum
+
 from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtWidgets import QWidget, QGridLayout, QListWidgetItem, QListView
+from PyQt5.QtWidgets import QWidget, QGridLayout, QListWidgetItem
 
 from tidal_gui.control.label import Label
 from tidal_gui.control.line import Line
@@ -18,7 +19,6 @@ from tidal_gui.control.listWidget import ListWidget
 from tidal_gui.control.scrollWidget import ScrollWidget
 from tidal_gui.style import LabelStyle, ListWidgetStyle
 from tidal_gui.theme import getResourcePath
-from tidal_gui.view.taskItemView import TaskItemView
 
 
 class TaskListType(Enum):

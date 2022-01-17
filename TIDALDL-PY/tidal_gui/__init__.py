@@ -23,11 +23,12 @@ def main():
 
     mainView = MainModel()
     mainView.show()
-    
+
     app.exec_()
     mainView.uninit()
 
     sys.exit()
+
 
 if __name__ == '__main__':
     main()

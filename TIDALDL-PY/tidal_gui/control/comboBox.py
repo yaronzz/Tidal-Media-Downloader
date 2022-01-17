@@ -8,12 +8,12 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-from PyQt5.QtWidgets import QComboBox, QListView
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QComboBox, QListView
 
 
 class ComboBox(QComboBox):
-    def __init__(self, items: list, width: int=200):
+    def __init__(self, items: list, width: int = 200):
         super(ComboBox, self).__init__()
         self.setItems(items)
         self.setFixedWidth(width)

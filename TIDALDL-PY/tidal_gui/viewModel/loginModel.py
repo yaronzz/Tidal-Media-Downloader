@@ -9,14 +9,14 @@
 @Desc    :
 """
 import _thread
-import time
 import webbrowser
 
-from PyQt5.QtCore import QTimer, pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal
+from tidal_dl.util import API, loginByConfig, loginByWeb
 
-from tidal_gui.tidalImp import tidalImp
 from tidal_gui.view.loginView import LoginView
 from tidal_gui.viewModel.viewModel import ViewModel
+
 
 class LoginModel(ViewModel):
     SIGNAL_LOGIN_SUCCESS = pyqtSignal()
@@ -26,7 +26,7 @@ class LoginModel(ViewModel):
         self.view = LoginView()
         self.view.connectConfirmButton(self.__openWeb__)
         self.SIGNAL_REFRESH_VIEW.connect(self.__refresh__)
-        
+
     def __refresh__(self, stype: str, text: str):
         if stype == "userCode":
             self.view.setDeviceCode(text)
@@ -37,11 +37,11 @@ class LoginModel(ViewModel):
             self.view.hideEnterView()
             self.view.setMsg(text)
 
-    def login(self, useConfig = True):
+    def login(self, useConfig=True):
         self.SIGNAL_REFRESH_VIEW.emit('showMsg', "LOGIN...")
 
         def __thread_login__(model: LoginModel, useConfig: bool):
-            if useConfig and tidalImp.loginByConfig():
+            if useConfig and loginByConfig():
                 model.SIGNAL_LOGIN_SUCCESS.emit()
                 return
             model.getDeviceCode()
@@ -52,9 +52,9 @@ class LoginModel(ViewModel):
         self.SIGNAL_REFRESH_VIEW.emit('showMsg', "GET DEVICE-CODE...")
 
         def __thread_getCode__(model: LoginModel):
-            msg, check = tidalImp.getDeviceCode()
+            msg, check = API.getDeviceCode()
             if check:
-                model.SIGNAL_REFRESH_VIEW.emit('userCode', tidalImp.key.userCode)
+                model.SIGNAL_REFRESH_VIEW.emit('userCode', API.key.userCode)
             else:
                 model.SIGNAL_REFRESH_VIEW.emit('showMsg', msg)
 
@@ -62,10 +62,10 @@ class LoginModel(ViewModel):
 
     def __openWeb__(self):
         self.view.enableConfirmButton(False)
-        webbrowser.open('http://link.tidal.com/' + tidalImp.key.userCode, new=0, autoraise=True)
+        webbrowser.open('http://link.tidal.com/' + API.key.userCode, new=0, autoraise=True)
 
         def __thread_waitLogin__(model: LoginModel):
-            if tidalImp.loginByWeb():
+            if loginByWeb():
                 model.SIGNAL_LOGIN_SUCCESS.emit()
             else:
                 model.getDeviceCode()

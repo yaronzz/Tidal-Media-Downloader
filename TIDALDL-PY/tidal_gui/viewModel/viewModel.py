@@ -9,12 +9,12 @@
 @Desc    :
 """
 from PyQt5.QtCore import QObject
-from PyQt5.QtCore import QTimer, pyqtSignal
+from PyQt5.QtCore import pyqtSignal
 
 
 class ViewModel(QObject):
     SIGNAL_REFRESH_VIEW = pyqtSignal(str, object)
-    
+
     def __init__(self):
         super(ViewModel, self).__init__()
         self.view = None

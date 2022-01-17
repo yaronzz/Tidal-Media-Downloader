@@ -10,7 +10,9 @@
 """
 
 import os
+
 import aigpy
+
 from tidal_gui.style import ThemeStyle
 
 _RESOURCE_PATH = './resource'
@@ -18,7 +20,6 @@ if os.path.isdir(_RESOURCE_PATH):
     _RESOURCE_PATH = os.path.abspath(_RESOURCE_PATH).replace('\\', '/')
 else:
     _RESOURCE_PATH = aigpy.path.getDirName(__file__).replace('\\', '/') + "resource"
-
 
 
 def __getParam__(line: str):
@@ -55,8 +56,10 @@ def __getQss__(filePath: str) -> str:
     qss = __parseQss__(content, params)
     return qss
 
+
 def getResourcePath():
     return _RESOURCE_PATH
+
 
 def getThemeQssContent(style: ThemeStyle = ThemeStyle.Default):
     name = "theme" + style.name + ".qss"

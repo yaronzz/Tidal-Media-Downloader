@@ -29,4 +29,3 @@ class PushButton(QPushButton):
 
         if iconUrl != '':
             self.setIcon(QIcon(iconUrl))
-

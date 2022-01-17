@@ -10,17 +10,16 @@
 """
 import _thread
 import os
+import time
 
 import aigpy.stringHelper
+
 from tidal_dl import Type
 from tidal_dl.model import Album, Track, Video, Playlist
-
-from tidal_gui.tidalImp import tidalImp
+from tidal_dl.util import API, getArtistsNames, getBasePath, getDurationString
 from tidal_gui.view.taskItemView import TaskItemView
-from tidal_gui.viewModel.viewModel import ViewModel
 from tidal_gui.viewModel.downloadItemModel import DownloadItemModel
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QWidget, QScrollArea, QVBoxLayout, QPushButton
-import time
+from tidal_gui.viewModel.viewModel import ViewModel
 
 
 class TaskItemModel(ViewModel):
@@ -47,11 +46,11 @@ class TaskItemModel(ViewModel):
 
         self.SIGNAL_REFRESH_VIEW.connect(self.__refresh__)
 
-    def __refresh__(self, stype: str, text: str):
+    def __refresh__(self, stype: str, obj):
         if stype == "setPic":
-            self.view.setPic(text)
+            self.view.setPic(obj)
         elif stype == "addListItem":
-            for index, item in enumerate(text):
+            for index, item in enumerate(obj):
                 downItem = DownloadItemModel(index + 1, item, self.path)
                 self.view.addListItem(downItem.view)
                 self.downloadModelList.append(downItem)
@@ -75,23 +74,28 @@ class TaskItemModel(ViewModel):
             os.startfile(self.path)
 
     def __initAlbum__(self, data: Album):
-        self.path = tidalImp.getBasePath(data)
-        
+        self.path = getBasePath(data)
+
         title = data.title
-        desc = f"by {tidalImp.getArtistsNames(data.artists)} " \
-               f"{tidalImp.getDurationString(data.duration)} " \
+        desc = f"by {getArtistsNames(data.artists)} " \
+               f"{getDurationString(data.duration)} " \
                f"Track-{data.numberOfTracks} " \
                f"Video-{data.numberOfVideos}"
         self.view.setLabel(title, desc)
 
         def __thread_func__(model: TaskItemModel, album: Album):
-            cover = tidalImp.getCoverData(album.cover, '1280', '1280')
+            cover = API.getCoverData(album.cover, '1280', '1280')
             model.SIGNAL_REFRESH_VIEW.emit('setPic', cover)
 
-            msg, tracks, videos = tidalImp.getItems(album.id, Type.Album)
+            msg, tracks, videos = API.getItems(album.id, Type.Album)
             if not aigpy.stringHelper.isNull(msg):
                 model.view.setErrmsg(msg)
                 return
+
+            for item in tracks:
+                item.album = album
+            for item in videos:
+                item.album = album
 
             model.SIGNAL_REFRESH_VIEW.emit('addListItem', tracks + videos)
             print('__initAlbum__')

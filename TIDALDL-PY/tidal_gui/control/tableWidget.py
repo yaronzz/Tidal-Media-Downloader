@@ -8,13 +8,13 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-import aigpy
-import requests
 import threading
+
 from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView
+
 from tidal_gui.control.label import Label, LabelStyle
 
 

@@ -8,14 +8,11 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :  
 """
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QTableWidget, QVBoxLayout, QGridLayout, QProgressBar
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QGridLayout, QProgressBar
 
 from tidal_gui.control.label import Label
-from tidal_gui.control.layout import createHBoxLayout, createVBoxLayout
-from tidal_gui.control.pushButton import PushButton
-from tidal_gui.style import LabelStyle, ButtonStyle
+from tidal_gui.style import LabelStyle
 
 
 class DownloadItemView(QWidget):
@@ -38,6 +35,7 @@ class DownloadItemView(QWidget):
         self._progress.setTextVisible(False)
         self._progress.setFixedHeight(3)
         self._progress.setFixedWidth(300)
+        self._progress.setRange(0, 100)
 
         grid = QGridLayout(self)
         grid.addWidget(self._indexLabel, 0, 0, Qt.AlignLeft | Qt.AlignVCenter)
@@ -46,14 +44,14 @@ class DownloadItemView(QWidget):
         grid.addWidget(self._progress, 0, 3, Qt.AlignRight | Qt.AlignVCenter)
         grid.addWidget(self._actionLabel, 0, 4, Qt.AlignRight | Qt.AlignVCenter)
         grid.addWidget(self._errLabel, 1, 1, Qt.AlignLeft | Qt.AlignVCenter)
-        
+
         grid.setColumnStretch(1, 1)
-        
+
         layout = QHBoxLayout()
         layout.setSpacing(30)
         layout.addWidget(self._sizeLabel)
         layout.addWidget(self._speedLabel)
-        
+
         grid.addLayout(layout, 1, 3, Qt.AlignLeft | Qt.AlignVCenter)
 
     def setLabel(self, index, title, own):
@@ -70,9 +68,9 @@ class DownloadItemView(QWidget):
     def setProgress(self, value):
         self._progress.setValue(value)
         pass
-    
+
     def setSize(self, curSize: str, totalSize: str):
         self._sizeLabel.setText(f'{curSize}/{totalSize}')
-        
+
     def setSpeed(self, speed: str):
         self._speedLabel.setText(speed)

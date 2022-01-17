@@ -397,6 +397,14 @@ class TidalAPI(object):
         if sid is None or sid == "":
             return None
         return "https://resources.tidal.com/images/" + sid.replace("-", "/") + "/" + width + "x" + height + ".jpg"
+    
+    def getCoverData(self, sid, width="320", height="320"):
+        url = self.getCoverUrl(sid, width, height)
+        try:
+            respond = requests.get(url)
+            return respond.content
+        except:
+            return ''
 
     def getArtistsName(self, artists=[]):
         array = []

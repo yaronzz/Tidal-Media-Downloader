@@ -8,13 +8,7 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-import ctypes.wintypes
-from ctypes.wintypes import POINT
-import typing
 
-import PyQt5
-import win32api
-import win32con
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtWidgets import QWidget, QGridLayout, QHBoxLayout

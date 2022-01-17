@@ -33,13 +33,13 @@ class ButtonStyle(Enum):
 
     PrePage = 14
     NextPage = 15
-    
+
     TaskRetry = 16,
     TaskCancel = 17,
     TaskDelete = 18,
     TaskOpen = 19,
     TaskExpand = 20,
-    
+
 
 class LabelStyle(Enum):
     Default = 0,

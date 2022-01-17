@@ -12,13 +12,12 @@ import _thread
 import threading
 
 import aigpy.stringHelper
-import tidal_dl
 from PyQt5.QtCore import pyqtSignal
 from aigpy.modelHelper import ModelBase
-from tidal_dl import Type
-from tidal_dl.model import Album, SearchResult
 
-from tidal_gui.tidalImp import tidalImp
+import tidal_dl
+from tidal_dl import Type
+from tidal_dl.util import API, getAudioQualityList, getVideoQualityList
 from tidal_gui.view.searchView import SearchView
 from tidal_gui.viewModel.viewModel import ViewModel
 
@@ -33,8 +32,8 @@ class SearchModel(ViewModel):
 
         self.view = SearchView()
         self.view.setPageIndex(1, 1)
-        self.view.setTrackQualityItems(tidalImp.getAudioQualityList())
-        self.view.setVideoQualityItems(tidalImp.getVideoQualityList())
+        self.view.setTrackQualityItems(getAudioQualityList())
+        self.view.setVideoQualityItems(getVideoQualityList())
         self.view.connectButton('search', self.__search__)
         self.view.connectButton('prePage', self.__searchPre__)
         self.view.connectButton('nextPage', self.__searchNext__)
@@ -76,7 +75,7 @@ class SearchModel(ViewModel):
             limit = 20
             offset = (index - 1) * limit
             stype = tidal_dl.Type(typeIndex)
-            msg, model._resultData = tidalImp.search(searchText, stype, offset, limit)
+            msg, model._resultData = API.search(searchText, stype, offset, limit)
 
             if not aigpy.stringHelper.isNull(msg):
                 model.SIGNAL_REFRESH_VIEW.emit('setSearchErrmsg', msg)

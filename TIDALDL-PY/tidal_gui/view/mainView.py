@@ -87,7 +87,7 @@ class MainView(FramelessWidget):
         self._moveWidget.setFixedHeight(30)
         self._moveWidget.setObjectName("BaseWidget")
         return self._moveWidget
-    
+
     def __initContent__(self) -> QGridLayout:
         self._searchView = None
         self._settingsView = None

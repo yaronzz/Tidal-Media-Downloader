@@ -9,21 +9,20 @@
 @Desc    :
 """
 import threading
-import tidal_dl.model
+
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTabWidget
-from tidal_dl import Type
 
+import tidal_dl.model
+from tidal_dl import Type
+from tidal_dl.util import API, getDurationString
 from tidal_gui.control.comboBox import ComboBox
 from tidal_gui.control.label import Label
-from tidal_gui.control.layout import createHBoxLayout, createVBoxLayout
 from tidal_gui.control.lineEdit import LineEdit
 from tidal_gui.control.pushButton import PushButton
-from tidal_gui.control.tableView import TableView
 from tidal_gui.control.tableWidget import TableWidget
 from tidal_gui.style import ButtonStyle, LabelStyle
 from tidal_gui.theme import getResourcePath
-from tidal_gui.tidalImp import tidalImp
 
 
 class SearchView(QWidget):
@@ -57,7 +56,7 @@ class SearchView(QWidget):
 
         self._prePageBtn = PushButton('', ButtonStyle.PrePage)
         self._nextPageBtn = PushButton('', ButtonStyle.NextPage)
-        
+
         self._pageIndexEdit = LineEdit('')
         self._pageIndexEdit.setAlignment(Qt.AlignCenter)
         self._pageIndexEdit.setEnabled(False)
@@ -123,12 +122,12 @@ class SearchView(QWidget):
             datas = []
             for index, item in enumerate(items):
                 rowData = [str(index + 1 + indexOffset),
-                           QUrl(tidalImp.getCoverUrl(item.cover)),
-                           tidalImp.getFlag(item, Type.Album, True),
+                           QUrl(API.getCoverUrl(item.cover)),
+                           API.getFlag(item, Type.Album, True),
                            item.title,
                            item.artists[0].name,
                            str(item.releaseDate),
-                           tidalImp.getDurationString(item.duration)]
+                           API.getDurationString(item.duration)]
                 datas.append(rowData)
 
         elif stype == Type.Track:
@@ -136,11 +135,11 @@ class SearchView(QWidget):
             datas = []
             for index, item in enumerate(items):
                 rowData = [str(index + 1 + indexOffset),
-                           tidalImp.getFlag(item, Type.Track, True),
+                           API.getFlag(item, Type.Track, True),
                            item.title,
                            item.album.title,
                            item.artists[0].name,
-                           tidalImp.getDurationString(item.duration)]
+                           getDurationString(item.duration)]
                 datas.append(rowData)
 
         elif stype == Type.Video:
@@ -148,11 +147,11 @@ class SearchView(QWidget):
             datas = []
             for index, item in enumerate(items):
                 rowData = [str(index + 1 + indexOffset),
-                           QUrl(tidalImp.getCoverUrl(item.imageID)),
-                           tidalImp.getFlag(item, Type.Video, True),
+                           QUrl(API.getCoverUrl(item.imageID)),
+                           API.getFlag(item, Type.Video, True),
                            item.title,
                            item.artists[0].name,
-                           tidalImp.getDurationString(item.duration)]
+                           getDurationString(item.duration)]
                 datas.append(rowData)
 
         elif stype == Type.Playlist:
@@ -160,10 +159,10 @@ class SearchView(QWidget):
             datas = []
             for index, item in enumerate(items):
                 rowData = [str(index + 1 + indexOffset),
-                           QUrl(tidalImp.getCoverUrl(item.squareImage)),
+                           QUrl(API.getCoverUrl(item.squareImage)),
                            item.title,
                            '',
-                           tidalImp.getDurationString(item.duration)]
+                           getDurationString(item.duration)]
                 datas.append(rowData)
 
         for index, rowData in enumerate(datas):

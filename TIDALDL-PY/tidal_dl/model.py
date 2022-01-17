@@ -51,6 +51,17 @@ class Album(ModelBase):
     artists = Artist()
 
 
+class Playlist(ModelBase):
+    uuid = None
+    title = None
+    numberOfTracks = 0
+    numberOfVideos = 0
+    description = None
+    duration = 0
+    image = None
+    squareImage = None
+
+
 class Track(ModelBase):
     id = None
     title = None
@@ -67,6 +78,7 @@ class Track(ModelBase):
     artists = Artist()
     album = Album()
     allowStreaming = False
+    playlist = None
 
 
 class Video(ModelBase):
@@ -83,17 +95,7 @@ class Video(ModelBase):
     artists = Artist()
     album = Album()
     allowStreaming = False
-
-
-class Playlist(ModelBase):
-    uuid = None
-    title = None
-    numberOfTracks = 0
-    numberOfVideos = 0
-    description = None
-    duration = 0
-    image = None
-    squareImage = None
+    playlist = None
 
 
 class Mix(ModelBase):

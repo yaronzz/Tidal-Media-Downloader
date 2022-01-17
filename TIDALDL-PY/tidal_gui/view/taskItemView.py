@@ -8,14 +8,14 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QTableWidget, QVBoxLayout, QListView, QGridLayout
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
 
 from tidal_gui.control.label import Label
 from tidal_gui.control.layout import createHBoxLayout, createVBoxLayout
-from tidal_gui.control.pushButton import PushButton
 from tidal_gui.control.listWidget import ListWidget
+from tidal_gui.control.pushButton import PushButton
 from tidal_gui.style import LabelStyle, ButtonStyle, ListWidgetStyle
 
 
@@ -25,12 +25,12 @@ class TaskItemView(QWidget):
         self.__initView__()
         self.setObjectName('TaskItemView')
         self.setAttribute(Qt.WA_StyledBackground)
-                
+
     def __initView__(self):
         layout = QVBoxLayout()
         layout.addLayout(self.__initHead__(), Qt.AlignTop)
         layout.addWidget(self.__initList__(), Qt.AlignTop)
-        
+
         self.setLayout(layout)
 
     def __initHead__(self):
@@ -95,4 +95,3 @@ class TaskItemView(QWidget):
             self._btnDelete.clicked.connect(func)
         elif name == 'open':
             self._btnOpen.clicked.connect(func)
-

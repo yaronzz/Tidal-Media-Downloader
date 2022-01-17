@@ -10,7 +10,7 @@
 """
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QTableView, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QTableView, QAbstractItemView
 
 
 class TableView(QTableView):
@@ -25,7 +25,7 @@ class TableView(QTableView):
             self._model.setHeaderData(index, Qt.Horizontal, name)
 
         self.setModel(self._model)
-            # self.setHorizontalHeaderItem(index, QTableWidgetItem(name))
+        # self.setHorizontalHeaderItem(index, QTableWidgetItem(name))
         # for index in range(0, rowCount):
         #     self.setRowHeight(index, 50)
 

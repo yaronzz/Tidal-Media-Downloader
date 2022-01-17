@@ -20,10 +20,10 @@ class SettingsModel(ViewModel):
         self.view.connectButton('Logout', self.__logout__)
         self.view.connectButton('Cancel', self.__cancel__)
         self.view.connectButton('OK', self.__ok__)
-    
+
     def __logout__(self):
         self._parent.show(True)
-    
+
     def __cancel__(self):
         pass
 

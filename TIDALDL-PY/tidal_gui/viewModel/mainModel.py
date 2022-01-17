@@ -37,17 +37,17 @@ class MainModel(ViewModel):
         self.view.setAboutView(self.aboutModel.view)
 
         self.view.showPage()
-        
+
         downloadImp.setTaskModel(self.taskModel)
         downloadImp.start()
-        
+
     def uninit(self):
         self.taskModel.stopDownloadItem()
         downloadImp.stop()
 
-    def show(self, relogin:bool = False):
+    def show(self, relogin: bool = False):
         self.view.hide()
-        self.loginModel.login(bool(1-relogin))
+        self.loginModel.login(bool(1 - relogin))
         self.loginModel.show()
 
     def __loginSuccess__(self):

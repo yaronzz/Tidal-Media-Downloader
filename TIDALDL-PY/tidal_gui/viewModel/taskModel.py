@@ -8,40 +8,36 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-from PyQt5.QtWidgets import QPushButton, QCheckBox, QWidget
-from tidal_dl import Type
 from tidal_dl.model import Album, Artist
-
-from tidal_gui.control.layout import createHBoxLayout
 from tidal_gui.view.taskView import TaskView, TaskListType
+from tidal_gui.viewModel.downloadItemModel import DownloadItemModel
 from tidal_gui.viewModel.taskItemModel import TaskItemModel
 from tidal_gui.viewModel.viewModel import ViewModel
-from tidal_gui.viewModel.downloadItemModel import DownloadItemModel
 
 
 class TaskModel(ViewModel):
     def __init__(self):
         super(TaskModel, self).__init__()
         self.view = TaskView()
-        
+
         self._listMap = {}
         for item in map(lambda typeItem: typeItem.name, TaskListType):
             self._listMap[item] = []
-            
+
         self.test()
-        
+
     def addTaskItem(self, data):
         item = TaskItemModel(data)
         self._listMap[TaskListType.Download.name].append(item)
         self.view.addItemView(TaskListType.Download, item.view)
-        
+
     def getWaitDownloadItem(self) -> DownloadItemModel:
         for item in self._listMap[TaskListType.Download.name]:
             for downItem in item.downloadModelList:
                 if downItem.isInWait():
                     return downItem
         return None
-    
+
     def stopDownloadItem(self):
         for item in self._listMap[TaskListType.Download.name]:
             for downItem in item.downloadModelList:
