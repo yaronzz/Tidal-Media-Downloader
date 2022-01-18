@@ -127,7 +127,7 @@ class SearchView(QWidget):
                            item.title,
                            item.artists[0].name,
                            str(item.releaseDate),
-                           API.getDurationString(item.duration)]
+                           getDurationString(item.duration)]
                 datas.append(rowData)
 
         elif stype == Type.Track:

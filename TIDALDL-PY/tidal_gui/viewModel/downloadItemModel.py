@@ -10,6 +10,7 @@
 """
 
 import os
+import aigpy
 from abc import ABC, ABCMeta
 from enum import Enum
 from pickle import FALSE
@@ -23,26 +24,39 @@ from tidal_gui.viewModel.viewModel import ViewModel
 
 
 class DownloadStatus(Enum):
-    Wait = 0,
-    Running = 1,
-    Finish = 2,
-    Error = 3,
-    Cancel = 4,
+    WAIT = 0,
+    RUNNING = 1,
+    SUCCESS = 2,
+    ERROR = 3,
+    CANCEL = 4,
 
 
-_endStatus_ = [DownloadStatus.Finish, DownloadStatus.Error, DownloadStatus.Cancel]
+_endStatus_ = [DownloadStatus.SUCCESS, DownloadStatus.ERROR, DownloadStatus.CANCEL]
 
 
 class Progress(UserProgress):
     def __init__(self, model):
         super().__init__()
         self.model = model
+        self.curStr = ''
+        self.maxStr = ''
+
+    def __toMBStr__(self, num):
+        size = aigpy.memory.convert(num, aigpy.memory.Unit.BYTE, aigpy.memory.Unit.MB)
+        return str(round(size, 2)) + ' MB'
 
     def updateCurNum(self):
-        self.model.update(self.curNum, self.maxNum)
+        per = self.curNum * 100 / self.maxNum
+        self.curStr = self.__toMBStr__(self.curNum)
+        self.model.SIGNAL_REFRESH_VIEW.emit('updateCurNum', {'per': per,
+                                                             'curStr': self.curStr,
+                                                             'maxStr': self.maxStr})
 
     def updateMaxNum(self):
-        pass
+        self.maxStr = self.__toMBStr__(self.maxNum)
+        
+    def updateStream(self, stream):
+        self.model.SIGNAL_REFRESH_VIEW.emit('updateStream', {'stream': stream})
 
 
 class DownloadItemModel(ViewModel):
@@ -53,12 +67,26 @@ class DownloadItemModel(ViewModel):
         self.basePath = basePath
         self.isTrack = isinstance(data, Track)
         self.progress = Progress(self)
-        self.__setStatus__(DownloadStatus.Wait)
+        self.__setStatus__(DownloadStatus.WAIT)
 
         if self.isTrack:
             self.__initTrack__(index)
         else:
             self.__initVideo__(index)
+
+        self.SIGNAL_REFRESH_VIEW.connect(self.__refresh__)
+
+    def __refresh__(self, stype: str, object):
+        if stype == "updateCurNum":
+            per = object['per']
+            curStr = object['curStr']
+            maxStr = object['maxStr']
+            self.view.setSize(curStr, maxStr)
+            self.view.setProgress(per)
+        elif stype == "updateStream":
+            codec = object['stream'].codec
+            self.view.setCodec(codec)
+
 
     def __setStatus__(self, status: DownloadStatus, desc: str = ''):
         self.status = status
@@ -68,7 +96,7 @@ class DownloadItemModel(ViewModel):
             self.view.setAction(status.name + '-' + desc)
 
     def __setErrStatus__(self, errmsg: str):
-        self.status = DownloadStatus.Error
+        self.status = DownloadStatus.ERROR
         self.view.setAction(self.status.name)
         self.view.setErrmsg(errmsg)
 
@@ -82,33 +110,28 @@ class DownloadItemModel(ViewModel):
         own = getArtistsNames(self.data.artists)
         self.view.setLabel(index, title, own)
 
-    def update(self, curNum, maxNum):
-        per = curNum * 100 / maxNum
-        self.view.setProgress(per)
-
     def isInWait(self):
-        return self.status == DownloadStatus.Wait
+        return self.status == DownloadStatus.WAIT
 
     def stopDownload(self):
         if self.status not in _endStatus_:
-            self.__setStatus__(DownloadStatus.Cancel)
+            self.__setStatus__(DownloadStatus.CANCEL)
 
     def retry(self):
-        self.__setStatus__(DownloadStatus.Wait)
+        if self.status in [DownloadStatus.ERROR, DownloadStatus.CANCEL]:
+            self.__setStatus__(DownloadStatus.WAIT)
 
     def download(self):
-        self.__setStatus__(DownloadStatus.Running)
+        self.__setStatus__(DownloadStatus.RUNNING)
 
         if self.isTrack:
             check, msg = downloadTrack(self.data, self.data.album, self.data.playlist, self.progress)
         else:
             check, msg = downloadVideo(self.data)
-            
+
         if check is False:
             self.__setErrStatus__(msg)
-        else:
-            self.__setStatus__(DownloadStatus.Finish)
+            return
 
         self.view.setProgress(100)
-        self.__setStatus__(DownloadStatus.Finish)
-
+        self.__setStatus__(DownloadStatus.SUCCESS)

@@ -82,6 +82,8 @@ QWidget#BaseWidget {
     background: var(--Color_Default);
 }
 
+
+
 QWidget#TaskItemView {
     background: var(--Color_Default);
     border-style: solid;
@@ -543,6 +545,15 @@ QLabel#BoldLabel {
     font-weight: bold;
 }
 
+QLabel#ItalicLabel {
+    font-style: italic;
+}
+
+QLabel#TagLabel {
+    background: var(--Color_DangerPressed);
+}
+
+
 /* QFrame */
 QFrame#VLineQFrame
 {
@@ -678,6 +689,20 @@ QListWidget#TaskContentListWidget::item:selected
     background: var(--Color_Default);
 }
 
+QWidget#DownloadItemsWidget {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--Color_Border);
+    border-bottom: none;
+    background: var(--Color_Default); 
+    outline:none;
+}
+
+QWidget#DownloadItemView {
+    border-style: none;
+    margin-top: 2px;
+    background: var(--Color_Default); 
+}
 
 
 QListWidget#DownloadItemsListWidget {

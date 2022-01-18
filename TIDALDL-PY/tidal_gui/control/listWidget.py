@@ -27,3 +27,6 @@ class ListWidget(QListWidget):
         # item.setSizeHint(QSize(widget.width(), widget.height()))
         self.addItem(item)
         self.setItemWidget(item, widget)
+
+    def setAdjustMode(self):
+        self.setResizeMode(QListWidget.Adjust)

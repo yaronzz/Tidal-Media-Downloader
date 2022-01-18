@@ -12,7 +12,7 @@
 import logging
 import os
 import time
-from urllib import request
+import requests
 
 import aigpy
 import lyricsgenius
@@ -318,7 +318,7 @@ def convert(srcPath, stream):
     return srcPath
 
 
-def downloadTrack(track: Track, album=None, playlist=None, userProgress=None):
+def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
     try:
         msg, stream = API.getStreamUrl(track.id, CONF.audioQuality)
         if not aigpy.string.isNull(msg) or stream is None:
@@ -326,6 +326,8 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None):
             return False, msg
         if CONF.showTrackInfo:
             Printf.track(track, stream)
+        if userProgress is not None:
+            userProgress.updateStream(stream)
         path = getTrackPath(CONF, track, stream, album, playlist)
 
         # check exist
@@ -337,6 +339,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None):
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
         tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
         tool.setUserProgress(userProgress)
+        tool.setPartSize(partSize)
         check, err = tool.start(CONF.showProgress)
         if not check:
             Printf.err("Download failed! " + aigpy.path.getFileName(path) + ' (' + str(err) + ')')
@@ -377,7 +380,7 @@ def downloadVideo(video: Video, album=None, playlist=None):
     path = getVideoPath(CONF, video, album, playlist)
 
     logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
-    m3u8content = request.get(stream.m3u8Url).content
+    m3u8content = requests.get(stream.m3u8Url).content
     if m3u8content is None:
         Printf.err(video.title + ' get m3u8 content failed.')
         return False, "Get m3u8 content failed"
@@ -488,7 +491,7 @@ def getBasePath(model):
     if isinstance(model, tidal_dl.model.Playlist):
         return getPlaylistPath(CONF, model)
     if isinstance(model, tidal_dl.model.Track):
-        return getAlbumPath(CONF, model)
+        return getAlbumPath(CONF, model.album)
     if isinstance(model, tidal_dl.model.Video):
         filePath = getVideoPath(CONF, model, model.album, model.playlist)
         return aigpy.pathHelper.getDirName(filePath)

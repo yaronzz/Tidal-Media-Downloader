@@ -50,6 +50,8 @@ class LabelStyle(Enum):
     SearchErr = 5,
     Icon = 6,
     Bold = 7,
+    Italic = 9,
+    Tag = 10
 
 
 class ThemeStyle(Enum):

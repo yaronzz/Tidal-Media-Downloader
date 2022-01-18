@@ -8,14 +8,15 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :  
 """
-
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QScrollArea, QVBoxLayout
+from PyQt5.QtGui import QResizeEvent
 
 
 class ScrollWidget(QScrollArea):
     def __init__(self):
         super(ScrollWidget, self).__init__()
-
+        self._numWidget = 0
         self._layout = QVBoxLayout()
         self._layout.addStretch(1)
 
@@ -26,4 +27,12 @@ class ScrollWidget(QScrollArea):
         self.setWidgetResizable(True)
 
     def addWidgetItem(self, widget: QWidget):
-        self._layout.insertWidget(0, widget)
+        self._layout.insertWidget(self._numWidget, widget)
+        self._numWidget += 1
+
+    def resizeEvent(self, e: QResizeEvent):
+        super().resizeEvent(e)
+        width = e.size().width()
+        if width > 0:
+            self._mainW.setMaximumWidth(width)
+        

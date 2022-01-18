@@ -49,7 +49,7 @@ class TaskItemModel(ViewModel):
     def __refresh__(self, stype: str, obj):
         if stype == "setPic":
             self.view.setPic(obj)
-        elif stype == "addListItem":
+        elif stype == "addListItems":
             for index, item in enumerate(obj):
                 downItem = DownloadItemModel(index + 1, item, self.path)
                 self.view.addListItem(downItem.view)
@@ -84,7 +84,7 @@ class TaskItemModel(ViewModel):
         self.view.setLabel(title, desc)
 
         def __thread_func__(model: TaskItemModel, album: Album):
-            cover = API.getCoverData(album.cover, '1280', '1280')
+            cover = API.getCoverData(album.cover)
             model.SIGNAL_REFRESH_VIEW.emit('setPic', cover)
 
             msg, tracks, videos = API.getItems(album.id, Type.Album)
@@ -97,17 +97,69 @@ class TaskItemModel(ViewModel):
             for item in videos:
                 item.album = album
 
-            model.SIGNAL_REFRESH_VIEW.emit('addListItem', tracks + videos)
-            print('__initAlbum__')
+            model.SIGNAL_REFRESH_VIEW.emit('addListItems', tracks + videos)
             time.sleep(1)
 
         _thread.start_new_thread(__thread_func__, (self, data))
 
     def __initTrack__(self, data: Track):
-        pass
+        title = data.title
+        desc = f"by {getArtistsNames(data.artists)} " \
+               f"{getDurationString(data.duration)} "
+        self.view.setLabel(title, desc)
+
+        def __thread_func__(model: TaskItemModel, track: Track):
+            mag, track.album = API.getAlbum(track.album.id)
+            model.path = getBasePath(track)
+            cover = API.getCoverData(track.album.cover)
+            model.SIGNAL_REFRESH_VIEW.emit('setPic', cover)
+            model.SIGNAL_REFRESH_VIEW.emit('addListItems', [track])
+            time.sleep(1)
+
+        _thread.start_new_thread(__thread_func__, (self, data))
 
     def __initVideo__(self, data: Video):
-        pass
+        self.path = getBasePath(data)
+
+        title = data.title
+        desc = f"by {getArtistsNames(data.artists)} " \
+               f"{getDurationString(data.duration)} "
+        self.view.setLabel(title, desc)
+
+        def __thread_func__(model: TaskItemModel, video: Video):
+            cover = API.getCoverData(video.imageID)
+            model.SIGNAL_REFRESH_VIEW.emit('setPic', cover)
+            model.SIGNAL_REFRESH_VIEW.emit('addListItems',  [video])
+            time.sleep(1)
+
+        _thread.start_new_thread(__thread_func__, (self, data))
 
     def __initPlaylist__(self, data: Playlist):
-        pass
+        self.path = getBasePath(data)
+
+        title = data.title
+        desc = f"{getDurationString(data.duration)} " \
+               f"Track-{data.numberOfTracks} " \
+               f"Video-{data.numberOfVideos}"
+        self.view.setLabel(title, desc)
+
+        def __thread_func__(model: TaskItemModel, playlist: Playlist):
+            cover = API.getCoverData(playlist.squareImage)
+            model.SIGNAL_REFRESH_VIEW.emit('setPic', cover)
+
+            msg, tracks, videos = API.getItems(playlist.uuid, Type.Playlist)
+            if not aigpy.stringHelper.isNull(msg):
+                model.view.setErrmsg(msg)
+                return
+
+            for item in tracks:
+                mag, album = API.getAlbum(item.album.id)
+                item.playlist = playlist
+                item.album = album
+            for item in videos:
+                item.playlist = playlist
+
+            model.SIGNAL_REFRESH_VIEW.emit('addListItems', tracks + videos)
+            time.sleep(1)
+
+        _thread.start_new_thread(__thread_func__, (self, data))

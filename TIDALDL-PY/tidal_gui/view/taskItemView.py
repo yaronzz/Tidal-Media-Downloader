@@ -29,7 +29,7 @@ class TaskItemView(QWidget):
     def __initView__(self):
         layout = QVBoxLayout()
         layout.addLayout(self.__initHead__(), Qt.AlignTop)
-        layout.addWidget(self.__initList__(), Qt.AlignTop)
+        layout.addWidget(self.__initList__())
 
         self.setLayout(layout)
 
@@ -40,8 +40,10 @@ class TaskItemView(QWidget):
         self._btnOpen = PushButton('', ButtonStyle.TaskOpen)
         self._btnExpand = PushButton('', ButtonStyle.TaskExpand)
         self._btnExpand.clicked.connect(self.__expandClick__)
-        btnLayout = createHBoxLayout([self._btnRetry, self._btnCancel,
-                                      self._btnDelete, self._btnOpen,
+        btnLayout = createHBoxLayout([self._btnRetry, 
+                                      self._btnCancel,
+                                      #self._btnDelete, 
+                                      self._btnOpen,
                                       self._btnExpand])
 
         self._titleLabel = Label('', LabelStyle.PageTitle)
@@ -49,6 +51,8 @@ class TaskItemView(QWidget):
         self._errLabel = Label()
         self._errLabel.hide()
         labelLayout = createVBoxLayout([self._titleLabel, self._descLabel, self._errLabel])
+        labelLayout.insertStretch(0, 1)
+        labelLayout.addStretch(1)
 
         self._picLabel = Label('', LabelStyle.Icon)
         self._picLabel.setMinimumHeight(64)
@@ -61,8 +65,10 @@ class TaskItemView(QWidget):
         return headLayout
 
     def __initList__(self):
-        self._list = ListWidget(ListWidgetStyle.DownloadItems)
-        self._list.setMinimumHeight(200)
+        self._list = QWidget()
+        self._list.setObjectName("DownloadItemsWidget")
+        self._listLayout = QVBoxLayout(self._list)
+        self._listLayout.setSpacing(0)
         return self._list
 
     def setLabel(self, title, desc):
@@ -78,7 +84,7 @@ class TaskItemView(QWidget):
         self._picLabel.setPixmap(pic.scaled(64, 64))
 
     def addListItem(self, view):
-        self._list.addWidgetItem(view)
+        self._listLayout.addWidget(view)
 
     def __expandClick__(self):
         if self._list.isHidden():
