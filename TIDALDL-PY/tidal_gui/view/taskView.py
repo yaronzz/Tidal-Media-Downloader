@@ -21,7 +21,7 @@ from tidal_gui.style import LabelStyle, ListWidgetStyle
 from tidal_gui.theme import getResourcePath
 
 
-class TaskListType(Enum):
+class TaskStatus(Enum):
     Download = 0,
     Complete = 1,
     Error = 2,
@@ -33,18 +33,18 @@ class TaskView(QWidget):
         self._listMap = {}
         self._pageMap = {}
 
-        for item in map(lambda typeItem: typeItem.name, TaskListType):
+        for item in map(lambda typeItem: typeItem.name, TaskStatus):
             self._listMap[item] = ScrollWidget()
             self._pageMap[item] = QWidget()
 
         self.__initView__()
         self._listTab.setCurrentRow(0)
-        self._pageMap[TaskListType.Download.name].show()
+        self._pageMap[TaskStatus.Download.name].show()
 
     def __initView__(self):
         grid = QGridLayout(self)
         grid.addLayout(self.__initLefTab__(), 0, 0, Qt.AlignLeft)
-        for item in map(lambda typeItem: typeItem.name, TaskListType):
+        for item in map(lambda typeItem: typeItem.name, TaskStatus):
             grid.addWidget(self.__createContent__(item), 0, 1)
 
     def __initLefTab__(self):
@@ -52,9 +52,9 @@ class TaskView(QWidget):
         self._listTab.setIconSize(QSize(20, 20))
 
         iconPath = getResourcePath() + "/svg/taskTab/"
-        self._listTab.addIConTextItem(iconPath + 'download.svg', TaskListType.Download.name)
-        self._listTab.addIConTextItem(iconPath + 'complete.svg', TaskListType.Complete.name)
-        self._listTab.addIConTextItem(iconPath + 'error.svg', TaskListType.Error.name)
+        self._listTab.addIConTextItem(iconPath + 'download.svg', TaskStatus.Download.name)
+        self._listTab.addIConTextItem(iconPath + 'complete.svg', TaskStatus.Complete.name)
+        self._listTab.addIConTextItem(iconPath + 'error.svg', TaskStatus.Error.name)
 
         self._listTab.itemClicked.connect(self.__tabItemChanged__)
 
@@ -83,5 +83,8 @@ class TaskView(QWidget):
             else:
                 self._pageMap[name].hide()
 
-    def addItemView(self, stype: TaskListType, view):
+    def addItemView(self, stype: TaskStatus, view):
         self._listMap[stype.name].addWidgetItem(view)
+    
+    def delItemView(self, stype: TaskStatus, view):
+        self._listMap[stype.name].delWidgetItem(view)

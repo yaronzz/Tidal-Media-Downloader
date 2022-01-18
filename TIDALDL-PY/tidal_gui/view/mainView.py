@@ -74,8 +74,8 @@ class MainView(FramelessWidget):
         layout.addWidget(self._searchBtn)
         layout.addWidget(self._taskBtn)
         layout.addStretch(1)
-        layout.addWidget(self._settingsBtn)
-        layout.addWidget(self._aboutBtn)
+        # layout.addWidget(self._settingsBtn)
+        # layout.addWidget(self._aboutBtn)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -119,6 +119,5 @@ class MainView(FramelessWidget):
         self.__setContentPage__(view, PageType.Settings)
 
     def setAboutView(self, view: QWidget):
-        # self.__setContentPage__(view, PageType.About)
         self._pages[PageType.About] = view
         self._pages[PageType.About].hide()

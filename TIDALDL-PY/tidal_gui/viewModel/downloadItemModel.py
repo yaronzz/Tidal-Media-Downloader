@@ -16,6 +16,7 @@ from enum import Enum
 from pickle import FALSE
 from aigpy.downloadHelper import UserProgress
 import aigpy.stringHelper
+from PyQt5.QtCore import pyqtSignal
 
 from tidal_dl.model import Track
 from tidal_dl.util import downloadTrack, downloadVideo, getArtistsNames, setMetaData
@@ -60,6 +61,8 @@ class Progress(UserProgress):
 
 
 class DownloadItemModel(ViewModel):
+    SIGNAL_END = pyqtSignal(DownloadStatus)
+    
     def __init__(self, index, data, basePath):
         super(DownloadItemModel, self).__init__()
         self.view = DownloadItemView()
@@ -94,11 +97,13 @@ class DownloadItemModel(ViewModel):
             self.view.setAction(status.name)
         else:
             self.view.setAction(status.name + '-' + desc)
+        if status in _endStatus_:
+            self.SIGNAL_END.emit(status)
+        
 
     def __setErrStatus__(self, errmsg: str):
-        self.status = DownloadStatus.ERROR
-        self.view.setAction(self.status.name)
         self.view.setErrmsg(errmsg)
+        self.__setStatus__(DownloadStatus.ERROR)
 
     def __initTrack__(self, index):
         title = self.data.title

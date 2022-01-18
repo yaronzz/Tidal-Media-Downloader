@@ -66,7 +66,10 @@ class FramelessWidget(QWidget):
 
     def __clickInValidMoveWidget__(self, x=-1, y=-1) -> bool:
         if self.validMoveWidget is None:
-            return True
+            return False
+        if self.clickPos is None:
+            return False
+        
         if x == -1 and y == -1:
             x = self.clickPos.x()
             y = self.clickPos.y()

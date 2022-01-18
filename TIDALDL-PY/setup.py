@@ -10,9 +10,10 @@ setup(
     author='YaronH',
     author_email="yaronhuang@foxmail.com",
 
-    packages=find_packages(),
-    include_package_data=True,
+    packages=find_packages(exclude=['tidal_gui*']),
+    include_package_data=False,
     platforms="any",
-    install_requires=["aigpy>=2021.12.10.1", "requests>=2.22.0", "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
+    install_requires=["aigpy>=2022.01.18.2", "requests>=2.22.0",
+                      "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
     entry_points={'console_scripts': ['tidal-dl = tidal_dl:main', ]}
 )

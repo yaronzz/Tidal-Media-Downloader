@@ -301,10 +301,32 @@ def encrypted(stream, srcPath, descPath):
 def getAudioQualityList():
     return map(lambda quality: quality.name, tidal_dl.enums.AudioQuality)
 
+def getCurAudioQuality():
+    return CONF.audioQuality.name
+
+def setCurAudioQuality(text):
+    if CONF.audioQuality.name == text:
+        return
+    for item in tidal_dl.enums.AudioQuality:
+        if item.name == text:
+            CONF.audioQuality = item
+            break
+    Settings.save(CONF)
 
 def getVideoQualityList():
     return map(lambda quality: quality.name, tidal_dl.enums.VideoQuality)
 
+def getCurVideoQuality():
+    return CONF.videoQuality.name
+
+def setCurVideoQuality(text):
+    if CONF.videoQuality.name == text:
+        return
+    for item in tidal_dl.enums.VideoQuality:
+        if item.name == text:
+            CONF.videoQuality = item
+            break
+    Settings.save(CONF)
 
 def skip(path, url):
     if CONF.checkExist and isNeedDownload(path, url) is False:

@@ -4,5 +4,5 @@ prettytable==0.7.2
 mutagen==1.45.1
 psutil==5.7.3
 pycryptodome==3.9.9
-aigpy==2021.9.10.3
+aigpy==2022.01.18.2
 lyricsgenius==3.0.1

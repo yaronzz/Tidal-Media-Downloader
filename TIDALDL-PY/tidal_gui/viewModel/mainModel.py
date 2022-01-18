@@ -42,7 +42,7 @@ class MainModel(ViewModel):
         downloadImp.start()
 
     def uninit(self):
-        self.taskModel.stopDownloadItem()
+        self.taskModel.uninit()
         downloadImp.stop()
 
     def show(self, relogin: bool = False):

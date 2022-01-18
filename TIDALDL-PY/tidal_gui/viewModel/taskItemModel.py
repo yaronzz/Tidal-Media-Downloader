@@ -9,6 +9,8 @@
 @Desc    :
 """
 import _thread
+from asyncio import tasks
+from enum import Enum
 import os
 import time
 
@@ -18,7 +20,8 @@ from tidal_dl import Type
 from tidal_dl.model import Album, Track, Video, Playlist
 from tidal_dl.util import API, getArtistsNames, getBasePath, getDurationString
 from tidal_gui.view.taskItemView import TaskItemView
-from tidal_gui.viewModel.downloadItemModel import DownloadItemModel
+from tidal_gui.view.taskView import TaskStatus
+from tidal_gui.viewModel.downloadItemModel import DownloadItemModel, DownloadStatus
 from tidal_gui.viewModel.viewModel import ViewModel
 
 
@@ -45,6 +48,21 @@ class TaskItemModel(ViewModel):
         self.view.connectButton('open', self.__btnFuncOpen__)
 
         self.SIGNAL_REFRESH_VIEW.connect(self.__refresh__)
+
+    def getTaskStatus(self) -> TaskStatus:
+        if len(self.downloadModelList) <= 0:
+            return TaskStatus.Download
+        
+        errorNum = 0
+        for item in self.downloadModelList:
+            if item.status in [DownloadStatus.WAIT, DownloadStatus.RUNNING, DownloadStatus.CANCEL]:
+                return TaskStatus.Download
+            elif item.status == DownloadStatus.ERROR:
+                errorNum += 1
+        
+        if errorNum > 0:
+            return TaskStatus.Error
+        return TaskStatus.Complete
 
     def __refresh__(self, stype: str, obj):
         if stype == "setPic":

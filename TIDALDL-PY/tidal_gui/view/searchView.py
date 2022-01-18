@@ -198,11 +198,15 @@ class SearchView(QWidget):
             return -1
         return array[0].row()
 
-    def setTrackQualityItems(self, items: list):
+    def setTrackQualityItems(self, items: list, curItem = None):
         self._trackQualityComboBox.setItems(items)
+        if curItem is not None:
+            self._trackQualityComboBox.setCurrentText(curItem)
 
-    def setVideoQualityItems(self, items: list):
+    def setVideoQualityItems(self, items: list, curItem=None):
         self._videoQualityComboBox.setItems(items)
+        if curItem is not None:
+            self._videoQualityComboBox.setCurrentText(curItem)
 
     def getTrackQualityText(self):
         return self._trackQualityComboBox.currentText()
@@ -222,3 +226,9 @@ class SearchView(QWidget):
 
     def connectTab(self, func):
         self._tabWidget.currentChanged.connect(func)
+    
+    def connectQualityComboBox(self, name: str, func):
+        if name == 'track':
+            self._trackQualityComboBox.currentIndexChanged.connect(func)
+        else:
+            self._videoQualityComboBox.currentIndexChanged.connect(func)

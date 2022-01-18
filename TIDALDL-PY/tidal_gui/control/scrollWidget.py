@@ -29,6 +29,10 @@ class ScrollWidget(QScrollArea):
     def addWidgetItem(self, widget: QWidget):
         self._layout.insertWidget(self._numWidget, widget)
         self._numWidget += 1
+    
+    def delWidgetItem(self, widget: QWidget):
+        self._layout.removeWidget(widget)
+        self._numWidget -= 1
 
     def resizeEvent(self, e: QResizeEvent):
         super().resizeEvent(e)

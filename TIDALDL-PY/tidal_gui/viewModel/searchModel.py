@@ -17,7 +17,7 @@ from aigpy.modelHelper import ModelBase
 
 import tidal_dl
 from tidal_dl import Type
-from tidal_dl.util import API, getAudioQualityList, getVideoQualityList
+from tidal_dl.util import API, getAudioQualityList, getCurAudioQuality, getCurVideoQuality, getVideoQualityList, setCurAudioQuality, setCurVideoQuality
 from tidal_gui.view.searchView import SearchView
 from tidal_gui.viewModel.viewModel import ViewModel
 
@@ -32,12 +32,14 @@ class SearchModel(ViewModel):
 
         self.view = SearchView()
         self.view.setPageIndex(1, 1)
-        self.view.setTrackQualityItems(getAudioQualityList())
-        self.view.setVideoQualityItems(getVideoQualityList())
+        self.view.setTrackQualityItems(getAudioQualityList(), getCurAudioQuality())
+        self.view.setVideoQualityItems(getVideoQualityList(), getCurVideoQuality())
         self.view.connectButton('search', self.__search__)
         self.view.connectButton('prePage', self.__searchPre__)
         self.view.connectButton('nextPage', self.__searchNext__)
         self.view.connectButton('download', self.__download__)
+        self.view.connectQualityComboBox('track', self.__changeAudioQuality__)
+        self.view.connectQualityComboBox('video', self.__changeVideoQuality__)
         self.view.connectTab(lambda: self.__search__(0))
         self.SIGNAL_REFRESH_VIEW.connect(self.__refresh__)
 
@@ -149,3 +151,9 @@ class SearchModel(ViewModel):
             return
 
         self.SIGNAL_ADD_TASKITEM.emit(items[index])
+
+    def __changeAudioQuality__(self):
+        setCurAudioQuality(self.view.getTrackQualityText())
+    
+    def __changeVideoQuality__(self):
+        setCurVideoQuality(self.view.getVideoQualityText())

@@ -8,10 +8,12 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
+import threading
+from PyQt5.QtCore import QTimer
 from tidal_dl.model import Album, Artist
-from tidal_gui.view.taskView import TaskView, TaskListType
+from tidal_gui.view.taskView import TaskView, TaskStatus
 from tidal_gui.viewModel.downloadItemModel import DownloadItemModel
-from tidal_gui.viewModel.taskItemModel import TaskItemModel
+from tidal_gui.viewModel.taskItemModel import TaskItemModel, TaskStatus
 from tidal_gui.viewModel.viewModel import ViewModel
 
 
@@ -21,27 +23,44 @@ class TaskModel(ViewModel):
         self.view = TaskView()
 
         self._listMap = {}
-        for item in map(lambda typeItem: typeItem.name, TaskListType):
+        for item in map(lambda typeItem: typeItem.name, TaskStatus):
             self._listMap[item] = []
 
-        self.test()
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self.__checkTaskStatus__)
+        self._timer.start(3000)
+        
+        # self.test()
+        
+    def __checkTaskStatus__(self):
+        for item in self._listMap[TaskStatus.Download.name][:]:
+            status = item.getTaskStatus()
+            if status == TaskStatus.Download:
+                continue
+            
+            self._listMap[TaskStatus.Download.name].remove(item)
+            self.view.delItemView(TaskStatus.Download, item.view)
+
+            self._listMap[status.name].append(item)
+            self.view.addItemView(status, item.view)
+
+    def uninit(self):
+        self._timer.stop()
+        for item in self._listMap[TaskStatus.Download.name]:
+            for downItem in item.downloadModelList:
+                downItem.stopDownload()
 
     def addTaskItem(self, data):
         item = TaskItemModel(data)
-        self._listMap[TaskListType.Download.name].append(item)
-        self.view.addItemView(TaskListType.Download, item.view)
+        self._listMap[TaskStatus.Download.name].append(item)
+        self.view.addItemView(TaskStatus.Download, item.view)
 
     def getWaitDownloadItem(self) -> DownloadItemModel:
-        for item in self._listMap[TaskListType.Download.name]:
+        for item in self._listMap[TaskStatus.Download.name]:
             for downItem in item.downloadModelList:
                 if downItem.isInWait():
                     return downItem
         return None
-
-    def stopDownloadItem(self):
-        for item in self._listMap[TaskListType.Download.name]:
-            for downItem in item.downloadModelList:
-                downItem.stopDownload()
 
     def test(self):
         ar = Artist()
