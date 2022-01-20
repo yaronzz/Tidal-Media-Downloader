@@ -12,9 +12,9 @@
 __API_KEYS__ = [
     {
         'platform': 'Fire TV',
-        'formats': 'Normal/High/HiFi(No Master)',
-        'clientId': 'OmDtrzFgyVVL6uW56OnFA2COiabqm',
-        'clientSecret': 'zxen1r3pO0hgtOC7j6twMo9UAqngGrmRiWpV7QC1zJ8=',
+        'formats': 'Normal/High/HiFi/Master',
+        'clientId': '8SEZWa4J1NVC5U5Y',
+        'clientSecret': 'owUYDkxddz+9FpvGX24DlxECNtFEMBxipU0lBfrbq60=',
     },
     {
         'platform': 'Fire TV',
