@@ -63,9 +63,10 @@ def setAccessToken():
     if refreshToken == '0':
         refreshToken = TOKEN.refreshToken
 
-    TOKEN.assesstoken = token
+    TOKEN.accessToken = token
     TOKEN.refreshToken = refreshToken
     TOKEN.expiresAfter = 0
+    TOKEN.countryCode = API.key.countryCode
     TokenSettings.save(TOKEN)
 
 
