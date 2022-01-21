@@ -76,7 +76,7 @@ def setAPIKey():
     Printf.info(f'Current APIKeys: {str(CONF.apiKeyIndex)} {item["platform"]}-{item["formats"]}')
     Printf.apikeys(apiKey.getItems())
     index = int(Printf.enterLimit("APIKEY index:", LANG.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
-
+    
     if index != CONF.apiKeyIndex:
         CONF.apiKeyIndex = index
         Settings.save(CONF)
