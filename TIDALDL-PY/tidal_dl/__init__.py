@@ -8,6 +8,7 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+import base64
 import getopt
 import logging
 import ssl
@@ -194,11 +195,11 @@ def main():
 
     checkLogin()
 
-    onlineVer = getLastVersion('tidal-dl')
-    if not isNull(onlineVer):
-        icmp = cmpVersion(onlineVer, VERSION)
-        if icmp > 0:
-            Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
+    # onlineVer = getLastVersion('tidal-dl')
+    # if not isNull(onlineVer):
+    #     icmp = cmpVersion(onlineVer, VERSION)
+    #     if icmp > 0:
+    #         Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
 
     # Printf.info("For some reasons, this version only supports LOSSLESS.")
 

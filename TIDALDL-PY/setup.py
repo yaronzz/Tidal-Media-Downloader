@@ -13,7 +13,7 @@ setup(
     packages=find_packages(exclude=['tidal_gui*']),
     include_package_data=False,
     platforms="any",
-    install_requires=["aigpy>=2022.01.18.2", "requests>=2.22.0",
+    install_requires=["aigpy>=2022.01.20.1", "requests>=2.22.0",
                       "pycryptodome", "pydub", "prettytable", "lyricsgenius"],
     entry_points={'console_scripts': ['tidal-dl = tidal_dl:main', ]}
 )

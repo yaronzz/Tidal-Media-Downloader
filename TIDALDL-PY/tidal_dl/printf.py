@@ -30,7 +30,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2022.01.18.2'
+VERSION = '2022.01.21.1'
 
 
 class Printf(object):
@@ -281,9 +281,15 @@ class Printf(object):
         print("-------------API-KEYS---------------")
         LANG = getLang()
         tb = prettytable.PrettyTable()
-        tb.field_names = [aigpy.cmd.green('Index'), aigpy.cmd.green('Platform'), aigpy.cmd.green('Formats'), ]
+        tb.field_names = [aigpy.cmd.green('Index'), 
+                          aigpy.cmd.green('Valid'),
+                          aigpy.cmd.green('Platform'), 
+                          aigpy.cmd.green('Formats'), ]
         tb.align = 'l'
         
         for index, item in enumerate(items):
-            tb.add_row([str(index), item["platform"], item["formats"]])
+            tb.add_row([str(index), 
+                        aigpy.cmd.green('True') if item["valid"] == "True" else aigpy.cmd.red('False'),
+                        item["platform"], 
+                        item["formats"]])
         print(tb)

@@ -1,6 +1,13 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2022-01-21
+- [x] update api key by @Dniel97
+
+#### v2022-01-18
+- [X] Gui: search view
+- [X] Gui: download view
+
 #### v2022-01-11
 - [X] Settings: add type-folder(eg Album/Video/Playlist)
 - [x] Album folder format support: {None}
