@@ -6,7 +6,7 @@
 @Author  :   Yaronzz
 @Version :   2.1
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 import base64
 import getopt
@@ -63,9 +63,10 @@ def setAccessToken():
     if refreshToken == '0':
         refreshToken = TOKEN.refreshToken
 
-    TOKEN.assesstoken = token
+    TOKEN.accessToken = token
     TOKEN.refreshToken = refreshToken
     TOKEN.expiresAfter = 0
+    TOKEN.countryCode = API.key.countryCode
     TokenSettings.save(TOKEN)
 
 
@@ -75,7 +76,7 @@ def setAPIKey():
     Printf.info(f'Current APIKeys: {str(CONF.apiKeyIndex)} {item["platform"]}-{item["formats"]}')
     Printf.apikeys(apiKey.getItems())
     index = int(Printf.enterLimit("APIKEY index:", LANG.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
-    
+
     if index != CONF.apiKeyIndex:
         CONF.apiKeyIndex = index
         Settings.save(CONF)
@@ -235,7 +236,7 @@ def main():
 
 if __name__ == "__main__":
     # debug()
-    main() 
+    main()
     # test example
     # track 70973230  77798028 212657
     # video 155608351 188932980
