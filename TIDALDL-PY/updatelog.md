@@ -3,6 +3,7 @@ USE  pip3 install tidal-dl --upgrade
 
 #### v2022-01-21
 - [x] update api key by @morguldir
+- [x] Fix bug of "ReleaseDate" 
 
 #### v2022-01-18
 - [X] Gui: search view

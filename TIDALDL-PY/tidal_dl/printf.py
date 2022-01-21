@@ -30,7 +30,7 @@ __LOGO__ = '''
    
        https://github.com/yaronzz/Tidal-Media-Downloader 
 '''
-VERSION = '2022.01.21.1'
+VERSION = '2022.01.21.2'
 
 
 class Printf(object):

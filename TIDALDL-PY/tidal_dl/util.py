@@ -151,7 +151,7 @@ def getAlbumPath(conf: Settings, album):
     retpath = retpath.replace(R"{NumberOfTracks}", str(album.numberOfTracks))
     retpath = retpath.replace(R"{NumberOfVideos}", str(album.numberOfVideos))
     retpath = retpath.replace(R"{NumberOfVolumes}", str(album.numberOfVolumes))
-    retpath = retpath.replace(R"{ReleaseDate}", album.releaseDate)
+    retpath = retpath.replace(R"{ReleaseDate}", str(album.releaseDate))
     retpath = retpath.replace(R"{RecordType}", album.type)
     retpath = retpath.replace(R"{None}", "")
     retpath = stripPath(retpath.strip())
