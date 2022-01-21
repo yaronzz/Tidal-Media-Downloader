@@ -2,7 +2,7 @@ TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
 #### v2022-01-21
-- [x] update api key by @Dniel97
+- [x] update api key by @morguldir
 
 #### v2022-01-18
 - [X] Gui: search view
