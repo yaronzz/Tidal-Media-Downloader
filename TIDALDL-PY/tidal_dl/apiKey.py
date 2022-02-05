@@ -45,12 +45,13 @@ __API_KEYS__ = [
         'valid': 'False',
     },
     {
-        'platform': 'TV New',
+        'platform': 'Android Auto',
         'formats': 'Normal/High/HiFi/Master',
-        'clientId': 'COFVfUXkiLTN3lAe',
-        'clientSecret': 'DzcOwwEiEWPtMj4RXQ4Y2EwGIKWMGiV05KCQuqhXdzU=',
+        'clientId': 'zU4XHVVkc2tDPo4t',
+        'clientSecret': 'VJKhDFqJPqvsPVNBV6ukXTJmwlvbttP7wlMlrc72se4=',
         'valid': 'True',
     },
+    
 ]
 
 __ERROR_KEY__ = {
