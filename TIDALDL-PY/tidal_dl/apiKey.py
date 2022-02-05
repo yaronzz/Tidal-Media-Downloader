@@ -42,6 +42,13 @@ __API_KEYS__ = [
         'formats': 'Normal/High/HiFi/Master',
         'clientId': '8SEZWa4J1NVC5U5Y',
         'clientSecret': 'owUYDkxddz+9FpvGX24DlxECNtFEMBxipU0lBfrbq60=',
+        'valid': 'False',
+    },
+    {
+        'platform': 'TV New',
+        'formats': 'Normal/High/HiFi/Master',
+        'clientId': 'COFVfUXkiLTN3lAe',
+        'clientSecret': 'DzcOwwEiEWPtMj4RXQ4Y2EwGIKWMGiV05KCQuqhXdzU=',
         'valid': 'True',
     },
 ]
