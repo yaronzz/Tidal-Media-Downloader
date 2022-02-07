@@ -6,6 +6,7 @@ rm MANIFEST.in
 rm -rf tidal_dl.egg-info
 rm -rf tidal_gui.egg-info
 rm -rf tidal_dl_test.egg-info
+mkdir exe
 
 # pack
 python setup.py sdist bdist_wheel
@@ -44,7 +45,7 @@ rm -rf tidal_dl_test.egg-info
 # pack
 python setup-gui.py sdist bdist_wheel
 # creat exe file
-pyinstaller -F tidal_gui/__init__.py
+pyinstaller -F tidal_gui/__init__.py -w
 # rename exe name
 mv dist/__init__.exe exe/tidal-gui.exe
 

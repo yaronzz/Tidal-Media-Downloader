@@ -73,7 +73,9 @@ def setAccessToken():
 def setAPIKey():
     global LANG
     item = apiKey.getItem(CONF.apiKeyIndex)
+    ver  = apiKey.getVersion()
     Printf.info(f'Current APIKeys: {str(CONF.apiKeyIndex)} {item["platform"]}-{item["formats"]}')
+    Printf.info(f'Current Version: {str(ver)}')
     Printf.apikeys(apiKey.getItems())
     index = int(Printf.enterLimit("APIKEY index:", LANG.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
     
@@ -196,13 +198,11 @@ def main():
 
     checkLogin()
 
-    # onlineVer = getLastVersion('tidal-dl')
-    # if not isNull(onlineVer):
-    #     icmp = cmpVersion(onlineVer, VERSION)
-    #     if icmp > 0:
-    #         Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
-
-    # Printf.info("For some reasons, this version only supports LOSSLESS.")
+    onlineVer = getLastVersion('tidal-dl')
+    if not isNull(onlineVer):
+        icmp = cmpVersion(onlineVer, VERSION)
+        if icmp > 0:
+            Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
 
     while True:
         Printf.choices()

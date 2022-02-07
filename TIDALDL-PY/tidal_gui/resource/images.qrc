@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>svg/buymeacoffee.svg</file>
+        <file>svg/check.svg</file>
+        <file>svg/down.svg</file>
+        <file>svg/downHover.svg</file>
+        <file>svg/github.svg</file>
+        <file>svg/left.svg</file>
+        <file>svg/paypal.svg</file>
+        <file>svg/right.svg</file>
+        <file>svg/search.svg</file>
+        <file>svg/search2.svg</file>
+        <file>svg/upHover.svg</file>
+        <file>svg/V.svg</file>
+
+        <file>svg/leftTab/download.svg</file>
+        <file>svg/leftTab/downloadHover.svg</file>
+        <file>svg/leftTab/info.svg</file>
+        <file>svg/leftTab/search.svg</file>
+        <file>svg/leftTab/settings.svg</file>
+
+        <file>svg/taskItem/cancel.svg</file>
+        <file>svg/taskItem/delete.svg</file>
+        <file>svg/taskItem/expand.svg</file>
+        <file>svg/taskItem/open.svg</file>
+        <file>svg/taskItem/retry.svg</file>
+
+        <file>svg/taskTab/complete.svg</file>
+        <file>svg/taskTab/download.svg</file>
+        <file>svg/taskTab/error.svg</file>
+
+        <file>svg/windows/close.svg</file>
+        <file>svg/windows/closeHover.svg</file>
+        <file>svg/windows/max.svg</file>
+        <file>svg/windows/min.svg</file>
+    </qresource>
+</RCC>

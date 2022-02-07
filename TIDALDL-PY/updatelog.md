@@ -1,6 +1,9 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2022-02-07
+- [x] update api key by 1nikolas
+
 #### v2022-01-21
 - [x] update api key by @morguldir
 - [x] Fix bug of "ReleaseDate" 
