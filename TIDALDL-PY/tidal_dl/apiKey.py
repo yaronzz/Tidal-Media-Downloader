@@ -42,8 +42,16 @@ __API_KEYS__ = [
         'formats': 'Normal/High/HiFi/Master',
         'clientId': '8SEZWa4J1NVC5U5Y',
         'clientSecret': 'owUYDkxddz+9FpvGX24DlxECNtFEMBxipU0lBfrbq60=',
+        'valid': 'False',
+    },
+    {
+        'platform': 'Android Auto',
+        'formats': 'Normal/High/HiFi/Master',
+        'clientId': 'zU4XHVVkc2tDPo4t',
+        'clientSecret': 'VJKhDFqJPqvsPVNBV6ukXTJmwlvbttP7wlMlrc72se4=',
         'valid': 'True',
     },
+    
 ]
 
 __ERROR_KEY__ = {
