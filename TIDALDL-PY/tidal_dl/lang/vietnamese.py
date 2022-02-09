@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   vietnamese.py
-@Time    :   2020/11/12
+@Time    :   2022/2/9
 @Author  :   MinhNgo, CDzungx
 @Version :   1.0
 @Contact :   iam.minhnc@outlook.com
@@ -32,14 +32,14 @@ class LangVietnamese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKIFNO = "Hiện thông tin bài"
     SETTING_SAVE_ALBUMINFO = "Lưu AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Thêm lời bài hát"
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
     SETTINGS_ADD_LRC_FILE = "Lưu timed lyrics (tệp .lrc)"
     SETTING_PATH = "Đường dẫn cài đặt"
-    SETTING_APIKEY = "APIKey support"
-    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
+    SETTING_APIKEY = "Hỗ trợ APIKey"
+    SETTING_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -51,7 +51,7 @@ class LangVietnamese(object):
     CHOICE_SET_ACCESS_TOKEN = "Nhập AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
     CHOICE_LOGOUT = "Đăng xuất"
-    CHOICE_APIKEY = "Select APIKey"
+    CHOICE_APIKEY = "Chọn APIKey"
 
     PRINT_ERR = "[LỖI]"
     PRINT_INFO = "[THÔNG TIN]"
@@ -80,12 +80,12 @@ class LangVietnamese(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
-    CHANGE_SHOW_TRACKINFO = "Hiện thông tin bài('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "Hiện thông tin bài('0'-Không,'1'-Có):"
     CHANGE_SAVE_ALBUM_INFO = "Lưu AlbumInfo.txt('0'-Không,'1'-Có):"
     CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
-    CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-No,'1'-Yes):"
-    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
+    CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-Không,'1'-Có):"
+    CHANGE_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục, ví dụ Album/Video/Playlist('0'-Không,'1'-Có):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."
