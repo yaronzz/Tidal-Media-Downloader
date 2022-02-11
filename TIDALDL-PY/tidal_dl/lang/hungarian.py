@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   hungarian.py
-@Time    :   2021/06/20
+@Time    :   2022/02/10
 @Author  :   Shanahan
-@Version :   1.0
+@Version :   1.1
 @Contact :   
 @Desc    :   
 '''
@@ -25,21 +25,21 @@ class LangHungarian(object):
     SETTING_ARTIST_BEFORE_TITLE = "Előadó neve a szám címe előtt"
     SETTING_ALBUMID_BEFORE_FOLDER = "Azonosító (ID) az album-mappa előtt"
     SETTING_INCLUDE_EP = "Tartalmazza a single&ep"
-    SETTING_SAVE_COVERS = "Borító mentése"
+    SETTING_SAVE_COVERS = "Borítókép mentése"
     SETTING_LANGUAGE = "Nyelv"
     SETTING_USE_PLAYLIST_FOLDER = "Lejátszási lista mappa használata"
     SETTING_MULITHREAD_DOWNLOAD = "Többszálú letöltés"
     SETTING_ALBUM_FOLDER_FORMAT = "Album mappa formátum"
     SETTING_TRACK_FILE_FORMAT = "Track fájlformátum"
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKIFNO = "Track infók megjelenítése"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
-    SETTING_PATH = "Beállítások elérési útvonala"
-    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
-    SETTING_APIKEY = "APIKey support"
-    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
+    SETTING_PATH = "Beállítási útvonal"
+    SETTINGS_ADD_LRC_FILE = "Dalszövegek mentése (.lrc fájl)"
+    SETTING_APIKEY = "APIKey támogatás"
+    SETTING_ADD_TYPE_FOLDER = "Mappa típus hozzáadása"
 
     CHOICE = "VÁLASZTÁS"
     FUNCTION = "FUNKCIÓ"
@@ -51,7 +51,7 @@ class LangHungarian(object):
     CHOICE_SET_ACCESS_TOKEN = "AccessToken beállítása"
     CHOICE_DOWNLOAD_BY_URL = "Letöltés URL vagy ID alapján"
     CHOICE_LOGOUT = "Kijelentkezés"
-    CHOICE_APIKEY = "Select APIKey"
+    CHOICE_APIKEY = "APIKey kiválasztása"
 
     PRINT_ERR = "[HIBA]"
     PRINT_INFO = "[INFÓ]"
@@ -80,12 +80,12 @@ class LangHungarian(object):
     CHANGE_ALBUM_FOLDER_FORMAT = "Album mappa formátum('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_TRACK_FILE_FORMAT = "Track fájl neve('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-nem, '1'-igen):"
-    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "Track infók megjelenítése('0'-No,'1'-Yes):"
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-nem, '1'-igen):"
     CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-nem,'1'-igen):"
-    CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló prox('0' nincs módosítás):"
-    CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
-    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
+    CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy('0' nincs módosítás):"
+    CHANGE_ADD_LRC_FILE = "Dalszöveg mentése időbélyeggel .lrc fájl('0'-Nem,'1'-Igen):"
+    CHANGE_ADD_TYPE_FOLDER = "Mappa típus hozzáadása, pl. Album/Video/Playlist('0'-Nem,'1'-Igen):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."
@@ -99,11 +99,11 @@ class LangHungarian(object):
     MSG_PATH_ERR = "Az útvonal hibás!"
     MSG_INPUT_ERR = "Beviteli hiba!"
 
-    MODEL_ALBUM_PROPERTY = "ALBUM-TULAJDONSÁGOK"
-    MODEL_TRACK_PROPERTY = "TRACK-TULAJDONSÁGOK"
-    MODEL_VIDEO_PROPERTY = "VIDEO-TULAJDONSÁGOK"
-    MODEL_ARTIST_PROPERTY = "ELŐADÓ-TULAJDONSÁGOK"
-    MODEL_PLAYLIST_PROPERTY = "LEJÁTSZÁSI LISTA-TULAJDONSÁGOK"
+    MODEL_ALBUM_PROPERTY = "ALBUM-TULAJDONSÁG"
+    MODEL_TRACK_PROPERTY = "TRACK-TULAJDONSÁG"
+    MODEL_VIDEO_PROPERTY = "VIDEO-TULAJDONSÁG"
+    MODEL_ARTIST_PROPERTY = "ELŐADÓ-TULAJDONSÁG"
+    MODEL_PLAYLIST_PROPERTY = "LEJÁTSZÁSI LISTA-TULAJDONSÁG"
 
     MODEL_TITLE = 'Cím'
     MODEL_TRACK_NUMBER = 'Track száma'
