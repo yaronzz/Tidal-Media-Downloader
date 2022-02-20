@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   ukrainian.py
-@Time    :   2022/02/03
+@Time    :   2022/02/20
 @Author  :   Montyzzz & 9uyone
 @Version :   1.2
 @Contact :   ---
