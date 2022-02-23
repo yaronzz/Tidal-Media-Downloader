@@ -1,0 +1,34 @@
+name: Questions
+description: Question for the tool.
+title: "[QUESTION]: "
+labels: question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search for this issue in issues-page first. Avoid duplication.
+        Please read Wiki first.
+        https://github.com/yaronzz/Tidal-Media-Downloader/wiki
+  - type: textarea
+    id: which-tool
+    attributes:
+      label: Which tool
+      description: Describe which tool the question is about.
+      placeholder: |
+        tidal-gui or tidal-dl
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Describe your question
+      description: Describe your question as accurately as possible.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Add screenshots
+      description: Please add screenshots if available.
+    validations:
+      required: false
