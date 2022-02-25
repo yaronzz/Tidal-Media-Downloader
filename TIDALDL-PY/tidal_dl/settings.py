@@ -40,7 +40,7 @@ def getSettingsPath():
     elif "HOMEDRIVE" in os.environ and "HOMEPATH" in os.environ:
         return os.environ['HOMEDRIVE'] + os.environ['HOMEPATH']
     else:
-        return os.path._getfullpathname("./")
+        return os.path.abspath("./")
 
 
 def getLogPath():
