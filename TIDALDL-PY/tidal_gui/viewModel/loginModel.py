@@ -62,7 +62,7 @@ class LoginModel(ViewModel):
 
     def __openWeb__(self):
         self.view.enableConfirmButton(False)
-        webbrowser.open('http://link.tidal.com/' + API.key.userCode, new=0, autoraise=True)
+        webbrowser.open('https://link.tidal.com/' + API.key.userCode, new=0, autoraise=True)
 
         def __thread_waitLogin__(model: LoginModel):
             if loginByWeb():
