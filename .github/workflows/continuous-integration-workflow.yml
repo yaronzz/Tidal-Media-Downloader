@@ -1,0 +1,40 @@
+name: Tidal Media Downloader
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    name: Build tidal-dl
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout Tidal-Media-Downloader repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install build dependencies
+      run: |
+        pip3 install wheel
+        pip3 install pyinstaller
+        pip3 install PyQt5
+        pip3 install -r requirements.txt --upgrade
+      working-directory: TIDALDL-PY
+
+    - name: Clean exe directory
+      run: |
+        rm -force exe/tidal-dl.exe
+      working-directory: TIDALDL-PY
+      
+    - name: Build tidal-dl artifact
+      run: |
+        python setup.py sdist bdist_wheel
+        pyinstaller -F tidal_dl/__init__.py
+        mv dist/__init__.exe exe/tidal-dl.exe
+      working-directory: TIDALDL-PY       
+      
+    - name: Upload tidal-dl artifact
+      uses: actions/upload-artifact@v2
+      with: 
+        name: tidal-dl
+        path: ${{ github.workspace }}\TIDALDL-PY\exe\tidal-dl.exe
