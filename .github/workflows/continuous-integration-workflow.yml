@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   Build:
     name: Build tidal-dl
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Tidal-Media-Downloader repo
@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with: 
         name: tidal-dl
-        path: ${{ github.workspace }}\TIDALDL-PY\exe\tidal-dl.exe
+        path: TIDALDL-PY\exe\tidal-dl.exe
