@@ -119,7 +119,7 @@ def getAlbumPath(conf: Settings, album):
     if conf.addTypeFolder:
         base = base + 'Album/'
     artist = aigpy.path.replaceLimitChar(getArtistsName(album.artists), '-')
-    albumArtistName = album.artist.name if album.artist is not None else ""
+    albumArtistName = aigpy.path.replaceLimitChar(album.artist.name, '-') if album.artist is not None else ""
     # album folder pre: [ME][ID]
     flag = API.getFlag(album, Type.Album, True, "")
     if conf.audioQuality != AudioQuality.Master:
@@ -182,7 +182,7 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
         number = __getIndexStr__(track.trackNumberOnPlaylist)
     # artist
     artists = aigpy.path.replaceLimitChar(getArtistsName(track.artists), '-')
-    artist = track.artist.name if track.artist is not None else ""
+    artist = aigpy.path.replaceLimitChar(getArtistsName(track.artist.name), '-') if track.artist is not None else ""
     # title
     title = track.title
     if not aigpy.string.isNull(track.version):
