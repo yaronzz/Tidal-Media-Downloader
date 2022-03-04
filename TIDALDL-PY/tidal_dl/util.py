@@ -182,7 +182,7 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
         number = __getIndexStr__(track.trackNumberOnPlaylist)
     # artist
     artists = aigpy.path.replaceLimitChar(getArtistsName(track.artists), '-')
-    artist = aigpy.path.replaceLimitChar(getArtistsName(track.artist.name), '-') if track.artist is not None else ""
+    artist = aigpy.path.replaceLimitChar(track.artist.name, '-') if track.artist is not None else ""
     # title
     title = track.title
     if not aigpy.string.isNull(track.version):
