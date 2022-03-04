@@ -32,7 +32,7 @@ class LangHungarian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album mappa formátum"
     SETTING_TRACK_FILE_FORMAT = "Track fájlformátum"
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
-    SETTING_SHOW_TRACKIFNO = "Track infók megjelenítése"
+    SETTING_SHOW_TRACKINFO = "Track infók megjelenítése"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
@@ -95,7 +95,7 @@ class LangHungarian(object):
     AUTH_TIMEOUT = "A művelet leállt."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken érvényessége {}."
-    MSG_INVAILD_ACCESSTOKEN = "Lejárt AccessToken. Megpróbálom frissíteni."
+    MSG_INVALID_ACCESSTOKEN = "Lejárt AccessToken. Megpróbálom frissíteni."
     MSG_PATH_ERR = "Az útvonal hibás!"
     MSG_INPUT_ERR = "Beviteli hiba!"
 

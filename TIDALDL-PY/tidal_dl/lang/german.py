@@ -32,7 +32,7 @@ class LangGerman(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat"
     SETTING_TRACK_FILE_FORMAT = "Track-Dateiformat"
     SETTING_SHOW_PROGRESS = "Fortschritt anzeigen"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -95,7 +95,7 @@ class LangGerman(object):
     AUTH_TIMEOUT = "Zeitüberschreitung der Operation."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken gültig für {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken abgelaufen. Versuche zu erneuern."
+    MSG_INVALID_ACCESSTOKEN = "AccessToken abgelaufen. Versuche zu erneuern."
     MSG_PATH_ERR = "Ungültiger Pfad!"
     MSG_INPUT_ERR = "Eingabefehler!"
 

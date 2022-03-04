@@ -32,7 +32,7 @@ class LangUkrainian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Формат папки альбому"
     SETTING_TRACK_FILE_FORMAT = "Формат файлу треку"
     SETTING_SHOW_PROGRESS = "Показувати прогрес"
-    SETTING_SHOW_TRACKIFNO = "Показувати інформацію про трек"
+    SETTING_SHOW_TRACKINFO = "Показувати інформацію про трек"
     SETTING_SAVE_ALBUMINFO = "Зберігати AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Додавати тексти пісень"
     SETTING_LYRICS_SERVER_PROXY = "Проксі для сервера з текстами пісень"
@@ -95,7 +95,7 @@ class LangUkrainian(object):
     AUTH_TIMEOUT = "Час очікування минув."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken хороший упродовж {}."
-    MSG_INVAILD_ACCESSTOKEN = "Термін дії AccessToken'а закінчився. Пробуємо оновити його."
+    MSG_INVALID_ACCESSTOKEN = "Термін дії AccessToken'а закінчився. Пробуємо оновити його."
     MSG_PATH_ERR = "Невірний шлях!"
     MSG_INPUT_ERR = "Помилка введення!"
 

@@ -32,7 +32,7 @@ class LangPolish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Format folderu albumu"
     SETTING_TRACK_FILE_FORMAT = "Format pliku utworu"
     SETTING_SHOW_PROGRESS = "Pokaż postęp"
-    SETTING_SHOW_TRACKIFNO = "Pokaż informacje o utworze"
+    SETTING_SHOW_TRACKINFO = "Pokaż informacje o utworze"
     SETTING_SAVE_ALBUMINFO = "Zapisz AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Dodaj teksty utworów"
     SETTING_LYRICS_SERVER_PROXY = "Serwer proxy dla tekstów"
@@ -95,7 +95,7 @@ class LangPolish(object):
     AUTH_TIMEOUT = "Przekroczono limit czasu operacji."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken dobry przez {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken wygasł. Próba jego odświeżenia."
+    MSG_INVALID_ACCESSTOKEN = "AccessToken wygasł. Próba jego odświeżenia."
     MSG_PATH_ERR = "Ścieżka jest błędna!"
     MSG_INPUT_ERR = "Błąd wejścia!"
 

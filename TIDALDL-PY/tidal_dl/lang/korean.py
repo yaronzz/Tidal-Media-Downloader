@@ -32,7 +32,7 @@ class LangKorean(object):
     SETTING_ALBUM_FOLDER_FORMAT = "앨범 폴더 형식"
     SETTING_TRACK_FILE_FORMAT = "트랙 파일 형식"
     SETTING_SHOW_PROGRESS = "진행 상태 표시"
-    SETTING_SHOW_TRACKIFNO = "트랙 정보 표시"
+    SETTING_SHOW_TRACKINFO = "트랙 정보 표시"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt 저장"
     SETTING_ADD_LYRICS = "가사 추가"
     SETTING_LYRICS_SERVER_PROXY = "가사 서버 프록시"
@@ -95,7 +95,7 @@ class LangKorean(object):
     AUTH_TIMEOUT = "작업 시간 초과"
 
     MSG_VALID_ACCESSTOKEN = "{}에 대해 액세스 토큰이 유효합니다."
-    MSG_INVAILD_ACCESSTOKEN = "만료된 액세스 토큰입니다. 새로 고침 중입니다."
+    MSG_INVALID_ACCESSTOKEN = "만료된 액세스 토큰입니다. 새로 고침 중입니다."
     MSG_PATH_ERR = "경로 오류!"
     MSG_INPUT_ERR = "입력 오류!"
 

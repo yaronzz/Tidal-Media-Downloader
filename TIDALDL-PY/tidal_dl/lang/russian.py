@@ -32,7 +32,7 @@ class LangRussian(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
@@ -95,7 +95,7 @@ class LangRussian(object):
     AUTH_TIMEOUT = "Закончилось время ожидания."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken успешно применён {}."
-    MSG_INVAILD_ACCESSTOKEN = "Срок действия AccessToken истек.  Попытка обновления."
+    MSG_INVALID_ACCESSTOKEN = "Срок действия AccessToken истек.  Попытка обновления."
     MSG_PATH_ERR = "Неверное место!"
     MSG_INPUT_ERR = "Ошибка ввода!"
 

@@ -32,7 +32,7 @@ class LangVietnamese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album"
     SETTING_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc"
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
-    SETTING_SHOW_TRACKIFNO = "Hiện thông tin bài"
+    SETTING_SHOW_TRACKINFO = "Hiện thông tin bài"
     SETTING_SAVE_ALBUMINFO = "Lưu AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Thêm lời bài hát"
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
@@ -95,7 +95,7 @@ class LangVietnamese(object):
     AUTH_TIMEOUT = "Đã vượt quá thời gian chờ."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken vẫn tốt trong {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken hết hạn. Đang cố làm mới."
+    MSG_INVALID_ACCESSTOKEN = "AccessToken hết hạn. Đang cố làm mới."
     MSG_PATH_ERR = "Lỗi đường dẫn!"
     MSG_INPUT_ERR = "Lỗi nhập!"
 

@@ -32,7 +32,7 @@ class LangDutch(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Indeling albummap"
     SETTING_TRACK_FILE_FORMAT = "Bestandsindeling bijhouden"
     SETTING_SHOW_PROGRESS = "Toon voortgang"
-    SETTING_SHOW_TRACKIFNO = "Toon trackinfo"
+    SETTING_SHOW_TRACKINFO = "Toon trackinfo"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt opslaan"
     SETTING_ADD_LYRICS = "Songtekst toevoegen"
     SETTING_LYRICS_SERVER_PROXY = "Tekst server proxy"
@@ -95,7 +95,7 @@ class LangDutch(object):
     AUTH_TIMEOUT = "Operatie time-out."
 
     MSG_VALID_ACCESSTOKEN = "Toegangstoken goed voor {}."
-    MSG_INVAILD_ACCESSTOKEN = "Verlopen AccessToken. Poging om het te vernieuwen."
+    MSG_INVALID_ACCESSTOKEN = "Verlopen AccessToken. Poging om het te vernieuwen."
     MSG_PATH_ERR = "Pad is incorrect!"
     MSG_INPUT_ERR = "Invoerfout!"
 

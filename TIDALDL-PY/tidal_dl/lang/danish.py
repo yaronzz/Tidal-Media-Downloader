@@ -32,7 +32,7 @@ class LangDanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Albummappens format"
     SETTING_TRACK_FILE_FORMAT = "Musiknummerets filformat"
     SETTING_SHOW_PROGRESS = "Vis fremskridt"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -95,7 +95,7 @@ class LangDanish(object):
     AUTH_TIMEOUT = "Tiden løb ud."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken tilgængelig for {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken udløb. Forsøger at opdatere"
+    MSG_INVALID_ACCESSTOKEN = "AccessToken udløb. Forsøger at opdatere"
     MSG_PATH_ERR = "Sti fejl!"
     MSG_INPUT_ERR = "Indtastningsfejl!"
 
