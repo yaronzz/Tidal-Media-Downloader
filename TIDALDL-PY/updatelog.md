@@ -1,6 +1,14 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2022-03-04
+- [x] fix "file name contain *"  #844
+- [x] Update Vietnamese
+- [x] update Hungarian
+- [x] Update Ukrainian
+- [x] Update Dutch 
+- [x] fix bug of setting path
+
 #### v2022-02-07
 - [x] update api key by 1nikolas
 
