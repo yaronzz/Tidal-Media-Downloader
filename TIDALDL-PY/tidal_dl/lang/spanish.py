@@ -32,7 +32,7 @@ class LangSpanish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
-    SETTING_SHOW_TRACKIFNO = "Mostrar información de pista"
+    SETTING_SHOW_TRACKINFO = "Mostrar información de pista"
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
@@ -95,7 +95,7 @@ class LangSpanish(object):
     AUTH_TIMEOUT = "Se superó el tiempo de espera."
 
     MSG_VALID_ACCESSTOKEN = "Token de acceso válido por {}."
-    MSG_INVAILD_ACCESSTOKEN = "El token de acceso ha expirado. Tratando de renovarlo."
+    MSG_INVALID_ACCESSTOKEN = "El token de acceso ha expirado. Tratando de renovarlo."
     MSG_PATH_ERR = "¡La ruta no es correcta!"
     MSG_INPUT_ERR = "¡Error de entrada!"
 

@@ -32,7 +32,7 @@ class LangTurkish(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Klasör ismi formatı:"
     SETTING_TRACK_FILE_FORMAT = "Dosya ismi formatı:"
     SETTING_SHOW_PROGRESS = "İndirme Çubuğu Görüntüleme:"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -95,7 +95,7 @@ class LangTurkish(object):
     AUTH_TIMEOUT = "Lütfen size verilen süre içerisinde işlemleriniz tamamlayınız."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
-    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
+    MSG_INVALID_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "İndirme konumu ile alakalı bir sorun var! ('/storage/emulated/0/Download/' şeklinde girebilirsiniz.)"
     MSG_INPUT_ERR = "Giriş Hatalı!"
 

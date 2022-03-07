@@ -32,7 +32,7 @@ class LangPortuguese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Formato da pasta do álbum"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
     SETTING_SHOW_PROGRESS = "Mostrar progresso"
-    SETTING_SHOW_TRACKIFNO = "Mostrar informações da faixa"
+    SETTING_SHOW_TRACKINFO = "Mostrar informações da faixa"
     SETTING_SAVE_ALBUMINFO = "Salvar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Adicionar Letra da Música"
     SETTING_LYRICS_SERVER_PROXY = "Proxy do servidor de letras"
@@ -95,7 +95,7 @@ class LangPortuguese(object):
     AUTH_TIMEOUT = "A operação expirou."
 
     MSG_VALID_ACCESSTOKEN = "Token de acesso bom por {}."
-    MSG_INVAILD_ACCESSTOKEN = "Token de acesso expirado. Tentando atualizá-lo."
+    MSG_INVALID_ACCESSTOKEN = "Token de acesso expirado. Tentando atualizá-lo."
     MSG_PATH_ERR = "Erro no local de salvamento dos arquivos!"
     MSG_INPUT_ERR = "Erro de Entrada!"
 
