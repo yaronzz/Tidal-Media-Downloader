@@ -32,7 +32,7 @@ class LangChinese(object):
     SETTING_ALBUM_FOLDER_FORMAT = "专辑目录格式"
     SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
     SETTING_SHOW_PROGRESS = "显示进度条"
-    SETTING_SHOW_TRACKIFNO = "显示歌曲信息"
+    SETTING_SHOW_TRACKINFO = "显示歌曲信息"
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
@@ -95,7 +95,7 @@ class LangChinese(object):
     AUTH_TIMEOUT = "操作超时."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken保质期为 {}."
-    MSG_INVAILD_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
+    MSG_INVALID_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
     MSG_PATH_ERR = "路径错误!"
     MSG_INPUT_ERR = "输入错误!"
 

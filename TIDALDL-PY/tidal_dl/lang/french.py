@@ -32,7 +32,7 @@ class LangFrench(object):
     SETTING_ALBUM_FOLDER_FORMAT = "Format du dossier d'album"
     SETTING_TRACK_FILE_FORMAT = "Format du fichier de tracklist"
     SETTING_SHOW_PROGRESS = "Afficher la Progression"
-    SETTING_SHOW_TRACKIFNO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
@@ -95,7 +95,7 @@ class LangFrench(object):
     AUTH_TIMEOUT = "Operation timed out."
 
     MSG_VALID_ACCESSTOKEN = "AccessToken good for {}."
-    MSG_INVAILD_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
+    MSG_INVALID_ACCESSTOKEN = "Expired AccessToken. Attempting to refresh it."
     MSG_PATH_ERR = "Erreur du chemin d'accès"
     MSG_INPUT_ERR = "Erreur de saisie !"
 

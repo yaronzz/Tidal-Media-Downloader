@@ -457,7 +457,7 @@ def loginByConfig():
         API.key.accessToken = TOKEN.accessToken
         return True
 
-    Printf.info(LANG.MSG_INVAILD_ACCESSTOKEN)
+    Printf.info(LANG.MSG_INVALID_ACCESSTOKEN)
     msg, check = API.refreshAccessToken(TOKEN.refreshToken)
     if check:
         Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(displayTime(int(API.key.expiresIn))))
