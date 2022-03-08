@@ -210,6 +210,7 @@ def getTrackPath(conf: Settings, track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{AudioQuality}", track.audioQuality)
     retpath = retpath.replace(R"{DurationSeconds}", str(track.duration))
     retpath = retpath.replace(R"{Duration}", __secondsToTimeStr__(track.duration))
+    retpath = retpath.replace(R"{TrackID}", str(track.id))
     retpath = retpath.strip()
     return base + retpath + extension
 
