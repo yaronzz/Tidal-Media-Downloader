@@ -124,6 +124,8 @@ def changeSettings():
         LANG.CHANGE_ALBUM_FOLDER_FORMAT, CONF.albumFolderFormat, Settings.getDefaultAlbumFolderFormat())
     CONF.trackFileFormat = Printf.enterFormat(LANG.CHANGE_TRACK_FILE_FORMAT,
                                               CONF.trackFileFormat, Settings.getDefaultTrackFileFormat())
+    CONF.videoFileFormat = Printf.enterFormat(LANG.CHANGE_VIDEO_FILE_FORMAT,
+                                              CONF.videoFileFormat, Settings.getDefaultVideoFileFormat())                                          
     CONF.addLyrics = Printf.enter(LANG.CHANGE_ADD_LYRICS) == '1'
     CONF.lyricsServerProxy = Printf.enterFormat(
         LANG.CHANGE_LYRICS_SERVER_PROXY, CONF.lyricsServerProxy, CONF.lyricsServerProxy)

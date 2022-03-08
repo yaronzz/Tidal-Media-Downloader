@@ -99,6 +99,18 @@
 | {Duration}        | 02:53                                      |
 | {TrackID}         | 55163244                                   |
 
+### Video
+
+| Tag               | Example Value                              |
+| ----------------- | ------------------------------------------ |
+| {VideoNumber}     | 00                                         |
+| {ArtistName}      | DMX                                        |
+| {ArtistsName}     | DMX, Westside Gunn                         |
+| {VideoTitle}      | Hood Blues                                 |
+| {ExplicitFlag}    | (*Explicit*)                               |
+| {VideoYear}       | 2021                                       |
+| {TrackID}         | 188932980                                  |
+
 ## ☕ Support
 
 If you really like my projects and want to support me, you can buy me a coffee and star this project. 

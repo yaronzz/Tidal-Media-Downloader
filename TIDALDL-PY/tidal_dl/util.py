@@ -225,23 +225,35 @@ def getVideoPath(conf, video, album=None, playlist=None):
         if conf.addTypeFolder:
             base = base + 'Video/'
 
-    # hyphen
-    hyphen = ' - ' if conf.addHyphen else ' '
     # get number
-    number = ''
-    if conf.useTrackNumber:
-        number = __getIndexStr__(video.trackNumber) + hyphen
+    number = __getIndexStr__(video.trackNumber)
     # get artist
-    artist = ''
-    if conf.artistBeforeTitle:
-        artist = aigpy.path.replaceLimitChar(getArtistsName(video.artists), '-') + hyphen
+    artists = aigpy.path.replaceLimitChar(getArtistsName(video.artists), '-')
+    artist = aigpy.path.replaceLimitChar(video.artist.name, '-') if video.artist is not None else ""
     # get explicit
     explicit = "(Explicit)" if conf.addExplicitTag and video.explicit else ''
     # title
     title = aigpy.path.replaceLimitChar(video.title, '-')
+    # year
+    year = ""
+    if video.releaseDate is not None:
+        year = aigpy.string.getSubOnlyEnd(video.releaseDate, '-')
     # extension
     extension = ".mp4"
-    return base + number + artist.strip() + title + explicit + extension
+
+    retpath = conf.videoFileFormat # R"{VideoNumber} - {ArtistName} - [{ArtistsName}] - {VideoYear} - {VideoID} - {VideoTitle}{ExplicitFlag}"
+    if retpath is None or len(retpath) <= 0:
+        retpath = Settings.getDefaultVideoFileFormat()
+    retpath = retpath.replace(R"{VideoNumber}", number)
+    retpath = retpath.replace(R"{ArtistName}", artist.strip())
+    retpath = retpath.replace(R"{ArtistsName}", artists.strip())
+    retpath = retpath.replace(R"{VideoTitle}", title)
+    retpath = retpath.replace(R"{ExplicitFlag}", explicit)
+    retpath = retpath.replace(R"{VideoYear}", year)
+    retpath = retpath.replace(R"{VideoID}", str(video.id))
+    retpath = retpath.strip()
+
+    return base + retpath + extension
 
 
 def convertToM4a(filepath, codec):

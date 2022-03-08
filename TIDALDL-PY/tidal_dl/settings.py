@@ -101,6 +101,7 @@ class Settings(ModelBase):
     multiThreadDownload = True
     albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
     trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+    videoFileFormat = R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
     showProgress = True
     showTrackInfo = True
     saveAlbumInfo = False
@@ -115,6 +116,10 @@ class Settings(ModelBase):
     @staticmethod
     def getDefaultTrackFileFormat():
         return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+    
+    @staticmethod
+    def getDefaultVideoFileFormat():
+        return R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
 
     @staticmethod
     def read():
