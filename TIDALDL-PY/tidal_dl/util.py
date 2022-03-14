@@ -13,7 +13,7 @@ import logging
 import os
 import time
 import requests
-
+import m3u8dl
 import aigpy
 import lyricsgenius
 import datetime
@@ -415,6 +415,10 @@ def downloadVideo(video: Video, album=None, playlist=None):
     path = getVideoPath(CONF, video, album, playlist)
 
     logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
+    # dl = m3u8dl.M3u8Download(stream.m3u8Url, video.title, path)
+    # check = dl.start()
+    # msg = ''
+    
     m3u8content = requests.get(stream.m3u8Url).content
     if m3u8content is None:
         Printf.err(video.title + ' get m3u8 content failed.')
