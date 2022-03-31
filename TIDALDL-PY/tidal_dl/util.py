@@ -13,7 +13,6 @@ import logging
 import os
 import time
 import requests
-import m3u8dl
 import aigpy
 import lyricsgenius
 import datetime
