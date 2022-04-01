@@ -35,6 +35,7 @@ jobs:
   Build:
     name: Build tidal-dl\tidal-gui
     needs: Prepare
+    runs-on: windows-latest
 
     steps:
     - name: Build tidal-dl 
