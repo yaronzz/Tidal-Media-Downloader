@@ -9,7 +9,7 @@
 @Desc    :
 """
 from tidal_gui.downloader import downloadImp
-from tidal_gui.view.mainView import MainView
+from tidal_gui.view.mainView import MainView, PageType
 from tidal_gui.viewModel.aboutModel import AboutModel
 from tidal_gui.viewModel.loginModel import LoginModel
 from tidal_gui.viewModel.searchModel import SearchModel
@@ -29,6 +29,7 @@ class MainModel(ViewModel):
 
         self.loginModel.SIGNAL_LOGIN_SUCCESS.connect(self.__loginSuccess__)
         self.searchModel.SIGNAL_ADD_TASKITEM.connect(self.taskModel.addTaskItem)
+        self.searchModel.SIGNAL_ADD_TASKITEM.connect(self.__addTaskItem__)
 
         self.view = MainView()
         self.view.setSearchView(self.searchModel.view)
@@ -40,6 +41,9 @@ class MainModel(ViewModel):
 
         downloadImp.setTaskModel(self.taskModel)
         downloadImp.start()
+        
+    def __addTaskItem__(self):
+        self.view.showPage(PageType.Task)
 
     def uninit(self):
         self.taskModel.uninit()

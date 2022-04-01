@@ -109,12 +109,12 @@ class TidalAPI(object):
             msg, data = self.__get__(path, params, retry)
             if msg is not None:
                 return msg, None
-            
-            if 'totalNumberOfItems'in data:
+
+            if 'totalNumberOfItems' in data:
                 total = data['totalNumberOfItems']
             if total > 0 and total <= len(ret):
                 return None, ret
-            
+
             num = 0
             for item in data["items"]:
                 num += 1
@@ -277,7 +277,7 @@ class TidalAPI(object):
     def getVideo(self, id):
         msg, data = self.__get__('videos/' + str(id))
         return msg, dictToModel(data, Video())
-    
+
     def getMix(self, id):
         msg, tracks, videos = self.getItems(id, Type.Mix)
         if msg is not None:
@@ -287,7 +287,7 @@ class TidalAPI(object):
         mix.tracks = tracks
         mix.videos = videos
         return None, mix
-        
+
     def search(self, text: str, type: Type, offset: int, limit: int):
         typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
         if type == Type.Album:
@@ -397,7 +397,7 @@ class TidalAPI(object):
         if sid is None or sid == "":
             return None
         return "https://resources.tidal.com/images/" + sid.replace("-", "/") + "/" + width + "x" + height + ".jpg"
-    
+
     def getCoverData(self, sid, width="320", height="320"):
         url = self.getCoverUrl(sid, width, height)
         try:

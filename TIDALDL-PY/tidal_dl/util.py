@@ -13,10 +13,10 @@ import logging
 import os
 import time
 import requests
-import m3u8dl
 import aigpy
 import lyricsgenius
 import datetime
+import tidal_dl.m3u8dl as m3u8dl
 from tidal_dl import apiKey
 import tidal_dl
 from tidal_dl.decryption import decrypt_file

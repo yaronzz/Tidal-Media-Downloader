@@ -46,6 +46,9 @@ rm -rf tidal_dl_test.egg-info
 python setup-gui.py sdist bdist_wheel
 # creat exe file
 pyinstaller -F tidal_gui/__init__.py -w
+pyinstaller -F -w -p C:/Windows/System32/downlevel tidal_gui/__init__.py
+
+
 # rename exe name
 mv dist/__init__.exe exe/tidal-gui.exe
 
