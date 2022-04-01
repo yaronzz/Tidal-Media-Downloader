@@ -33,10 +33,11 @@
 </p>
 
 ## 📺 Installation 
-| Name           | platform                          | Install                                                      |
-| -------------- | --------------------------------- | ------------------------------------------------------------ |
-| tidal-gui      | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
-| tidal-dl (cli) | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
+| Name                          | platform                          | Install                                                      |
+| ----------------------------- | --------------------------------- | ------------------------------------------------------------ |
+| tidal-dl (cli)                | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
+| tidal-gui                     | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
+| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | [Testing](https://github.com/yaronzz/Tidal-Media-Downloader/actions/workflows/build.yml) |
 
 ### Nightly Builds
 
