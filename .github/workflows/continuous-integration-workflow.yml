@@ -21,17 +21,6 @@ jobs:
         pip3 install -r requirements.txt --upgrade
       working-directory: TIDALDL-PY
 
-    - name: Clean directory
-      run: |
-        rm -r -force dist
-        rm -r -force build 
-        rm -r -force tidal_dl.egg-info
-        rm -r -force tidal_gui.egg-info
-        rm -force exe/tidal-dl.exe 
-        rm -force exe/tidal-gui.exe 
-        rm -force MANIFEST.in
-      working-directory: TIDALDL-PY
-
   Build:
     name: Build tidal-dl\tidal-gui
     needs: Prepare
