@@ -21,11 +21,15 @@ jobs:
         pip3 install -r requirements.txt --upgrade
       working-directory: TIDALDL-PY
 
-    - name: Build tidal-dl 
     - shell: bash
       run: |
-        pyinstaller -F tidal_dl/__init__.py
         rm -rf exe/tidal-dl.exe
+        rm -rf exe/tidal-gui.exe
+      working-directory: TIDALDL-PY
+
+    - name: Build tidal-dl 
+      run: |
+        pyinstaller -F tidal_dl/__init__.py
         mv dist/__init__.exe exe/tidal-dl.exe
       working-directory: TIDALDL-PY      
 
