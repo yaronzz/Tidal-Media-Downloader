@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48">
+    <path fill-opacity=".01" fill="#fff" d="M0 0h48v48H0z" data-follow-fill="#fff"/>
+    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#333"
+          d="M36.728 36.728A17.943 17.943 0 0 1 24 42c-9.941 0-18-8.059-18-18S14.059 6 24 6c4.97 0 9.47 2.015 12.728 5.272C38.386 12.93 42 17 42 17"
+          data-follow-stroke="#333"/>
+    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#333" d="M42 8v9h-9"
+          data-follow-stroke="#333"/>
+</svg>

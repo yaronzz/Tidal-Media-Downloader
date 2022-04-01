@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48">
+    <path fill-opacity=".01" fill="#fff" d="M0 0h48v48H0z" data-follow-fill="#fff"/>
+    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#333" d="m14 14 20 20M14 34l20-20"
+          data-follow-stroke="#333"/>
+</svg>
