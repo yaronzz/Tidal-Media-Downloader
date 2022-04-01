@@ -21,8 +21,14 @@ jobs:
         pip3 install -r requirements.txt --upgrade
       working-directory: TIDALDL-PY
 
-    - shell: bash
+    - name: Clean directory
+      shell: bash
       run: |
+        rm -rf dist
+        rm -rf build 
+        rm -rf tidal_dl.egg-info
+        rm -rf tidal_gui.egg-info
+        rm -rf MANIFEST.in
         rm -rf exe/tidal-dl.exe
         rm -rf exe/tidal-gui.exe
       working-directory: TIDALDL-PY
@@ -34,8 +40,9 @@ jobs:
       working-directory: TIDALDL-PY      
 
     - name: Build tidal-gui
+      shell: bash
       run: |
-        cp -force guiStatic.in MANIFEST.in
+        cp -rf guiStatic.in MANIFEST.in
         pyinstaller -F tidal_gui/__init__.py -w
         mv dist/__init__.exe exe/tidal-gui.exe
       working-directory: TIDALDL-PY    
@@ -43,8 +50,9 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with: 
-        name: software
+        name: tidal-dl-win
         path: |
           TIDALDL-PY\exe\tidal-dl.exe
           TIDALDL-PY\exe\tidal-gui.exe
+          TIDALDL-PY\tidal_gui\resource
     
