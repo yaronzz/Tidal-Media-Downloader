@@ -18,6 +18,9 @@
   <a href="https://pypi.org/project/tidal-dl/">
     <img src="https://img.shields.io/pypi/dm/tidal-dl?label=tidal-dl%20download" alt="">
   </a>
+  <a href="https://github.com/yaronzz/Tidal-Media-Downloader/actions/workflows/build.yml">
+    <img src="https://github.com/yaronzz/Tidal-Media-Downloader/actions/workflows/build.yml/badge.svg" alt="">
+  </a>
 </div>
 <p align="center">
   «Tidal-Media-Downloader» is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl and tidal-gui. (This repository only contains tidal-dl, and the release isn't the newest gui version.)
