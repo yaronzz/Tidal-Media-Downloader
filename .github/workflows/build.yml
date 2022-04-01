@@ -1,0 +1,59 @@
+name: Build exe
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    # Platforms to build on/for
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip3 install wheel
+        pip3 install pyinstaller
+        pip3 install PyQt5
+        pip3 install -r requirements.txt --upgrade
+      working-directory: TIDALDL-PY
+
+    - name: Clean directory
+      shell: bash
+      run: |
+        rm -rf dist
+        rm -rf build 
+        rm -rf tidal_dl.egg-info
+        rm -rf tidal_gui.egg-info
+        rm -rf MANIFEST.in
+      working-directory: TIDALDL-PY
+
+    - name: Build tidal-dl 
+      run: |
+        pyinstaller -F tidal_dl/__init__.py -n tidal-dl
+      working-directory: TIDALDL-PY      
+
+    - name: Build tidal-gui
+      shell: bash
+      run: |
+        cp -rf guiStatic.in MANIFEST.in
+        pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui --add-data "tidal_gui/resource;resource"
+      working-directory: TIDALDL-PY    
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with: 
+        name: tidal-dl-${{ runner.os }}
+        path: |
+          TIDALDL-PY/dist/*
+
+
+
