@@ -6,10 +6,10 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    # Platforms to build on/for
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest]
+        # os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
     - name: Checkout repo
@@ -48,13 +48,13 @@ jobs:
         pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui
       working-directory: TIDALDL-PY
 
-    - name: Gzip tidal-gui
-      shell: bash
-      run: |
-        cp -rf ../tidal_gui/resource ./tidal-gui/
-        tar -zcvf tidal-gui.tar.gz tidal-gui
-        rm -rf tidal-gui
-      working-directory: TIDALDL-PY/dist
+    # - name: Gzip tidal-gui
+    #   shell: bash
+    #   run: |
+    #     cp -rf ../tidal_gui/resource ./tidal-gui/
+    #     tar -zcvf tidal-gui.tar.gz tidal-gui
+    #     rm -rf tidal-gui
+    #   working-directory: TIDALDL-PY/dist
       
     - name: Upload artifact
       uses: actions/upload-artifact@v2
