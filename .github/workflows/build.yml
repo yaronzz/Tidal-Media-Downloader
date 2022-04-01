@@ -41,12 +41,20 @@ jobs:
         pyinstaller -F tidal_dl/__init__.py -n tidal-dl
       working-directory: TIDALDL-PY      
 
-    - name: Build tidal-gui
+    - name: Build tidal-gui-Windows
+      if: runner.os == 'Windows'
       shell: bash
       run: |
         cp -rf guiStatic.in MANIFEST.in
-        pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui --add-data "tidal_gui/resource;resource"
-      working-directory: TIDALDL-PY    
+        pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui --add-data="tidal_gui/resource;resource"
+      working-directory: TIDALDL-PY
+    - name: Build tidal-gui-Else
+      if: runner.os != 'Windows'
+      shell: bash
+      run: |
+        cp -rf guiStatic.in MANIFEST.in
+        pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui --add-data="tidal_gui/resource:resource"
+      working-directory: TIDALDL-PY       
       
     - name: Upload artifact
       uses: actions/upload-artifact@v2
