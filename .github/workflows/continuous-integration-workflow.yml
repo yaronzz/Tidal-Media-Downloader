@@ -3,8 +3,8 @@ name: Tidal Media Downloader
 on: [push, pull_request]
 
 jobs:
-  Prepare:
-    name: Prepare
+  Build:
+    name: Build tidal-dl\tidal-gui
     runs-on: windows-latest
 
     steps:
@@ -21,12 +21,6 @@ jobs:
         pip3 install -r requirements.txt --upgrade
       working-directory: TIDALDL-PY
 
-  Build:
-    name: Build tidal-dl\tidal-gui
-    needs: Prepare
-    runs-on: windows-latest
-
-    steps:
     - name: Build tidal-dl 
       run: |
         pyinstaller -F tidal_dl/__init__.py
