@@ -45,7 +45,7 @@ jobs:
         cp -rf guiStatic.in MANIFEST.in
         pyinstaller -F tidal_gui/__init__.py -w
         mv dist/__init__.exe exe/tidal-gui.exe
-        mv -f tidal_gui/ tidal_gui/resource exe/
+        mv -f tidal_gui/resource exe/
       working-directory: TIDALDL-PY    
 
     - name: Zip exe
