@@ -46,7 +46,7 @@ jobs:
       run: |
         cp -rf guiStatic.in MANIFEST.in
         pyinstaller -F tidal_gui/__init__.py -w -n tidal-gui
-        cp -rf tidal_gui/resource dist/tidal-gui/
+        cp -rf tidal_gui/resource dist/
       working-directory: TIDALDL-PY
 
     - name: Build tidal-gui
