@@ -45,14 +45,19 @@ jobs:
         cp -rf guiStatic.in MANIFEST.in
         pyinstaller -F tidal_gui/__init__.py -w
         mv dist/__init__.exe exe/tidal-gui.exe
+        mv -f tidal_gui/ tidal_gui/resource exe/
       working-directory: TIDALDL-PY    
+
+    - name: Zip exe
+      shell: bash
+      run: |
+        tar -zcvf tidal_dl_win.tar.gz ./*
+      working-directory: TIDALDL-PY/exe 
       
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with: 
         name: tidal-dl-win
         path: |
-          TIDALDL-PY/tidal_gui/resource/
-          TIDALDL-PY/exe/tidal-dl.exe
-          TIDALDL-PY/exe/tidal-gui.exe
+          TIDALDL-PY/exe/tidal_dl_win.tar.gz
     

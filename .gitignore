@@ -169,3 +169,5 @@ tidal_dl-BAK
 __pycache__
 clean.sh
 TIDALDL-PY/MANIFEST.in
+TIDALDL-PY/exe/resource
+TIDALDL-PY/exe/tidal_dl_win.tar.gz
