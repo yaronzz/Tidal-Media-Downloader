@@ -3,8 +3,8 @@ name: Tidal Media Downloader
 on: [push, pull_request]
 
 jobs:
-  Build:
-    name: Build tidal-dl\tidal-gui
+  BuildWin:
+    name: Build windows
     runs-on: windows-latest
 
     steps:
@@ -52,7 +52,7 @@ jobs:
       with: 
         name: tidal-dl-win
         path: |
-          TIDALDL-PY\exe\tidal-dl.exe
-          TIDALDL-PY\exe\tidal-gui.exe
-          TIDALDL-PY\tidal_gui\resource
+          TIDALDL-PY/tidal_gui/resource/
+          TIDALDL-PY/exe/tidal-dl.exe
+          TIDALDL-PY/exe/tidal-gui.exe
     
