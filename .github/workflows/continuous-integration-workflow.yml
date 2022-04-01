@@ -3,17 +3,17 @@ name: Tidal Media Downloader
 on: [push, pull_request]
 
 jobs:
-  Build:
-    name: Build tidal-dl
+  Prepare:
+    name: Prepare
     runs-on: windows-latest
 
     steps:
-    - name: Checkout Tidal-Media-Downloader repo
+    - name: Checkout repo
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
-    - name: Install build dependencies
+    - name: Install dependencies
       run: |
         pip3 install wheel
         pip3 install pyinstaller
@@ -21,20 +21,40 @@ jobs:
         pip3 install -r requirements.txt --upgrade
       working-directory: TIDALDL-PY
 
-    - name: Clean exe directory
+    - name: Clean directory
       run: |
-        rm -force exe/tidal-dl.exe
+        rm -r -force dist
+        rm -r -force build 
+        rm -r -force tidal_dl.egg-info
+        rm -r -force tidal_gui.egg-info
+        rm -force exe/tidal-dl.exe 
+        rm -force exe/tidal-gui.exe 
+        rm -force MANIFEST.in
       working-directory: TIDALDL-PY
-      
-    - name: Build tidal-dl artifact
+
+  Build:
+    name: Build tidal-dl\tidal-gui
+    needs: Prepare
+
+    steps:
+    - name: Build tidal-dl 
       run: |
-        python setup.py sdist bdist_wheel
         pyinstaller -F tidal_dl/__init__.py
         mv dist/__init__.exe exe/tidal-dl.exe
-      working-directory: TIDALDL-PY       
+      working-directory: TIDALDL-PY      
+
+    - name: Build tidal-gui
+      run: |
+        cp -force guiStatic.in MANIFEST.in
+        pyinstaller -F tidal_gui/__init__.py -w
+        mv dist/__init__.exe exe/tidal-gui.exe
+      working-directory: TIDALDL-PY    
       
-    - name: Upload tidal-dl artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v2
       with: 
-        name: tidal-dl
-        path: TIDALDL-PY\exe\tidal-dl.exe
+        name: software
+        path: |
+          TIDALDL-PY\exe\tidal-dl.exe
+          TIDALDL-PY\exe\tidal-gui.exe
+    
