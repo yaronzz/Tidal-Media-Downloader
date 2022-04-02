@@ -28,7 +28,6 @@
         <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO/releases">Download</a> |
         <a href="https://yaronzz.com/post/tidal_dl_installation/">Documentation</a> |
         <a href="https://yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
-        <a href="https://t.me/Tidal_Media_Downloader">Channel</a>
     <br>
 </p>
 
@@ -37,7 +36,7 @@
 | ----------------------------- | --------------------------------- | ------------------------------------------------------------ |
 | tidal-dl (cli)                | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
 | tidal-gui                     | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
-| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | [Testing](https://github.com/yaronzz/Tidal-Media-Downloader/actions/workflows/build.yml) |
+| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | ```pip3 install tidal-gui --upgrade``` |
 
 ### Nightly Builds
 
@@ -46,11 +45,6 @@
 
 [Actions]: https://github.com/yaronzz/Tidal-Media-Downloader/actions
 [Build]: https://github.com/yaronzz/Tidal-Media-Downloader/workflows/Tidal%20Media%20Downloader/badge.svg
-
-## 📡 Telegram
-
-- [Group](https://t.me/tidal_group) : Feed back
-- [Channel](https://t.me/Tidal_Media_Downloader) : Notify the new version 
 
 ## 🤖 Features
 - Download album \ track \ video \ playlist \ artist-albums

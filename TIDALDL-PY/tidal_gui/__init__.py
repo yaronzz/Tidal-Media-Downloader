@@ -9,7 +9,7 @@
 @Desc    :
 """
 import sys
-
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 
 from tidal_gui import theme
@@ -17,6 +17,7 @@ from tidal_gui.viewModel.mainModel import MainModel
 
 
 def main():
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     qss = theme.getThemeQssContent()
     app = QApplication(sys.argv)
     app.setStyleSheet(qss)
