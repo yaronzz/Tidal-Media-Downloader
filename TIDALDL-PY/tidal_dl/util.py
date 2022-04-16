@@ -341,8 +341,8 @@ def setCurVideoQuality(text):
             break
     Settings.save(CONF)
 
-def skip(path, url):
-    if CONF.checkExist and isNeedDownload(path, url) is False:
+def skip(finalpath, url):
+    if CONF.checkExist and isNeedDownload(finalpath, url) is False:
         return True
     return False
 
@@ -353,7 +353,7 @@ def convert(srcPath, stream):
     return srcPath
 
 
-def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
+def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576, dictNewFiles=None):
     try:
         msg, stream = API.getStreamUrl(track.id, CONF.audioQuality)
         if not aigpy.string.isNull(msg) or stream is None:
@@ -365,8 +365,16 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
             userProgress.updateStream(stream)
         path = getTrackPath(CONF, track, stream, album, playlist)
 
+        if CONF.onlyM4a:
+            finalpath = path.replace(".mp4", ".m4a")
+        else:
+            finalpath = path
+
+        if not dictNewFiles is None:
+            dictNewFiles[os.path.basename(finalpath)] = finalpath # preserve full path to be used by caller 
+
         # check exist
-        if skip(path, stream.url):
+        if skip(finalpath, stream.url):
             Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
             return True, ""
 
@@ -383,7 +391,8 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         # encrypted -> decrypt and remove encrypted file
         encrypted(stream, path + '.part', path)
 
-        # convert
+        # convert to M4a if configured
+        # note from here to end, path will be = finalpath
         path = convert(path, stream)
 
         # contributors
