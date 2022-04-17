@@ -127,16 +127,23 @@ def __playlist__(conf, obj):
         killFiles = []
         errFiles = []
 
+        def bareFnList(fullFn: str):
+            # strip ext so .m4a and corresponding .lrc are handled together
+            return os.path.splitext(os.path.basename(fullFn))[0]
+
         for fname in resFiles:
-            if not os.path.basename(fname) in dictNewFiles:
+            # strip ext so .m4a and corresponding .lrc are handled together
+            if not os.path.splitext(os.path.basename(fname))[0] in list(map(bareFnList, list(dictNewFiles.keys()))) :
                 try:
                     os.remove(fname)
                     killFiles.append(fname)
                 except:
                     errFiles.append(fname)
 
-        Printf.info("Orphan files deleted:\n" + "\n".join(killFiles))
-        Printf.info("Orphan files failed to delete (read-only?):\n" + "\n".join(errFiles))
+        if len(killFiles) > 0:
+            Printf.success("List of Orphan files deleted :\n" + "\n".join(killFiles))
+        if len(errFiles) > 0:
+            Printf.err("List of Orphan files failed to delete (read-only?) :\n" + "\n".join(errFiles))
 
     for item in videos:
         downloadVideo(item, None)
