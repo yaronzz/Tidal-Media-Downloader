@@ -47,7 +47,7 @@ class Progress(UserProgress):
         return str(round(size, 2)) + ' MB'
 
     def updateCurNum(self):
-        per = self.curNum * 100 / self.maxNum
+        per = int(self.curNum * 100 / self.maxNum)
         self.curStr = self.__toMBStr__(self.curNum)
         self.model.SIGNAL_REFRESH_VIEW.emit('updateCurNum', {'per': per,
                                                              'curStr': self.curStr,
