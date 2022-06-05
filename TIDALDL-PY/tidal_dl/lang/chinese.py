@@ -15,7 +15,7 @@ class LangChinese(object):
     VALUE = "值"
     SETTING_DOWNLOAD_PATH = "下载目录"
     SETTING_ONLY_M4A = "转换mp4为m4a"
-    SETTING_ADD_EXPLICIT_TAG = "文件名添加脏话标签Explicit"
+    SETTING_ADD_EXPLICIT_TAG = "文件名添加脏标Explicit"
     SETTING_ADD_HYPHEN = "文件名用'-'代替空格"
     SETTING_ADD_YEAR = "专辑文件夹添加年代标签"
     SETTING_USE_TRACK_NUM = "歌曲名称添加序号"
@@ -31,7 +31,7 @@ class LangChinese(object):
     SETTING_MULITHREAD_DOWNLOAD = "多线程下载"
     SETTING_ALBUM_FOLDER_FORMAT = "专辑目录格式"
     SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
-    SETTING_VIDEO_FILE_FORMAT = "Video file format"
+    SETTING_VIDEO_FILE_FORMAT = "视频文件格式"
     SETTING_SHOW_PROGRESS = "显示进度条"
     SETTING_SHOW_TRACKINFO = "显示歌曲信息"
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
@@ -47,7 +47,7 @@ class LangChinese(object):
     CHOICE_ENTER = "输入"
     CHOICE_ENTER_URLID = "输入 'Url或ID':"
     CHOICE_EXIT = "退出"
-    CHOICE_LOGIN = "Check AccessToken"
+    CHOICE_LOGIN = "检查 AccessToken"
     CHOICE_SETTINGS = "配置"
     CHOICE_SET_ACCESS_TOKEN = "设置AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
@@ -96,7 +96,7 @@ class LangChinese(object):
     AUTH_WAITING = "等待登录验证..."
     AUTH_TIMEOUT = "操作超时."
 
-    MSG_VALID_ACCESSTOKEN = "AccessToken保质期为 {}."
+    MSG_VALID_ACCESSTOKEN = "AccessToken有效期为 {}."
     MSG_INVALID_ACCESSTOKEN = "AccessToken失效. 正在尝试更新它."
     MSG_PATH_ERR = "路径错误!"
     MSG_INPUT_ERR = "输入错误!"
@@ -112,7 +112,7 @@ class LangChinese(object):
     MODEL_VIDEO_NUMBER = '视频数量'
     MODEL_RELEASE_DATE = '发布时间'
     MODEL_VERSION = '版本'
-    MODEL_EXPLICIT = '脏话标志'
+    MODEL_EXPLICIT = '脏标'
     MODEL_ALBUM = '专辑'
     MODEL_ID = 'ID'
     MODEL_NAME = '名称'
