@@ -173,3 +173,5 @@ TIDALDL-PY/exe/resource
 TIDALDL-PY/exe/tidal_dl_win.tar.gz
 .github/workflows/continuous-integration-workflow copy.yml
 TIDALDL-PY/tidal-gui.spec
+.history/
+.gitignore

@@ -113,12 +113,38 @@ def __playlist__(conf, obj):
         Printf.err(msg)
         return
 
+    dictNewFiles = {}
     for index, item in enumerate(tracks):
         mag, album = API.getAlbum(item.album.id)
         item.trackNumberOnPlaylist = index + 1
-        downloadTrack(item, album, obj)
+        downloadTrack(item, album, obj, dictNewFiles=dictNewFiles)
         if conf.saveCovers and not conf.usePlaylistFolder:
             __downloadCover__(conf, album)
+
+    if len(dictNewFiles) > 0:
+        targetDir = aigpy.path.getDirName(dictNewFiles[list(dictNewFiles.keys())[0]]) # trick to get the target directory
+        resFiles = aigpy.path.getFiles(targetDir)
+        killFiles = []
+        errFiles = []
+
+        def bareFnList(fullFn: str):
+            # strip ext so .m4a and corresponding .lrc are handled together
+            return os.path.splitext(os.path.basename(fullFn))[0]
+
+        for fname in resFiles:
+            # strip ext so .m4a and corresponding .lrc are handled together
+            if not os.path.splitext(os.path.basename(fname))[0] in list(map(bareFnList, list(dictNewFiles.keys()))) :
+                try:
+                    os.remove(fname)
+                    killFiles.append(fname)
+                except:
+                    errFiles.append(fname)
+
+        if len(killFiles) > 0:
+            Printf.success("List of Orphan files deleted :\n" + "\n".join(killFiles))
+        if len(errFiles) > 0:
+            Printf.err("List of Orphan files failed to delete (read-only?) :\n" + "\n".join(errFiles))
+
     for item in videos:
         downloadVideo(item, None)
         
