@@ -12,136 +12,169 @@ from aigpy.modelHelper import ModelBase
 
 
 class StreamUrl(ModelBase):
-    trackid = None
-    url = None
-    codec = None
-    encryptionKey = None
-    soundQuality = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.trackid = None
+        self.url = None
+        self.codec = None
+        self.encryptionKey = None
+        self.soundQuality = None
 
 
 class VideoStreamUrl(ModelBase):
-    codec = None
-    resolution = None
-    resolutions = None
-    m3u8Url = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.codec = None
+        self.resolution = None
+        self.resolutions = None
+        self.m3u8Url = None
 
 
 class Artist(ModelBase):
-    id = None
-    name = None
-    type = None
-    picture = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.id = None
+        self.name = None
+        self.type = None
+        self.picture = None
 
 
 class Album(ModelBase):
-    id = None
-    title = None
-    duration = 0
-    numberOfTracks = 0
-    numberOfVideos = 0
-    numberOfVolumes = 0
-    releaseDate = None
-    type = None
-    version = None
-    cover = None
-    explicit = False
-    audioQuality = None
-    audioModes = None
-    artist = Artist()
-    artists = Artist()
+    def __init__(self) -> None:
+        super().__init__()
+        self.id = None
+        self.title = None
+        self.duration = 0
+        self.numberOfTracks = 0
+        self.numberOfVideos = 0
+        self.numberOfVolumes = 0
+        self.releaseDate = None
+        self.type = None
+        self.version = None
+        self.cover = None
+        self.explicit = False
+        self.audioQuality = None
+        self.audioModes = None
+        self.artist = Artist()
+        self.artists = Artist()
 
 
 class Playlist(ModelBase):
-    uuid = None
-    title = None
-    numberOfTracks = 0
-    numberOfVideos = 0
-    description = None
-    duration = 0
-    image = None
-    squareImage = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.uuid = None
+        self.title = None
+        self.numberOfTracks = 0
+        self.numberOfVideos = 0
+        self.description = None
+        self.duration = 0
+        self.image = None
+        self.squareImage = None
 
 
 class Track(ModelBase):
-    id = None
-    title = None
-    duration = 0
-    trackNumber = 0
-    volumeNumber = 0
-    trackNumberOnPlaylist = 0
-    version = None
-    isrc = None
-    explicit = False
-    audioQuality = None
-    copyRight = None
-    artist = Artist()
-    artists = Artist()
-    album = Album()
-    allowStreaming = False
-    playlist = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.id = None
+        self.title = None
+        self.duration = 0
+        self.trackNumber = 0
+        self.volumeNumber = 0
+        self.trackNumberOnPlaylist = 0
+        self.version = None
+        self.isrc = None
+        self.explicit = False
+        self.audioQuality = None
+        self.copyRight = None
+        self.artist = Artist()
+        self.artists = Artist()
+        self.album = Album()
+        self.allowStreaming = False
+        self.playlist = None
 
 
 class Video(ModelBase):
-    id = None
-    title = None
-    duration = 0
-    imageID = None
-    trackNumber = 0
-    releaseDate = None
-    version = None
-    quality = None
-    explicit = False
-    artist = Artist()
-    artists = Artist()
-    album = Album()
-    allowStreaming = False
-    playlist = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.id = None
+        self.title = None
+        self.duration = 0
+        self.imageID = None
+        self.trackNumber = 0
+        self.releaseDate = None
+        self.version = None
+        self.quality = None
+        self.explicit = False
+        self.artist = Artist()
+        self.artists = Artist()
+        self.album = Album()
+        self.allowStreaming = False
+        self.playlist = None
 
 
 class Mix(ModelBase):
-    id = None
-    tracks = Track()
-    videos = Video()
+    def __init__(self) -> None:
+        super().__init__()
+        self.id = None
+        self.tracks = Track()
+        self.videos = Video()
 
 
 class Lyrics(ModelBase):
-    trackId = None
-    lyricsProvider = None
-    providerCommontrackId = None
-    providerLyricsId = None
-    lyrics = None
-    subtitles = None
+    def __init__(self) -> None:
+        super().__init__()
+        self.trackId = None
+        self.lyricsProvider = None
+        self.providerCommontrackId = None
+        self.providerLyricsId = None
+        self.lyrics = None
+        self.subtitles = None
 
 
 class SearchDataBase(ModelBase):
-    limit = 0
-    offset = 0
-    totalNumberOfItems = 0
+    def __init__(self) -> None:
+        super().__init__()
+        self.limit = 0
+        self.offset = 0
+        self.totalNumberOfItems = 0
 
 
 class SearchAlbums(SearchDataBase):
-    items = Album()
+    def __init__(self) -> None:
+        super().__init__()
+        self.items = Album()
 
 
 class SearchArtists(SearchDataBase):
-    items = Artist()
+    def __init__(self) -> None:
+        super().__init__()
+        self.items = Artist()
 
 
 class SearchTracks(SearchDataBase):
-    items = Track()
+    def __init__(self) -> None:
+        super().__init__()
+        self.items = Track()
 
 
 class SearchVideos(SearchDataBase):
-    items = Video()
+    def __init__(self) -> None:
+        super().__init__()
+        self.items = Video()
 
 
 class SearchPlaylists(SearchDataBase):
-    items = Playlist()
+    def __init__(self) -> None:
+        super().__init__()
+        self.items = Playlist()
 
 
 class SearchResult(ModelBase):
-    artists = SearchArtists()
-    albums = SearchAlbums()
-    tracks = SearchTracks()
-    videos = SearchVideos()
-    playlists = SearchPlaylists()
+    def __init__(self) -> None:
+        super().__init__()
+        self.artists = SearchArtists()
+        self.albums = SearchAlbums()
+        self.tracks = SearchTracks()
+        self.videos = SearchVideos()
+        self.playlists = SearchPlaylists()
+
