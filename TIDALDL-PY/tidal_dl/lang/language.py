@@ -31,12 +31,7 @@ from tidal_dl.lang.vietnamese import LangVietnamese
 from tidal_dl.lang.korean import LangKorean
 from tidal_dl.lang.japanese import LangJapanese
 
-LANG = None
-
-
-def initLang(index):  # 初始化
-    global LANG
-    return setLang(index)
+LANG = LangEnglish()
 
 
 def setLang(index):
@@ -85,11 +80,6 @@ def setLang(index):
         LANG = LangPolish()
     else:
         LANG = LangEnglish()
-    return LANG
-
-
-def getLang():
-    global LANG
     return LANG
 
 

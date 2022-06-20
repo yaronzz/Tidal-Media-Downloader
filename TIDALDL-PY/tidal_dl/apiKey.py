@@ -4,7 +4,7 @@
 @File    :  apiKey.py
 @Date    :  2021/11/30
 @Author  :  Yaronzz
-@Version :  1.0
+@Version :  3.0
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
@@ -66,7 +66,6 @@ __ERROR_KEY__ = {
                     'clientSecret': '',
                     'valid': 'False',
                 },
-
 
 
 def getNum():

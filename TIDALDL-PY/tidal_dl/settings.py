@@ -4,169 +4,120 @@
 @File    :   settings.py
 @Time    :   2020/11/08
 @Author  :   Yaronzz
-@Version :   2.0
+@Version :   3.0
 @Contact :   yaronhuang@foxmail.com
 @Desc    :
 '''
-import base64
 import json
-import os
+import aigpy
+import base64
 
-from aigpy.fileHelper import getContent, write
-from aigpy.modelHelper import dictToModel, modelToDict, ModelBase
-from tidal_dl.enums import AudioQuality, VideoQuality
-
-
-def __encode__(string):
-    sw = bytes(string, 'utf-8')
-    st = base64.b64encode(sw)
-    return st
+from tidal_dl.enums import *
 
 
-def __decode__(string):
-    try:
-        sr = base64.b64decode(string)
-        st = sr.decode()
-        return st
-    except:
-        return string
+class Settings(aigpy.model.ModelBase):
+    onlyM4a = False
+    checkExist = True
+    includeEP = True
+    saveCovers = True
+    language = 0
+    lyricFile = False
+    apiKeyIndex = 0
+    showProgress = True
+    showTrackInfo = True
+    saveAlbumInfo = False
+
+    downloadPath = "./download/"
+    audioQuality = AudioQuality.Normal
+    videoQuality = VideoQuality.P360
+    usePlaylistFolder = True
+    albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
+    trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+    videoFileFormat = R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
+
+    def getDefaultPathFormat(self, type: Type):
+        if type == Type.Album:
+            return R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
+        elif type == Type.Track:
+            return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
+        elif type == Type.Video:
+            return R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
+        return ""
+
+    def getAudioQuality(self, value):
+        for item in AudioQuality:
+            if item.name == value:
+                return item
+        return AudioQuality.Normal
+
+    def getVideoQuality(self, value):
+        for item in VideoQuality:
+            if item.name == value:
+                return item
+        return VideoQuality.P360
+    
+    def read(self, path):
+        self._path_ = path
+        txt = aigpy.file.getContent(self._path_)
+        if len(txt) > 0:
+            data = json.loads(txt)
+            if aigpy.model.dictToModel(data, self) is None:
+                return
+
+        self.audioQuality = self.getAudioQuality(self.audioQuality)
+        self.videoQuality = self.getVideoQuality(self.videoQuality)
+
+        if self.albumFolderFormat is None:
+            self.albumFolderFormat = self.getDefaultPathFormat(Type.Album)
+        if self.trackFileFormat is None:
+            self.trackFileFormat = self.getDefaultPathFormat(Type.Track)
+        if self.videoFileFormat is None:
+            self.videoFileFormat = self.getDefaultPathFormat(Type.Video)
+        if self.apiKeyIndex is None:
+            self.apiKeyIndex = 0
+
+    def save(self):
+        data = aigpy.model.modelToDict(self)
+        data['audioQuality'] = self.audioQuality.name
+        data['videoQuality'] = self.videoQuality.name
+        txt = json.dumps(data)
+        aigpy.file.write(self._path_, txt, 'w+')
 
 
-def getSettingsPath():
-    if "XDG_CONFIG_HOME" in os.environ:
-        return os.environ['XDG_CONFIG_HOME']
-    elif "HOME" in os.environ:
-        return os.environ['HOME']
-    elif "HOMEDRIVE" in os.environ and "HOMEPATH" in os.environ:
-        return os.environ['HOMEDRIVE'] + os.environ['HOMEPATH']
-    else:
-        return os.path.abspath("./")
 
-
-def getLogPath():
-    return getSettingsPath() + '/.tidal-dl.log'
-
-
-class TokenSettings(ModelBase):
+class TokenSettings(aigpy.model.ModelBase):
     userid = None
     countryCode = None
     accessToken = None
     refreshToken = None
     expiresAfter = 0
 
-    @staticmethod
-    def read():
-        path = TokenSettings.__getFilePath__()
-        txt = getContent(path)
-        if txt == "":
-            return TokenSettings()
-        txt = __decode__(txt)
-        data = json.loads(txt)
-        ret = dictToModel(data, TokenSettings())
-        if ret is None:
-            return TokenSettings()
-        return ret
+    def __encode__(self, string):
+        sw = bytes(string, 'utf-8')
+        st = base64.b64encode(sw)
+        return st
 
-    @staticmethod
-    def save(model):
-        data = modelToDict(model)
+    def __decode__(self, string):
+        try:
+            sr = base64.b64decode(string)
+            st = sr.decode()
+            return st
+        except:
+            return string
+
+    def read(self, path):
+        self._path_ = path
+        txt = aigpy.file.getContent(self._path_)
+        if len(txt) > 0:
+            data = json.loads(self.__decode__(txt))
+            aigpy.model.dictToModel(data, self)
+
+    def save(self):
+        data = aigpy.model.modelToDict(self)
         txt = json.dumps(data)
-        txt = __encode__(txt)
-        path = TokenSettings.__getFilePath__()
-        write(path, txt, 'wb')
-
-    @staticmethod
-    def __getFilePath__():
-        return getSettingsPath() + '/.tidal-dl.token.json'
+        aigpy.file.write(self._path_, self.__encode__(txt), 'wb')
 
 
-class Settings(ModelBase):
-    addLyrics = False
-    lyricsServerProxy = ''
-    downloadPath = "./download/"
-    onlyM4a = False
-    addExplicitTag = True
-    addHyphen = True
-    addYear = False
-    useTrackNumber = True
-    audioQuality = AudioQuality.Normal
-    videoQuality = VideoQuality.P360
-    checkExist = True
-    artistBeforeTitle = False
-    includeEP = True
-    addAlbumIDBeforeFolder = False
-    saveCovers = True
-    language = 0
-    usePlaylistFolder = True
-    multiThreadDownload = True
-    albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
-    trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
-    videoFileFormat = R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
-    showProgress = True
-    showTrackInfo = True
-    saveAlbumInfo = False
-    lyricFile = False
-    apiKeyIndex = 0
-    addTypeFolder = True
-
-    @staticmethod
-    def getDefaultAlbumFolderFormat():
-        return R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
-
-    @staticmethod
-    def getDefaultTrackFileFormat():
-        return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
-    
-    @staticmethod
-    def getDefaultVideoFileFormat():
-        return R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
-
-    @staticmethod
-    def read():
-        path = Settings.__getFilePath__()
-        txt = getContent(path)
-        if txt == "":
-            return Settings()
-        data = json.loads(txt)
-        ret = dictToModel(data, Settings())
-        if ret is None:
-            return Settings()
-        ret.audioQuality = Settings.getAudioQuality(ret.audioQuality)
-        ret.videoQuality = Settings.getVideoQuality(ret.videoQuality)
-        ret.usePlaylistFolder = ret.usePlaylistFolder == True or ret.usePlaylistFolder is None
-        ret.multiThreadDownload = ret.multiThreadDownload == True or ret.multiThreadDownload is None
-        ret.addTypeFolder = ret.addTypeFolder == True or ret.addTypeFolder is None
-        if ret.albumFolderFormat is None:
-            ret.albumFolderFormat = Settings.getDefaultAlbumFolderFormat()
-        if ret.trackFileFormat is None:
-            ret.trackFileFormat = Settings.getDefaultTrackFileFormat()
-        if ret.apiKeyIndex is None:
-            ret.apiKeyIndex = 0
-        return ret
-
-    @staticmethod
-    def save(model):
-        data = modelToDict(model)
-        data['audioQuality'] = model.audioQuality.name
-        data['videoQuality'] = model.videoQuality.name
-        txt = json.dumps(data)
-        path = Settings.__getFilePath__()
-        write(path, txt, 'w+')
-
-    @staticmethod
-    def getAudioQuality(value):
-        for item in AudioQuality:
-            if item.name == value:
-                return item
-        return AudioQuality.Normal
-
-    @staticmethod
-    def getVideoQuality(value):
-        for item in VideoQuality:
-            if item.name == value:
-                return item
-        return VideoQuality.P360
-
-    @staticmethod
-    def __getFilePath__():
-        return getSettingsPath() + '/.tidal-dl.json'
+# Singleton
+SETTINGS = Settings()
+TOKEN = TokenSettings()
