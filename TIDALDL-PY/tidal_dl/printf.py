@@ -20,7 +20,7 @@ from tidal_dl.settings import *
 from tidal_dl.lang.language import *
 
 
-VERSION = '2022.03.04.2'
+VERSION = '2022.06.20.1'
 __LOGO__ = f'''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -93,7 +93,6 @@ class Printf(object):
             
             #settings - else
             [LANG.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder],
-            [LANG.SETTING_ONLY_M4A, data.onlyM4a],
             [LANG.SETTING_CHECK_EXIST, data.checkExist],
             [LANG.SETTING_SHOW_PROGRESS, data.showProgress],
             [LANG.SETTING_SHOW_TRACKINFO, data.showTrackInfo],

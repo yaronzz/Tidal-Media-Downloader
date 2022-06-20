@@ -197,7 +197,6 @@ def changeSettings():
     Printf.settings(SETTINGS)
     SETTINGS.showProgress = Printf.enterBool(LANG.CHANGE_SHOW_PROGRESS)
     SETTINGS.showTrackInfo = Printf.enterBool(LANG.CHANGE_SHOW_TRACKINFO)
-    SETTINGS.onlyM4a = Printf.enterBool(LANG.CHANGE_ONLYM4A)
     SETTINGS.checkExist = Printf.enterBool(LANG.CHANGE_CHECK_EXIST)
     SETTINGS.includeEP = Printf.enterBool(LANG.CHANGE_INCLUDE_EP)
     SETTINGS.saveCovers = Printf.enterBool(LANG.CHANGE_SAVE_COVERS)

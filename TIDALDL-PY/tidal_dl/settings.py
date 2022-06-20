@@ -16,7 +16,6 @@ from tidal_dl.enums import *
 
 
 class Settings(aigpy.model.ModelBase):
-    onlyM4a = False
     checkExist = True
     includeEP = True
     saveCovers = True

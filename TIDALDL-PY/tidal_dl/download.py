@@ -72,19 +72,6 @@ def __setMetaData__(track: Track, album: Album, filepath, contributors, lyrics):
     obj.save(coverpath)
 
 
-def convert(filepath, codec):
-    if not SETTINGS.onlyM4a:
-        return filepath
-    if 'ac4' in codec or 'mha1' in codec:
-        return filepath
-    if '.mp4' not in filepath:
-        return filepath
-    newpath = filepath.replace('.mp4', '.m4a')
-    aigpy.path.remove(newpath)
-    os.rename(filepath, newpath)
-    return newpath
-
-
 def downloadCover(album):
     if album is None:
         return

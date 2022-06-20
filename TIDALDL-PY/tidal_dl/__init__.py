@@ -108,7 +108,6 @@ def test():
         
     SETTINGS.audioQuality = AudioQuality.Normal
     SETTINGS.videoFileFormat = VideoQuality.P240
-    SETTINGS.onlyM4a = True
     SETTINGS.checkExist = False
     SETTINGS.includeEP = True
     SETTINGS.saveCovers = True
@@ -125,13 +124,13 @@ def test():
     Printf.settings()
     # test example
     # track 70973230  77798028 212657
-    # start('70973230')
+    start('70973230')
     # album 58138532  77803199  21993753   79151897  56288918
     # start('58138532')
     # playlist 98235845-13e8-43b4-94e2-d9f8e603cee7
     # start('98235845-13e8-43b4-94e2-d9f8e603cee7')
     # video 155608351 188932980
-    start("155608351")
+    # start("155608351")
 
 
 if __name__ == '__main__':
