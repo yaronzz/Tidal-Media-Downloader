@@ -135,7 +135,7 @@ class TidalAPI(object):
 
     def __getResolutionList__(self, url):
         ret = []
-        txt = requests.get(url).text
+        txt = requests.get(url).content.decode('utf-8')
         # array = txt.split("#EXT-X-STREAM-INF")
         array = txt.split("#")
         for item in array:
