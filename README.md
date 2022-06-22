@@ -140,19 +140,3 @@ pip3 install -r requirements.txt --user
 python3 setup.py install
 ```
 
-## Fork changes - Scenario and comments:
-I would be content with TIDAL download feature, to give me off-line music on my device.  I find playlists good for that.
-
-But playlist changes are not done well.  If I add 1 song to a 100 song playlist, the only way I can get it on my phone is: -
-delete all 100 songs - download 101 songs.  It's the time, the wear and tear on my device sd card... nope... don't like it at all.
-
-But I see tidal-dl can create a "mirror image" of that playlist.  And has some smarts: if I add a song to the playlist, download again, it will ONLY download that song.  Cool.  But - what if I delete a song?
-
-Background: I use PC MediaMonkey for my non-TIDAL mp3s... it will download a music folder to my device... with MediaMonkey for Android and my home Wifi.  Of course, MM can also see tidal-dl that "mirror image" playlist.  And crucially: if there are adds/deletes, MM makes just the changes on my phone.  Other files are untouched.  Deletes are done too, smart!
-
-But... now tidal-dl is the weak link.  If I add 1 file to a playlist, and delete 1 file... it gives me the add... but it doesn't handle the delete.  And the "mirror image" is not a mirror image any more.
-
-So this is to fill that gap in my scenario.  But the effect seems useful for other use-cases.  SUMMARY: Suppose you download a playlist, on top of a previous download.  If files are deleted on the playlist, they will also be deleted in the mirror image.
-
-Also: some improved handling of the "onlyM4A" flag.  If files have been renamed from mp4 to m4a, the SKIP download logic wasn't working.  Now it's handled for the simple case at least.
-
