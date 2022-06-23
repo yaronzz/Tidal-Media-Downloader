@@ -31,26 +31,23 @@
     <br>
 </p>
 
-## 📺 Installation 
-| Name                          | platform                          | Install                                                      |
-| ----------------------------- | --------------------------------- | ------------------------------------------------------------ |
-| tidal-dl (cli)                | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
-| tidal-gui                     | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
-| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | ```pip3 install tidal-gui --upgrade``` |
+## 📺 Installation
+
+| Name                                | platform                          | Install                                                                                                               |
+| ----------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| tidal-dl (cli)                      | Windows \ Linux \ Macos \ Android | ``pip3 install tidal-dl --upgrade``<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
+| tidal-gui                           | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO)                                                  |
+| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | ``pip3 install tidal-gui --upgrade``                                                                                  |
 
 ### Nightly Builds
 
-|Download nightly builds from continuous integration: 	| [![Build Status][Build]][Actions] 
-|-------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-
-[Actions]: https://github.com/yaronzz/Tidal-Media-Downloader/actions
-[Build]: https://github.com/yaronzz/Tidal-Media-Downloader/workflows/Tidal%20Media%20Downloader/badge.svg
+| Download nightly builds from continuous integration: | [Build Status][Actions] |
+| ---------------------------------------------------- | ----------------------- |
 
 ## 🤖 Features
+
 - Download album \ track \ video \ playlist \ artist-albums
-
 - Add metadata to songs
-
 - Selectable video resolution and track quality
 
 ## 💽 User Interface
@@ -89,7 +86,7 @@
 | {ArtistName}      | The Beatles                                |
 | {ArtistsName}     | The Beatles                                |
 | {TrackTitle}      | I Saw Her Standing There (Remastered 2009) |
-| {ExplicitFlag}    | (*Explicit*)                               |
+| {ExplicitFlag}    | (*Explicit*)                             |
 | {AlbumYear}       | 1963                                       |
 | {AlbumTitle}      | Please Please Me (Remastered)              |
 | {AudioQuality}    | LOSSLESS                                   |
@@ -99,25 +96,26 @@
 
 ### Video
 
-| Tag               | Example Value                              |
-| ----------------- | ------------------------------------------ |
-| {VideoNumber}     | 00                                         |
-| {ArtistName}      | DMX                                        |
-| {ArtistsName}     | DMX, Westside Gunn                         |
-| {VideoTitle}      | Hood Blues                                 |
-| {ExplicitFlag}    | (*Explicit*)                               |
-| {VideoYear}       | 2021                                       |
-| {TrackID}         | 188932980                                  |
+| Tag            | Example Value      |
+| -------------- | ------------------ |
+| {VideoNumber}  | 00                 |
+| {ArtistName}   | DMX                |
+| {ArtistsName}  | DMX, Westside Gunn |
+| {VideoTitle}   | Hood Blues         |
+| {ExplicitFlag} | (*Explicit*)     |
+| {VideoYear}    | 2021               |
+| {TrackID}      | 188932980          |
 
 ## ☕ Support
 
-If you really like my projects and want to support me, you can buy me a coffee and star this project. 
+If you really like my projects and want to support me, you can buy me a coffee and star this project.
 
 <a href="https://www.buymeacoffee.com/yaronzz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ## 🎂 Contributors
-This project exists thanks to all the people who contribute. 
-<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://contributors-img.web.app/image?repo=yaronzz/Tidal-Media-Downloader" /></a>
+
+This project exists thanks to all the people who contribute.
+`<a href="https://github.com/yaronzz/Tidal-Media-Downloader/graphs/contributors"><img src="https://contributors-img.web.app/image?repo=yaronzz/Tidal-Media-Downloader" />``</a>`
 
 ## 🎨 Libraries and reference
 
@@ -127,8 +125,9 @@ This project exists thanks to all the people who contribute.
 - [tidal-wiki](https://github.com/Fokka-Engineering/TIDAL/wiki)
 
 ## 📜 Disclaimer
+
 - Private use only.
-- Need a Tidal-HIFI subscription. 
+- Need a Tidal-HIFI subscription.
 - You should not use this method to distribute or pirate music.
 - It may be illegal to use this in your country, so be informed.
 
@@ -141,6 +140,7 @@ python3 setup.py install
 ```
 
 ## Fork changes - Scenario and comments:
+
 I would be content with TIDAL download feature, to give me off-line music on my device.  I find playlists good for that.
 
 But playlist changes are not done well.  If I add 1 song to a 100 song playlist, the only way I can get it on my phone is: -
@@ -156,3 +156,5 @@ So this is to fill that gap in my scenario.  But the effect seems useful for oth
 
 Also: some improved handling of the "onlyM4A" flag.  If files have been renamed from mp4 to m4a, the SKIP download logic wasn't working.  Now it's handled for the simple case at least.
 
+[Actions]: https://github.com/yaronzz/Tidal-Media-Downloader/actions
+[Build]: https://github.com/yaronzz/Tidal-Media-Downloader/workflows/Tidal%20Media%20Downloader/badge.svg
