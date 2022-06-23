@@ -45,7 +45,7 @@ class TidalAPI(object):
             except Exception as e:
                 if index >= 3:
                     errmsg += respond.text
-                    
+
         raise Exception(errmsg)
 
     def __getItems__(self, path, params={}):
@@ -69,7 +69,7 @@ class TidalAPI(object):
 
     def __getResolutionList__(self, url):
         ret = []
-        array = requests.get(url).text.split("#")
+        array = requests.get(url).content.decode('utf-8').split("#")
         for item in array:
             if "RESOLUTION=" not in item:
                 continue
@@ -209,8 +209,8 @@ class TidalAPI(object):
             return self.getMix(id)
         return None
 
-    def search(self, text: str, type: Type, offset: int, limit: int) -> SearchResult:
-        typeStr = Type.Album.name.upper() + "S"
+    def search(self, text: str, type: Type, offset: int = 0, limit: int = 10) -> SearchResult:
+        typeStr = type.name.upper() + "S"
         if type == Type.Null:
             typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
 
@@ -219,6 +219,19 @@ class TidalAPI(object):
                   "limit": limit,
                   "types": typeStr}
         return aigpy.model.dictToModel(self.__get__('search', params=params), SearchResult())
+
+    def getSearchResultItems(self, result: SearchResult, type: Type):
+        if type == Type.Track:
+            return result.tracks.items
+        if type == Type.Video:
+            return result.videos.items
+        if type == Type.Album:
+            return result.albums.items
+        if type == Type.Artist:
+            return result.artists.items
+        if type == Type.Playlist:
+            return result.playlists.items
+        return []
 
     def getLyrics(self, id) -> Lyrics:
         data = self.__get__(f'tracks/{str(id)}/lyrics', urlpre='https://listen.tidal.com/v1/')
@@ -365,10 +378,9 @@ class TidalAPI(object):
                 return item, obj
             except:
                 continue
-            
+
         raise Exception("No result.")
+
 
 # Singleton
 TIDAL_API = TidalAPI()
-
-

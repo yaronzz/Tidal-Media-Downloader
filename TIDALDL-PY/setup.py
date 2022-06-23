@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from tidal_dl.printf import VERSION
 
 setup(
-    name='tidal-dl',
+    name='tidal-dl-test',
     version=VERSION,
     license="Apache2",
     description="Tidal Music Downloader.",

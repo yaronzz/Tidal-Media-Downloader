@@ -14,6 +14,7 @@ import logging
 from tidal_dl.paths import *
 from tidal_dl.printf import *
 from tidal_dl.decryption import *
+from tidal_dl.tidal import *
 
 
 def __isSkip__(finalpath, url):
@@ -91,7 +92,7 @@ def downloadAlbumInfo(album, tracks):
     infos = ""
     infos += "[ID]          %s\n" % (str(album.id))
     infos += "[Title]       %s\n" % (str(album.title))
-    infos += "[Artists]     %s\n" % (str(album.artist.name))
+    infos += "[Artists]     %s\n" % (TIDAL_API.getArtistsName(album.artists))
     infos += "[ReleaseDate] %s\n" % (str(album.releaseDate))
     infos += "[SongNum]     %s\n" % (str(album.numberOfTracks))
     infos += "[Duration]    %s\n" % (str(album.duration))

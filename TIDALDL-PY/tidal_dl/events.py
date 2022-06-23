@@ -25,84 +25,66 @@ START DOWNLOAD
 '''
 
 
-def __album__(obj: Album):
-    try:
-        Printf.album(obj)
-        tracks, videos = TIDAL_API.getItems(obj.id, Type.Album)
-        if SETTINGS.saveAlbumInfo:
-            downloadAlbumInfo(obj, tracks)
-        if SETTINGS.saveCovers:
-            downloadCover(obj)
-        for item in tracks:
-            downloadTrack(item, obj)
-        for item in videos:
-            downloadVideo(item, obj)
-    except Exception as e:
-        Printf.err(str(e))
+def start_album(obj: Album):
+    Printf.album(obj)
+    tracks, videos = TIDAL_API.getItems(obj.id, Type.Album)
+    if SETTINGS.saveAlbumInfo:
+        downloadAlbumInfo(obj, tracks)
+    if SETTINGS.saveCovers:
+        downloadCover(obj)
+    for item in tracks:
+        downloadTrack(item, obj)
+    for item in videos:
+        downloadVideo(item, obj)
 
 
-def __track__(obj: Track):
-    try:
-        album = TIDAL_API.getAlbum(obj.album.id)
-        if SETTINGS.saveCovers:
+def start_track(obj: Track):
+    album = TIDAL_API.getAlbum(obj.album.id)
+    if SETTINGS.saveCovers:
+        downloadCover(album)
+    downloadTrack(obj, album)
+
+
+def start_video(obj: Video):
+    # Printf.video(obj)
+    downloadVideo(obj, obj.album)
+
+
+def start_artist(obj: Artist):
+    albums = TIDAL_API.getArtistAlbums(obj.id, SETTINGS.includeEP)
+    Printf.artist(obj, len(albums))
+    for item in albums:
+        start_album(item)
+
+
+def start_playlist(obj: Playlist):
+    Printf.playlist(obj)
+    tracks, videos = TIDAL_API.getItems(obj.uuid, Type.Playlist)
+
+    for index, item in enumerate(tracks):
+        album = TIDAL_API.getAlbum(item.album.id)
+        item.trackNumberOnPlaylist = index + 1
+        downloadTrack(item, album, obj)
+        if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
             downloadCover(album)
-        downloadTrack(obj, album)
-    except Exception as e:
-        Printf.err(str(e))
+    for item in videos:
+        downloadVideo(item, None)
 
 
-def __video__(obj: Video):
-    try:
-        # Printf.video(obj)
-        downloadVideo(obj, obj.album)
-    except Exception as e:
-        Printf.err(str(e))
+def start_mix(obj: Mix):
+    Printf.mix(obj)
+    for index, item in enumerate(obj.tracks):
+        album = TIDAL_API.getAlbum(item.album.id)
+        item.trackNumberOnPlaylist = index + 1
+        downloadTrack(item, album)
+        if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
+            downloadCover(album)
+
+    for item in obj.videos:
+        downloadVideo(item, None)
 
 
-def __artist__(obj: Artist):
-    try:
-        albums = TIDAL_API.getArtistAlbums(obj.id, SETTINGS.includeEP)
-        Printf.artist(obj, len(albums))
-        for item in albums:
-            __album__(item)
-    except Exception as e:
-        Printf.err(str(e))
-
-
-def __playlist__(obj: Playlist):
-    try:
-        Printf.playlist(obj)
-        tracks, videos = TIDAL_API.getItems(obj.uuid, Type.Playlist)
-
-        for index, item in enumerate(tracks):
-            album = TIDAL_API.getAlbum(item.album.id)
-            item.trackNumberOnPlaylist = index + 1
-            downloadTrack(item, album, obj)
-            if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
-                downloadCover(album)
-        for item in videos:
-            downloadVideo(item, None)
-    except Exception as e:
-        Printf.err(str(e))
-
-
-def __mix__(obj: Mix):
-    try:
-        Printf.mix(obj)
-        for index, item in enumerate(obj.tracks):
-            album = TIDAL_API.getAlbum(item.album.id)
-            item.trackNumberOnPlaylist = index + 1
-            downloadTrack(item, album)
-            if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
-                downloadCover(album)
-
-        for item in obj.videos:
-            downloadVideo(item, None)
-    except Exception as e:
-        Printf.err(str(e))
-
-
-def __dealFile__(string):
+def start_file(string):
     txt = aigpy.file.getContent(string)
     if aigpy.string.isNull(txt):
         Printf.err("Nothing can read!")
@@ -118,6 +100,20 @@ def __dealFile__(string):
         start(item)
 
 
+def start_type(etype: Type, obj):
+    if etype == Type.Album:
+        start_album(obj)
+    elif etype == Type.Track:
+        start_track(obj)
+    elif etype == Type.Video:
+        start_video(obj)
+    elif etype == Type.Artist:
+        start_artist(obj)
+    elif etype == Type.Playlist:
+        start_playlist(obj)
+    elif etype == Type.Mix:
+        start_mix(obj)
+
 def start(string):
     if aigpy.string.isNull(string):
         Printf.err('Please enter something.')
@@ -128,7 +124,7 @@ def start(string):
         if aigpy.string.isNull(item):
             continue
         if os.path.exists(item):
-            __dealFile__(item)
+            start_file(item)
             return
 
         try:
@@ -137,19 +133,10 @@ def start(string):
             Printf.err(str(e) + " [" + item + "]")
             return
 
-        if etype == Type.Album:
-            __album__(obj)
-        elif etype == Type.Track:
-            __track__(obj)
-        elif etype == Type.Video:
-            __video__(obj)
-        elif etype == Type.Artist:
-            __artist__(obj)
-        elif etype == Type.Playlist:
-            __playlist__(obj)
-        elif etype == Type.Mix:
-            __mix__(obj)
-
+        try:
+            start_type(etype, obj)
+        except Exception as e:
+            Printf.err(str(e))
 
 '''
 =================================
