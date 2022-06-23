@@ -49,22 +49,22 @@ jobs:
     #     cp -rf tidal_gui/resource dist/
     #   working-directory: TIDALDL-PY
 
-    - name: Build tidal-gui
-      shell: bash
-      if: ${{ matrix.os != 'macos-latest' }}
-      run: |
-        cp -rf guiStatic.in MANIFEST.in
-        pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui
-      working-directory: TIDALDL-PY
+    # - name: Build tidal-gui
+    #   shell: bash
+    #   if: ${{ matrix.os != 'macos-latest' }}
+    #   run: |
+    #     cp -rf guiStatic.in MANIFEST.in
+    #     pyinstaller -D tidal_gui/__init__.py -w -n tidal-gui
+    #   working-directory: TIDALDL-PY
 
-    - name: Gzip tidal-gui
-      shell: bash
-      if: ${{ matrix.os != 'macos-latest' }}
-      run: |
-        cp -rf ../tidal_gui/resource ./tidal-gui/
-        tar -zcvf tidal-gui.tar.gz tidal-gui
-        rm -rf tidal-gui
-      working-directory: TIDALDL-PY/dist
+    # - name: Gzip tidal-gui
+    #   shell: bash
+    #   if: ${{ matrix.os != 'macos-latest' }}
+    #   run: |
+    #     cp -rf ../tidal_gui/resource ./tidal-gui/
+    #     tar -zcvf tidal-gui.tar.gz tidal-gui
+    #     rm -rf tidal-gui
+    #   working-directory: TIDALDL-PY/dist
       
     - name: Upload artifact
       uses: actions/upload-artifact@v2

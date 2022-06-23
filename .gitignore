@@ -175,3 +175,6 @@ TIDALDL-PY/exe/tidal_dl_win.tar.gz
 TIDALDL-PY/tidal-gui.spec
 .history/
 .gitignore
+/TIDALDL-PY/tidal_dl_old
+/TIDALDL-PY/tidal_gui_old
+/TIDALDL-PY/tidal_gui

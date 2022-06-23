@@ -8,203 +8,185 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
-import requests
-import logging
-import os
-import datetime
-
 import aigpy
-import lyricsgenius
-from tidal_dl.decryption import decrypt_file
-from tidal_dl.decryption import decrypt_security_token
-from tidal_dl.enums import Type, AudioQuality
-from tidal_dl.model import Track, Video, Lyrics, Mix
-from tidal_dl.printf import Printf
-from tidal_dl.settings import Settings
-from tidal_dl.tidal import TidalAPI
-from tidal_dl.util import convert, downloadTrack, downloadVideo, encrypted, getVideoPath, getTrackPath, getAlbumPath, API
+import logging
+
+from tidal_dl.paths import *
+from tidal_dl.printf import *
+from tidal_dl.decryption import *
+from tidal_dl.tidal import *
 
 
-def __loadAPI__(user):
-    API.key.accessToken = user.accessToken
-    API.key.userId = user.userid
-    API.key.countryCode = user.countryCode
+def __isSkip__(finalpath, url):
+    if not SETTINGS.checkExist:
+        return False
+    curSize = aigpy.file.getSize(finalpath)
+    if curSize <= 0:
+        return False
+    netSize = aigpy.net.getSize(url)
+    return curSize >= netSize
 
 
-def __downloadCover__(conf, album):
-    if album == None:
+def __encrypted__(stream, srcPath, descPath):
+    if aigpy.string.isNull(stream.encryptionKey):
+        os.replace(srcPath, descPath)
+    else:
+        key, nonce = decrypt_security_token(stream.encryptionKey)
+        decrypt_file(srcPath, descPath, key, nonce)
+        os.remove(srcPath)
+
+
+def __parseContributors__(roleType, Contributors):
+    if Contributors is None:
+        return None
+    try:
+        ret = []
+        for item in Contributors['items']:
+            if item['role'] == roleType:
+                ret.append(item['name'])
+        return ret
+    except:
+        return None
+
+
+def __setMetaData__(track: Track, album: Album, filepath, contributors, lyrics):
+    obj = aigpy.tag.TagTool(filepath)
+    obj.album = track.album.title
+    obj.title = track.title
+    if not aigpy.string.isNull(track.version):
+        obj.title += ' (' + track.version + ')'
+
+    obj.artist = list(map(lambda artist: artist.name, track.artists))
+    obj.copyright = track.copyRight
+    obj.tracknumber = track.trackNumber
+    obj.discnumber = track.volumeNumber
+    obj.composer = __parseContributors__('Composer', contributors)
+    obj.isrc = track.isrc
+
+    obj.albumartist = list(map(lambda artist: artist.name, album.artists))
+    obj.date = album.releaseDate
+    obj.totaldisc = album.numberOfVolumes
+    obj.lyrics = lyrics
+    if obj.totaldisc <= 1:
+        obj.totaltrack = album.numberOfTracks
+    coverpath = TIDAL_API.getCoverUrl(album.cover, "1280", "1280")
+    obj.save(coverpath)
+
+
+def downloadCover(album):
+    if album is None:
         return
-    path = getAlbumPath(conf, album) + '/cover.jpg'
-    url = API.getCoverUrl(album.cover, "1280", "1280")
-    if url is not None:
-        aigpy.net.downloadFile(url, path)
+    path = getAlbumPath(album) + '/cover.jpg'
+    url = TIDAL_API.getCoverUrl(album.cover, "1280", "1280")
+    aigpy.net.downloadFile(url, path)
 
 
-def __saveAlbumInfo__(conf, album, tracks):
-    if album == None:
+def downloadAlbumInfo(album, tracks):
+    if album is None:
         return
-    path = getAlbumPath(conf, album) + '/AlbumInfo.txt'
-
+    
+    path = getAlbumPath(album)
+    aigpy.path.mkdirs(path)
+    
+    path += '/AlbumInfo.txt'
     infos = ""
     infos += "[ID]          %s\n" % (str(album.id))
     infos += "[Title]       %s\n" % (str(album.title))
-    infos += "[Artists]     %s\n" % (str(album.artist.name))
+    infos += "[Artists]     %s\n" % (TIDAL_API.getArtistsName(album.artists))
     infos += "[ReleaseDate] %s\n" % (str(album.releaseDate))
     infos += "[SongNum]     %s\n" % (str(album.numberOfTracks))
     infos += "[Duration]    %s\n" % (str(album.duration))
     infos += '\n'
 
-    i = 0
-    while True:
-        if i >= int(album.numberOfVolumes):
-            break
-        i = i + 1
-        infos += "===========CD %d=============\n" % i
+    for index in range(0, album.numberOfVolumes):
+        volumeNumber = index + 1
+        infos += f"===========CD {volumeNumber}=============\n"
         for item in tracks:
-            if item.volumeNumber != i:
+            if item.volumeNumber != volumeNumber:
                 continue
             infos += '{:<8}'.format("[%d]" % item.trackNumber)
             infos += "%s\n" % item.title
     aigpy.file.write(path, infos, "w+")
 
 
-def __album__(conf, obj):
-    Printf.album(obj)
-    msg, tracks, videos = API.getItems(obj.id, Type.Album)
-    if not aigpy.string.isNull(msg):
-        Printf.err(msg)
-        return
-    if conf.saveAlbumInfo:
-        __saveAlbumInfo__(conf, obj, tracks)
-    if conf.saveCovers:
-        __downloadCover__(conf, obj)
-    for item in tracks:
-        downloadTrack(item, obj)
-    for item in videos:
-        downloadVideo(item, obj)
+def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
+    try:
+        stream = TIDAL_API.getVideoStreamUrl(video.id, SETTINGS.videoQuality)
+        path = getVideoPath(video, album, playlist)
+
+        Printf.video(video, stream)
+        logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
+
+        m3u8content = requests.get(stream.m3u8Url).content
+        if m3u8content is None:
+            Printf.err(f"DL Video[{video.title}] getM3u8 failed.{str(e)}")
+            return False
+
+        urls = aigpy.m3u8.parseTsUrls(m3u8content)
+        if len(urls) <= 0:
+            Printf.err(f"DL Video[{video.title}] getTsUrls failed.{str(e)}")
+            return False
+
+        check, msg = aigpy.m3u8.downloadByTsUrls(urls, path)
+        if check:
+            Printf.success(video.title)
+            return True
+        else:
+            Printf.err(f"DL Video[{video.title}] failed.{msg}")
+            return False
+    except Exception as e:
+        Printf.err(f"DL Video[{video.title}] failed.{str(e)}")
+        return False
 
 
-def __track__(conf, obj):
-    msg, album = API.getAlbum(obj.album.id)
-    if conf.saveCovers:
-        __downloadCover__(conf, album)
-    downloadTrack(obj, album)
+def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
+    try:
+        stream = TIDAL_API.getStreamUrl(track.id, SETTINGS.audioQuality)
+        path = getTrackPath(track, stream, album, playlist)
 
+        if SETTINGS.showTrackInfo:
+            Printf.track(track, stream)
 
-def __video__(conf, obj):
-    # Printf.video(obj)
-    downloadVideo(obj, obj.album)
+        if userProgress is not None:
+            userProgress.updateStream(stream)
 
+        # check exist
+        if __isSkip__(path, stream.url):
+            Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
+            return True
 
-def __artist__(conf, obj):
-    msg, albums = API.getArtistAlbums(obj.id, conf.includeEP)
-    Printf.artist(obj, len(albums))
-    if not aigpy.string.isNull(msg):
-        Printf.err(msg)
-        return
-    for item in albums:
-        __album__(conf, item)
+        # download
+        logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
 
+        tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
+        tool.setUserProgress(userProgress)
+        tool.setPartSize(partSize)
+        check, err = tool.start(SETTINGS.showProgress)
+        if not check:
+            Printf.err(f"DL Track[{track.title}] failed.{str(err)}")
+            return False
 
-def __playlist__(conf, obj):
-    Printf.playlist(obj)
-    msg, tracks, videos = API.getItems(obj.uuid, Type.Playlist)
-    if not aigpy.string.isNull(msg):
-        Printf.err(msg)
-        return
+        # encrypted -> decrypt and remove encrypted file
+        __encrypted__(stream, path + '.part', path)
 
-    dictNewFiles = {}
-    for index, item in enumerate(tracks):
-        mag, album = API.getAlbum(item.album.id)
-        item.trackNumberOnPlaylist = index + 1
-        downloadTrack(item, album, obj, dictNewFiles=dictNewFiles)
-        if conf.saveCovers and not conf.usePlaylistFolder:
-            __downloadCover__(conf, album)
+        # contributors
+        try:
+            contributors = TIDAL_API.getTrackContributors(track.id)
+        except:
+            contributors = None
 
-    if len(dictNewFiles) > 0:
-        targetDir = aigpy.path.getDirName(dictNewFiles[list(dictNewFiles.keys())[0]]) # trick to get the target directory
-        resFiles = aigpy.path.getFiles(targetDir)
-        killFiles = []
-        errFiles = []
+        # lyrics
+        try:
+            lyrics = TIDAL_API.getLyrics(track.id).subtitles
+            if SETTINGS.lyricFile:
+                lrcPath = path.rsplit(".", 1)[0] + '.lrc'
+                aigpy.fileHelper.write(lrcPath, lyrics, 'w')
+        except:
+            lyrics = ''
 
-        def bareFnList(fullFn: str):
-            # strip ext so .m4a and corresponding .lrc are handled together
-            return os.path.splitext(os.path.basename(fullFn))[0]
-
-        for fname in resFiles:
-            # strip ext so .m4a and corresponding .lrc are handled together
-            if not os.path.splitext(os.path.basename(fname))[0] in list(map(bareFnList, list(dictNewFiles.keys()))) :
-                try:
-                    os.remove(fname)
-                    killFiles.append(fname)
-                except:
-                    errFiles.append(fname)
-
-        if len(killFiles) > 0:
-            Printf.success("List of Orphan files deleted :\n" + "\n".join(killFiles))
-        if len(errFiles) > 0:
-            Printf.err("List of Orphan files failed to delete (read-only?) :\n" + "\n".join(errFiles))
-
-    for item in videos:
-        downloadVideo(item, None)
-        
-
-def __mix__(conf, obj: Mix):
-    Printf.mix(obj)
-    for index, item in enumerate(obj.tracks):
-        mag, album = API.getAlbum(item.album.id)
-        item.trackNumberOnPlaylist = index + 1
-        downloadTrack(item, album)
-        if conf.saveCovers and not conf.usePlaylistFolder:
-            __downloadCover__(conf, album)
-    for item in obj.videos:
-        downloadVideo(item, None)
-
-
-def file(user, conf, string):
-    txt = aigpy.file.getContent(string)
-    if aigpy.string.isNull(txt):
-        Printf.err("Nothing can read!")
-        return
-    array = txt.split('\n')
-    for item in array:
-        if aigpy.string.isNull(item):
-            continue
-        if item[0] == '#':
-            continue
-        if item[0] == '[':
-            continue
-        start(user, conf, item)
-
-
-def start(user, conf, string):
-    __loadAPI__(user)
-    if aigpy.string.isNull(string):
-        Printf.err('Please enter something.')
-        return
-
-    strings = string.split(" ")
-    for item in strings:
-        if aigpy.string.isNull(item):
-            continue
-        if os.path.exists(item):
-            file(user, conf, item)
-            return
-
-        msg, etype, obj = API.getByString(item)
-        if etype == Type.Null or not aigpy.string.isNull(msg):
-            Printf.err(msg + " [" + item + "]")
-            return
-
-        if etype == Type.Album:
-            __album__(conf, obj)
-        if etype == Type.Track:
-            __track__(conf, obj)
-        if etype == Type.Video:
-            __video__(conf, obj)
-        if etype == Type.Artist:
-            __artist__(conf, obj)
-        if etype == Type.Playlist:
-            __playlist__(conf, obj)
-        if etype == Type.Mix:
-            __mix__(conf, obj)
+        __setMetaData__(track, album, path, contributors, lyrics)
+        Printf.success(track.title)
+        return True
+    except Exception as e:
+        Printf.err(f"DL Track[{track.title}] failed.{str(e)}")
+        return False

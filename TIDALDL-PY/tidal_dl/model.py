@@ -4,14 +4,13 @@
 @File    :   model.py
 @Time    :   2020/08/08
 @Author  :   Yaronzz
-@Version :   2.0
+@Version :   3.0
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
-from aigpy.modelHelper import ModelBase
+import aigpy
 
-
-class StreamUrl(ModelBase):
+class StreamUrl(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.trackid = None
@@ -21,7 +20,7 @@ class StreamUrl(ModelBase):
         self.soundQuality = None
 
 
-class VideoStreamUrl(ModelBase):
+class VideoStreamUrl(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.codec = None
@@ -30,7 +29,7 @@ class VideoStreamUrl(ModelBase):
         self.m3u8Url = None
 
 
-class Artist(ModelBase):
+class Artist(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.id = None
@@ -39,7 +38,7 @@ class Artist(ModelBase):
         self.picture = None
 
 
-class Album(ModelBase):
+class Album(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.id = None
@@ -59,7 +58,7 @@ class Album(ModelBase):
         self.artists = Artist()
 
 
-class Playlist(ModelBase):
+class Playlist(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.uuid = None
@@ -72,7 +71,7 @@ class Playlist(ModelBase):
         self.squareImage = None
 
 
-class Track(ModelBase):
+class Track(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.id = None
@@ -93,7 +92,7 @@ class Track(ModelBase):
         self.playlist = None
 
 
-class Video(ModelBase):
+class Video(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.id = None
@@ -112,7 +111,7 @@ class Video(ModelBase):
         self.playlist = None
 
 
-class Mix(ModelBase):
+class Mix(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.id = None
@@ -120,7 +119,7 @@ class Mix(ModelBase):
         self.videos = Video()
 
 
-class Lyrics(ModelBase):
+class Lyrics(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.trackId = None
@@ -131,7 +130,7 @@ class Lyrics(ModelBase):
         self.subtitles = None
 
 
-class SearchDataBase(ModelBase):
+class SearchDataBase(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.limit = 0
@@ -169,7 +168,7 @@ class SearchPlaylists(SearchDataBase):
         self.items = Playlist()
 
 
-class SearchResult(ModelBase):
+class SearchResult(aigpy.model.ModelBase):
     def __init__(self) -> None:
         super().__init__()
         self.artists = SearchArtists()
@@ -178,3 +177,31 @@ class SearchResult(ModelBase):
         self.videos = SearchVideos()
         self.playlists = SearchPlaylists()
 
+
+class LoginKey(aigpy.model.ModelBase):
+    def __init__(self) -> None:
+        super().__init__()
+        self.deviceCode = None
+        self.userCode = None
+        self.verificationUrl = None
+        self.authCheckTimeout = None
+        self.authCheckInterval = None
+        self.userId = None
+        self.countryCode = None
+        self.accessToken = None
+        self.refreshToken = None
+        self.expiresIn = None
+
+
+class StreamRespond(aigpy.model.ModelBase):
+    def __init__(self) -> None:
+        super().__init__()
+        self.trackid = None
+        self.videoid = None
+        self.streamType = None
+        self.assetPresentation = None
+        self.audioMode = None
+        self.audioQuality = None
+        self.videoQuality = None
+        self.manifestMimeType = None
+        self.manifest = None

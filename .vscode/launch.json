@@ -16,6 +16,7 @@
             "env": {
                 "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
             },
+            "justMyCode": false
         },
         {
             "name": "Python: common line",

@@ -4,7 +4,7 @@
 @File    :   enums.py
 @Time    :   2020/08/08
 @Author  :   Yaronzz
-@Version :   2.0
+@Version :   3.0
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
