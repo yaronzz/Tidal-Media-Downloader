@@ -20,7 +20,7 @@ from tidal_dl.settings import *
 from tidal_dl.lang.language import *
 
 
-VERSION = '2022.06.20.1'
+VERSION = '2022.06.23.1'
 __LOGO__ = f'''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -61,6 +61,7 @@ class Printf(object):
         tb = Printf.__gettable__(["OPTION", "DESC"], [
             ["-h or --help",        "show help-message"],
             ["-v or --version",     "show version"],
+            ["-g or --gui",         "show simple-gui"],
             ["-o or --output",      "download path"],
             ["-l or --link",        "url/id/filePath"],
             ["-q or --quality",     "track quality('Normal','High,'HiFi','Master')"],

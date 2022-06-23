@@ -36,7 +36,7 @@ def mainCommand():
             return
         if opt in ('-g', '--gui'):
             showGui = True
-            return
+            continue
         if opt in ('-l', '--link'):
             link = val
             continue
