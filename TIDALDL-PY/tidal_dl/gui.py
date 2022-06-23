@@ -162,8 +162,6 @@ class MainView(QtWidgets.QWidget):
 
 
 def startGui():
-    os.chdir(sys.path[0])
-
     app = QtWidgets.QApplication(sys.argv)
     apply_stylesheet(app, theme='dark_blue.xml')
 
