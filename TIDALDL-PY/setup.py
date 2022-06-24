@@ -17,8 +17,6 @@ setup(
                       "requests>=2.22.0",
                       "pycryptodome", 
                       "pydub", 
-                      "prettytable", 
-                      "PyQt5",
-                      "qt-material"],
+                      "prettytable"],
     entry_points={'console_scripts': ['tidal-dl = tidal_dl:main', ]}
 )

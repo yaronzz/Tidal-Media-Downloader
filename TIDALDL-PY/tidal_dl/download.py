@@ -120,12 +120,12 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
         m3u8content = requests.get(stream.m3u8Url).content
         if m3u8content is None:
             Printf.err(f"DL Video[{video.title}] getM3u8 failed.{str(e)}")
-            return False
+            return False, f"GetM3u8 failed.{str(e)}"
 
         urls = aigpy.m3u8.parseTsUrls(m3u8content)
         if len(urls) <= 0:
             Printf.err(f"DL Video[{video.title}] getTsUrls failed.{str(e)}")
-            return False
+            return False, "GetTsUrls failed.{str(e)}"
 
         check, msg = aigpy.m3u8.downloadByTsUrls(urls, path)
         if check:
@@ -133,10 +133,10 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
             return True
         else:
             Printf.err(f"DL Video[{video.title}] failed.{msg}")
-            return False
+            return False, msg
     except Exception as e:
         Printf.err(f"DL Video[{video.title}] failed.{str(e)}")
-        return False
+        return False, str(e)
 
 
 def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
@@ -153,7 +153,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         # check exist
         if __isSkip__(path, stream.url):
             Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
-            return True
+            return True, ''
 
         # download
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
@@ -164,7 +164,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         check, err = tool.start(SETTINGS.showProgress)
         if not check:
             Printf.err(f"DL Track[{track.title}] failed.{str(err)}")
-            return False
+            return False, str(err)
 
         # encrypted -> decrypt and remove encrypted file
         __encrypted__(stream, path + '.part', path)
@@ -186,7 +186,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
 
         __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(track.title)
-        return True
+        return True, ''
     except Exception as e:
         Printf.err(f"DL Track[{track.title}] failed.{str(e)}")
-        return False
+        return False, str(e)

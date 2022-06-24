@@ -13,7 +13,7 @@ import getopt
 
 from tidal_dl.events import *
 from tidal_dl.settings import *
-from tidal_dl.gui import *
+from tidal_dl.gui import startGui
 
 
 def mainCommand():

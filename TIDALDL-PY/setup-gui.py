@@ -11,6 +11,6 @@ setup(
     packages=find_packages(exclude=['tidal_dl*']),
     include_package_data = True,
     platforms = "any",
-    install_requires=["tidal-dl", "PyQt5"],
+    install_requires=["tidal-dl"],
     entry_points={'console_scripts': [ 'tidal-gui = tidal_gui:main', ]}
 )
