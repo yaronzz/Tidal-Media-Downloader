@@ -54,7 +54,7 @@ def mainCommand():
             continue
     
     if not aigpy.path.mkdirs(SETTINGS.downloadPath):
-        Printf.err(LANG.MSG_PATH_ERR + SETTINGS.downloadPath)
+        Printf.err(LANG.select.MSG_PATH_ERR + SETTINGS.downloadPath)
         return
     
     if showGui:
@@ -64,7 +64,7 @@ def mainCommand():
     if link is not None:
         if not loginByConfig():
             loginByWeb()
-        Printf.info(LANG.SETTING_DOWNLOAD_PATH + ':' + SETTINGS.downloadPath)
+        Printf.info(LANG.select.SETTING_DOWNLOAD_PATH + ':' + SETTINGS.downloadPath)
         start(link)
 
 def main():
@@ -85,7 +85,7 @@ def main():
     
     while True:
         Printf.choices()
-        choice = Printf.enter(LANG.PRINT_ENTER_CHOICE)
+        choice = Printf.enter(LANG.select.PRINT_ENTER_CHOICE)
         if choice == "0":
             return
         elif choice == "1":

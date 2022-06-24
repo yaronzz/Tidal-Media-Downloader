@@ -12,6 +12,7 @@ import json
 import aigpy
 import base64
 
+from tidal_dl.lang.language import *
 from tidal_dl.enums import *
 
 
@@ -74,6 +75,8 @@ class Settings(aigpy.model.ModelBase):
             self.videoFileFormat = self.getDefaultPathFormat(Type.Video)
         if self.apiKeyIndex is None:
             self.apiKeyIndex = 0
+        
+        LANG.setLang(self.language)
 
     def save(self):
         data = aigpy.model.modelToDict(self)

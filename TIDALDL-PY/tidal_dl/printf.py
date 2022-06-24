@@ -20,7 +20,7 @@ from tidal_dl.settings import *
 from tidal_dl.lang.language import *
 
 
-VERSION = '2022.06.24.1'
+VERSION = '2022.06.24.2'
 __LOGO__ = f'''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
@@ -75,50 +75,50 @@ class Printf(object):
         if onlineVer is None:
             icmp = aigpy.system.cmpVersion(onlineVer, VERSION)
             if icmp > 0:
-                Printf.info(LANG.PRINT_LATEST_VERSION + ' ' + onlineVer)
+                Printf.info(LANG.select.PRINT_LATEST_VERSION + ' ' + onlineVer)
 
     @staticmethod
     def settings():
         data = SETTINGS
-        tb = Printf.__gettable__([LANG.SETTING, LANG.VALUE], [
+        tb = Printf.__gettable__([LANG.select.SETTING, LANG.select.VALUE], [
             #settings - path and format
-            [LANG.SETTING_PATH, getProfilePath()],
-            [LANG.SETTING_DOWNLOAD_PATH, data.downloadPath],
-            [LANG.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat],
-            [LANG.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat],
-            [LANG.SETTING_VIDEO_FILE_FORMAT, data.videoFileFormat],
+            [LANG.select.SETTING_PATH, getProfilePath()],
+            [LANG.select.SETTING_DOWNLOAD_PATH, data.downloadPath],
+            [LANG.select.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat],
+            [LANG.select.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat],
+            [LANG.select.SETTING_VIDEO_FILE_FORMAT, data.videoFileFormat],
             
             #settings - quality
-            [LANG.SETTING_AUDIO_QUALITY, data.audioQuality],
-            [LANG.SETTING_VIDEO_QUALITY, data.videoQuality],
+            [LANG.select.SETTING_AUDIO_QUALITY, data.audioQuality],
+            [LANG.select.SETTING_VIDEO_QUALITY, data.videoQuality],
             
             #settings - else
-            [LANG.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder],
-            [LANG.SETTING_CHECK_EXIST, data.checkExist],
-            [LANG.SETTING_SHOW_PROGRESS, data.showProgress],
-            [LANG.SETTING_SHOW_TRACKINFO, data.showTrackInfo],
-            [LANG.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo],
-            [LANG.SETTING_SAVE_COVERS, data.saveCovers],
-            [LANG.SETTING_INCLUDE_EP, data.includeEP],
-            [LANG.SETTING_LANGUAGE, getLangName(data.language)],
-            [LANG.SETTINGS_ADD_LRC_FILE, data.lyricFile],
-            [LANG.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']]
+            [LANG.select.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder],
+            [LANG.select.SETTING_CHECK_EXIST, data.checkExist],
+            [LANG.select.SETTING_SHOW_PROGRESS, data.showProgress],
+            [LANG.select.SETTING_SHOW_TRACKINFO, data.showTrackInfo],
+            [LANG.select.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo],
+            [LANG.select.SETTING_SAVE_COVERS, data.saveCovers],
+            [LANG.select.SETTING_INCLUDE_EP, data.includeEP],
+            [LANG.select.SETTING_LANGUAGE, LANG.getLangName(data.language)],
+            [LANG.select.SETTINGS_ADD_LRC_FILE, data.lyricFile],
+            [LANG.select.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']]
         ])
         print(tb)
 
     @staticmethod
     def choices():
         print("====================================================")
-        tb = Printf.__gettable__([LANG.CHOICE, LANG.FUNCTION], [
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '0':"), LANG.CHOICE_EXIT],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '1':"), LANG.CHOICE_LOGIN],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '2':"), LANG.CHOICE_LOGOUT],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '3':"), LANG.CHOICE_SET_ACCESS_TOKEN],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '4':"), LANG.CHOICE_SETTINGS + '-Path'],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '5':"), LANG.CHOICE_SETTINGS + '-Quality'],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '6':"), LANG.CHOICE_SETTINGS + '-Else'],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER + " '7':"), LANG.CHOICE_APIKEY],
-            [aigpy.cmd.green(LANG.CHOICE_ENTER_URLID), LANG.CHOICE_DOWNLOAD_BY_URL],
+        tb = Printf.__gettable__([LANG.select.CHOICE, LANG.select.FUNCTION], [
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '0':"), LANG.select.CHOICE_EXIT],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '1':"), LANG.select.CHOICE_LOGIN],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '2':"), LANG.select.CHOICE_LOGOUT],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '3':"), LANG.select.CHOICE_SET_ACCESS_TOKEN],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '4':"), LANG.select.CHOICE_SETTINGS + '-Path'],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '5':"), LANG.select.CHOICE_SETTINGS + '-Quality'],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '6':"), LANG.select.CHOICE_SETTINGS + '-Else'],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER + " '7':"), LANG.select.CHOICE_APIKEY],
+            [aigpy.cmd.green(LANG.select.CHOICE_ENTER_URLID), LANG.select.CHOICE_DOWNLOAD_BY_URL],
         ])
         tb.set_style(prettytable.PLAIN_COLUMNS)
         print(tb)
@@ -143,7 +143,7 @@ class Printf(object):
             if ret == retWord:
                 return default
             elif ret == "":
-                print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + errmsg)
+                print(aigpy.cmd.red(LANG.select.PRINT_ERR + " ") + errmsg)
             else:
                 break
         return ret
@@ -153,7 +153,7 @@ class Printf(object):
         while True:
             ret = aigpy.cmd.inputLimit(aigpy.cmd.yellow(string), limit)
             if ret is None:
-                print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + errmsg)
+                print(aigpy.cmd.red(LANG.select.PRINT_ERR + " ") + errmsg)
             else:
                 break
         return ret
@@ -169,27 +169,27 @@ class Printf(object):
 
     @staticmethod
     def err(string):
-        print(aigpy.cmd.red(LANG.PRINT_ERR + " ") + string)
+        print(aigpy.cmd.red(LANG.select.PRINT_ERR + " ") + string)
         # logging.error(string)
 
     @staticmethod
     def info(string):
-        print(aigpy.cmd.blue(LANG.PRINT_INFO + " ") + string)
+        print(aigpy.cmd.blue(LANG.select.PRINT_INFO + " ") + string)
 
     @staticmethod
     def success(string):
-        print(aigpy.cmd.green(LANG.PRINT_SUCCESS + " ") + string)
+        print(aigpy.cmd.green(LANG.select.PRINT_SUCCESS + " ") + string)
 
     @staticmethod
     def album(data: Album):
-        tb = Printf.__gettable__([LANG.MODEL_ALBUM_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_TITLE, data.title],
+        tb = Printf.__gettable__([LANG.select.MODEL_ALBUM_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_TITLE, data.title],
             ["ID", data.id],
-            [LANG.MODEL_TRACK_NUMBER, data.numberOfTracks],
-            [LANG.MODEL_VIDEO_NUMBER, data.numberOfVideos],
-            [LANG.MODEL_RELEASE_DATE, data.releaseDate],
-            [LANG.MODEL_VERSION, data.version],
-            [LANG.MODEL_EXPLICIT, data.explicit],
+            [LANG.select.MODEL_TRACK_NUMBER, data.numberOfTracks],
+            [LANG.select.MODEL_VIDEO_NUMBER, data.numberOfVideos],
+            [LANG.select.MODEL_RELEASE_DATE, data.releaseDate],
+            [LANG.select.MODEL_VERSION, data.version],
+            [LANG.select.MODEL_EXPLICIT, data.explicit],
         ])
         print(tb)
         logging.info("====album " + str(data.id) + "====\n" +
@@ -200,12 +200,12 @@ class Printf(object):
 
     @staticmethod
     def track(data: Track, stream: StreamUrl = None):
-        tb = Printf.__gettable__([LANG.MODEL_TRACK_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_TITLE, data.title],
+        tb = Printf.__gettable__([LANG.select.MODEL_TRACK_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_TITLE, data.title],
             ["ID", data.id],
-            [LANG.MODEL_ALBUM, data.album.title],
-            [LANG.MODEL_VERSION, data.version],
-            [LANG.MODEL_EXPLICIT, data.explicit],
+            [LANG.select.MODEL_ALBUM, data.album.title],
+            [LANG.select.MODEL_VERSION, data.version],
+            [LANG.select.MODEL_EXPLICIT, data.explicit],
             ["Max-Q", data.audioQuality],
         ])
         if stream is not None:
@@ -219,11 +219,11 @@ class Printf(object):
 
     @staticmethod
     def video(data: Video, stream: VideoStreamUrl = None):
-        tb = Printf.__gettable__([LANG.MODEL_VIDEO_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_TITLE, data.title],
-            [LANG.MODEL_ALBUM, data.album.title if data.album != None else None],
-            [LANG.MODEL_VERSION, data.version],
-            [LANG.MODEL_EXPLICIT, data.explicit],
+        tb = Printf.__gettable__([LANG.select.MODEL_VIDEO_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_TITLE, data.title],
+            [LANG.select.MODEL_ALBUM, data.album.title if data.album != None else None],
+            [LANG.select.MODEL_VERSION, data.version],
+            [LANG.select.MODEL_EXPLICIT, data.explicit],
             ["Max-Q", data.quality],
         ])
         if stream is not None:
@@ -237,11 +237,11 @@ class Printf(object):
 
     @staticmethod
     def artist(data: Artist, num):
-        tb = Printf.__gettable__([LANG.MODEL_ARTIST_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_ID, data.id],
-            [LANG.MODEL_NAME, data.name],
+        tb = Printf.__gettable__([LANG.select.MODEL_ARTIST_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_ID, data.id],
+            [LANG.select.MODEL_NAME, data.name],
             ["Number of albums", num],
-            [LANG.MODEL_TYPE, str(data.type)],
+            [LANG.select.MODEL_TYPE, str(data.type)],
         ])
         print(tb)
         logging.info("====artist " + str(data.id) + "====\n" +
@@ -251,10 +251,10 @@ class Printf(object):
 
     @staticmethod
     def playlist(data):
-        tb = Printf.__gettable__([LANG.MODEL_PLAYLIST_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_TITLE, data.title],
-            [LANG.MODEL_TRACK_NUMBER, data.numberOfTracks],
-            [LANG.MODEL_VIDEO_NUMBER, data.numberOfVideos],
+        tb = Printf.__gettable__([LANG.select.MODEL_PLAYLIST_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_TITLE, data.title],
+            [LANG.select.MODEL_TRACK_NUMBER, data.numberOfTracks],
+            [LANG.select.MODEL_VIDEO_NUMBER, data.numberOfVideos],
         ])
         print(tb)
         logging.info("====playlist " + str(data.uuid) + "====\n" +
@@ -265,10 +265,10 @@ class Printf(object):
 
     @staticmethod
     def mix(data):
-        tb = Printf.__gettable__([LANG.MODEL_PLAYLIST_PROPERTY, LANG.VALUE], [
-            [LANG.MODEL_ID, data.id],
-            [LANG.MODEL_TRACK_NUMBER, len(data.tracks)],
-            [LANG.MODEL_VIDEO_NUMBER, len(data.videos)],
+        tb = Printf.__gettable__([LANG.select.MODEL_PLAYLIST_PROPERTY, LANG.select.VALUE], [
+            [LANG.select.MODEL_ID, data.id],
+            [LANG.select.MODEL_TRACK_NUMBER, len(data.tracks)],
+            [LANG.select.MODEL_VIDEO_NUMBER, len(data.videos)],
         ])
         print(tb)
         logging.info("====Mix " + str(data.id) + "====\n" +

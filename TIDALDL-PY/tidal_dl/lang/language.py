@@ -31,111 +31,57 @@ from tidal_dl.lang.vietnamese import LangVietnamese
 from tidal_dl.lang.korean import LangKorean
 from tidal_dl.lang.japanese import LangJapanese
 
-LANG = LangEnglish()
+_ALL_LANGUAGE_ = [
+    ['English', LangEnglish()],
+    ['中文', LangChinese()],
+    ['Turkish', LangTurkish()],
+    ['Italian', LangItalian()],
+    ['Czech', LangCzech()],
+    ['Arabic', LangArabic()],
+    ['Russian', LangRussian()],
+    ['Filipino', LangFilipino()],
+    ['Croatian', LangCroatian()],
+    ['Spanish', LangSpanish()],
+    ['Portuguese', LangPortuguese()],
+    ['Ukrainian', LangUkrainian()],
+    ['Vietnamese', LangVietnamese()],
+    ['French', LangFrench()],
+    ['German', LangGerman()],
+    ['Danish', LangDanish()],
+    ['Hungarian', LangHungarian()],
+    ['Korean', LangKorean()],
+    ['Japanese', LangJapanese()],
+    ['Dutch', LangDutch()],
+    ['Polish', LangPolish()],
+]
+
+class Language(object):
+    def __init__(self) -> None:
+        self.select = LangEnglish()
+
+    def setLang(self, index):
+        index = int(index)
+        if index >= 0 and index < len(_ALL_LANGUAGE_):
+            self.select = _ALL_LANGUAGE_[index][1]
+        else:
+            self.select = LangEnglish()
+
+    def getLangName(self, index):
+        index = int(index)
+        if index >= 0 and index < len(_ALL_LANGUAGE_):
+            return _ALL_LANGUAGE_[index][0]
+        return ""
+
+    def getLangChoicePrint(self):
+        array = []
+        index = 0
+        while True:
+            name = self.getLangName(index)
+            if name == "":
+                break
+            array.append('\'' + str(index) + '\'-' + name)
+            index += 1
+        return ','.join(array)
 
 
-def setLang(index):
-    global LANG
-    if str(index) == '0':
-        LANG = LangEnglish()
-    elif str(index) == '1':
-        LANG = LangChinese()
-    elif str(index) == '2':
-        LANG = LangTurkish()
-    elif str(index) == '3':
-        LANG = LangItalian()
-    elif str(index) == '4':
-        LANG = LangCzech()
-    elif str(index) == '5':
-        LANG = LangArabic()
-    elif str(index) == '6':
-        LANG = LangRussian()
-    elif str(index) == '7':
-        LANG = LangFilipino()
-    elif str(index) == '8':
-        LANG = LangCroatian()
-    elif str(index) == '9':
-        LANG = LangSpanish()
-    elif str(index) == '10':
-        LANG = LangPortuguese()
-    elif str(index) == '11':
-        LANG = LangUkrainian()
-    elif str(index) == '12':
-        LANG = LangVietnamese()
-    elif str(index) == '13':
-        LANG = LangFrench()
-    elif str(index) == '14':
-        LANG = LangGerman()
-    elif str(index) == '15':
-        LANG = LangDanish()
-    elif str(index) == '16':
-        LANG = LangHungarian()
-    elif str(index) == '17':
-        LANG = LangKorean()
-    elif str(index) == '18':
-        LANG = LangJapanese()
-    elif str(index) == '19':
-        LANG = LangDutch()
-    elif str(index) == '20':
-        LANG = LangPolish()
-    else:
-        LANG = LangEnglish()
-    return LANG
-
-
-def getLangName(index):
-    if str(index) == '0':
-        return "English"
-    if str(index) == '1':
-        return "中文"
-    if str(index) == '2':
-        return "Turkish"
-    if str(index) == '3':
-        return "Italian"
-    if str(index) == '4':
-        return "Czech"
-    if str(index) == '5':
-        return "Arabic"
-    if str(index) == '6':
-        return "Russian"
-    if str(index) == '7':
-        return "Filipino"
-    if str(index) == '8':
-        return "Croatian"
-    if str(index) == '9':
-        return "Spanish"
-    if str(index) == '10':
-        return "Portuguese"
-    if str(index) == '11':
-        return "Ukrainian"
-    if str(index) == '12':
-        return "Vietnamese"
-    if str(index) == '13':
-        return "French"
-    if str(index) == '14':
-        return "German"
-    if str(index) == '15':
-        return "Danish"
-    if str(index) == '16':
-        return "Hungarian"
-    if str(index) == '17':
-        return "Korean"
-    if str(index) == '18':
-        return "Japanese"
-    if str(index) == '19':
-        return "Dutch"
-    if str(index) == '20':
-        return "Polish"
-    return ""
-
-
-def getLangChoicePrint():
-    array = []
-    index = 0
-    while True:
-        name = getLangName(index)
-        if name == "":
-            break
-        array.append('\'' + str(index) + '\'-' + name)
-        index += 1
-    return ','.join(array)
+LANG = Language()

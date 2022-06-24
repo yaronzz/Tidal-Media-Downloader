@@ -146,52 +146,52 @@ CHANGE SETTINGS
 
 
 def changePathSettings():
-    Printf.settings(SETTINGS)
+    Printf.settings()
     SETTINGS.downloadPath = Printf.enterPath(
-        LANG.CHANGE_DOWNLOAD_PATH,
-        LANG.MSG_PATH_ERR,
+        LANG.select.CHANGE_DOWNLOAD_PATH,
+        LANG.select.MSG_PATH_ERR,
         '0',
         SETTINGS.downloadPath)
     SETTINGS.albumFolderFormat = Printf.enterFormat(
-        LANG.CHANGE_ALBUM_FOLDER_FORMAT,
+        LANG.select.CHANGE_ALBUM_FOLDER_FORMAT,
         SETTINGS.albumFolderFormat,
-        SETTINGS.getDefaultAlbumFolderFormat())
+        SETTINGS.getDefaultPathFormat(Type.Album))
     SETTINGS.trackFileFormat = Printf.enterFormat(
-        LANG.CHANGE_TRACK_FILE_FORMAT,
+        LANG.select.CHANGE_TRACK_FILE_FORMAT,
         SETTINGS.trackFileFormat,
-        SETTINGS.getDefaultTrackFileFormat())
+        SETTINGS.getDefaultPathFormat(Type.Track))
     SETTINGS.videoFileFormat = Printf.enterFormat(
-        LANG.CHANGE_VIDEO_FILE_FORMAT,
+        LANG.select.CHANGE_VIDEO_FILE_FORMAT,
         SETTINGS.videoFileFormat,
-        SETTINGS.getDefaultVideoFileFormat())
+        SETTINGS.getDefaultPathFormat(Type.Video))
     SETTINGS.save()
 
 
 def changeQualitySettings():
-    Printf.settings(SETTINGS)
+    Printf.settings()
     SETTINGS.audioQuality = AudioQuality(
-        int(Printf.enterLimit(LANG.CHANGE_AUDIO_QUALITY,
-                              LANG.MSG_INPUT_ERR,
+        int(Printf.enterLimit(LANG.select.CHANGE_AUDIO_QUALITY,
+                              LANG.select.MSG_INPUT_ERR,
                               ['0', '1', '2', '3'])))
     SETTINGS.videoQuality = VideoQuality(
-        int(Printf.enterLimit(LANG.CHANGE_VIDEO_QUALITY,
-                              LANG.MSG_INPUT_ERR,
+        int(Printf.enterLimit(LANG.select.CHANGE_VIDEO_QUALITY,
+                              LANG.select.MSG_INPUT_ERR,
                               ['1080', '720', '480', '360'])))
     SETTINGS.save()
 
 
 def changeSettings():
-    Printf.settings(SETTINGS)
-    SETTINGS.showProgress = Printf.enterBool(LANG.CHANGE_SHOW_PROGRESS)
-    SETTINGS.showTrackInfo = Printf.enterBool(LANG.CHANGE_SHOW_TRACKINFO)
-    SETTINGS.checkExist = Printf.enterBool(LANG.CHANGE_CHECK_EXIST)
-    SETTINGS.includeEP = Printf.enterBool(LANG.CHANGE_INCLUDE_EP)
-    SETTINGS.saveCovers = Printf.enterBool(LANG.CHANGE_SAVE_COVERS)
-    SETTINGS.saveAlbumInfo = Printf.enterBool(LANG.CHANGE_SAVE_ALBUM_INFO)
-    SETTINGS.lyricFile = Printf.enterBool(LANG.CHANGE_ADD_LRC_FILE)
-    SETTINGS.usePlaylistFolder = Printf.enterBool(LANG.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):")
-    SETTINGS.language = Printf.enter(LANG.CHANGE_LANGUAGE + "(" + getLangChoicePrint() + "):")
-    LANG = setLang(SETTINGS.language)
+    Printf.settings()
+    SETTINGS.showProgress = Printf.enterBool(LANG.select.CHANGE_SHOW_PROGRESS)
+    SETTINGS.showTrackInfo = Printf.enterBool(LANG.select.CHANGE_SHOW_TRACKINFO)
+    SETTINGS.checkExist = Printf.enterBool(LANG.select.CHANGE_CHECK_EXIST)
+    SETTINGS.includeEP = Printf.enterBool(LANG.select.CHANGE_INCLUDE_EP)
+    SETTINGS.saveCovers = Printf.enterBool(LANG.select.CHANGE_SAVE_COVERS)
+    SETTINGS.saveAlbumInfo = Printf.enterBool(LANG.select.CHANGE_SAVE_ALBUM_INFO)
+    SETTINGS.lyricFile = Printf.enterBool(LANG.select.CHANGE_ADD_LRC_FILE)
+    SETTINGS.usePlaylistFolder = Printf.enterBool(LANG.select.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):")
+    SETTINGS.language = Printf.enter(LANG.select.CHANGE_LANGUAGE + "(" + LANG.getLangChoicePrint() + "):")
+    LANG.setLang(SETTINGS.language)
     SETTINGS.save()
 
 
@@ -202,7 +202,7 @@ def changeApiKey():
     Printf.info(f'Current APIKeys: {str(SETTINGS.apiKeyIndex)} {item["platform"]}-{item["formats"]}')
     Printf.info(f'Current Version: {str(ver)}')
     Printf.apikeys(apiKey.getItems())
-    index = int(Printf.enterLimit("APIKEY index:", LANG.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
+    index = int(Printf.enterLimit("APIKEY index:", LANG.select.MSG_INPUT_ERR, apiKey.getLimitIndexs()))
 
     if index != SETTINGS.apiKeyIndex:
         SETTINGS.apiKeyIndex = index
@@ -244,14 +244,14 @@ def __displayTime__(seconds, granularity=2):
 
 def loginByWeb():
     try:
-        print(LANG.AUTH_START_LOGIN)
+        print(LANG.select.AUTH_START_LOGIN)
         # get device code
         url = TIDAL_API.getDeviceCode()
 
-        print(LANG.AUTH_NEXT_STEP.format(
+        print(LANG.select.AUTH_NEXT_STEP.format(
             aigpy.cmd.green(url),
             aigpy.cmd.yellow(__displayTime__(TIDAL_API.key.authCheckTimeout))))
-        print(LANG.AUTH_WAITING)
+        print(LANG.select.AUTH_WAITING)
 
         start = time.time()
         elapsed = 0
@@ -261,7 +261,7 @@ def loginByWeb():
                 time.sleep(TIDAL_API.key.authCheckInterval + 1)
                 continue
 
-            Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(
+            Printf.success(LANG.select.MSG_VALID_ACCESSTOKEN.format(
                 __displayTime__(int(TIDAL_API.key.expiresIn))))
 
             TOKEN.userid = TIDAL_API.key.userId
@@ -272,7 +272,7 @@ def loginByWeb():
             TOKEN.save()
             return True
 
-        raise Exception(LANG.AUTH_TIMEOUT)
+        raise Exception(LANG.select.AUTH_TIMEOUT)
     except Exception as e:
         Printf.err(f"Login failed.{str(e)}")
         return False
@@ -284,7 +284,7 @@ def loginByConfig():
             return False
 
         if TIDAL_API.verifyAccessToken(TOKEN.accessToken):
-            Printf.info(LANG.MSG_VALID_ACCESSTOKEN.format(
+            Printf.info(LANG.select.MSG_VALID_ACCESSTOKEN.format(
                 __displayTime__(int(TOKEN.expiresAfter - time.time()))))
 
             TIDAL_API.key.countryCode = TOKEN.countryCode
@@ -292,9 +292,9 @@ def loginByConfig():
             TIDAL_API.key.accessToken = TOKEN.accessToken
             return True
 
-        Printf.info(LANG.MSG_INVALID_ACCESSTOKEN)
+        Printf.info(LANG.select.MSG_INVALID_ACCESSTOKEN)
         if TIDAL_API.refreshAccessToken(TOKEN.refreshToken):
-            Printf.success(LANG.MSG_VALID_ACCESSTOKEN.format(
+            Printf.success(LANG.select.MSG_VALID_ACCESSTOKEN.format(
                 __displayTime__(int(TIDAL_API.key.expiresIn))))
 
             TOKEN.userid = TIDAL_API.key.userId
