@@ -78,7 +78,10 @@ def main():
     Printf.logo()
     Printf.settings()
     
-    if not loginByConfig():
+    if not apiKey.isItemValid(SETTINGS.apiKeyIndex):
+        changeApiKey()
+        loginByWeb()
+    elif not loginByConfig():
         loginByWeb()
     
     Printf.checkVersion()

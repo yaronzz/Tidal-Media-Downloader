@@ -290,6 +290,8 @@ class TidalAPI(object):
             ret.encryptionKey = manifest['keyId'] if 'keyId' in manifest else ""
             ret.url = manifest['urls'][0]
             return ret
+        # else:
+        #     manifest = json.loads(base64.b64decode(resp.manifest).decode('utf-8'))
         raise Exception("Can't get the streamUrl, type is " + resp.manifestMimeType)
 
     def getVideoStreamUrl(self, id, quality: VideoQuality):
