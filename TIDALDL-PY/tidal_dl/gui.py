@@ -19,6 +19,7 @@ from tidal_dl.printf import *
 enableGui = False
 try:
     params = importlib.import_module('PyQt5')
+    params = importlib.import_module('qt_material')
     enableGui = True
 except Exception as e:
     pass
