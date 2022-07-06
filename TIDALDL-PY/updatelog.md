@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2022-07-06
+
 1. [X] Mulithread download
 
 #### v2022-06-23
