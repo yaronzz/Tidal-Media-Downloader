@@ -1,6 +1,8 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+1. [X] Mulithread download
+
 #### v2022-06-23
 
 1. [X] remove redundant configuration

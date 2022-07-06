@@ -88,6 +88,7 @@ class LangKorean(object):
     CHANGE_LYRICS_SERVER_PROXY = "가사 서버 프록시('0'-변경 안 함):"
     CHANGE_ADD_LRC_FILE = "timed 가사 .lrc 파일 저장 ('0'-아니요,'1'-예):"
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "로그인 중..."

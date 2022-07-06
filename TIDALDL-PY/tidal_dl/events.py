@@ -32,10 +32,8 @@ def start_album(obj: Album):
         downloadAlbumInfo(obj, tracks)
     if SETTINGS.saveCovers:
         downloadCover(obj)
-    for item in tracks:
-        downloadTrack(item, obj)
-    for item in videos:
-        downloadVideo(item, obj)
+    downloadTracks(tracks, obj)
+    downloadVideos(videos, obj)
 
 
 def start_track(obj: Track):
@@ -46,7 +44,6 @@ def start_track(obj: Track):
 
 
 def start_video(obj: Video):
-    # Printf.video(obj)
     downloadVideo(obj, obj.album)
 
 
@@ -60,28 +57,14 @@ def start_artist(obj: Artist):
 def start_playlist(obj: Playlist):
     Printf.playlist(obj)
     tracks, videos = TIDAL_API.getItems(obj.uuid, Type.Playlist)
-
-    for index, item in enumerate(tracks):
-        album = TIDAL_API.getAlbum(item.album.id)
-        item.trackNumberOnPlaylist = index + 1
-        downloadTrack(item, album, obj)
-        if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
-            downloadCover(album)
-    for item in videos:
-        downloadVideo(item, None)
+    downloadTracks(tracks, None, obj)
+    downloadVideos(videos, None, obj)
 
 
 def start_mix(obj: Mix):
     Printf.mix(obj)
-    for index, item in enumerate(obj.tracks):
-        album = TIDAL_API.getAlbum(item.album.id)
-        item.trackNumberOnPlaylist = index + 1
-        downloadTrack(item, album)
-        if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
-            downloadCover(album)
-
-    for item in obj.videos:
-        downloadVideo(item, None)
+    downloadTracks(obj.tracks, None, None)
+    downloadVideos(obj.videos, None, None)
 
 
 def start_file(string):
@@ -114,6 +97,7 @@ def start_type(etype: Type, obj):
     elif etype == Type.Mix:
         start_mix(obj)
 
+
 def start(string):
     if aigpy.string.isNull(string):
         Printf.err('Please enter something.')
@@ -137,6 +121,7 @@ def start(string):
             start_type(etype, obj)
         except Exception as e:
             Printf.err(str(e))
+
 
 '''
 =================================
@@ -189,6 +174,7 @@ def changeSettings():
     SETTINGS.saveCovers = Printf.enterBool(LANG.select.CHANGE_SAVE_COVERS)
     SETTINGS.saveAlbumInfo = Printf.enterBool(LANG.select.CHANGE_SAVE_ALBUM_INFO)
     SETTINGS.lyricFile = Printf.enterBool(LANG.select.CHANGE_ADD_LRC_FILE)
+    SETTINGS.multiThread = Printf.enterBool(LANG.select.CHANGE_MULITHREAD_DOWNLOAD)
     SETTINGS.usePlaylistFolder = Printf.enterBool(LANG.select.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):")
     SETTINGS.language = Printf.enter(LANG.select.CHANGE_LANGUAGE + "(" + LANG.getLangChoicePrint() + "):")
     LANG.setLang(SETTINGS.language)

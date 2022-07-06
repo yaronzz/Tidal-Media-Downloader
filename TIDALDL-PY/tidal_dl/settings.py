@@ -26,6 +26,7 @@ class Settings(aigpy.model.ModelBase):
     showProgress = True
     showTrackInfo = True
     saveAlbumInfo = False
+    multiThread = False
 
     downloadPath = "./download/"
     audioQuality = AudioQuality.Normal

@@ -88,6 +88,7 @@ class LangJapanese(object):
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0'-変更しない):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-いいえ,'1'-はい):"
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."

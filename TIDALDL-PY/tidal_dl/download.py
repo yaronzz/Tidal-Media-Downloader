@@ -16,6 +16,7 @@ from tidal_dl.printf import *
 from tidal_dl.decryption import *
 from tidal_dl.tidal import *
 
+from concurrent.futures import ThreadPoolExecutor
 
 def __isSkip__(finalpath, url):
     if not SETTINGS.checkExist:
@@ -84,10 +85,10 @@ def downloadCover(album):
 def downloadAlbumInfo(album, tracks):
     if album is None:
         return
-    
+
     path = getAlbumPath(album)
     aigpy.path.mkdirs(path)
-    
+
     path += '/AlbumInfo.txt'
     infos = ""
     infos += "[ID]          %s\n" % (str(album.id))
@@ -113,7 +114,7 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
     try:
         stream = TIDAL_API.getVideoStreamUrl(video.id, SETTINGS.videoQuality)
         path = getVideoPath(video, album, playlist)
-
+        
         Printf.video(video, stream)
         logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
 
@@ -144,7 +145,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         stream = TIDAL_API.getStreamUrl(track.id, SETTINGS.audioQuality)
         path = getTrackPath(track, stream, album, playlist)
 
-        if SETTINGS.showTrackInfo:
+        if SETTINGS.showTrackInfo and not SETTINGS.multiThread:
             Printf.track(track, stream)
 
         if userProgress is not None:
@@ -161,7 +162,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
         tool.setUserProgress(userProgress)
         tool.setPartSize(partSize)
-        check, err = tool.start(SETTINGS.showProgress)
+        check, err = tool.start(SETTINGS.showProgress and not SETTINGS.multiThread)
         if not check:
             Printf.err(f"DL Track[{track.title}] failed.{str(err)}")
             return False, str(err)
@@ -180,7 +181,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
             lyrics = TIDAL_API.getLyrics(track.id).subtitles
             if SETTINGS.lyricFile:
                 lrcPath = path.rsplit(".", 1)[0] + '.lrc'
-                aigpy.fileHelper.write(lrcPath, lyrics, 'w')
+                aigpy.file.write(lrcPath, lyrics, 'w')
         except:
             lyrics = ''
 
@@ -190,3 +191,31 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
     except Exception as e:
         Printf.err(f"DL Track[{track.title}] failed.{str(e)}")
         return False, str(e)
+
+
+def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
+    def __getAlbum__(item: Track):
+        album = TIDAL_API.getAlbum(item.album.id)
+        if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
+            downloadCover(album)
+        return album
+    
+    if not SETTINGS.multiThread:
+        for index, item in enumerate(tracks):
+            if album is None:
+                album = __getAlbum__(item)
+                item.trackNumberOnPlaylist = index + 1
+            downloadTrack(item, album, playlist)
+    else:
+        thread_pool = ThreadPoolExecutor(max_workers=5)
+        for index, item in enumerate(tracks):
+            if album is None:
+                album = __getAlbum__(item)
+                item.trackNumberOnPlaylist = index + 1
+            thread_pool.submit(downloadTrack, item, album, playlist)
+        thread_pool.shutdown(wait=True)
+
+
+def downloadVideos(videos, album: Album, playlist=None):
+    for item in videos:
+        downloadVideo(item, album, playlist)

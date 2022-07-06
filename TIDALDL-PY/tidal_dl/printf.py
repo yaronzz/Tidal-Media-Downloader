@@ -102,6 +102,7 @@ class Printf(object):
             [LANG.select.SETTING_INCLUDE_EP, data.includeEP],
             [LANG.select.SETTING_LANGUAGE, LANG.getLangName(data.language)],
             [LANG.select.SETTINGS_ADD_LRC_FILE, data.lyricFile],
+            [LANG.select.SETTING_MULITHREAD_DOWNLOAD, data.multiThread],
             [LANG.select.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']]
         ])
         print(tb)

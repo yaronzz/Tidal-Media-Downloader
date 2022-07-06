@@ -88,6 +88,7 @@ class LangPolish(object):
     CHANGE_LYRICS_SERVER_PROXY = "Serwer proxy dla tekstów('0'-nie modyfikuj):"
     CHANGE_ADD_LRC_FILE = "Zapisz plik .lrc czasowych tekstów utworów ('0'-Nie,'1'-Tak):"
     CHANGE_ADD_TYPE_FOLDER = "Dodaj folder typu, np. Album/wideo/lista odtwarzania('0'-Nie,'1'-Tak):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Rozpoczęcie procesu logowania..."

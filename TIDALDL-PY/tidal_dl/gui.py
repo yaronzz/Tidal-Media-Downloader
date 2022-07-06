@@ -135,6 +135,7 @@ if enableGui:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
+            self.c_tableInfo.viewport().update()
 
         def download(self):
             index = self.c_tableInfo.currentIndex().row()

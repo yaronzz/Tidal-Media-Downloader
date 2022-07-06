@@ -88,6 +88,7 @@ class LangUkrainian(object):
     CHANGE_LYRICS_SERVER_PROXY = "Проксі для сервера з текстами пісень('0'-не змінювати):"
     CHANGE_ADD_LRC_FILE = "Зберігати тексти пісень з відмітками часу в .lrc файл('0'-Ні,'1'-Так):"
     CHANGE_ADD_TYPE_FOLDER = "Додавати теку-тип,наприклад Альбом/Відео/Плейлист('0'-Ні,'1'-Так):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Початок процесу авторизації..."

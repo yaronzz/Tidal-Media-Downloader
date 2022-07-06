@@ -88,6 +88,7 @@ class LangDutch(object):
     CHANGE_LYRICS_SERVER_PROXY = "Songtekst proxyserver('0'-niet wijzigen):"
     CHANGE_ADD_LRC_FILE = "Sla getimede songtekst .lrc-bestand op ('0'-Nee,'1'-Ja):"
     CHANGE_ADD_TYPE_FOLDER = "Type-map toevoegen, bijv. Album/Video/Playlist('0'-Nee,'1'-Ja):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Inlogproces starten..."

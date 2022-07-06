@@ -88,6 +88,7 @@ class LangHungarian(object):
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy('0' nincs módosítás):"
     CHANGE_ADD_LRC_FILE = "Dalszöveg mentése időbélyeggel .lrc fájl('0'-Nem,'1'-Igen):"
     CHANGE_ADD_TYPE_FOLDER = "Mappa típus hozzáadása, pl. Album/Video/Playlist('0'-Nem,'1'-Igen):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."

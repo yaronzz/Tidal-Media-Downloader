@@ -88,6 +88,7 @@ class LangPortuguese(object):
     CHANGE_LYRICS_SERVER_PROXY = "Proxy do servidor de letras ('0' não modificar):"
     CHANGE_ADD_LRC_FILE = "Salvar arquivo .lrc de letras cronometradas ('0'-Não,'1'-Sim):"
     CHANGE_ADD_TYPE_FOLDER = "Adicionar Tipo de Pasta, por exemplo, Álbum/Vídeo/Lista de Reprodução('0'-Não,'1'-Sim):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando o processo de login..."

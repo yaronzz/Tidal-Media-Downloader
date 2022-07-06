@@ -88,6 +88,7 @@ class LangVietnamese(object):
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
     CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-Không,'1'-Có):"
     CHANGE_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục, ví dụ Album/Video/Playlist('0'-Không,'1'-Có):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."
