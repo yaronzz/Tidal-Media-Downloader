@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   spanish.py
-@Time    :   2022/01/19
+@Time    :   2022/07/07
 @Author  :   Frikilinux & JavierSC
 @Version :   2.3
 @Contact :
@@ -80,7 +80,7 @@ class LangSpanish(object):
     CHANGE_LANGUAGE = "Seleccione el idioma"
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
-    CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
+    CHANGE_VIDEO_FILE_FORMAT = "Formato del archivo de video('0'-No modificar,'default'-por defecto):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"
     CHANGE_SHOW_TRACKINFO = "¿Mostrar información de pista?('0'-No,'1'-Sí):"
     CHANGE_SAVE_ALBUM_INFO = "¿Guardar AlbumInfo.txt?('0'-No,'1'-Sí):"
@@ -88,7 +88,7 @@ class LangSpanish(object):
     CHANGE_LYRICS_SERVER_PROXY = "¿Proxy del servidor de letras?('0' no modificar):"
     CHANGE_ADD_LRC_FILE = "¿Añadir letras cronometradas en un archivo .lrc? ('0'-No,'1'-Sí):"
     CHANGE_ADD_TYPE_FOLDER = "Añadir tipo de carpeta, ej: Album/Video/Playlist('0'-No,'1'-Sí):"
-    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_MULITHREAD_DOWNLOAD = "¿Descarga Multi-hilo?('0'-No,'1'-Sí:"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."
@@ -109,8 +109,8 @@ class LangSpanish(object):
     MODEL_PLAYLIST_PROPERTY = "PROPIEDAD-DE-PLAYLIST"
 
     MODEL_TITLE = 'Título'
-    MODEL_TRACK_NUMBER = 'Numero de pistas'
-    MODEL_VIDEO_NUMBER = 'Numero de videos'
+    MODEL_TRACK_NUMBER = 'Número de pistas'
+    MODEL_VIDEO_NUMBER = 'Número de videos'
     MODEL_RELEASE_DATE = 'Fecha de lanzamiento'
     MODEL_VERSION = 'Versión'
     MODEL_EXPLICIT = 'Explícito'
