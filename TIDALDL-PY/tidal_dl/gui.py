@@ -16,6 +16,7 @@ import importlib
 from tidal_dl.events import *
 from tidal_dl.settings import *
 from tidal_dl.printf import *
+from tidal_dl.enums import *
 
 
 def enableGui():
@@ -37,12 +38,29 @@ else:
     from PyQt5 import QtWidgets
     from qt_material import apply_stylesheet
 
+    class SettingView(QtWidgets.QWidget):
+        def __init__(self, ) -> None:
+            super().__init__()
+            self.initView()
+            
+        def initView(self):
+            self.c_pathDownload = QtWidgets.QLineEdit()
+            self.c_pathAlbumFormat = QtWidgets.QLineEdit()
+            self.c_pathTrackFormat = QtWidgets.QLineEdit()
+            self.c_pathVideoFormat = QtWidgets.QLineEdit()
+            
+            self.mainGrid = QtWidgets.QVBoxLayout(self)
+            self.mainGrid.addWidget(self.c_pathDownload)
+            self.mainGrid.addWidget(self.c_pathAlbumFormat)
+            self.mainGrid.addWidget(self.c_pathTrackFormat)
+            self.mainGrid.addWidget(self.c_pathVideoFormat)
+            
     class EmittingStream(QObject):
         textWritten = pyqtSignal(str)
 
         def write(self, text):
             self.textWritten.emit(str(text))
-
+    
     class MainView(QtWidgets.QWidget):
         s_downloadEnd = pyqtSignal(str, bool, str)
 
@@ -66,11 +84,23 @@ else:
             self.c_lineSearch = QtWidgets.QLineEdit()
             self.c_btnSearch = QtWidgets.QPushButton("Search")
             self.c_btnDownload = QtWidgets.QPushButton("Download")
+            self.c_btnSetting = QtWidgets.QPushButton("Setting")
+            self.c_combType = QtWidgets.QComboBox()
+            self.c_combTQuality = QtWidgets.QComboBox()
+            self.c_combVQuality = QtWidgets.QComboBox()
+            self.c_widgetSetting = SettingView()
+            self.c_widgetSetting.hide()
 
             self.m_supportType = [Type.Album, Type.Playlist, Type.Track, Type.Video]
-            self.c_combType = QtWidgets.QComboBox()
             for item in self.m_supportType:
                 self.c_combType.addItem(item.name, item)
+                
+            for item in AudioQuality:
+                self.c_combTQuality.addItem(item.name, item)
+            for item in VideoQuality:
+                self.c_combVQuality.addItem(item.name, item)
+            self.c_combTQuality.setCurrentText(SETTINGS.audioQuality.name)
+            self.c_combVQuality.setCurrentText(SETTINGS.videoQuality.name)
 
             # init table
             columnNames = ['#', 'Title', 'Artists', 'Quality']
@@ -102,16 +132,31 @@ else:
             self.lineGrid.addWidget(self.c_lineSearch)
             self.lineGrid.addWidget(self.c_btnSearch)
 
-            self.mainGrid = QtWidgets.QVBoxLayout(self)
-            self.mainGrid.addLayout(self.lineGrid)
-            self.mainGrid.addWidget(self.c_tableInfo)
-            self.mainGrid.addWidget(self.c_btnDownload)
-            self.mainGrid.addWidget(self.c_printTextEdit)
+            self.line2Grid = QtWidgets.QHBoxLayout()
+            self.line2Grid.addWidget(QtWidgets.QLabel("QUALITY:"))
+            self.line2Grid.addWidget(self.c_combTQuality)
+            self.line2Grid.addWidget(self.c_combVQuality)
+            self.line2Grid.addStretch(4)
+            # self.line2Grid.addWidget(self.c_btnSetting)
+            self.line2Grid.addWidget(self.c_btnDownload)
+
+            self.funcGrid = QtWidgets.QVBoxLayout()
+            self.funcGrid.addLayout(self.lineGrid)
+            self.funcGrid.addWidget(self.c_tableInfo)
+            self.funcGrid.addLayout(self.line2Grid)
+            self.funcGrid.addWidget(self.c_printTextEdit)
+            
+            self.mainGrid = QtWidgets.QGridLayout(self)
+            self.mainGrid.addLayout(self.funcGrid, 0, 0)
+            self.mainGrid.addWidget(self.c_widgetSetting, 0, 0)
 
             # connect
             self.c_btnSearch.clicked.connect(self.search)
             self.c_btnDownload.clicked.connect(self.download)
             self.s_downloadEnd.connect(self.downloadEnd)
+            self.c_combTQuality.currentIndexChanged.connect(self.changeTQuality)
+            self.c_combVQuality.currentIndexChanged.connect(self.changeVQuality)
+            self.c_btnSetting.clicked.connect(self.showSettings)
 
         def addItem(self, rowIdx: int, colIdx: int, text):
             if isinstance(text, str):
@@ -197,7 +242,18 @@ else:
         def checkLogin(self):
             if not loginByConfig():
                 self.__info__('Login failed. Please log in using the command line first.')
-
+        
+        def changeTQuality(self, index):
+            SETTINGS.audioQuality = self.c_combTQuality.itemData(index)
+            SETTINGS.save()
+        
+        def changeVQuality(self, index):
+            SETTINGS.videoQuality = self.c_combVQuality.itemData(index)
+            SETTINGS.save()
+        
+        def showSettings(self):
+            self.c_widgetSetting.show()
+            
     def startGui():
         aigpy.cmd.enableColor(False)
 
