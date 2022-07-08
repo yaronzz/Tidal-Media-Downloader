@@ -31,6 +31,7 @@
         <a href="https://yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
     <br>
 </p>
+
 ## 📺 Installation 
 
 ```shell
