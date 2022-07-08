@@ -1,6 +1,7 @@
 <br>
     <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO">[GUI-REPOSITORY]</a>
 <br>
+
 <div align="center">
   <h1>Tidal-Media-Downloader</h1>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/LICENSE">
@@ -30,13 +31,20 @@
         <a href="https://yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
     <br>
 </p>
-
 ## 📺 Installation 
-| Name                          | platform                          | Install                                                      |
-| ----------------------------- | --------------------------------- | ------------------------------------------------------------ |
-| tidal-dl (cli)                | Windows \ Linux \ Macos \ Android | ```pip3 install tidal-dl --upgrade```<br />[Detailed Description](https://yaronzz.com/post/tidal_dl_installation/#Install) |
-| tidal-gui                     | Windows                           | [GUI Repository](https://github.com/yaronzz/Tidal-Media-Downloader-PRO) |
-| tidal-gui(**Cross-platform**) | Windows \ Linux \ Macos           | ```pip3 install tidal-gui --upgrade``` |
+
+```shell
+pip3 install tidal-dl --upgrade
+```
+
+| USE                                                   | FUNCTION                   |
+| ----------------------------------------------------- | -------------------------- |
+| tidal-dl                                              | Show interactive interface |
+| tidal-dl -h                                           | Show help-message          |
+| tidal-dl -l "https://tidal.com/browse/track/70973230" | Download link              |
+| tidal-dl -g                                           | Show simple-gui            |
+
+If you are using windows system, you can use [tidal-pro](https://github.com/yaronzz/Tidal-Media-Downloader-PRO)
 
 ### Nightly Builds
 
@@ -56,6 +64,8 @@
 ## 💽 User Interface
 
 <img src="https://i.loli.net/2020/08/19/gqW6zHI1SrKlomC.png" alt="image" style="zoom: 50%;" />
+
+![image-20220708105823257](https://s2.loli.net/2022/07/08/vV6HsxugwoDyGr8.png)
 
 ![image-20200806013705425](https://i.loli.net/2020/08/06/sPLowIlCGyOdpVN.png)
 
