@@ -230,18 +230,18 @@ else:
             self.c_btnDownload.setText(f"Downloading [${item_to_download}]...")
 
             def __thread_download__(model: MainView):
+                downloading_item = ""
                 try:
                     type = model.s_type
                     item = model.s_array[index]
                     start_type(type, item)
-                    item_name = ""
                     if isinstance(item, Artist):
-                        item_name = item.name
+                        downloading_item = item.name
                     else: 
-                        item_name = item.title
-                    model.s_downloadEnd.emit(item_name, True, '')
+                        downloading_item = item.title
+                    model.s_downloadEnd.emit(downloading_item, True, '')
                 except Exception as e:
-                    model.s_downloadEnd.emit(item.title, False, str(e))
+                    model.s_downloadEnd.emit(downloading_item, False, str(e))
 
             _thread.start_new_thread(__thread_download__, (self, ))
 
