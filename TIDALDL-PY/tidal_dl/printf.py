@@ -72,7 +72,7 @@ class Printf(object):
     @staticmethod
     def checkVersion():
         onlineVer = aigpy.pip.getLastVersion('tidal-dl')
-        if onlineVer is None:
+        if onlineVer is not None:
             icmp = aigpy.system.cmpVersion(onlineVer, VERSION)
             if icmp > 0:
                 Printf.info(LANG.select.PRINT_LATEST_VERSION + ' ' + onlineVer)

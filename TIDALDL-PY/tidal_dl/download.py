@@ -202,17 +202,19 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
     
     if not SETTINGS.multiThread:
         for index, item in enumerate(tracks):
-            if album is None:
-                album = __getAlbum__(item)
+            itemAlbum = album
+            if itemAlbum is None:
+                itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            downloadTrack(item, album, playlist)
+            downloadTrack(item, itemAlbum, playlist)
     else:
         thread_pool = ThreadPoolExecutor(max_workers=5)
         for index, item in enumerate(tracks):
-            if album is None:
-                album = __getAlbum__(item)
+            itemAlbum = album
+            if itemAlbum is None:
+                itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            thread_pool.submit(downloadTrack, item, album, playlist)
+            thread_pool.submit(downloadTrack, item, itemAlbum, playlist)
         thread_pool.shutdown(wait=True)
 
 
