@@ -28,6 +28,7 @@ class TidalAPI(object):
                        'clientSecret': 'vRAdA108tlvkJpTsGZS8rGZ7xTlbJ0qaZ2K9saEzsgY='}
 
     def __get__(self, path, params={}, urlpre='https://api.tidalhifi.com/v1/'):
+        header = {}
         header = {'authorization': f'Bearer {self.key.accessToken}'}
         params['countryCode'] = self.key.countryCode
         errmsg = "Get operation err!"
@@ -86,12 +87,12 @@ class TidalAPI(object):
         return ret
 
     def __post__(self, path, data, auth=None, urlpre='https://auth.tidal.com/v1/oauth2'):
-        for index in range(0, 3):
+        for index in range(3):
             try:
                 result = requests.post(urlpre+path, data=data, auth=auth, verify=False).json()
                 return result
             except Exception as e:
-                if index >= 3:
+                if index == 2:
                     raise e
 
     def getDeviceCode(self) -> str:
