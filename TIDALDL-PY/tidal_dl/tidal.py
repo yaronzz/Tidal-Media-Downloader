@@ -28,7 +28,6 @@ class TidalAPI(object):
                        'clientSecret': 'vRAdA108tlvkJpTsGZS8rGZ7xTlbJ0qaZ2K9saEzsgY='}
 
     def __get__(self, path, params={}, urlpre='https://api.tidalhifi.com/v1/'):
-        header = {}
         header = {'authorization': f'Bearer {self.key.accessToken}'}
         params['countryCode'] = self.key.countryCode
         errmsg = "Get operation err!"
