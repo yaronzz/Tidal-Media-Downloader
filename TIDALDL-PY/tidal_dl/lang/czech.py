@@ -3,9 +3,9 @@
 '''
 @File    :   czech.py
 @Time    :   2022/07/26
-@Author  :   Sweder
+@Author  :   Tomikk & Sweder
 @Version :   1.1
-@Contact :   djsweder@gmail.com
+@Contact :   justtomikk@gmail.com & djsweder@gmail.com
 @Desc    :   
 '''
 
