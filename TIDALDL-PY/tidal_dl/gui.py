@@ -91,7 +91,8 @@ else:
             self.c_widgetSetting = SettingView()
             self.c_widgetSetting.hide()
 
-            self.m_supportType = [Type.Album, Type.Playlist, Type.Track, Type.Video]
+            # Supported types for search
+            self.m_supportType = [Type.Album, Type.Playlist, Type.Track, Type.Video, Type.Artist]
             for item in self.m_supportType:
                 self.c_combType.addItem(item.name, item)
                 
@@ -208,6 +209,10 @@ else:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
+                elif self.s_type in [Type.Artist]:
+                    self.addItem(index, 1, item.name)
+                    self.addItem(index, 2, '')
+                    self.addItem(index, 3, '')
             self.c_tableInfo.viewport().update()
 
         def download(self):
@@ -217,16 +222,26 @@ else:
                 return
 
             self.c_btnDownload.setEnabled(False)
-            self.c_btnDownload.setText(f"Downloading [{self.s_array[index].title}]...")
+            item_to_download = ""
+            if isinstance(self.s_array[index], Artist):
+                item_to_download = self.s_array[index].name
+            else:
+                item_to_download = self.s_array[index].title
+            self.c_btnDownload.setText(f"Downloading [${item_to_download}]...")
 
             def __thread_download__(model: MainView):
+                downloading_item = ""
                 try:
                     type = model.s_type
                     item = model.s_array[index]
                     start_type(type, item)
-                    model.s_downloadEnd.emit(item.title, True, '')
+                    if isinstance(item, Artist):
+                        downloading_item = item.name
+                    else: 
+                        downloading_item = item.title
+                    model.s_downloadEnd.emit(downloading_item, True, '')
                 except Exception as e:
-                    model.s_downloadEnd.emit(item.title, False, str(e))
+                    model.s_downloadEnd.emit(downloading_item, False, str(e))
 
             _thread.start_new_thread(__thread_download__, (self, ))
 
