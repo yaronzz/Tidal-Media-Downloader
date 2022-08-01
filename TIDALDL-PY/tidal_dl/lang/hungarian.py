@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   hungarian.py
-@Time    :   2022/02/10
+@Time    :   2022/08/01
 @Author  :   Shanahan
-@Version :   1.1
+@Version :   1.2
 @Contact :   
 @Desc    :   
 '''
@@ -31,7 +31,7 @@ class LangHungarian(object):
     SETTING_MULITHREAD_DOWNLOAD = "Többszálú letöltés"
     SETTING_ALBUM_FOLDER_FORMAT = "Album mappa formátum"
     SETTING_TRACK_FILE_FORMAT = "Track fájlformátum"
-    SETTING_VIDEO_FILE_FORMAT = "Video file format"
+    SETTING_VIDEO_FILE_FORMAT = "Videó fájlformátum"
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
     SETTING_SHOW_TRACKINFO = "Track infók megjelenítése"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
@@ -61,7 +61,7 @@ class LangHungarian(object):
     PRINT_ENTER_CHOICE = "Válasszon:"
     PRINT_LATEST_VERSION = "Legújabb verzió:"
     # PRINT_USERNAME = "felhasználónév:"
-    # PRINT_PASSWORD = "jelszó
+    # PRINT_PASSWORD = "jelszó:"
 
     CHANGE_START_SETTINGS = "Beállítások indítása('0'- Vissza, '1'-Igen):"
     CHANGE_DOWNLOAD_PATH = "Letöltési útvonal('0' nincs módosítás):"
@@ -74,21 +74,21 @@ class LangHungarian(object):
     CHANGE_USE_TRACK_NUM = "Track szám hozzáadása a fájlnevek előtt('0'-Nem,'1'-Igen):"
     CHANGE_CHECK_EXIST = "Létező fájl ellenőrzése letöltés előtt('0'-Nem,'1'-Igen):"
     CHANGE_ARTIST_BEFORE_TITLE = "Előadó hozzáadása a szám címe előtt('0'-Nem,'1'-Igen):"
-    CHANGE_INCLUDE_EP = "A kislemezek és EP-k letöltése('0'-nem, '1'-igen):"
+    CHANGE_INCLUDE_EP = "A kislemezek és EP-k letöltése('0'-Nem, '1'-Igen):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Azonosító (ID) az album mappa előtt('0'-Nem,'1'-Igen):"
-    CHANGE_SAVE_COVERS = "Borító mentése('0'-nem, '1'-igen):"
+    CHANGE_SAVE_COVERS = "Borító mentése('0'-Nem, '1'-Igen):"
     CHANGE_LANGUAGE = "Nyelv kiválasztása"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album mappa formátum('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_TRACK_FILE_FORMAT = "Track fájl neve('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
-    CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
-    CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-nem, '1'-igen):"
-    CHANGE_SHOW_TRACKINFO = "Track infók megjelenítése('0'-No,'1'-Yes):"
-    CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-nem, '1'-igen):"
-    CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-nem,'1'-igen):"
+    CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-nincs módosítás,'default' az alapértelmezett beállításhoz):"
+    CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-Nem, '1'-Igen):"
+    CHANGE_SHOW_TRACKINFO = "Track infók megjelenítése('0'-Nem,'1'-Igen):"
+    CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-Nem, '1'-Igen):"
+    CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-Nem,'1'-Igen):"
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy('0' nincs módosítás):"
     CHANGE_ADD_LRC_FILE = "Dalszöveg mentése időbélyeggel .lrc fájl('0'-Nem,'1'-Igen):"
     CHANGE_ADD_TYPE_FOLDER = "Mappa típus hozzáadása, pl. Album/Video/Playlist('0'-Nem,'1'-Igen):"
-    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Többszálas letöltés('0'-Nem,'1'-Igen):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."
@@ -102,11 +102,11 @@ class LangHungarian(object):
     MSG_PATH_ERR = "Az útvonal hibás!"
     MSG_INPUT_ERR = "Beviteli hiba!"
 
-    MODEL_ALBUM_PROPERTY = "ALBUM-TULAJDONSÁG"
-    MODEL_TRACK_PROPERTY = "TRACK-TULAJDONSÁG"
-    MODEL_VIDEO_PROPERTY = "VIDEO-TULAJDONSÁG"
-    MODEL_ARTIST_PROPERTY = "ELŐADÓ-TULAJDONSÁG"
-    MODEL_PLAYLIST_PROPERTY = "LEJÁTSZÁSI LISTA-TULAJDONSÁG"
+    MODEL_ALBUM_PROPERTY = "ALBUM-INFÓ"
+    MODEL_TRACK_PROPERTY = "TRACK-INFÓ"
+    MODEL_VIDEO_PROPERTY = "VIDEO-INFÓ"
+    MODEL_ARTIST_PROPERTY = "ELŐADÓ-INFÓ"
+    MODEL_PLAYLIST_PROPERTY = "LEJÁTSZÁSI LISTA-INFÓ"
 
     MODEL_TITLE = 'Cím'
     MODEL_TRACK_NUMBER = 'Track száma'
