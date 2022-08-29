@@ -8,6 +8,8 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   
 '''
+from pickle import GLOBAL
+import threading
 import aigpy
 import logging
 import prettytable
@@ -36,8 +38,7 @@ __LOGO__ = f'''
                         {VERSION}
 '''
 
-
-
+print_mutex = threading.Lock()
 
 class Printf(object):
 
@@ -170,16 +171,25 @@ class Printf(object):
 
     @staticmethod
     def err(string):
+        global print_mutex
+        print_mutex.acquire()
         print(aigpy.cmd.red(LANG.select.PRINT_ERR + " ") + string)
         # logging.error(string)
-
+        print_mutex.release()
+        
     @staticmethod
     def info(string):
+        global print_mutex
+        print_mutex.acquire()
         print(aigpy.cmd.blue(LANG.select.PRINT_INFO + " ") + string)
+        print_mutex.release()
 
     @staticmethod
     def success(string):
+        global print_mutex
+        print_mutex.acquire()
         print(aigpy.cmd.green(LANG.select.PRINT_SUCCESS + " ") + string)
+        print_mutex.release()
 
     @staticmethod
     def album(data: Album):

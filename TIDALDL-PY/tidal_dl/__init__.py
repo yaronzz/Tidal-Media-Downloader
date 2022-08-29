@@ -70,6 +70,7 @@ def mainCommand():
 def main():
     SETTINGS.read(getProfilePath())
     TOKEN.read(getTokenPath())
+    TIDAL_API.apiKey = apiKey.getItem(SETTINGS.apiKeyIndex)
     
     if len(sys.argv) > 1:
         mainCommand()

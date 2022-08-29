@@ -1,15 +1,17 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+- [X] Fix #931 
+
 #### v2022-07-06
 
-1. [X] Mulithread download
+- [X] Mulithread download
 
 #### v2022-06-23
 
-1. [X] remove redundant configuration
-2. [X] add simple-gui
-3. [X] optimize code
+- [X] remove redundant configuration
+- [X] add simple-gui
+- [X] optimize code
 
 #### v2022-03-04
 
