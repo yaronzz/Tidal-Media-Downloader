@@ -1,5 +1,6 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
+#### v2022-08-29
 
 - [X] Fix #931 
 

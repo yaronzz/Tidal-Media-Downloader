@@ -22,7 +22,7 @@ from tidal_dl.settings import *
 from tidal_dl.lang.language import *
 
 
-VERSION = '2022.07.14.1'
+VERSION = '2022.08.29.1'
 __LOGO__ = f'''
  /$$$$$$$$ /$$       /$$           /$$               /$$ /$$
 |__  $$__/|__/      | $$          | $$              | $$| $$
