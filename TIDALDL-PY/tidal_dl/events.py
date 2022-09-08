@@ -30,7 +30,7 @@ def start_album(obj: Album):
     tracks, videos = TIDAL_API.getItems(obj.id, Type.Album)
     if SETTINGS.saveAlbumInfo:
         downloadAlbumInfo(obj, tracks)
-    if SETTINGS.saveCovers:
+    if SETTINGS.saveCovers and obj.cover is not None:
         downloadCover(obj)
     downloadTracks(tracks, obj)
     downloadVideos(videos, obj)
