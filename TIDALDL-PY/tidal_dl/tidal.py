@@ -269,7 +269,7 @@ class TidalAPI(object):
         tracks = []
         videos = []
         for item in data:
-            if item['type'] == 'track':
+            if item['type'] == 'track' and item['item']['streamReady']:
                 tracks.append(aigpy.model.dictToModel(item['item'], Track()))
             else:
                 videos.append(aigpy.model.dictToModel(item['item'], Video()))
