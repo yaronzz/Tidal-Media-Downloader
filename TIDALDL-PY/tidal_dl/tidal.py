@@ -9,6 +9,8 @@
 @Desc    :   tidal api
 '''
 import json
+import random
+import time
 import aigpy
 import base64
 import requests
@@ -35,6 +37,21 @@ class TidalAPI(object):
         for index in range(0, 3):
             try:
                 respond = requests.get(urlpre + path, headers=header, params=params)
+                if respond.url.find("playbackinfopostpaywall") != -1:
+                    # random sleep between 0.5 and 5 seconds and print it
+                    sleep_time = random.randint(500, 5000) / 1000
+                    print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+                    time.sleep(sleep_time)
+
+                if respond.status_code == 429:
+                    print('Too many requests, waiting for 20 seconds...')
+                    # Loop countdown 20 seconds and print the remaining time
+                    for i in range(20, 0, -1):
+                        time.sleep(1)
+                        print(i, end=' ')
+                    print('')
+                    continue
+
                 result = json.loads(respond.text)
                 if 'status' not in result:
                     return result
@@ -252,7 +269,7 @@ class TidalAPI(object):
         tracks = []
         videos = []
         for item in data:
-            if item['type'] == 'track':
+            if item['type'] == 'track' and item['item']['streamReady']:
                 tracks.append(aigpy.model.dictToModel(item['item'], Track()))
             else:
                 videos.append(aigpy.model.dictToModel(item['item'], Video()))
