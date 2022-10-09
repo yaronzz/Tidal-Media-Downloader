@@ -79,6 +79,7 @@ class LangHungarian(object):
     CHANGE_SAVE_COVERS = "Borító mentése('0'-Nem, '1'-Igen):"
     CHANGE_LANGUAGE = "Nyelv kiválasztása"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album mappa formátum('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Track fájl neve('0' nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-nincs módosítás,'default' az alapértelmezett beállításhoz):"
     CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-Nem, '1'-Igen):"

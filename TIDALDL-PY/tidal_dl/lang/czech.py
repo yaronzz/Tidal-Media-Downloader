@@ -79,6 +79,7 @@ class LangCzech(object):
     CHANGE_SAVE_COVERS = "Uložit obaly alb ('0'-Ne,'1'-Ano):"
     CHANGE_LANGUAGE = "Zvolit jazyk"
     CHANGE_ALBUM_FOLDER_FORMAT = "Formát názvu složky alba ('0' beze změny):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Formát názvu složky skladny ('0' beze změny):"
     CHANGE_VIDEO_FILE_FORMAT = "Formát názvu souboru videa ('0'-beze změny,'default'-pro nastavení výchozího názvu):"
     CHANGE_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování ('0'-Ne,'1'-Ano):"

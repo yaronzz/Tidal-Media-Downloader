@@ -79,6 +79,7 @@ class LangSpanish(object):
     CHANGE_SAVE_COVERS = "¿Guardar carátulas?('0'-No,'1'-Sí):"
     CHANGE_LANGUAGE = "Seleccione el idioma"
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum ('0' No modificar):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista ('0' No modificar):"
     CHANGE_VIDEO_FILE_FORMAT = "Formato del archivo de video('0'-No modificar,'default'-por defecto):"
     CHANGE_SHOW_PROGRESS = "¿Mostrar progreso? ('0'-No,'1'-Sí):"

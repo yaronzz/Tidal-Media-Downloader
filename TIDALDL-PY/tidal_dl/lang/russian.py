@@ -79,6 +79,7 @@ class LangRussian(object):
     CHANGE_SAVE_COVERS = "Сохранять обложки('0'-Нет,'1'-Да):"
     CHANGE_LANGUAGE = "Выбрать язык"
     CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0' не менять):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"

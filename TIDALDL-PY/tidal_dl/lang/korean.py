@@ -79,6 +79,7 @@ class LangKorean(object):
     CHANGE_SAVE_COVERS = "커버 저장('0'-아니요,'1'-예):"
     CHANGE_LANGUAGE = "언어 선택"
     CHANGE_ALBUM_FOLDER_FORMAT = "앨범 폴더 형식('0'-변경 안 함,'default'-기본 설정):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "트랙 파일 형식('0'-변경 안 함,'default'-기본 설정):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "진행 상태 표시('0'-아니요,'1'-예):"

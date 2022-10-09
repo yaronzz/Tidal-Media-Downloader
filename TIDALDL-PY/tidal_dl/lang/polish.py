@@ -79,6 +79,7 @@ class LangPolish(object):
     CHANGE_SAVE_COVERS = "Zapisz okładki('0'-Nie,'1'-Tak):"
     CHANGE_LANGUAGE = "Wybierz język"
     CHANGE_ALBUM_FOLDER_FORMAT = "Format folderu albumu('0'-nie modyfikuj,'default'-by ustawić domyślny):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Format pliku utworu('0'-nie modyfikuj,'default'-by ustawić domyślny):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Pokaż postęp('0'-Nie,'1'-Tak):"

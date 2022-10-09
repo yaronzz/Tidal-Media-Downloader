@@ -79,6 +79,7 @@ class LangChinese(object):
     CHANGE_SAVE_COVERS = "保存封面('0'-不,'1'-是):"
     CHANGE_LANGUAGE = "选择语言"
     CHANGE_ALBUM_FOLDER_FORMAT = "专辑目录格式('0' 不修改):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "歌曲文件名格式('0' 不修改):"
     CHANGE_VIDEO_FILE_FORMAT = "视频文件名格式('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "显示进度条('0'-不,'1'-是):"

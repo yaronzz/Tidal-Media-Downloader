@@ -79,6 +79,7 @@ class LangDutch(object):
     CHANGE_SAVE_COVERS = "Covers opslaan('0'-Nee,'1'-Ja):"
     CHANGE_LANGUAGE = "Selecteer taal"
     CHANGE_ALBUM_FOLDER_FORMAT = "Albummapindeling ('0'-niet wijzigen,'standaard'-om standaard in te stellen):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Bestandsformaat bijhouden ('0'-niet wijzigen,'standaard'-om standaard in te stellen):"
     CHANGE_VIDEO_FILE_FORMAT = "Videobestandsindeling('0'-niet wijzigen,'standaard'-om standaard in te stellen):"
     CHANGE_SHOW_PROGRESS = "Voortgang weergeven('0'-Nee,'1'-Ja):"

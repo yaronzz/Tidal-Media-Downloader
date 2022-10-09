@@ -79,6 +79,7 @@ class LangPortuguese(object):
     CHANGE_SAVE_COVERS = "Salvar Capas('0'-Não,'1'-Sim):"
     CHANGE_LANGUAGE = "Selecionar idioma"
     CHANGE_ALBUM_FOLDER_FORMAT = "Formato da pasta do álbum ('0' não modificar)"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Formato do arquivo de trilha ('0' não modificar):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Mostrar progresso('0'-Não,'1'-Sim):"

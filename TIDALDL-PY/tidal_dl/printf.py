@@ -86,6 +86,7 @@ class Printf(object):
             [LANG.select.SETTING_PATH, getProfilePath()],
             [LANG.select.SETTING_DOWNLOAD_PATH, data.downloadPath],
             [LANG.select.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat],
+            [LANG.select.SETTING_PLAYLIST_FOLDER_FORMAT, data.playlistFolderFormat],
             [LANG.select.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat],
             [LANG.select.SETTING_VIDEO_FILE_FORMAT, data.videoFileFormat],
             

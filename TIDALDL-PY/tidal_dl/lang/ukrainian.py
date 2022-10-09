@@ -79,6 +79,7 @@ class LangUkrainian(object):
     CHANGE_SAVE_COVERS = "Зберігати обкладинки('0'-Ні,'1'-Так):"
     CHANGE_LANGUAGE = "Обрати мову"
     CHANGE_ALBUM_FOLDER_FORMAT = "Формат теки альбому('0'-не змінювати):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Формат файлу треку('0'-не змінювати):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Показувати прогрес('0'-Ні,'1'-Так):"

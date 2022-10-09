@@ -79,6 +79,7 @@ class LangFrench(object):
     CHANGE_SAVE_COVERS = "Sauvegarder les couvertures('0'-Non,'1'-Oui):"
     CHANGE_LANGUAGE = "Sélectionnez une langue"
     CHANGE_ALBUM_FOLDER_FORMAT = "Format du dossier d'album('0' ne pas modifier):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Format du fichier de tracklist('0' ne pas modifier):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Afficher la progression('0'-Non,'1'-Oui):"

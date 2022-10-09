@@ -79,6 +79,7 @@ class LangDanish(object):
     CHANGE_SAVE_COVERS = "Gem omslag('0'-Nej,'1'-Ja):"
     CHANGE_LANGUAGE = "Vælg sprog"
     CHANGE_ALBUM_FOLDER_FORMAT = "Albummappeformat('0' Ændrer ikke, 'default' for at indstille som standard):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Musiknummerets filformat('0' Ændrer ikke, 'default' for at indstille som standard):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Vis fremskridt('0'-Nej,'1'-Ja):"

@@ -79,6 +79,7 @@ class LangTurkish(object):
     CHANGE_SAVE_COVERS = ">>> Albüm kapağı indirilsin mi?('0'-Hayır,'1'-Evet): "
     CHANGE_LANGUAGE = ">>> Lisan Seç "
     CHANGE_ALBUM_FOLDER_FORMAT = "Albüm Klasör İsmi Formatı('0' aynı kalsın):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Dosya İsmi Formatı('0' aynı kalsın):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "İndirme Çubuğu Görüntülensin mi?('0'-Hayır,'1'-Evet):"

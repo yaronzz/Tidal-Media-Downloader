@@ -79,6 +79,7 @@ class LangVietnamese(object):
     CHANGE_SAVE_COVERS = "Tải ảnh bìa('0'-Không,'1'-Có):"
     CHANGE_LANGUAGE = "Chọn ngôn ngữ"
     CHANGE_ALBUM_FOLDER_FORMAT = "Định dạng thư mục album('0' không đổi,'default' để đặt về mặc định):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Định dạng tên tệp nhạc('0' không đổi,'default' để đặt về mặc định):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"

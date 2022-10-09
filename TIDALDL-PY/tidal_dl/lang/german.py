@@ -79,6 +79,7 @@ class LangGerman(object):
     CHANGE_SAVE_COVERS = "Cover speichern ('0'-Nein,'1'-Ja):"
     CHANGE_LANGUAGE = "Sprache auswählen"
     CHANGE_ALBUM_FOLDER_FORMAT = "Album-Ordnerformat('0' überspringen):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
     CHANGE_TRACK_FILE_FORMAT = "Track-Dateiformat('0' überspringen):"
     CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
     CHANGE_SHOW_PROGRESS = "Fortschritt anzeigen('0'-Nein,'1'-Ja):"
