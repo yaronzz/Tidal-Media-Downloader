@@ -21,6 +21,7 @@ from tidal_dl.lang.french import LangFrench
 from tidal_dl.lang.german import LangGerman
 from tidal_dl.lang.hungarian import LangHungarian
 from tidal_dl.lang.italian import LangItalian
+from tidal_dl.lang.norwegian import LangNorwegian
 from tidal_dl.lang.polish import LangPolish
 from tidal_dl.lang.portuguese import LangPortuguese
 from tidal_dl.lang.russian import LangRussian
@@ -53,6 +54,7 @@ _ALL_LANGUAGE_ = [
     ['Japanese', LangJapanese()],
     ['Dutch', LangDutch()],
     ['Polish', LangPolish()],
+    ['Norwegian', LangNorwegian()],
 ]
 
 class Language(object):

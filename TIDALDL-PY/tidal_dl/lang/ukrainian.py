@@ -30,6 +30,7 @@ class LangUkrainian(object):
     SETTING_USE_PLAYLIST_FOLDER = "Використовувати папку плейлиста"
     SETTING_MULITHREAD_DOWNLOAD = "Багатопоточне завантаження"
     SETTING_ALBUM_FOLDER_FORMAT = "Формат папки альбому"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Формат файлу треку"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "Показувати прогрес"
@@ -37,8 +38,8 @@ class LangUkrainian(object):
     SETTING_SAVE_ALBUMINFO = "Зберігати AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Додавати тексти пісень"
     SETTING_LYRICS_SERVER_PROXY = "Проксі для сервера з текстами пісень"
+    SETTING_ADD_LRC_FILE = "Зберігати тексти з відмітками часу (.lrc файл)"
     SETTING_PATH = "Шлях налаштувань"
-    SETTINGS_ADD_LRC_FILE = "Зберігати тексти з відмітками часу (.lrc файл)"
     SETTING_APIKEY = "Підтримка ключа API"
     SETTING_ADD_TYPE_FOLDER = "Додавати папку-тип"
 

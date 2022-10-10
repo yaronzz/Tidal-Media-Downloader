@@ -30,6 +30,7 @@ class LangRussian(object):
     SETTING_USE_PLAYLIST_FOLDER = "Плейлисты в отдельную папку"
     SETTING_MULITHREAD_DOWNLOAD = "Многопоточная загрузка"
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
@@ -37,8 +38,8 @@ class LangRussian(object):
     SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
+    SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_PATH = "Путь для настроек"
-    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 

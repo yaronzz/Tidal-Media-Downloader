@@ -30,6 +30,7 @@ class LangPortuguese(object):
     SETTING_USE_PLAYLIST_FOLDER = "Usar pasta de lista de reprodução"
     SETTING_MULITHREAD_DOWNLOAD = "Download de vários tópicos"
     SETTING_ALBUM_FOLDER_FORMAT = "Formato da pasta do álbum"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Track file format"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "Mostrar progresso"
@@ -37,8 +38,8 @@ class LangPortuguese(object):
     SETTING_SAVE_ALBUMINFO = "Salvar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Adicionar Letra da Música"
     SETTING_LYRICS_SERVER_PROXY = "Proxy do servidor de letras"
+    SETTING_ADD_LRC_FILE = "Salvar letras cronometradas (.lrc file)"
     SETTING_PATH = "Settings path"
-    SETTINGS_ADD_LRC_FILE = "Salvar letras cronometradas (.lrc file)"
     SETTING_APIKEY = "Suporte APIKey"
     SETTING_ADD_TYPE_FOLDER = "Adicionar tipo de pasta"
 

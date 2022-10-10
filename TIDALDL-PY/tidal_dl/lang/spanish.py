@@ -30,6 +30,7 @@ class LangSpanish(object):
     SETTING_USE_PLAYLIST_FOLDER = "Usar directorio de la lista de reproducción"
     SETTING_MULITHREAD_DOWNLOAD = "Descarga Multi-hilo"
     SETTING_ALBUM_FOLDER_FORMAT = "Formato del nombre de carpeta del álbum"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Formato del nombre de archivo de la pista"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
@@ -37,8 +38,8 @@ class LangSpanish(object):
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
+    SETTING_ADD_LRC_FILE = "Añadir letras cronometradas (archivo .lrc)"
     SETTING_PATH = "Ruta de ajustes"
-    SETTINGS_ADD_LRC_FILE = "Añadir letras cronometradas (archivo .lrc)"
     SETTING_APIKEY = "Soporte de la APIKey"
     SETTING_ADD_TYPE_FOLDER = "Añadir tipo de carpeta"
 

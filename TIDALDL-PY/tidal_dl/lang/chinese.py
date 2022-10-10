@@ -30,6 +30,7 @@ class LangChinese(object):
     SETTING_USE_PLAYLIST_FOLDER = "将歌单下载到歌单目录"
     SETTING_MULITHREAD_DOWNLOAD = "多线程下载"
     SETTING_ALBUM_FOLDER_FORMAT = "专辑目录格式"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "歌曲文件名格式"
     SETTING_VIDEO_FILE_FORMAT = "视频文件格式"
     SETTING_SHOW_PROGRESS = "显示进度条"
@@ -37,8 +38,8 @@ class LangChinese(object):
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
+    SETTING_ADD_LRC_FILE = "保存歌词文件 (.lrc file)"
     SETTING_PATH = "配置文件目录"
-    SETTINGS_ADD_LRC_FILE = "保存歌词文件 (.lrc file)"
     SETTING_APIKEY = "APIKey支持"
     SETTING_ADD_TYPE_FOLDER = "添加类型文件夹"
 

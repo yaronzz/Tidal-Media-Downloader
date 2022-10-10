@@ -30,6 +30,7 @@ class LangHungarian(object):
     SETTING_USE_PLAYLIST_FOLDER = "Lejátszási lista mappa használata"
     SETTING_MULITHREAD_DOWNLOAD = "Többszálú letöltés"
     SETTING_ALBUM_FOLDER_FORMAT = "Album mappa formátum"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Track fájlformátum"
     SETTING_VIDEO_FILE_FORMAT = "Videó fájlformátum"
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
@@ -37,8 +38,8 @@ class LangHungarian(object):
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
+    SETTING_ADD_LRC_FILE = "Dalszövegek mentése (.lrc fájl)"
     SETTING_PATH = "Beállítási útvonal"
-    SETTINGS_ADD_LRC_FILE = "Dalszövegek mentése (.lrc fájl)"
     SETTING_APIKEY = "APIKey támogatás"
     SETTING_ADD_TYPE_FOLDER = "Mappa típus hozzáadása"
 

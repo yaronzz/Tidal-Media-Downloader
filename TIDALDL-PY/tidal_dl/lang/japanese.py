@@ -38,7 +38,7 @@ class LangJapanese(object):
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "歌詞を追加"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
-    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_PATH = "設定パス"
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"

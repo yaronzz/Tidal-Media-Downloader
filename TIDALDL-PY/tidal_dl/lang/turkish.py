@@ -30,6 +30,7 @@ class LangTurkish(object):
     SETTING_USE_PLAYLIST_FOLDER = "Albümler klasör halinde indirilsin mi ?"
     SETTING_MULITHREAD_DOWNLOAD = "Şarkılar tek tek indirilsin mi?"
     SETTING_ALBUM_FOLDER_FORMAT = "Klasör ismi formatı:"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Dosya ismi formatı:"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "İndirme Çubuğu Görüntüleme:"
@@ -37,8 +38,8 @@ class LangTurkish(object):
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
+    SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_PATH = "Settings path"
-    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 

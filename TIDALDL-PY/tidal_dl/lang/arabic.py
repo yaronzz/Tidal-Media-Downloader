@@ -39,7 +39,7 @@ class LangArabic(object):
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_PATH = "Settings path"
-    SETTINGS_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
 

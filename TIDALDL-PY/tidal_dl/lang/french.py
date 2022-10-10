@@ -30,6 +30,7 @@ class LangFrench(object):
     SETTING_USE_PLAYLIST_FOLDER = "Utiliser dossier de playlist"
     SETTING_MULITHREAD_DOWNLOAD = "Téléchargement multithread"
     SETTING_ALBUM_FOLDER_FORMAT = "Format du dossier d'album"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
     SETTING_TRACK_FILE_FORMAT = "Format du fichier de tracklist"
     SETTING_VIDEO_FILE_FORMAT = "Video file format"
     SETTING_SHOW_PROGRESS = "Afficher la Progression"
@@ -37,8 +38,8 @@ class LangFrench(object):
     SETTING_SAVE_ALBUMINFO = "Enregistrer AlbumInfo.txt"
     SETTING_ADD_LYRICS = "Inclure les paroles"
     SETTING_LYRICS_SERVER_PROXY = "Proxy du serveur de paroles"
+    SETTING_ADD_LRC_FILE = "Enregistrer les paroles synchronisées (fichier .lrc)"
     SETTING_PATH = "Emplacement des paramètres"
-    SETTINGS_ADD_LRC_FILE = "Enregistrer les paroles synchronisées (fichier .lrc)"
     SETTING_APIKEY = "Prise en charge de la clé API"
     SETTING_ADD_TYPE_FOLDER = "Ajouter un dossier de type"
 
