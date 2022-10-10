@@ -86,7 +86,7 @@ class LangFrench(object):
     CHANGE_SHOW_TRACKINFO = "Afficher les information de la piste ('0'-Non,'1'-Oui):"
     CHANGE_SAVE_ALBUM_INFO = "Enregistrer AlbumInfo.txt('0'-Non,'1'-Oui):"
     CHANGE_ADD_LYRICS = "Ajouter les paroles ('0'-Non,'1'-Oui):"
-    CHANGE_LYRICS_SERVER_PROXY = "Proxy du serveur de paroles('0' not modify):"
+    CHANGE_LYRICS_SERVER_PROXY = "Proxy du serveur de paroles('0'-not modify):"
     CHANGE_ADD_LRC_FILE = "Enregistrer les paroles synchronisées (fichier.lrc) ('0'-Non,'1'-Oui):"
     CHANGE_ADD_TYPE_FOLDER = "Ajouter un dossier de type,Ex: Album/Video/Playlist('0'-Non,'1'-Oui):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-Non,'1'-Oui):"
