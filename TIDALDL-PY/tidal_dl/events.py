@@ -141,6 +141,10 @@ def changePathSettings():
         LANG.select.CHANGE_ALBUM_FOLDER_FORMAT,
         SETTINGS.albumFolderFormat,
         SETTINGS.getDefaultPathFormat(Type.Album))
+    SETTINGS.playlistFolderFormat = Printf.enterFormat(
+        LANG.select.CHANGE_PLAYLIST_FOLDER_FORMAT,
+        SETTINGS.playlistFolderFormat,
+        SETTINGS.getDefaultPathFormat(Type.Playlist))
     SETTINGS.trackFileFormat = Printf.enterFormat(
         LANG.select.CHANGE_TRACK_FILE_FORMAT,
         SETTINGS.trackFileFormat,

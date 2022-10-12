@@ -86,6 +86,7 @@ class Printf(object):
             [LANG.select.SETTING_PATH, getProfilePath()],
             [LANG.select.SETTING_DOWNLOAD_PATH, data.downloadPath],
             [LANG.select.SETTING_ALBUM_FOLDER_FORMAT, data.albumFolderFormat],
+            [LANG.select.SETTING_PLAYLIST_FOLDER_FORMAT, data.playlistFolderFormat],
             [LANG.select.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat],
             [LANG.select.SETTING_VIDEO_FILE_FORMAT, data.videoFileFormat],
             
@@ -102,7 +103,7 @@ class Printf(object):
             [LANG.select.SETTING_SAVE_COVERS, data.saveCovers],
             [LANG.select.SETTING_INCLUDE_EP, data.includeEP],
             [LANG.select.SETTING_LANGUAGE, LANG.getLangName(data.language)],
-            [LANG.select.SETTINGS_ADD_LRC_FILE, data.lyricFile],
+            [LANG.select.SETTING_ADD_LRC_FILE, data.lyricFile],
             [LANG.select.SETTING_MULITHREAD_DOWNLOAD, data.multiThread],
             [LANG.select.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']]
         ])

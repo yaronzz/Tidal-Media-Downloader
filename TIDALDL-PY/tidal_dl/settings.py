@@ -33,12 +33,15 @@ class Settings(aigpy.model.ModelBase):
     videoQuality = VideoQuality.P360
     usePlaylistFolder = True
     albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
+    playlistFolderFormat = R"Playlist/{PlaylistName} [{PlaylistUUID}]"
     trackFileFormat = R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
     videoFileFormat = R"{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}"
 
     def getDefaultPathFormat(self, type: Type):
         if type == Type.Album:
             return R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"
+        elif type == Type.Playlist:
+            return R"Playlist/{PlaylistName} [{PlaylistUUID}]"
         elif type == Type.Track:
             return R"{TrackNumber} - {ArtistName} - {TrackTitle}{ExplicitFlag}"
         elif type == Type.Video:
@@ -72,6 +75,8 @@ class Settings(aigpy.model.ModelBase):
             self.albumFolderFormat = self.getDefaultPathFormat(Type.Album)
         if self.trackFileFormat is None:
             self.trackFileFormat = self.getDefaultPathFormat(Type.Track)
+        if self.playlistFolderFormat is None:
+            self.playlistFolderFormat = self.getDefaultPathFormat(Type.Playlist)
         if self.videoFileFormat is None:
             self.videoFileFormat = self.getDefaultPathFormat(Type.Video)
         if self.apiKeyIndex is None:

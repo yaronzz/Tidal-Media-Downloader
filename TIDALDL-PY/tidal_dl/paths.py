@@ -80,11 +80,16 @@ def getAlbumPath(album):
     retpath = retpath.strip()
     return f"{SETTINGS.downloadPath}/{retpath}"
 
-
 def getPlaylistPath(playlist):
-    # name
-    name = __fixPath__(playlist.title)
-    return f"{SETTINGS.downloadPath}/Playlist/{name}"
+    playlistName = __fixPath__(playlist.title)
+
+    # retpath
+    retpath = SETTINGS.playlistFolderFormat
+    if retpath is None or len(retpath) <= 0:
+        retpath = SETTINGS.getDefaultPlaylistFolderFormat()
+    retpath = retpath.replace(R"{PlaylistUUID}", str(playlist.uuid))
+    retpath = retpath.replace(R"{PlaylistName}", playlistName)
+    return f"{SETTINGS.downloadPath}/{retpath}"
 
 
 def getTrackPath(track, stream, album=None, playlist=None):
