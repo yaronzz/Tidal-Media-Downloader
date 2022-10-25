@@ -42,6 +42,7 @@ class LangSpanish(object):
     SETTING_PATH = "Ruta de ajustes"
     SETTING_APIKEY = "Soporte de la APIKey"
     SETTING_ADD_TYPE_FOLDER = "Añadir tipo de carpeta"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "SELECCIÓN"
     FUNCTION = "FUNCIÓN"
@@ -91,6 +92,7 @@ class LangSpanish(object):
     CHANGE_ADD_LRC_FILE = "¿Añadir letras cronometradas en un archivo .lrc? ('0'-No,'1'-Sí):"
     CHANGE_ADD_TYPE_FOLDER = "Añadir tipo de carpeta, ej: Album/Video/Playlist('0'-No,'1'-Sí):"
     CHANGE_MULITHREAD_DOWNLOAD = "¿Descarga Multi-hilo?('0'-No,'1'-Sí:"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando sesión..."

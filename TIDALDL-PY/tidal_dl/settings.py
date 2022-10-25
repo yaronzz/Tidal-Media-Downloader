@@ -27,6 +27,7 @@ class Settings(aigpy.model.ModelBase):
     showTrackInfo = True
     saveAlbumInfo = False
     multiThread = False
+    downloadDelay = True
 
     downloadPath = "./download/"
     audioQuality = AudioQuality.Normal
@@ -90,7 +91,6 @@ class Settings(aigpy.model.ModelBase):
         data['videoQuality'] = self.videoQuality.name
         txt = json.dumps(data)
         aigpy.file.write(self._path_, txt, 'w+')
-
 
 
 class TokenSettings(aigpy.model.ModelBase):

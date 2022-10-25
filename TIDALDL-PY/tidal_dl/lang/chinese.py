@@ -42,6 +42,7 @@ class LangChinese(object):
     SETTING_PATH = "配置文件目录"
     SETTING_APIKEY = "APIKey支持"
     SETTING_ADD_TYPE_FOLDER = "添加类型文件夹"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -91,6 +92,7 @@ class LangChinese(object):
     CHANGE_ADD_LRC_FILE = "保存歌词文件 ('0'-否,'1'-是):"
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
     CHANGE_MULITHREAD_DOWNLOAD = "多线程下载('0'-否,'1'-是):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "开始启动登录..."

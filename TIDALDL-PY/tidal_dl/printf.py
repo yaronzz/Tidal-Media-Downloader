@@ -40,6 +40,7 @@ __LOGO__ = f'''
 
 print_mutex = threading.Lock()
 
+
 class Printf(object):
 
     @staticmethod
@@ -105,7 +106,8 @@ class Printf(object):
             [LANG.select.SETTING_LANGUAGE, LANG.getLangName(data.language)],
             [LANG.select.SETTING_ADD_LRC_FILE, data.lyricFile],
             [LANG.select.SETTING_MULITHREAD_DOWNLOAD, data.multiThread],
-            [LANG.select.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']]
+            [LANG.select.SETTING_APIKEY, f"[{data.apiKeyIndex}]" + apiKey.getItem(data.apiKeyIndex)['formats']],
+            [LANG.select.SETTING_DOWNLOAD_DELAY, data.downloadDelay],
         ])
         print(tb)
 
