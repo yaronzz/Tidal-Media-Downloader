@@ -99,6 +99,7 @@ class Printf(object):
             [LANG.select.SETTING_CHECK_EXIST, data.checkExist],
             [LANG.select.SETTING_SHOW_PROGRESS, data.showProgress],
             [LANG.select.SETTING_SHOW_TRACKINFO, data.showTrackInfo],
+            [LANG.select.SETTING_CREATE_FOLDER_FOR_SINGLE_DOWNLOAD, data.createFolderForSingleDownload],
             [LANG.select.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo],
             [LANG.select.SETTING_SAVE_COVERS, data.saveCovers],
             [LANG.select.SETTING_INCLUDE_EP, data.includeEP],

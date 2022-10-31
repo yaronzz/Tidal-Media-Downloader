@@ -92,13 +92,14 @@ def getPlaylistPath(playlist):
     return f"{SETTINGS.downloadPath}/{retpath}"
 
 
-def getTrackPath(track, stream, album=None, playlist=None):
+def getTrackPath(track, context, stream, album=None, playlist=None):
     base = './'
     number = str(track.trackNumber).rjust(2, '0')
-    if album is not None:
-        base = getAlbumPath(album)
-        if album.numberOfVolumes > 1:
-            base += f'/CD{str(track.volumeNumber)}'
+    if (context is "single" and SETTINGS.createFolderForSingleDownload) or context is "multiple":
+        if album is not None:
+            base = getAlbumPath(album)
+            if album.numberOfVolumes > 1:
+                base += f'/CD{str(track.volumeNumber)}'
 
     if playlist is not None and SETTINGS.usePlaylistFolder:
         base = getPlaylistPath(playlist)

@@ -127,6 +127,7 @@ def test():
     SETTINGS.lyricFile = True
     SETTINGS.showProgress = True
     SETTINGS.showTrackInfo = True
+    SETTINGS.createFolderForSingleDownload = True
     SETTINGS.saveAlbumInfo = True
     SETTINGS.downloadPath = "./download/"
     SETTINGS.usePlaylistFolder = True

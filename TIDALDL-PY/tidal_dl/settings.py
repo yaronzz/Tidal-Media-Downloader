@@ -25,6 +25,7 @@ class Settings(aigpy.model.ModelBase):
     apiKeyIndex = 0
     showProgress = True
     showTrackInfo = True
+    createFolderForSingleDownload = True
     saveAlbumInfo = False
     multiThread = False
 

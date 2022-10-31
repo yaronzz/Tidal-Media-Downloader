@@ -140,10 +140,10 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
         return False, str(e)
 
 
-def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
+def downloadTrack(track: Track, context="single", album=None, playlist=None, userProgress=None, partSize=1048576):
     try:
         stream = TIDAL_API.getStreamUrl(track.id, SETTINGS.audioQuality)
-        path = getTrackPath(track, stream, album, playlist)
+        path = getTrackPath(track, context, stream, album, playlist)
 
         if SETTINGS.showTrackInfo and not SETTINGS.multiThread:
             Printf.track(track, stream)
@@ -206,7 +206,7 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
             if itemAlbum is None:
                 itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            downloadTrack(item, itemAlbum, playlist)
+            downloadTrack(item, "multiple", itemAlbum, playlist)
     else:
         thread_pool = ThreadPoolExecutor(max_workers=5)
         for index, item in enumerate(tracks):
@@ -214,7 +214,7 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
             if itemAlbum is None:
                 itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            thread_pool.submit(downloadTrack, item, itemAlbum, playlist)
+            thread_pool.submit(downloadTrack, item, "multiple", itemAlbum, playlist)
         thread_pool.shutdown(wait=True)
 
 
