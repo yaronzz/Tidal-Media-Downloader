@@ -335,6 +335,8 @@ class TidalAPI(object):
         return self.__get__(f'tracks/{str(id)}/contributors')
 
     def getCoverUrl(self, sid, width="320", height="320"):
+        if sid is None:
+            return ""
         return f"https://resources.tidal.com/images/{sid.replace('-', '/')}/{width}x{height}.jpg"
 
     def getCoverData(self, sid, width="320", height="320"):
