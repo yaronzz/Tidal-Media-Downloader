@@ -87,6 +87,7 @@ class LangUkrainian(object):
     CHANGE_SHOW_PROGRESS = "Показувати прогрес('0'-Ні,'1'-Так):"
     CHANGE_SHOW_TRACKINFO = "Показувати інформацію про трек('0'-Ні,'1'-Так):"
     CHANGE_SAVE_ALBUM_INFO = "Зберігати AlbumInfo.txt('0'-Ні,'1'-Так):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Додавати тексти пісень('0'-Ні,'1'-Так):"
     CHANGE_LYRICS_SERVER_PROXY = "Проксі для сервера з текстами пісень('0'-не змінювати):"
     CHANGE_ADD_LRC_FILE = "Зберігати тексти пісень з відмітками часу в .lrc файл('0'-Ні,'1'-Так):"

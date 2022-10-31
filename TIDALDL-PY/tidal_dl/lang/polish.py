@@ -87,6 +87,7 @@ class LangPolish(object):
     CHANGE_SHOW_PROGRESS = "Pokaż postęp('0'-Nie,'1'-Tak):"
     CHANGE_SHOW_TRACKINFO = "Pokaż informacje o utworze('0'-Nie,'1'-Tak):"
     CHANGE_SAVE_ALBUM_INFO = "Zapisz AlbumInfo.txt('0'-Nie,'1'-Tak):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Dodaj teksty utworów('0'-Nie,'1'-Tak):"
     CHANGE_LYRICS_SERVER_PROXY = "Serwer proxy dla tekstów('0'-nie modyfikuj):"
     CHANGE_ADD_LRC_FILE = "Zapisz plik .lrc czasowych tekstów utworów ('0'-Nie,'1'-Tak):"

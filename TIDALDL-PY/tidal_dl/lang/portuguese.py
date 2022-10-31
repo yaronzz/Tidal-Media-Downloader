@@ -87,6 +87,7 @@ class LangPortuguese(object):
     CHANGE_SHOW_PROGRESS = "Mostrar progresso('0'-Não,'1'-Sim):"
     CHANGE_SHOW_TRACKINFO = "Mostrar informações da faixa('0'-Não,'1'-Sim):"
     CHANGE_SAVE_ALBUM_INFO = "Salvar AlbumInfo.txt('0'-Não,'1'-Sim):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Adicionar letras('0'-Não,'1'-Sim):"
     CHANGE_LYRICS_SERVER_PROXY = "Proxy do servidor de letras ('0' não modificar):"
     CHANGE_ADD_LRC_FILE = "Salvar arquivo .lrc de letras cronometradas ('0'-Não,'1'-Sim):"

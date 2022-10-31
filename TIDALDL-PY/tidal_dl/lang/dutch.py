@@ -87,6 +87,7 @@ class LangDutch(object):
     CHANGE_SHOW_PROGRESS = "Voortgang weergeven('0'-Nee,'1'-Ja):"
     CHANGE_SHOW_TRACKINFO = "Toon trackinfo('0'-Nee,'1'-Ja):"
     CHANGE_SAVE_ALBUM_INFO = "Bewaar AlbumInfo.txt('0'-Nee,'1'-Ja):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Songtekst toevoegen('0'-Nee,'1'-Ja):"
     CHANGE_LYRICS_SERVER_PROXY = "Songtekst proxyserver('0'-niet wijzigen):"
     CHANGE_ADD_LRC_FILE = "Sla getimede songtekst .lrc-bestand op ('0'-Nee,'1'-Ja):"

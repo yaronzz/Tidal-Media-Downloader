@@ -87,6 +87,7 @@ class LangCzech(object):
     CHANGE_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování ('0'-Ne,'1'-Ano):"
     CHANGE_SHOW_TRACKINFO = "Show info o skladbě ('0'-Ne,'1'-Ano):"
     CHANGE_SAVE_ALBUM_INFO = "Uložit soubor AlbumInfo.txt ('0'-Ne,'1'-Ano):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Přidat texty skladeb ('0'-Ne,'1'-Ano):"
     CHANGE_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb ('0' beze změny):"
     CHANGE_ADD_LRC_FILE = "Uložit slova skladby s časováním do souboru .lrc) ('0'-Ne,'1'-Ano):"

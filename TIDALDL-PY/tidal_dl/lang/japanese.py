@@ -87,6 +87,7 @@ class LangJapanese(object):
     CHANGE_SHOW_PROGRESS = "Show progress('0'-いいえ,'1'-はい):"
     CHANGE_SHOW_TRACKINFO = "Show track info('0'-いいえ,'1'-はい):"
     CHANGE_SAVE_ALBUM_INFO = "Save AlbumInfo.txt('0'-いいえ,'1'-はい):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "歌詞を追加('0'-いいえ,'1'-はい):"
     CHANGE_LYRICS_SERVER_PROXY = "Lyrics server proxy('0'-変更しない):"
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-いいえ,'1'-はい):"

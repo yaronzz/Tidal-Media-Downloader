@@ -87,6 +87,7 @@ class LangVietnamese(object):
     CHANGE_SHOW_PROGRESS = "Hiện tiến trình('0'-Không,'1'-Có):"
     CHANGE_SHOW_TRACKINFO = "Hiện thông tin bài('0'-Không,'1'-Có):"
     CHANGE_SAVE_ALBUM_INFO = "Lưu AlbumInfo.txt('0'-Không,'1'-Có):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Thêm lời bài hát('0'-Không,'1'-Có):"
     CHANGE_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics('0' không đổi):"
     CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-Không,'1'-Có):"

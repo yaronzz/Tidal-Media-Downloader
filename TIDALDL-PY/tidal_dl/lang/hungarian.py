@@ -87,6 +87,7 @@ class LangHungarian(object):
     CHANGE_SHOW_PROGRESS = "Haladás megjelenítése('0'-Nem, '1'-Igen):"
     CHANGE_SHOW_TRACKINFO = "Track infók megjelenítése('0'-Nem,'1'-Igen):"
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt mentése('0'-Nem, '1'-Igen):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "Dalszöveg hozzáadása('0'-Nem,'1'-Igen):"
     CHANGE_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy('0' nincs módosítás):"
     CHANGE_ADD_LRC_FILE = "Dalszöveg mentése időbélyeggel .lrc fájl('0'-Nem,'1'-Igen):"

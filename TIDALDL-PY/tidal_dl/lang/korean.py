@@ -87,6 +87,7 @@ class LangKorean(object):
     CHANGE_SHOW_PROGRESS = "진행 상태 표시('0'-아니요,'1'-예):"
     CHANGE_SHOW_TRACKINFO = "트랙 정보 표시('0'-아니요,'1'-예):"
     CHANGE_SAVE_ALBUM_INFO = "AlbumInfo.txt 저장('0'-아니요,'1'-예):"
+    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
     CHANGE_ADD_LYRICS = "가사 추가('0'-아니요,'1'-예):"
     CHANGE_LYRICS_SERVER_PROXY = "가사 서버 프록시('0'-변경 안 함):"
     CHANGE_ADD_LRC_FILE = "timed 가사 .lrc 파일 저장 ('0'-아니요,'1'-예):"
