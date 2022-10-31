@@ -42,6 +42,7 @@ class LangVietnamese(object):
     SETTING_PATH = "Đường dẫn cài đặt"
     SETTING_APIKEY = "Hỗ trợ APIKey"
     SETTING_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -91,6 +92,7 @@ class LangVietnamese(object):
     CHANGE_ADD_LRC_FILE = "Lưu timed lyrics tệp .lrc ('0'-Không,'1'-Có):"
     CHANGE_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục, ví dụ Album/Video/Playlist('0'-Không,'1'-Có):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."

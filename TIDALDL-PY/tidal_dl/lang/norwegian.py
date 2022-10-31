@@ -42,6 +42,7 @@ class LangNorwegian(object):
     SETTING_PATH = "Innstillinger sti"
     SETTING_APIKEY = "API-nøkkel støtte"
     SETTING_ADD_TYPE_FOLDER = "Legg til Type-Folder"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "VALG"
     FUNCTION = "FUNKSJON"
@@ -91,6 +92,7 @@ class LangNorwegian(object):
     CHANGE_ADD_LRC_FILE = "Lagre sangtekster med tidsreferanser .lrc fil ('0'-Nei,'1'-Ja):"
     CHANGE_ADD_TYPE_FOLDER = "Legg til Type-mappe, f.eks. Album/Video/Spilleliste('0'-Nei,'1'-Ja):"
     CHANGE_MULITHREAD_DOWNLOAD = "Last ned flere samtidig('0'-Nei,'1'-Ja):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starter login-prosessen."

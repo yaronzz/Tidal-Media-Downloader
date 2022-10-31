@@ -42,6 +42,7 @@ class LangCzech(object):
     SETTING_PATH = "Cesta k souboru s nastavením"
     SETTING_APIKEY = "APIKey podporuje"
     SETTING_ADD_TYPE_FOLDER = "Složky dle typu obsahu"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
@@ -90,7 +91,8 @@ class LangCzech(object):
     CHANGE_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb ('0' beze změny):"
     CHANGE_ADD_LRC_FILE = "Uložit slova skladby s časováním do souboru .lrc) ('0'-Ne,'1'-Ano):"
     CHANGE_ADD_TYPE_FOLDER = "Ukládat do složek dle typu obsahu, např. Album/Video/Playlist ('0'-Ne,'1'-Ano):"
-    CHANGE_MULITHREAD_DOWNLOAD = "Více vláken pro stahování ('0'-Ne,'1'-Ano):"                                                         
+    CHANGE_MULITHREAD_DOWNLOAD = "Více vláken pro stahování ('0'-Ne,'1'-Ano):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Spouštění přihlašovacího procesu..."

@@ -17,6 +17,7 @@ import requests
 
 from tidal_dl.model import *
 from tidal_dl.enums import *
+from tidal_dl.settings import *
 
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
@@ -37,7 +38,7 @@ class TidalAPI(object):
         for index in range(0, 3):
             try:
                 respond = requests.get(urlpre + path, headers=header, params=params)
-                if respond.url.find("playbackinfopostpaywall") != -1:
+                if respond.url.find("playbackinfopostpaywall") != -1 and SETTINGS.downloadDelay is not False:
                     # random sleep between 0.5 and 5 seconds and print it
                     sleep_time = random.randint(500, 5000) / 1000
                     print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
