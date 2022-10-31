@@ -95,7 +95,7 @@ def getPlaylistPath(playlist):
 def getTrackPath(track, context, stream, album=None, playlist=None):
     base = './'
     number = str(track.trackNumber).rjust(2, '0')
-    if (context is "single" and SETTINGS.createFolderForSingleDownload) or context is "multiple":
+    if (context is "single" and SETTINGS.createAlbumFolderForSingleDownload) or context is "multiple":
         if album is not None:
             base = getAlbumPath(album)
             if album.numberOfVolumes > 1:

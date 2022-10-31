@@ -176,7 +176,7 @@ def changeSettings():
     SETTINGS.checkExist = Printf.enterBool(LANG.select.CHANGE_CHECK_EXIST)
     SETTINGS.includeEP = Printf.enterBool(LANG.select.CHANGE_INCLUDE_EP)
     SETTINGS.saveCovers = Printf.enterBool(LANG.select.CHANGE_SAVE_COVERS)
-    SETTINGS.createFolderForSingleDownload = Printf.enterBool(LANG.select.CHANGE_CREATE_FOLDER_FOR_SINGLE_DOWNLOAD)
+    SETTINGS.createAlbumFolderForSingleDownload = Printf.enterBool(LANG.select.CHANGE_CREATE_ALBUM_FOLDER_FOR_SINGLE_DOWNLOAD)
     SETTINGS.saveAlbumInfo = Printf.enterBool(LANG.select.CHANGE_SAVE_ALBUM_INFO)
     SETTINGS.lyricFile = Printf.enterBool(LANG.select.CHANGE_ADD_LRC_FILE)
     SETTINGS.multiThread = Printf.enterBool(LANG.select.CHANGE_MULITHREAD_DOWNLOAD)
