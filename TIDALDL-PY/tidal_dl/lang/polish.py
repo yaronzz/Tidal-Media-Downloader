@@ -36,6 +36,7 @@ class LangPolish(object):
     SETTING_SHOW_PROGRESS = "Pokaż postęp"
     SETTING_SHOW_TRACKINFO = "Pokaż informacje o utworze"
     SETTING_SAVE_ALBUMINFO = "Zapisz AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Dodaj teksty utworów"
     SETTING_LYRICS_SERVER_PROXY = "Serwer proxy dla tekstów"
     SETTING_ADD_LRC_FILE = "Zapisz czasowe teksty utworów (plik .lrc)"

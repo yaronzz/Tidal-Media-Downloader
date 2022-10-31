@@ -36,6 +36,7 @@ class LangNorwegian(object):
     SETTING_SHOW_PROGRESS = "Vis fremgang"
     SETTING_SHOW_TRACKINFO = "Vis sporinformasjon"
     SETTING_SAVE_ALBUMINFO = "Lagre AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Last ned video"
     SETTING_ADD_LYRICS = "Legg til sangtekst"
     SETTING_LYRICS_SERVER_PROXY = "Sangtekst server proxy"
     SETTING_ADD_LRC_FILE = "Lagre sangtekster med tidsreferanser (.lrc fil)"

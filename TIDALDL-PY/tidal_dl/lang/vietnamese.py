@@ -36,6 +36,7 @@ class LangVietnamese(object):
     SETTING_SHOW_PROGRESS = "Hiện tiến trình"
     SETTING_SHOW_TRACKINFO = "Hiện thông tin bài"
     SETTING_SAVE_ALBUMINFO = "Lưu AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Thêm lời bài hát"
     SETTING_LYRICS_SERVER_PROXY = "Máy chủ proxy cho lyrics"
     SETTING_ADD_LRC_FILE = "Lưu timed lyrics (tệp .lrc)"

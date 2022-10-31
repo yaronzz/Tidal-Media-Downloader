@@ -36,6 +36,7 @@ class LangFrench(object):
     SETTING_SHOW_PROGRESS = "Afficher la Progression"
     SETTING_SHOW_TRACKINFO = "Afficher les information de la musique"
     SETTING_SAVE_ALBUMINFO = "Enregistrer AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Inclure les paroles"
     SETTING_LYRICS_SERVER_PROXY = "Proxy du serveur de paroles"
     SETTING_ADD_LRC_FILE = "Enregistrer les paroles synchronisées (fichier .lrc)"

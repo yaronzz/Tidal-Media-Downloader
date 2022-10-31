@@ -36,6 +36,7 @@ class LangUkrainian(object):
     SETTING_SHOW_PROGRESS = "Показувати прогрес"
     SETTING_SHOW_TRACKINFO = "Показувати інформацію про трек"
     SETTING_SAVE_ALBUMINFO = "Зберігати AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Додавати тексти пісень"
     SETTING_LYRICS_SERVER_PROXY = "Проксі для сервера з текстами пісень"
     SETTING_ADD_LRC_FILE = "Зберігати тексти з відмітками часу (.lrc файл)"

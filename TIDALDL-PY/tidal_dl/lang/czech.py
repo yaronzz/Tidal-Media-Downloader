@@ -36,6 +36,7 @@ class LangCzech(object):
     SETTING_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování"
     SETTING_SHOW_TRACKINFO = "Zobrazit informace o skladbě"
     SETTING_SAVE_ALBUMINFO = "Uložit soubor AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Přidat texty skladeb"
     SETTING_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb"
     SETTING_ADD_LRC_FILE = "Uložit slova skladby s časováním (soubor .lrc)"

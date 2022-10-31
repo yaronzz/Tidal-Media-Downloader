@@ -36,6 +36,7 @@ class LangKorean(object):
     SETTING_SHOW_PROGRESS = "진행 상태 표시"
     SETTING_SHOW_TRACKINFO = "트랙 정보 표시"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt 저장"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "가사 추가"
     SETTING_LYRICS_SERVER_PROXY = "가사 서버 프록시"
     SETTING_ADD_LRC_FILE = "timed 가사 저장 (.lrc 파일)"

@@ -36,6 +36,7 @@ class LangRussian(object):
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
     SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
     SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"

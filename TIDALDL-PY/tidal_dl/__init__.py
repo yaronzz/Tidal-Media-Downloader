@@ -128,6 +128,7 @@ def test():
     SETTINGS.showProgress = True
     SETTINGS.showTrackInfo = True
     SETTINGS.saveAlbumInfo = True
+    SETTINGS.downloadVideos = True
     SETTINGS.downloadPath = "./download/"
     SETTINGS.usePlaylistFolder = True
     SETTINGS.albumFolderFormat = R"{ArtistName}/{Flag} {AlbumTitle} [{AlbumID}] [{AlbumYear}]"

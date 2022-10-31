@@ -36,6 +36,7 @@ class LangDutch(object):
     SETTING_SHOW_PROGRESS = "Toon voortgang"
     SETTING_SHOW_TRACKINFO = "Toon trackinfo"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt opslaan"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Songtekst toevoegen"
     SETTING_LYRICS_SERVER_PROXY = "Tekst server proxy"
     SETTING_ADD_LRC_FILE = "Getimede songteksten opslaan (.lrc-bestand)"

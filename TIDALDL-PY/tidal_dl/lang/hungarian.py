@@ -36,6 +36,7 @@ class LangHungarian(object):
     SETTING_SHOW_PROGRESS = "Haladás megjelenítése"
     SETTING_SHOW_TRACKINFO = "Track infók megjelenítése"
     SETTING_SAVE_ALBUMINFO = "AlbumInfo.txt mentése"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Dalszöveg hozzáadása"
     SETTING_LYRICS_SERVER_PROXY = "Dalszöveg kiszolgáló proxy"
     SETTING_ADD_LRC_FILE = "Dalszövegek mentése (.lrc fájl)"

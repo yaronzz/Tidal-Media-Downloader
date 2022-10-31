@@ -36,6 +36,7 @@ class LangChinese(object):
     SETTING_SHOW_PROGRESS = "显示进度条"
     SETTING_SHOW_TRACKINFO = "显示歌曲信息"
     SETTING_SAVE_ALBUMINFO = "保存AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "添加歌词"
     SETTING_LYRICS_SERVER_PROXY = "歌词服务器代理"
     SETTING_ADD_LRC_FILE = "保存歌词文件 (.lrc file)"

@@ -36,6 +36,7 @@ class LangEnglish(object):
     SETTING_SHOW_PROGRESS = "Show progress"
     SETTING_SHOW_TRACKINFO = "Show Track Info"
     SETTING_SAVE_ALBUMINFO = "Save AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Add lyrics"
     SETTING_LYRICS_SERVER_PROXY = "Lyrics server proxy"
     SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"

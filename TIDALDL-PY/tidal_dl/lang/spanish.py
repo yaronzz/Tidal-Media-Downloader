@@ -36,6 +36,7 @@ class LangSpanish(object):
     SETTING_SHOW_PROGRESS = "Mostrar progreso"
     SETTING_SHOW_TRACKINFO = "Mostrar información de pista"
     SETTING_SAVE_ALBUMINFO = "Guardar AlbumInfo.txt"
+    SETTING_DOWNLOAD_VIDEOS = "Download videos"
     SETTING_ADD_LYRICS = "Añadir letras"
     SETTING_LYRICS_SERVER_PROXY = "Proxy del servidor de letras"
     SETTING_ADD_LRC_FILE = "Añadir letras cronometradas (archivo .lrc)"

@@ -100,6 +100,7 @@ class Printf(object):
             [LANG.select.SETTING_SHOW_PROGRESS, data.showProgress],
             [LANG.select.SETTING_SHOW_TRACKINFO, data.showTrackInfo],
             [LANG.select.SETTING_SAVE_ALBUMINFO, data.saveAlbumInfo],
+            [LANG.select.SETTING_DOWNLOAD_VIDEOS, data.downloadVideos],
             [LANG.select.SETTING_SAVE_COVERS, data.saveCovers],
             [LANG.select.SETTING_INCLUDE_EP, data.includeEP],
             [LANG.select.SETTING_LANGUAGE, LANG.getLangName(data.language)],
