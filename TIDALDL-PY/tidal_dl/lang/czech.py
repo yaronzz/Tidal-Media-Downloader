@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   czech.py
-@Time    :   2022/07/26
+@Time    :   2022/11/13
 @Author  :   Tomikk & Sweder
-@Version :   1.1
+@Version :   1.2
 @Contact :   justtomikk@gmail.com & djsweder@gmail.com
 @Desc    :   
 '''
@@ -42,17 +42,17 @@ class LangCzech(object):
     SETTING_PATH = "Cesta k souboru s nastavením"
     SETTING_APIKEY = "APIKey podporuje"
     SETTING_ADD_TYPE_FOLDER = "Složky dle typu obsahu"
-    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_DOWNLOAD_DELAY = "Stahovat s časovou prodlevou"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
-    CHOICE_ENTER = "Enter"
+    CHOICE_ENTER = "Zvolit"
     CHOICE_ENTER_URLID = "Vložit 'Url/ID':"
     CHOICE_EXIT = "Ukončit"
     CHOICE_LOGIN = "Zkontrolovat přístupový token"
     CHOICE_SETTINGS = "Nastavení"
     CHOICE_SET_ACCESS_TOKEN = "Nastavit přístupový token"
-    CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď url nebo id"
+    CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď dle URL nebo ID"
     CHOICE_LOGOUT = "Odhlásit"
     CHOICE_APIKEY = "Vybrat APIKey"
 
@@ -85,14 +85,14 @@ class LangCzech(object):
     CHANGE_TRACK_FILE_FORMAT = "Formát názvu složky skladny ('0' beze změny):"
     CHANGE_VIDEO_FILE_FORMAT = "Formát názvu souboru videa ('0'-beze změny,'default'-pro nastavení výchozího názvu):"
     CHANGE_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování ('0'-Ne,'1'-Ano):"
-    CHANGE_SHOW_TRACKINFO = "Show info o skladbě ('0'-Ne,'1'-Ano):"
+    CHANGE_SHOW_TRACKINFO = "Zobrazit info o skladbě ('0'-Ne,'1'-Ano):"
     CHANGE_SAVE_ALBUM_INFO = "Uložit soubor AlbumInfo.txt ('0'-Ne,'1'-Ano):"
     CHANGE_ADD_LYRICS = "Přidat texty skladeb ('0'-Ne,'1'-Ano):"
     CHANGE_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb ('0' beze změny):"
     CHANGE_ADD_LRC_FILE = "Uložit slova skladby s časováním do souboru .lrc) ('0'-Ne,'1'-Ano):"
     CHANGE_ADD_TYPE_FOLDER = "Ukládat do složek dle typu obsahu, např. Album/Video/Playlist ('0'-Ne,'1'-Ano):"
     CHANGE_MULITHREAD_DOWNLOAD = "Více vláken pro stahování ('0'-Ne,'1'-Ano):"
-    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Stahovat s časovou prodlevou('0'-Ne,'1'-Ano):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Spouštění přihlašovacího procesu..."
