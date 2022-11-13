@@ -116,10 +116,6 @@ def getTrackPath(track, stream, album=None, playlist=None):
     # explicit
     explicit = "(Explicit)" if track.explicit else ''
 
-    # album and addyear
-    albumName = __fixPath__(album.title)
-    year = __getYear__(album.releaseDate)
-
     # extension
     extension = __getExtension__(stream)
 
@@ -131,8 +127,14 @@ def getTrackPath(track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{ArtistsName}", artists)
     retpath = retpath.replace(R"{TrackTitle}", title)
     retpath = retpath.replace(R"{ExplicitFlag}", explicit)
-    retpath = retpath.replace(R"{AlbumYear}", year)
-    retpath = retpath.replace(R"{AlbumTitle}", albumName)
+
+    if album is not None:
+        # album and addyear
+        albumName = __fixPath__(album.title)
+        year = __getYear__(album.releaseDate)
+        retpath = retpath.replace(R"{AlbumYear}", year)
+        retpath = retpath.replace(R"{AlbumTitle}", albumName)
+
     retpath = retpath.replace(R"{AudioQuality}", track.audioQuality)
     retpath = retpath.replace(R"{DurationSeconds}", str(track.duration))
     retpath = retpath.replace(R"{Duration}", __getDurationStr__(track.duration))
