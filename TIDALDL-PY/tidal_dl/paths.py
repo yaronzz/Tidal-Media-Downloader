@@ -32,16 +32,10 @@ def __getDurationStr__(seconds):
         time_string = time_string[2:]
     return time_string
 
-
-def __getExtension__(stream: StreamUrl):
-    if '.flac' in stream.url:
-        return '.flac'
-    if '.mp4' in stream.url:
-        if 'ac4' in stream.codec or 'mha1' in stream.codec:
-            return '.mp4'
-        return '.m4a'
-    return '.m4a'
-
+def __getExtension__(track):
+    if track.audioQuality == "LOSSLESS" or track.audioQuality == "HI_RES":
+        return ".flac"
+    return ".m4a"
 
 def getAlbumPath(album):
     artistName = __fixPath__(TIDAL_API.getArtistsName(album.artists))
@@ -92,7 +86,7 @@ def getPlaylistPath(playlist):
     return f"{SETTINGS.downloadPath}/{retpath}"
 
 
-def getTrackPath(track, stream, album=None, playlist=None):
+def getTrackPath(track, album=None, playlist=None):
     base = './'
     number = str(track.trackNumber).rjust(2, '0')
     if album is not None:
@@ -117,7 +111,7 @@ def getTrackPath(track, stream, album=None, playlist=None):
     explicit = "(Explicit)" if track.explicit else ''
 
     # extension
-    extension = __getExtension__(stream)
+    extension = __getExtension__(track)
 
     retpath = SETTINGS.trackFileFormat
     if retpath is None or len(retpath) <= 0:
