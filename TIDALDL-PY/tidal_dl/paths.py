@@ -117,8 +117,8 @@ def getTrackPath(track, stream, album=None, playlist=None):
     explicit = "(Explicit)" if track.explicit else ''
 
     # album and addyear
-    albumName = __fixPath__(album.title)
-    year = __getYear__(album.releaseDate)
+    albumName = __fixPath__(album.title) if album is not None else ''
+    year = __getYear__(album.releaseDate) if album is not None else ''
 
     # extension
     extension = __getExtension__(stream)
