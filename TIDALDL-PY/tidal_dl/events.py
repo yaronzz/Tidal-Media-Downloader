@@ -33,7 +33,8 @@ def start_album(obj: Album):
     if SETTINGS.saveCovers and obj.cover is not None:
         downloadCover(obj)
     downloadTracks(tracks, obj)
-    downloadVideos(videos, obj)
+    if SETTINGS.downloadVideos:
+        downloadVideos(videos, obj)
 
 
 def start_track(obj: Track):
@@ -58,7 +59,8 @@ def start_playlist(obj: Playlist):
     Printf.playlist(obj)
     tracks, videos = TIDAL_API.getItems(obj.uuid, Type.Playlist)
     downloadTracks(tracks, None, obj)
-    downloadVideos(videos, None, obj)
+    if SETTINGS.downloadVideos:
+        downloadVideos(videos, None, obj)
 
 
 def start_mix(obj: Mix):
@@ -177,6 +179,7 @@ def changeSettings():
     SETTINGS.includeEP = Printf.enterBool(LANG.select.CHANGE_INCLUDE_EP)
     SETTINGS.saveCovers = Printf.enterBool(LANG.select.CHANGE_SAVE_COVERS)
     SETTINGS.saveAlbumInfo = Printf.enterBool(LANG.select.CHANGE_SAVE_ALBUM_INFO)
+    SETTINGS.downloadVideos = Printf.enterBool(LANG.select.CHANGE_DOWNLOAD_VIDEOS)
     SETTINGS.lyricFile = Printf.enterBool(LANG.select.CHANGE_ADD_LRC_FILE)
     SETTINGS.multiThread = Printf.enterBool(LANG.select.CHANGE_MULITHREAD_DOWNLOAD)
     SETTINGS.usePlaylistFolder = Printf.enterBool(LANG.select.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):")
