@@ -43,6 +43,7 @@ class LangUkrainian(object):
     SETTING_PATH = "Шлях налаштувань"
     SETTING_APIKEY = "Підтримка ключа API"
     SETTING_ADD_TYPE_FOLDER = "Додавати папку-тип"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "ВИБІР"
     FUNCTION = "ФУНКЦІЇ"
@@ -93,6 +94,7 @@ class LangUkrainian(object):
     CHANGE_ADD_LRC_FILE = "Зберігати тексти пісень з відмітками часу в .lrc файл('0'-Ні,'1'-Так):"
     CHANGE_ADD_TYPE_FOLDER = "Додавати теку-тип,наприклад Альбом/Відео/Плейлист('0'-Ні,'1'-Так):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Початок процесу авторизації..."

@@ -43,6 +43,7 @@ class LangFrench(object):
     SETTING_PATH = "Emplacement des paramètres"
     SETTING_APIKEY = "Prise en charge de la clé API"
     SETTING_ADD_TYPE_FOLDER = "Ajouter un dossier de type"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"
@@ -93,6 +94,7 @@ class LangFrench(object):
     CHANGE_ADD_LRC_FILE = "Enregistrer les paroles synchronisées (fichier.lrc) ('0'-Non,'1'-Oui):"
     CHANGE_ADD_TYPE_FOLDER = "Ajouter un dossier de type,Ex: Album/Video/Playlist('0'-Non,'1'-Oui):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-Non,'1'-Oui):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Démarrage du processus de connexion..."

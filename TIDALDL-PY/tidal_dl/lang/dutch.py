@@ -43,6 +43,7 @@ class LangDutch(object):
     SETTING_PATH = "Instellingen pad"
     SETTING_APIKEY = "APIKey-ondersteuning"
     SETTING_ADD_TYPE_FOLDER = "Typemap toevoegen"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "KEUZE"
     FUNCTION = "FUNCTIE"
@@ -93,6 +94,7 @@ class LangDutch(object):
     CHANGE_ADD_LRC_FILE = "Sla getimede songtekst .lrc-bestand op ('0'-Nee,'1'-Ja):"
     CHANGE_ADD_TYPE_FOLDER = "Type-map toevoegen, bijv. Album/Video/Playlist('0'-Nee,'1'-Ja):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Inlogproces starten..."

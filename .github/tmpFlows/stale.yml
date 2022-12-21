@@ -18,7 +18,7 @@
 #       pull-requests: write
 
 #     steps:
-#     - uses: actions/stale@v5
+#     - uses: actions/stale@v6
 #       with:
 #         repo-token: ${{ secrets.GITHUB_TOKEN }}
 #         stale-issue-message: 'This issue has been automatically marked as stale because it has not had recent activity.'

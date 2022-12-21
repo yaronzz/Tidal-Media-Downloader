@@ -43,6 +43,7 @@ class LangCroatian(object):
     SETTING_PATH = "Settings path"
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
+    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
 
     CHOICE = "ODABIR"
     FUNCTION = "FUNKCIJA"
@@ -93,6 +94,7 @@ class LangCroatian(object):
     CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starting login process..."
