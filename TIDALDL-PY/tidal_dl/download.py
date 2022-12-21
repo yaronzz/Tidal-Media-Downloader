@@ -114,10 +114,19 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
     try:
         stream = TIDAL_API.getVideoStreamUrl(video.id, SETTINGS.videoQuality)
         path = getVideoPath(video, album, playlist)
+
+        if __isSkip__(path, stream.m3u8Url):
+            Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
+            return True, ''
         
         Printf.video(video, stream)
         logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
 
+        # Sleep for human behaviour
+        if SETTINGS.downloadDelay is not False:
+            sleep_time = random.randint(500, 5000) / 1000
+            print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+            time.sleep(sleep_time)
         m3u8content = requests.get(stream.m3u8Url).content
         if m3u8content is None:
             Printf.err(f"DL Video[{video.title}] getM3u8 failed.{str(e)}")
@@ -142,9 +151,11 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
 
 def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, partSize=1048576):
     try:
+        path = getTrackPath(track, album, playlist)
+        if os.path.exists(path):
+            Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
+            return True, ''
         stream = TIDAL_API.getStreamUrl(track.id, SETTINGS.audioQuality)
-        path = getTrackPath(track, stream, album, playlist)
-
         if SETTINGS.showTrackInfo and not SETTINGS.multiThread:
             Printf.track(track, stream)
 
@@ -155,6 +166,12 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         if __isSkip__(path, stream.url):
             Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
             return True, ''
+
+        #Sleep for human behaviour
+        if SETTINGS.downloadDelay is not False:
+            sleep_time = random.randint(500, 5000) / 1000
+            print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+            time.sleep(sleep_time)
 
         # download
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
@@ -206,7 +223,9 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
             if itemAlbum is None:
                 itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            downloadTrack(item, itemAlbum, playlist)
+
+            downloadTrack(item, playlist=playlist, album=itemAlbum)
+
     else:
         thread_pool = ThreadPoolExecutor(max_workers=5)
         for index, item in enumerate(tracks):
@@ -214,10 +233,12 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
             if itemAlbum is None:
                 itemAlbum = __getAlbum__(item)
                 item.trackNumberOnPlaylist = index + 1
-            thread_pool.submit(downloadTrack, item, itemAlbum, playlist)
+
+            thread_pool.submit(downloadTrack, item, playlist=playlist, album=itemAlbum)
+
         thread_pool.shutdown(wait=True)
 
 
 def downloadVideos(videos, album: Album, playlist=None):
-    for item in videos:
-        downloadVideo(item, album, playlist)
+    for video in videos:
+        downloadVideo(video, album, playlist)
