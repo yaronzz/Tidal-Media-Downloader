@@ -27,8 +27,8 @@
   «Tidal-Media-Downloader» is an application that lets you download videos and tracks from Tidal. It supports two version: tidal-dl and tidal-gui. (This repository only contains tidal-dl, and the release isn't the newest gui version.)
     <br>
         <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO/releases">Download</a> |
-        <a href="https://yaronzz.com/post/tidal_dl_installation/">Documentation</a> |
-        <a href="https://yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
+        <a href="https://doc.yaronzz.com/post/tidal_dl_installation/">Documentation</a> |
+        <a href="https://doc.yaronzz.com/post/tidal_dl_installation_chn/">中文文档</a> |
     <br>
 </p>
 
