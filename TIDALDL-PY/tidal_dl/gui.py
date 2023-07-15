@@ -230,6 +230,8 @@ else:
                 self.__info__('Please select a row first.')
                 return
 
+            self.c_btnDownload.setEnabled(False)
+
             indices = []
             for item_in_selection in items:
                 this_row_index = item_in_selection.row()
@@ -238,7 +240,6 @@ else:
 
             items_for_text =[]
             for index in indices:
-                self.c_btnDownload.setEnabled(False)
                 item_to_download = ""
                 if isinstance(self.s_array[index], Artist):
                     item_to_download = self.s_array[index].name
@@ -247,7 +248,7 @@ else:
                 items_for_text.append(item_to_download)
             self.c_btnDownload.setText(f"Downloading [{','.join(items_for_text)}]...")
 
-            def __thread_download__(model: MainView,myindices: int):
+            def __thread_download__(model: MainView,myindices):
 
                 types = []
                 items = []
@@ -257,7 +258,6 @@ else:
                     item = model.s_array[myindex]
                     types.append(type)
                     items.append(item)
-                error = False
                 downloading_items = []
                 for download_index in range(0,len(items)):
                     downloading_item = ""
@@ -271,9 +271,7 @@ else:
                             downloading_item = item.title
                         downloading_items.append(downloading_item)
                     except Exception as e:
-                        downloading_items.append(e)
-                        model.s_downloadEnd.emit(",".join(downloading_items), False, 'At least one error occured. Check your files!')
-                        error = True
+                        model.s_downloadEnd.emit(",".join(downloading_items), False, str(e))
                         return
 
                 model.s_downloadEnd.emit(",".join(downloading_items), True, '')
