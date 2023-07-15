@@ -111,7 +111,6 @@ else:
             self.c_tableInfo.setShowGrid(False)
             self.c_tableInfo.verticalHeader().setVisible(False)
             self.c_tableInfo.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-            #self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
             self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
             self.c_tableInfo.horizontalHeader().setStretchLastSection(True)
             self.c_tableInfo.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
