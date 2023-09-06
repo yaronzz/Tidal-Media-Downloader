@@ -68,7 +68,7 @@ class LangHungarian(object):
 
     CHANGE_START_SETTINGS = "Beállítások indítása('0'- Vissza, '1'-Igen):"
     CHANGE_DOWNLOAD_PATH = "Letöltési útvonal('0' nincs módosítás):"
-    CHANGE_AUDIO_QUALITY = "Audió minőség('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Audió minőség('0'-Normal,'1'-High,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Videó minőség(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "mp4 átalakítása m4a-ra('0'-Nem,'1'-Igen):"
     CHANGE_ADD_EXPLICIT_TAG = "Explicit tag hozzáadása a fájlnevekhez('0'-Nem,'1'-Igen):"

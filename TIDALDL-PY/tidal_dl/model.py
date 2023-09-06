@@ -15,6 +15,7 @@ class StreamUrl(aigpy.model.ModelBase):
         super().__init__()
         self.trackid = None
         self.url = None
+        self.urls = None
         self.codec = None
         self.encryptionKey = None
         self.soundQuality = None

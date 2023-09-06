@@ -68,7 +68,7 @@ class LangDanish(object):
 
     CHANGE_START_SETTINGS = "Start indstillinger('0'-Tilbage,'1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Download stil('0' ændrer ikke):"
-    CHANGE_AUDIO_QUALITY = "Lydkvalitet('0'-Normal,'1'-Høj,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Lydkvalitet('0'-Normal,'1'-Høj,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Videokvalitet(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Konverter mp4 til m4a('0'-Nej,'1'-Ja):"
     CHANGE_ADD_EXPLICIT_TAG = "Tilføj eksplicit tag til filnavne('0'-Nej,'1'-Ja):"

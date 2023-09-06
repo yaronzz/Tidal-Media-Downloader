@@ -68,7 +68,7 @@ class LangArabic(object):
 
     CHANGE_START_SETTINGS = "بدء الاعدادات('0'-Return,'1'-Yes):"
     CHANGE_DOWNLOAD_PATH = "مجلد التنزيل('0' not modify):"
-    CHANGE_AUDIO_QUALITY = "دقة الصوت('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "دقة الصوت('0'-Normal,'1'-High,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "دقة الفديو(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "تحويل M4a الى mp4('0'-No,'1'-Yes):"
     CHANGE_ADD_EXPLICIT_TAG = "اضافة توقيع الفنان('0'-No,'1'-Yes):"

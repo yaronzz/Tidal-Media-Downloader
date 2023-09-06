@@ -68,7 +68,7 @@ class LangFrench(object):
 
     CHANGE_START_SETTINGS = "Commencer les réglages ('0'-Retour,'1'-Oui):"
     CHANGE_DOWNLOAD_PATH = "Emplacement des téléchargements('0' ne pas modifier):"
-    CHANGE_AUDIO_QUALITY = "Qualité audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Qualité audio('0'-Normal,'1'-High,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Qualité Video(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Convertir mp4 en m4a('0'-Non,'1'-Oui):"
     CHANGE_ADD_EXPLICIT_TAG = "Ajout du tag Explicit - Fichier('0'-Non,'1'-Oui):"

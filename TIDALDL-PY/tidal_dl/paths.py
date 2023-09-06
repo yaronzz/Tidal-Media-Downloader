@@ -39,6 +39,8 @@ def __getExtension__(stream: StreamUrl):
     if '.mp4' in stream.url:
         if 'ac4' in stream.codec or 'mha1' in stream.codec:
             return '.mp4'
+        elif 'flac' in stream.codec:
+            return '.flac'
         return '.m4a'
     return '.m4a'
 
@@ -49,7 +51,7 @@ def getAlbumPath(album):
 
     # album folder pre: [ME]
     flag = TIDAL_API.getFlag(album, Type.Album, True, "")
-    if SETTINGS.audioQuality != AudioQuality.Master:
+    if SETTINGS.audioQuality != AudioQuality.Master and SETTINGS.audioQuality != AudioQuality.Max:
         flag = flag.replace("M", "")
     if flag != "":
         flag = "[" + flag + "] "

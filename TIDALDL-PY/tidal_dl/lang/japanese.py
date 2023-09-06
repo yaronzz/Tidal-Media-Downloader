@@ -68,7 +68,7 @@ class LangJapanese(object):
 
     CHANGE_START_SETTINGS = "設定を開始('0'-戻る,'1'-はい):"
     CHANGE_DOWNLOAD_PATH = "ダウンロードパス('0'-変更しない):"
-    CHANGE_AUDIO_QUALITY = "オーディオ品質('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "オーディオ品質('0'-Normal,'1'-High,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "ビデオ品質(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "mp4をm4aに変換する('0'-いいえ,'1'-はい):"
     CHANGE_ADD_EXPLICIT_TAG = "Add explicit tag to file names('0'-いいえ,'1'-はい):"

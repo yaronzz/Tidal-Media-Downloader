@@ -163,7 +163,7 @@ def changeQualitySettings():
     SETTINGS.audioQuality = AudioQuality(
         int(Printf.enterLimit(LANG.select.CHANGE_AUDIO_QUALITY,
                               LANG.select.MSG_INPUT_ERR,
-                              ['0', '1', '2', '3'])))
+                              ['0', '1', '2', '3', '4'])))
     SETTINGS.videoQuality = VideoQuality(
         int(Printf.enterLimit(LANG.select.CHANGE_VIDEO_QUALITY,
                               LANG.select.MSG_INPUT_ERR,

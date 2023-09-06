@@ -68,7 +68,7 @@ class LangGerman(object):
 
     CHANGE_START_SETTINGS = "Einstellungen starten ('0'-Zurück, '1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Downloadpfad ('0' nicht ändern):"
-    CHANGE_AUDIO_QUALITY = "Tonqualität ('0'-Normal, '1'-Hoch, '2'-HiFi, '3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Tonqualität ('0'-Normal, '1'-Hoch, '2'-HiFi, '3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Videoqualität (1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "mp4 in m4a konvertieren ('0'-Nein, '1'-Ja):"
     CHANGE_ADD_EXPLICIT_TAG = "Explicit Tag zum Dateiname hinzufügen ('0'-Nein, '1'-Ja):"

@@ -68,7 +68,7 @@ class LangCzech(object):
 
     CHANGE_START_SETTINGS = "Spustit nastavení ('0'-Zpět,'1'-Ano):"
     CHANGE_DOWNLOAD_PATH = "Umístění stažených souborů ('0' beze změny):"
-    CHANGE_AUDIO_QUALITY = "Kvalita hudby ('0'-Normální,'1'-Vysoká,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Kvalita hudby ('0'-Normální,'1'-Vysoká,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Kvalita videa (1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Konvertovat mp4 na m4a ('0'-Ne,'1'-Ano):"
     CHANGE_ADD_EXPLICIT_TAG = "Přidat označení explicity k souborům ('0'-Ne,'1'-Ano):"

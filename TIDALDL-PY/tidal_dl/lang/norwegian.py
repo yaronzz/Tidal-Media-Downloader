@@ -68,7 +68,7 @@ class LangNorwegian(object):
 
     CHANGE_START_SETTINGS = "Start innstillinger('0'-Tilbake,'1'-Ja):"
     CHANGE_DOWNLOAD_PATH = "Nedlastingssti('0'-ikke endre):"
-    CHANGE_AUDIO_QUALITY = "Lydkvalitet('0'-Normal,'1'-Høy,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Lydkvalitet('0'-Normal,'1'-Høy,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Videokvalitet(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Konverter MP4 til M4A('0'-Nei,'1'-Ja):"
     CHANGE_ADD_EXPLICIT_TAG = "Legg til eksplisitt tag i filnavn('0'-Nei,'1'-Ja):"

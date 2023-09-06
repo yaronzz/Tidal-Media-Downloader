@@ -68,7 +68,7 @@ class LangTurkish(object):
 
     CHANGE_START_SETTINGS = ">>> Ayarları düzenlemek istediğine emin misin ? ('0'-Geri Dön,'1'-Evet): "
     CHANGE_DOWNLOAD_PATH = ">>> İndirme Konumu ('0' aynı kalsın): "
-    CHANGE_AUDIO_QUALITY = ">>> Ses Kalitesi ('0'-Normal,'1'-Yüksek,'2'-HiFi,'3'-[M]aster): "
+    CHANGE_AUDIO_QUALITY = ">>> Ses Kalitesi ('0'-Normal,'1'-Yüksek,'2'-HiFi,'3'-[M]aster,'4'-Max): "
     CHANGE_VIDEO_QUALITY = ">>> Video Kalitesi (1080, 720, 480, 360): "
     CHANGE_ONLYM4A = ">>> .mp4 uzantılı dosyalar .m4a'ya çevrilsin mi?('0'-Hayır,'1'-Evet): "
     CHANGE_ADD_EXPLICIT_TAG = ">>> 'Explicit' yani 'küfürlü' etiketi eklensin mi?('0'-Hayır,'1'-Evet): "

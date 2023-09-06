@@ -159,7 +159,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         # download
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
 
-        tool = aigpy.download.DownloadTool(path + '.part', [stream.url])
+        tool = aigpy.download.DownloadTool(path + '.part', stream.urls)
         tool.setUserProgress(userProgress)
         tool.setPartSize(partSize)
         check, err = tool.start(SETTINGS.showProgress and not SETTINGS.multiThread)

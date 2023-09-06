@@ -68,7 +68,7 @@ class LangVietnamese(object):
 
     CHANGE_START_SETTINGS = "Bắt đầu thiết lập('0'-Về,'1'-Có):"
     CHANGE_DOWNLOAD_PATH = "Đường dẫn tải về('0' không đổi):"
-    CHANGE_AUDIO_QUALITY = "Chất lượng âm thanh('0'-Normal,'1'-High,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "Chất lượng âm thanh('0'-Normal,'1'-High,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Chất lượng video(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Đổi mp4 sang m4a('0'-Không,'1'-Có):"
     CHANGE_ADD_EXPLICIT_TAG = "Thêm tag explicit vào tên tệp('0'-Không,'1'-Có):"

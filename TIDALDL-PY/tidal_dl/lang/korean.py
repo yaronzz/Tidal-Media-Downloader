@@ -68,7 +68,7 @@ class LangKorean(object):
 
     CHANGE_START_SETTINGS = "설정 시작('0'-뒤로가기,'1'-예):"
     CHANGE_DOWNLOAD_PATH = "다운로드 경로('0'-변경 안 함):"
-    CHANGE_AUDIO_QUALITY = "음질('0'-보통,'1'-높음,'2'-HiFi,'3'-Master):"
+    CHANGE_AUDIO_QUALITY = "음질('0'-보통,'1'-높음,'2'-HiFi,'3'-Master,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "영상 화질(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "mp4를 m4a로 변환('0'-아니요,'1'-예):"
     CHANGE_ADD_EXPLICIT_TAG = "파일 이름에 explicit 태그 추가('0'-아니요,'1'-예):"
