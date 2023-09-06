@@ -2,6 +2,9 @@
     <a href="https://github.com/yaronzz/Tidal-Media-Downloader-PRO">[GUI-REPOSITORY]</a>
 <br>
 
+![Tidal-Media-Downloader](https://socialify.git.ci/yaronzz/Tidal-Media-Downloader/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)
+
+
 <div align="center">
   <h1>Tidal-Media-Downloader</h1>
   <a href="https://github.com/yaronzz/Tidal-Media-Downloader/blob/master/LICENSE">
