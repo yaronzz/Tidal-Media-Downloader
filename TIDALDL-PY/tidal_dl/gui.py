@@ -68,7 +68,7 @@ else:
             super().__init__()
             self.initView()
             self.setMinimumSize(600, 620)
-            self.setWindowTitle("Tidal-dl")
+            self.setWindowTitle("Tidal-dl - edited")
 
         def __info__(self, msg):
             QtWidgets.QMessageBox.information(self, 'Info', msg, QtWidgets.QMessageBox.Yes)
@@ -104,14 +104,14 @@ else:
             self.c_combVQuality.setCurrentText(SETTINGS.videoQuality.name)
 
             # init table
-            columnNames = ['#', 'Title', 'Artists', 'Quality']
+            columnNames = ['#', 'Title', 'Artists','Album', 'Quality']
             self.c_tableInfo = QtWidgets.QTableWidget()
             self.c_tableInfo.setColumnCount(len(columnNames))
             self.c_tableInfo.setRowCount(0)
             self.c_tableInfo.setShowGrid(False)
             self.c_tableInfo.verticalHeader().setVisible(False)
             self.c_tableInfo.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-            self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+            self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
             self.c_tableInfo.horizontalHeader().setStretchLastSection(True)
             self.c_tableInfo.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
             self.c_tableInfo.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -197,53 +197,88 @@ else:
             self.c_tableInfo.setRowCount(len(self.s_array))
             for index, item in enumerate(self.s_array):
                 self.addItem(index, 0, str(index + 1))
-                if self.s_type in [Type.Album, Type.Track]:
+                if self.s_type in [Type.Album]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, TIDAL_API.getArtistsName(item.artists))
-                    self.addItem(index, 3, item.audioQuality)
+                    self.addItem(index, 3, item.title)
+                    self.addItem(index, 4, item.audioQuality)
+                if self.s_type in [Type.Track]:
+                    self.addItem(index, 1, item.title)
+                    self.addItem(index, 2, TIDAL_API.getArtistsName(item.artists))
+                    self.addItem(index, 3, item.album.title)
+                    self.addItem(index, 4, item.audioQuality)
                 elif self.s_type in [Type.Video]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, TIDAL_API.getArtistsName(item.artists))
-                    self.addItem(index, 3, item.quality)
+                    self.addItem(index, 3, '')
+                    self.addItem(index, 4, item.quality)
                 elif self.s_type in [Type.Playlist]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
+                    self.addItem(index, 4, '')
                 elif self.s_type in [Type.Artist]:
                     self.addItem(index, 1, item.name)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
+                    self.addItem(index, 4, '')
             self.c_tableInfo.viewport().update()
 
         def download(self):
-            index = self.c_tableInfo.currentIndex().row()
-            if index < 0:
+            items = self.c_tableInfo.selectedItems()
+            if len(items) <= 0:
                 self.__info__('Please select a row first.')
                 return
 
             self.c_btnDownload.setEnabled(False)
-            item_to_download = ""
-            if isinstance(self.s_array[index], Artist):
-                item_to_download = self.s_array[index].name
-            else:
-                item_to_download = self.s_array[index].title
-            self.c_btnDownload.setText(f"Downloading [${item_to_download}]...")
 
-            def __thread_download__(model: MainView):
-                downloading_item = ""
-                try:
+            indices = []
+            for item_in_selection in items:
+                this_row_index = item_in_selection.row()
+                if this_row_index not in indices:
+                    indices.append(this_row_index)
+
+            items_for_text =[]
+            for index in indices:
+                item_to_download = ""
+                if isinstance(self.s_array[index], Artist):
+                    item_to_download = self.s_array[index].name
+                else:
+                    item_to_download = self.s_array[index].title
+                items_for_text.append(item_to_download)
+            self.c_btnDownload.setText(f"Downloading [{','.join(items_for_text)}]...")
+
+            def __thread_download__(model: MainView,myindices):
+
+                types = []
+                items = []
+
+                for myindex in myindices:
                     type = model.s_type
-                    item = model.s_array[index]
-                    start_type(type, item)
-                    if isinstance(item, Artist):
-                        downloading_item = item.name
-                    else: 
-                        downloading_item = item.title
-                    model.s_downloadEnd.emit(downloading_item, True, '')
-                except Exception as e:
-                    model.s_downloadEnd.emit(downloading_item, False, str(e))
+                    item = model.s_array[myindex]
+                    types.append(type)
+                    items.append(item)
+                downloading_items = []
+                for download_index in range(0,len(items)):
+                    downloading_item = ""
+                    try:
+                        type = types[download_index]
+                        item = items[download_index]
+                        start_type(type, item)
+                        if isinstance(item, Artist):
+                            downloading_item = item.name
+                        else: 
+                            downloading_item = item.title
+                        downloading_items.append(downloading_item)
+                    except Exception as e:
+                        model.s_downloadEnd.emit(",".join(downloading_items), False, str(e))
+                        return
 
-            _thread.start_new_thread(__thread_download__, (self, ))
+                model.s_downloadEnd.emit(",".join(downloading_items), True, '')
+                    
+                
+
+            _thread.start_new_thread(__thread_download__, (self,indices, ))
 
         def downloadEnd(self, title, result, msg):
             self.c_btnDownload.setEnabled(True)
