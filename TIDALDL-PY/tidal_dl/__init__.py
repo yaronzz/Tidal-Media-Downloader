@@ -22,11 +22,12 @@ def mainCommand():
                                    "hvgl:o:q:r:",
                                    ["help", "version", "gui", "link=", "output=", "quality", "resolution"])
     except getopt.GetoptError as errmsg:
-        Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for useage.")
+        Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for usage.")
         return
 
     link = None
     showGui = False
+
     for opt, val in opts:
         if opt in ('-h', '--help'):
             Printf.usage()

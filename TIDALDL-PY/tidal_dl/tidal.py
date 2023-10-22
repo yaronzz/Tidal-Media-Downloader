@@ -12,6 +12,8 @@ import json
 import random
 import re
 import time
+from typing import Union, List
+
 import aigpy
 import base64
 import requests
@@ -20,6 +22,8 @@ from xml.etree import ElementTree
 from model import *
 from enums import *
 from settings import *
+
+import tidalapi
 
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
@@ -157,8 +161,14 @@ class TidalAPI(object):
     def verifyAccessToken(self, accessToken) -> bool:
         header = {'authorization': 'Bearer {}'.format(accessToken)}
         result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
+
         if 'status' in result and result['status'] != 200:
             return False
+
+        # Set tidalapi session.
+        self.session = tidalapi.session.Session()
+        self.session.load_oauth_session("Bearer", accessToken)
+
         return True
 
     def refreshAccessToken(self, refreshToken) -> bool:
@@ -193,6 +203,7 @@ class TidalAPI(object):
         self.key.userId = result['userId']
         self.key.countryCode = result['countryCode']
         self.key.accessToken = accessToken
+
         return
 
     def getAlbum(self, id) -> Album:
@@ -233,6 +244,7 @@ class TidalAPI(object):
 
     def search(self, text: str, type: Type, offset: int = 0, limit: int = 10) -> SearchResult:
         typeStr = type.name.upper() + "S"
+
         if type == Type.Null:
             typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
 
@@ -474,6 +486,15 @@ class TidalAPI(object):
 
         raise Exception("No result.")
 
+    def get_playlists(self) -> List[Union["Playlist", "UserPlaylist"]]:
+        playlists = self.session.user.playlists()
+
+        return playlists
+
+    def get_playlist_items(self, playlist_id: int) -> Union[tidalapi.Playlist, tidalapi.UserPlaylist]:
+        tracks = self.session.playlist(playlist_id).items()
+
+        return tracks
 
 # Singleton
 TIDAL_API = TidalAPI()

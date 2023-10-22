@@ -10,3 +10,4 @@ pydub==0.25.1
 PyQt5==5.15.7
 qt-material==2.12
 lxml==4.7.1
+tidalapi==0.7.3

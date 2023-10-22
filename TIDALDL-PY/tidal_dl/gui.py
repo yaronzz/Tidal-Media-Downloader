@@ -67,7 +67,7 @@ else:
         def __init__(self, ) -> None:
             super().__init__()
             self.initView()
-            self.setMinimumSize(600, 620)
+            self.setMinimumSize(800, 620)
             self.setWindowTitle("Tidal-dl")
 
         def __info__(self, msg):
@@ -120,6 +120,16 @@ else:
                 item = QtWidgets.QTableWidgetItem(name)
                 self.c_tableInfo.setHorizontalHeaderItem(index, item)
 
+            # Create Tree View for playlists.
+            self.tree_playlists = QtWidgets.QTreeWidget()
+            self.tree_playlists.setAnimated(False)
+            self.tree_playlists.setIndentation(20)
+            self.tree_playlists.setSortingEnabled(True)
+            self.tree_playlists.resize(200, 400)
+            self.tree_playlists.setColumnCount(2)
+            self.tree_playlists.setHeaderLabels(("Name", "# Tracks"))
+            self.tree_playlists.setColumnWidth(0, 250)
+
             # print
             self.c_printTextEdit = QtWidgets.QTextEdit()
             self.c_printTextEdit.setReadOnly(True)
@@ -148,7 +158,8 @@ else:
             self.funcGrid.addWidget(self.c_printTextEdit)
 
             self.mainGrid = QtWidgets.QGridLayout(self)
-            self.mainGrid.addLayout(self.funcGrid, 0, 0)
+            self.mainGrid.addWidget(self.tree_playlists, 0, 0)
+            self.mainGrid.addLayout(self.funcGrid, 0, 1)
             self.mainGrid.addWidget(self.c_widgetSetting, 0, 0)
 
             # connect
@@ -166,9 +177,9 @@ else:
 
         def search(self):
             self.c_tableInfo.setRowCount(0)
-
             self.s_type = self.c_combType.currentData()
             self.s_text = self.c_lineSearch.text()
+
             if self.s_text.startswith('http'):
                 tmpType, tmpId = TIDAL_API.parseUrl(self.s_text)
                 if tmpType == Type.Null:
@@ -269,6 +280,14 @@ else:
         def showSettings(self):
             self.c_widgetSetting.show()
 
+        def tree_items_playlists(self):
+            playlists = TIDAL_API.get_playlists()
+
+            for playlist in playlists:
+                item = QtWidgets.QTreeWidgetItem(self.tree_playlists)
+                item.setText(0, playlist.name)
+                item.setText(1, str(playlist.num_tracks))
+
     def startGui():
         aigpy.cmd.enableColor(False)
 
@@ -278,6 +297,7 @@ else:
         window = MainView()
         window.show()
         window.checkLogin()
+        window.tree_items_playlists()
 
         app.exec_()
 
