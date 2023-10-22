@@ -6,7 +6,7 @@
 @Author  :   Yaronzz
 @Version :   3.0
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 from pickle import GLOBAL
 import threading
@@ -14,12 +14,12 @@ import aigpy
 import logging
 import prettytable
 
-import tidal_dl.apiKey as apiKey
+import apiKey as apiKey
 
-from tidal_dl.model import *
-from tidal_dl.paths import *
-from tidal_dl.settings import *
-from tidal_dl.lang.language import *
+from model import *
+from paths import *
+from settings import *
+from lang.language import *
 
 
 VERSION = '2022.10.31.1'
@@ -32,9 +32,9 @@ __LOGO__ = f'''
    | $$   | $$| $$  | $$ /$$__  $$| $$        | $$  | $$| $$
    | $$   | $$|  $$$$$$$|  $$$$$$$| $$        |  $$$$$$$| $$
    |__/   |__/ \_______/ \_______/|__/         \_______/|__/
-   
-       https://github.com/yaronzz/Tidal-Media-Downloader 
-       
+
+       https://github.com/yaronzz/Tidal-Media-Downloader
+
                         {VERSION}
 '''
 
@@ -56,7 +56,7 @@ class Printf(object):
         for item in rows:
             tb.add_row(item)
         return tb
-    
+
     @staticmethod
     def usage():
         print("=============TIDAL-DL HELP==============")
@@ -70,7 +70,7 @@ class Printf(object):
             ["-r or --resolution",  "video resolution('P1080', 'P720', 'P480', 'P360')"]
         ])
         print(tb)
-        
+
     @staticmethod
     def checkVersion():
         onlineVer = aigpy.pip.getLastVersion('tidal-dl')
@@ -90,11 +90,11 @@ class Printf(object):
             [LANG.select.SETTING_PLAYLIST_FOLDER_FORMAT, data.playlistFolderFormat],
             [LANG.select.SETTING_TRACK_FILE_FORMAT, data.trackFileFormat],
             [LANG.select.SETTING_VIDEO_FILE_FORMAT, data.videoFileFormat],
-            
+
             #settings - quality
             [LANG.select.SETTING_AUDIO_QUALITY, data.audioQuality],
             [LANG.select.SETTING_VIDEO_QUALITY, data.videoQuality],
-            
+
             #settings - else
             [LANG.select.SETTING_USE_PLAYLIST_FOLDER, data.usePlaylistFolder],
             [LANG.select.SETTING_CHECK_EXIST, data.checkExist],
@@ -135,7 +135,7 @@ class Printf(object):
         aigpy.cmd.colorPrint(string, aigpy.cmd.TextColor.Yellow, None)
         ret = input("")
         return ret
-    
+
     @staticmethod
     def enterBool(string):
         aigpy.cmd.colorPrint(string, aigpy.cmd.TextColor.Yellow, None)
@@ -180,7 +180,7 @@ class Printf(object):
         print(aigpy.cmd.red(LANG.select.PRINT_ERR + " ") + string)
         # logging.error(string)
         print_mutex.release()
-        
+
     @staticmethod
     def info(string):
         global print_mutex
@@ -295,15 +295,15 @@ class Printf(object):
     def apikeys(items):
         print("-------------API-KEYS---------------")
         tb = prettytable.PrettyTable()
-        tb.field_names = [aigpy.cmd.green('Index'), 
+        tb.field_names = [aigpy.cmd.green('Index'),
                           aigpy.cmd.green('Valid'),
-                          aigpy.cmd.green('Platform'), 
+                          aigpy.cmd.green('Platform'),
                           aigpy.cmd.green('Formats'), ]
         tb.align = 'l'
-        
+
         for index, item in enumerate(items):
-            tb.add_row([str(index), 
+            tb.add_row([str(index),
                         aigpy.cmd.green('True') if item["valid"] == "True" else aigpy.cmd.red('False'),
-                        item["platform"], 
+                        item["platform"],
                         item["formats"]])
         print(tb)

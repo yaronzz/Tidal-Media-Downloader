@@ -6,17 +6,17 @@
 @Author  :  Yaronzz
 @Version :  1.0
 @Contact :  yaronhuang@foxmail.com
-@Desc    :  
+@Desc    :
 """
 
 import aigpy
 import time
 
-from tidal_dl.model import *
-from tidal_dl.enums import *
-from tidal_dl.tidal import *
-from tidal_dl.printf import *
-from tidal_dl.download import *
+from model import *
+from enums import *
+from tidal import *
+from printf import *
+from download import *
 
 '''
 =================================

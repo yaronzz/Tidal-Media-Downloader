@@ -6,15 +6,15 @@
 @Author  :   Yaronzz
 @Version :   1.0
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 import aigpy
 import logging
 
-from tidal_dl.paths import *
-from tidal_dl.printf import *
-from tidal_dl.decryption import *
-from tidal_dl.tidal import *
+from paths import *
+from printf import *
+from decryption import *
+from tidal import *
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -114,7 +114,7 @@ def downloadVideo(video: Video, album: Album = None, playlist: Playlist = None):
     try:
         stream = TIDAL_API.getVideoStreamUrl(video.id, SETTINGS.videoQuality)
         path = getVideoPath(video, album, playlist)
-        
+
         Printf.video(video, stream)
         logging.info("[DL Video] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.m3u8Url)
 
@@ -199,7 +199,7 @@ def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
         if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
             downloadCover(album)
         return album
-    
+
     if not SETTINGS.multiThread:
         for index, item in enumerate(tracks):
             itemAlbum = album

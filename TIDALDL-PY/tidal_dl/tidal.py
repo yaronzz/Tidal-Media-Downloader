@@ -17,9 +17,9 @@ import base64
 import requests
 from xml.etree import ElementTree
 
-from tidal_dl.model import *
-from tidal_dl.enums import *
-from tidal_dl.settings import *
+from model import *
+from enums import *
+from settings import *
 
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
@@ -341,7 +341,7 @@ class TidalAPI(object):
 
                     tracks.append(track_urls)
         return tracks
-    
+
     def getStreamUrl(self, id, quality: AudioQuality):
         squality = "HI_RES"
         if quality == AudioQuality.Normal:
@@ -378,7 +378,7 @@ class TidalAPI(object):
             if len(ret.urls) > 0:
                 ret.url = ret.urls[0]
             return ret
-            
+
         raise Exception("Can't get the streamUrl, type is " + resp.manifestMimeType)
 
     def getVideoStreamUrl(self, id, quality: VideoQuality):

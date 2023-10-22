@@ -6,14 +6,14 @@
 @Author  :  Yaronzz
 @Version :  1.0
 @Contact :  yaronhuang@foxmail.com
-@Desc    :  
+@Desc    :
 """
 import os
 import aigpy
 import datetime
 
-from tidal_dl.tidal import *
-from tidal_dl.settings import *
+from tidal import *
+from settings import *
 
 
 def __fixPath__(name: str):

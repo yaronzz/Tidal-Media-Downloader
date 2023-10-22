@@ -6,17 +6,17 @@
 @Author  :  Yaronzz
 @Version :  1.0
 @Contact :  yaronhuang@foxmail.com
-@Desc    :  
+@Desc    :
 """
 import sys
 import aigpy
 import _thread
 import importlib
 
-from tidal_dl.events import *
-from tidal_dl.settings import *
-from tidal_dl.printf import *
-from tidal_dl.enums import *
+from events import *
+from settings import *
+from printf import *
+from enums import *
 
 
 def enableGui():
@@ -42,25 +42,25 @@ else:
         def __init__(self, ) -> None:
             super().__init__()
             self.initView()
-            
+
         def initView(self):
             self.c_pathDownload = QtWidgets.QLineEdit()
             self.c_pathAlbumFormat = QtWidgets.QLineEdit()
             self.c_pathTrackFormat = QtWidgets.QLineEdit()
             self.c_pathVideoFormat = QtWidgets.QLineEdit()
-            
+
             self.mainGrid = QtWidgets.QVBoxLayout(self)
             self.mainGrid.addWidget(self.c_pathDownload)
             self.mainGrid.addWidget(self.c_pathAlbumFormat)
             self.mainGrid.addWidget(self.c_pathTrackFormat)
             self.mainGrid.addWidget(self.c_pathVideoFormat)
-            
+
     class EmittingStream(QObject):
         textWritten = pyqtSignal(str)
 
         def write(self, text):
             self.textWritten.emit(str(text))
-    
+
     class MainView(QtWidgets.QWidget):
         s_downloadEnd = pyqtSignal(str, bool, str)
 
@@ -95,7 +95,7 @@ else:
             self.m_supportType = [Type.Album, Type.Playlist, Type.Track, Type.Video, Type.Artist]
             for item in self.m_supportType:
                 self.c_combType.addItem(item.name, item)
-                
+
             for item in AudioQuality:
                 self.c_combTQuality.addItem(item.name, item)
             for item in VideoQuality:
@@ -146,7 +146,7 @@ else:
             self.funcGrid.addWidget(self.c_tableInfo)
             self.funcGrid.addLayout(self.line2Grid)
             self.funcGrid.addWidget(self.c_printTextEdit)
-            
+
             self.mainGrid = QtWidgets.QGridLayout(self)
             self.mainGrid.addLayout(self.funcGrid, 0, 0)
             self.mainGrid.addWidget(self.c_widgetSetting, 0, 0)
@@ -237,7 +237,7 @@ else:
                     start_type(type, item)
                     if isinstance(item, Artist):
                         downloading_item = item.name
-                    else: 
+                    else:
                         downloading_item = item.title
                     model.s_downloadEnd.emit(downloading_item, True, '')
                 except Exception as e:
@@ -257,18 +257,18 @@ else:
         def checkLogin(self):
             if not loginByConfig():
                 self.__info__('Login failed. Please log in using the command line first.')
-        
+
         def changeTQuality(self, index):
             SETTINGS.audioQuality = self.c_combTQuality.itemData(index)
             SETTINGS.save()
-        
+
         def changeVQuality(self, index):
             SETTINGS.videoQuality = self.c_combVQuality.itemData(index)
             SETTINGS.save()
-        
+
         def showSettings(self):
             self.c_widgetSetting.show()
-            
+
     def startGui():
         aigpy.cmd.enableColor(False)
 
