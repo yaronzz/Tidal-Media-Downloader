@@ -29,7 +29,7 @@ if not enableGui():
         Printf.err("Not support gui. Please type: `pip3 install PyQt5 qt_material`")
 else:
     from PyQt5.QtCore import Qt, QObject
-    from PyQt5.QtGui import QTextCursor
+    from PyQt5.QtGui import QTextCursor, QKeyEvent
     from PyQt5.QtCore import pyqtSignal
     from PyQt5 import QtWidgets
     from qt_material import apply_stylesheet
@@ -171,6 +171,13 @@ else:
             self.c_btnSetting.clicked.connect(self.showSettings)
             self.tree_playlists.itemClicked.connect(self.playlist_display_tracks)
 
+        def keyPressEvent(self, event: QKeyEvent):
+            key = event.key()
+
+
+            if event.modifiers() & Qt.MetaModifier and key == Qt.Key_A:
+                self.c_tableInfo.selectAll()
+
         def addItem(self, rowIdx: int, colIdx: int, text):
             if isinstance(text, str):
                 item = QtWidgets.QTableWidgetItem(text)
@@ -209,7 +216,9 @@ else:
             self.set_table_search_results(self.s_array, self.s_type)
 
         def set_table_search_results(self, s_array, s_type):
+            self.c_tableInfo.clearSelection()
             self.c_tableInfo.setRowCount(len(s_array))
+
             for index, item in enumerate(s_array):
                 self.addItem(index, 0, str(index + 1))
                 if s_type in [Type.Album, Type.Track]:
