@@ -8,15 +8,11 @@
 @Contact :  yaronhuang@foxmail.com
 @Desc    :
 """
-import sys
-import aigpy
-import _thread
 import importlib
+import sys
 
 from events import *
-from settings import *
 from printf import *
-from enums import *
 
 
 def enableGui():
@@ -38,6 +34,7 @@ else:
     from PyQt5 import QtWidgets
     from qt_material import apply_stylesheet
 
+
     class SettingView(QtWidgets.QWidget):
         def __init__(self, ) -> None:
             super().__init__()
@@ -55,11 +52,13 @@ else:
             self.mainGrid.addWidget(self.c_pathTrackFormat)
             self.mainGrid.addWidget(self.c_pathVideoFormat)
 
+
     class EmittingStream(QObject):
         textWritten = pyqtSignal(str)
 
         def write(self, text):
             self.textWritten.emit(str(text))
+
 
     class MainView(QtWidgets.QWidget):
         s_downloadEnd = pyqtSignal(str, bool, str)
@@ -314,6 +313,7 @@ else:
 
             self.set_table_search_results(tracks, Type.Track)
 
+
     def startGui():
         aigpy.cmd.enableColor(False)
 
@@ -326,7 +326,6 @@ else:
         window.tree_items_playlists()
 
         app.exec_()
-
 
 if __name__ == '__main__':
     SETTINGS.read(getProfilePath())

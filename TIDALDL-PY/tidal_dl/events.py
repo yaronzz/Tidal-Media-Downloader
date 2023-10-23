@@ -9,13 +9,6 @@
 @Desc    :
 """
 
-import aigpy
-import time
-
-from model import *
-from enums import *
-from tidal import *
-from printf import *
 from download import *
 
 '''

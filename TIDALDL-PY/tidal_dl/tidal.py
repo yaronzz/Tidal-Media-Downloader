@@ -8,22 +8,17 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   tidal api
 '''
-import json
 import random
 import re
 import time
 from typing import Union, List
-
-import aigpy
-import base64
-import requests
 from xml.etree import ElementTree
 
-from model import *
-from enums import *
-from settings import *
-
+import requests
 import tidalapi
+
+from model import *
+from settings import *
 
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
@@ -47,7 +42,8 @@ class TidalAPI(object):
                 if respond.url.find("playbackinfopostpaywall") != -1 and SETTINGS.downloadDelay is not False:
                     # random sleep between 0.5 and 5 seconds and print it
                     sleep_time = random.randint(500, 5000) / 1000
-                    print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+                    print(
+                        f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
                     time.sleep(sleep_time)
 
                 if respond.status_code == 429:
@@ -113,7 +109,7 @@ class TidalAPI(object):
     def __post__(self, path, data, auth=None, urlpre='https://auth.tidal.com/v1/oauth2'):
         for index in range(3):
             try:
-                result = requests.post(urlpre+path, data=data, auth=auth, verify=False).json()
+                result = requests.post(urlpre + path, data=data, auth=auth, verify=False).json()
                 return result
             except Exception as e:
                 if index == 2:
@@ -198,7 +194,7 @@ class TidalAPI(object):
 
         if not aigpy.string.isNull(userid):
             if str(result['userId']) != str(userid):
-                raise Exception("User mismatch! Please use your own accesstoken.",)
+                raise Exception("User mismatch! Please use your own accesstoken.", )
 
         self.key.userId = result['userId']
         self.key.countryCode = result['countryCode']
@@ -385,7 +381,7 @@ class TidalAPI(object):
             ret.trackid = resp.trackid
             ret.soundQuality = resp.audioQuality
             ret.codec = aigpy.string.getSub(xmldata, 'codecs="', '"')
-            ret.encryptionKey = ""#manifest['keyId'] if 'keyId' in manifest else ""
+            ret.encryptionKey = ""  # manifest['keyId'] if 'keyId' in manifest else ""
             ret.urls = self.parse_mpd(xmldata)[0]
             if len(ret.urls) > 0:
                 ret.url = ret.urls[0]
@@ -492,10 +488,11 @@ class TidalAPI(object):
         return playlists
 
     def get_playlist_items(self, playlist_id: int) -> Union[tidalapi.Playlist, tidalapi.UserPlaylist]:
-        #tracks = self.session.playlist(playlist_id).items()
+        # tracks = self.session.playlist(playlist_id).items()
         tracks, videos = TIDAL_API.getItems(playlist_id, Type.Playlist)
 
         return tracks
+
 
 # Singleton
 TIDAL_API = TidalAPI()

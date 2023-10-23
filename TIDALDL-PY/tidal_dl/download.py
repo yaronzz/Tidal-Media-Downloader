@@ -8,15 +8,13 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :
 '''
-import aigpy
-import logging
-
-from paths import *
-from printf import *
-from decryption import *
-from tidal import *
 
 from concurrent.futures import ThreadPoolExecutor
+
+from decryption import *
+from printf import *
+from tidal import *
+
 
 def __isSkip__(finalpath, url):
     if not SETTINGS.checkExist:
@@ -164,7 +162,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         tool.setPartSize(partSize)
         check, err = tool.start(SETTINGS.showProgress and not SETTINGS.multiThread)
         if not check:
-            Printf.err(f"DL Track[{track.title}] failed.{str(err)}")
+            Printf.err(f"DL Track '{track.title}' failed: {str(err)}")
             return False, str(err)
 
         # encrypted -> decrypt and remove encrypted file
@@ -187,13 +185,14 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
 
         __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(track.title)
+
         return True, ''
     except Exception as e:
-        Printf.err(f"DL Track[{track.title}] failed.{str(e)}")
+        Printf.err(f"DL Track '{track.title}' failed: {str(e)}")
         return False, str(e)
 
 
-def downloadTracks(tracks, album: Album = None, playlist : Playlist=None):
+def downloadTracks(tracks, album: Album = None, playlist: Playlist = None):
     def __getAlbum__(item: Track):
         album = TIDAL_API.getAlbum(item.album.id)
         if SETTINGS.saveCovers and not SETTINGS.usePlaylistFolder:
