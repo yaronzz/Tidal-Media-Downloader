@@ -492,7 +492,8 @@ class TidalAPI(object):
         return playlists
 
     def get_playlist_items(self, playlist_id: int) -> Union[tidalapi.Playlist, tidalapi.UserPlaylist]:
-        tracks = self.session.playlist(playlist_id).items()
+        #tracks = self.session.playlist(playlist_id).items()
+        tracks, videos = TIDAL_API.getItems(playlist_id, Type.Playlist)
 
         return tracks
 

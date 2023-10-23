@@ -111,7 +111,7 @@ else:
             self.c_tableInfo.setShowGrid(False)
             self.c_tableInfo.verticalHeader().setVisible(False)
             self.c_tableInfo.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-            self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+            self.c_tableInfo.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
             self.c_tableInfo.horizontalHeader().setStretchLastSection(True)
             self.c_tableInfo.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
             self.c_tableInfo.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -128,12 +128,12 @@ else:
             self.tree_playlists.resize(200, 400)
             self.tree_playlists.setColumnCount(2)
             self.tree_playlists.setHeaderLabels(("Name", "# Tracks"))
-            self.tree_playlists.setColumnWidth(0, 250)
+            self.tree_playlists.setColumnWidth(0, 200)
 
             # print
             self.c_printTextEdit = QtWidgets.QTextEdit()
             self.c_printTextEdit.setReadOnly(True)
-            self.c_printTextEdit.setFixedHeight(150)
+            self.c_printTextEdit.setFixedHeight(100)
             sys.stdout = EmittingStream(textWritten=self.__output__)
             sys.stderr = EmittingStream(textWritten=self.__output__)
 
@@ -158,17 +158,19 @@ else:
             self.funcGrid.addWidget(self.c_printTextEdit)
 
             self.mainGrid = QtWidgets.QGridLayout(self)
-            self.mainGrid.addWidget(self.tree_playlists, 0, 0)
-            self.mainGrid.addLayout(self.funcGrid, 0, 1)
+            self.mainGrid.addWidget(self.tree_playlists, 0, 0, 1, 2)
+            self.mainGrid.addLayout(self.funcGrid, 0, 2, 1, 3)
             self.mainGrid.addWidget(self.c_widgetSetting, 0, 0)
 
             # connect
             self.c_btnSearch.clicked.connect(self.search)
+            self.c_lineSearch.returnPressed.connect(self.search)
             self.c_btnDownload.clicked.connect(self.download)
             self.s_downloadEnd.connect(self.downloadEnd)
             self.c_combTQuality.currentIndexChanged.connect(self.changeTQuality)
             self.c_combVQuality.currentIndexChanged.connect(self.changeVQuality)
             self.c_btnSetting.clicked.connect(self.showSettings)
+            self.tree_playlists.itemClicked.connect(self.playlist_display_tracks)
 
         def addItem(self, rowIdx: int, colIdx: int, text):
             if isinstance(text, str):
@@ -205,22 +207,25 @@ else:
                 self.__info__('No result！')
                 return
 
-            self.c_tableInfo.setRowCount(len(self.s_array))
-            for index, item in enumerate(self.s_array):
+            self.set_table_search_results(self.s_array, self.s_type)
+
+        def set_table_search_results(self, s_array, s_type):
+            self.c_tableInfo.setRowCount(len(s_array))
+            for index, item in enumerate(s_array):
                 self.addItem(index, 0, str(index + 1))
-                if self.s_type in [Type.Album, Type.Track]:
+                if s_type in [Type.Album, Type.Track]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, TIDAL_API.getArtistsName(item.artists))
                     self.addItem(index, 3, item.audioQuality)
-                elif self.s_type in [Type.Video]:
+                elif s_type in [Type.Video]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, TIDAL_API.getArtistsName(item.artists))
                     self.addItem(index, 3, item.quality)
-                elif self.s_type in [Type.Playlist]:
+                elif s_type in [Type.Playlist]:
                     self.addItem(index, 1, item.title)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
-                elif self.s_type in [Type.Artist]:
+                elif s_type in [Type.Artist]:
                     self.addItem(index, 1, item.name)
                     self.addItem(index, 2, '')
                     self.addItem(index, 3, '')
@@ -228,9 +233,15 @@ else:
 
         def download(self):
             index = self.c_tableInfo.currentIndex().row()
-            if index < 0:
+            selection = self.c_tableInfo.selectionModel()
+            has_selection = selection.hasSelection()
+
+            if has_selection == False:
                 self.__info__('Please select a row first.')
                 return
+
+            rows = self.c_tableInfo.selectionModel().selectedRows()
+            index = rows[0].row()
 
             self.c_btnDownload.setEnabled(False)
             item_to_download = ""
@@ -287,6 +298,14 @@ else:
                 item = QtWidgets.QTreeWidgetItem(self.tree_playlists)
                 item.setText(0, playlist.name)
                 item.setText(1, str(playlist.num_tracks))
+                item.setText(2, playlist.id)
+
+        def playlist_display_tracks(self, item, column):
+            tracks = TIDAL_API.get_playlist_items(item.text(2))
+            self.s_array = tracks
+            self.s_type = Type.Track
+
+            self.set_table_search_results(tracks, Type.Track)
 
     def startGui():
         aigpy.cmd.enableColor(False)
