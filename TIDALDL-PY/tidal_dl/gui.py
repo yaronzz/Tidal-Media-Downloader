@@ -174,7 +174,6 @@ else:
         def keyPressEvent(self, event: QKeyEvent):
             key = event.key()
 
-
             if event.modifiers() & Qt.MetaModifier and key == Qt.Key_A:
                 self.c_tableInfo.selectAll()
 
