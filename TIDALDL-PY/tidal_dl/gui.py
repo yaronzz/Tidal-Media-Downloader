@@ -241,40 +241,47 @@ else:
                 return
 
             rows = self.c_tableInfo.selectionModel().selectedRows()
-            index = rows[0].row()
 
-            self.c_btnDownload.setEnabled(False)
-            item_to_download = ""
-            if isinstance(self.s_array[index], Artist):
-                item_to_download = self.s_array[index].name
-            else:
-                item_to_download = self.s_array[index].title
-            self.c_btnDownload.setText(f"Downloading [${item_to_download}]...")
+            for row in rows:
+                index = row.row()
+                item = self.s_array[index]
+                type = self.s_type
 
-            def __thread_download__(model: MainView):
-                downloading_item = ""
-                try:
-                    type = model.s_type
-                    item = model.s_array[index]
-                    start_type(type, item)
-                    if isinstance(item, Artist):
-                        downloading_item = item.name
-                    else:
-                        downloading_item = item.title
-                    model.s_downloadEnd.emit(downloading_item, True, '')
-                except Exception as e:
-                    model.s_downloadEnd.emit(downloading_item, False, str(e))
+                self.c_btnDownload.setEnabled(False)
+                item_to_download = ""
+                if isinstance(item, Artist):
+                    item_to_download = item.name
+                else:
+                    item_to_download = item.title
 
-            _thread.start_new_thread(__thread_download__, (self, ))
+                self.c_btnDownload.setText(f"'{item_to_download}' ...")
+                self.download_(item, type)
+
+        # Not race condition safe. Needs refactoring.
+        def download_(self, item, s_type):
+            downloading_item = ""
+            try:
+                type = s_type
+
+                start_type(type, item)
+
+                if isinstance(item, Artist):
+                    downloading_item = item.name
+                else:
+                    downloading_item = item.title
+
+                self.s_downloadEnd.emit(downloading_item, True, '')
+            except Exception as e:
+                self.s_downloadEnd.emit(downloading_item, False, str(e))
 
         def downloadEnd(self, title, result, msg):
             self.c_btnDownload.setEnabled(True)
             self.c_btnDownload.setText(f"Download")
 
             if result:
-                self.__info__(f'Download [{title}] finish')
+                Printf.info(f"Download '{title}' finished.")
             else:
-                self.__info__(f'Download [{title}] failed:{msg}')
+                Printf.err(f"Download '{title}' failed:{msg}")
 
         def checkLogin(self):
             if not loginByConfig():
