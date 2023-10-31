@@ -6,27 +6,28 @@
 @Author  :   Yaronzz
 @Version :   3.0
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 import sys
 import getopt
 
-from tidal_dl.events import *
-from tidal_dl.settings import *
-from tidal_dl.gui import startGui
+from events import *
+from settings import *
+from gui import startGui
 
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 
-                                   "hvgl:o:q:r:", 
+        opts, args = getopt.getopt(sys.argv[1:],
+                                   "hvgl:o:q:r:",
                                    ["help", "version", "gui", "link=", "output=", "quality", "resolution"])
     except getopt.GetoptError as errmsg:
-        Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for useage.")
+        Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for usage.")
         return
 
     link = None
     showGui = False
+
     for opt, val in opts:
         if opt in ('-h', '--help'):
             Printf.usage()
@@ -52,11 +53,11 @@ def mainCommand():
             SETTINGS.videoQuality = SETTINGS.getVideoQuality(val)
             SETTINGS.save()
             continue
-    
+
     if not aigpy.path.mkdirs(SETTINGS.downloadPath):
         Printf.err(LANG.select.MSG_PATH_ERR + SETTINGS.downloadPath)
         return
-    
+
     if showGui:
         startGui()
         return
@@ -71,22 +72,22 @@ def main():
     SETTINGS.read(getProfilePath())
     TOKEN.read(getTokenPath())
     TIDAL_API.apiKey = apiKey.getItem(SETTINGS.apiKeyIndex)
-    
+
     if len(sys.argv) > 1:
         mainCommand()
         return
-    
+
     Printf.logo()
     Printf.settings()
-    
+
     if not apiKey.isItemValid(SETTINGS.apiKeyIndex):
         changeApiKey()
         loginByWeb()
     elif not loginByConfig():
         loginByWeb()
-    
+
     Printf.checkVersion()
-    
+
     while True:
         Printf.choices()
         choice = Printf.enter(LANG.select.PRINT_ENTER_CHOICE)
@@ -115,10 +116,10 @@ def main():
 def test():
     SETTINGS.read(getProfilePath())
     TOKEN.read(getTokenPath())
-    
+
     if not loginByConfig():
         loginByWeb()
-        
+
     SETTINGS.audioQuality = AudioQuality.Master
     SETTINGS.videoFileFormat = VideoQuality.P240
     SETTINGS.checkExist = False
@@ -149,7 +150,7 @@ def test():
     # playlist 98235845-13e8-43b4-94e2-d9f8e603cee7
     # start('98235845-13e8-43b4-94e2-d9f8e603cee7')
     # video 155608351 188932980 https://tidal.com/browse/track/55130637
-    # start("155608351")https://tidal.com/browse/track/199683732 
+    # start("155608351")https://tidal.com/browse/track/199683732
 
 
 if __name__ == '__main__':

@@ -6,31 +6,31 @@
 @Author  :   Yaronzz
 @Version :   1.0
 @Contact :   yaronhuang@foxmail.com
-@Desc    :   
+@Desc    :
 '''
 
-from tidal_dl.lang.arabic import LangArabic
-from tidal_dl.lang.chinese import LangChinese
-from tidal_dl.lang.croatian import LangCroatian
-from tidal_dl.lang.czech import LangCzech
-from tidal_dl.lang.danish import LangDanish
-from tidal_dl.lang.dutch import LangDutch
-from tidal_dl.lang.english import LangEnglish
-from tidal_dl.lang.filipino import LangFilipino
-from tidal_dl.lang.french import LangFrench
-from tidal_dl.lang.german import LangGerman
-from tidal_dl.lang.hungarian import LangHungarian
-from tidal_dl.lang.italian import LangItalian
-from tidal_dl.lang.norwegian import LangNorwegian
-from tidal_dl.lang.polish import LangPolish
-from tidal_dl.lang.portuguese import LangPortuguese
-from tidal_dl.lang.russian import LangRussian
-from tidal_dl.lang.spanish import LangSpanish
-from tidal_dl.lang.turkish import LangTurkish
-from tidal_dl.lang.ukrainian import LangUkrainian
-from tidal_dl.lang.vietnamese import LangVietnamese
-from tidal_dl.lang.korean import LangKorean
-from tidal_dl.lang.japanese import LangJapanese
+from lang.arabic import LangArabic
+from lang.chinese import LangChinese
+from lang.croatian import LangCroatian
+from lang.czech import LangCzech
+from lang.danish import LangDanish
+from lang.dutch import LangDutch
+from lang.english import LangEnglish
+from lang.filipino import LangFilipino
+from lang.french import LangFrench
+from lang.german import LangGerman
+from lang.hungarian import LangHungarian
+from lang.italian import LangItalian
+from lang.norwegian import LangNorwegian
+from lang.polish import LangPolish
+from lang.portuguese import LangPortuguese
+from lang.russian import LangRussian
+from lang.spanish import LangSpanish
+from lang.turkish import LangTurkish
+from lang.ukrainian import LangUkrainian
+from lang.vietnamese import LangVietnamese
+from lang.korean import LangKorean
+from lang.japanese import LangJapanese
 
 _ALL_LANGUAGE_ = [
     ['English', LangEnglish()],
@@ -66,7 +66,7 @@ class Language(object):
             return int(str)
         except:
             return 0
-    
+
     def setLang(self, index):
         index = self.__toInt__(index)
         if index >= 0 and index < len(_ALL_LANGUAGE_):

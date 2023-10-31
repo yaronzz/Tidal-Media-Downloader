@@ -12,8 +12,8 @@ import json
 import aigpy
 import base64
 
-from tidal_dl.lang.language import *
-from tidal_dl.enums import *
+from lang.language import *
+from enums import *
 
 
 class Settings(aigpy.model.ModelBase):
@@ -61,7 +61,7 @@ class Settings(aigpy.model.ModelBase):
             if item.name == value:
                 return item
         return VideoQuality.P360
-    
+
     def read(self, path):
         self._path_ = path
         txt = aigpy.file.getContent(self._path_)
@@ -83,7 +83,7 @@ class Settings(aigpy.model.ModelBase):
             self.videoFileFormat = self.getDefaultPathFormat(Type.Video)
         if self.apiKeyIndex is None:
             self.apiKeyIndex = 0
-        
+
         LANG.setLang(self.language)
 
     def save(self):

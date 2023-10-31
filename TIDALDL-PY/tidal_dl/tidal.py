@@ -8,18 +8,17 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   tidal api
 '''
-import json
 import random
 import re
 import time
-import aigpy
-import base64
-import requests
+from typing import Union, List
 from xml.etree import ElementTree
 
-from tidal_dl.model import *
-from tidal_dl.enums import *
-from tidal_dl.settings import *
+import requests
+import tidalapi
+
+from model import *
+from settings import *
 
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
@@ -43,7 +42,8 @@ class TidalAPI(object):
                 if respond.url.find("playbackinfopostpaywall") != -1 and SETTINGS.downloadDelay is not False:
                     # random sleep between 0.5 and 5 seconds and print it
                     sleep_time = random.randint(500, 5000) / 1000
-                    print(f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+                    print(
+                        f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
                     time.sleep(sleep_time)
 
                 if respond.status_code == 429:
@@ -109,7 +109,7 @@ class TidalAPI(object):
     def __post__(self, path, data, auth=None, urlpre='https://auth.tidal.com/v1/oauth2'):
         for index in range(3):
             try:
-                result = requests.post(urlpre+path, data=data, auth=auth, verify=False).json()
+                result = requests.post(urlpre + path, data=data, auth=auth, verify=False).json()
                 return result
             except Exception as e:
                 if index == 2:
@@ -157,8 +157,14 @@ class TidalAPI(object):
     def verifyAccessToken(self, accessToken) -> bool:
         header = {'authorization': 'Bearer {}'.format(accessToken)}
         result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
+
         if 'status' in result and result['status'] != 200:
             return False
+
+        # Set tidalapi session.
+        self.session = tidalapi.session.Session()
+        self.session.load_oauth_session("Bearer", accessToken)
+
         return True
 
     def refreshAccessToken(self, refreshToken) -> bool:
@@ -188,11 +194,12 @@ class TidalAPI(object):
 
         if not aigpy.string.isNull(userid):
             if str(result['userId']) != str(userid):
-                raise Exception("User mismatch! Please use your own accesstoken.",)
+                raise Exception("User mismatch! Please use your own accesstoken.", )
 
         self.key.userId = result['userId']
         self.key.countryCode = result['countryCode']
         self.key.accessToken = accessToken
+
         return
 
     def getAlbum(self, id) -> Album:
@@ -233,6 +240,7 @@ class TidalAPI(object):
 
     def search(self, text: str, type: Type, offset: int = 0, limit: int = 10) -> SearchResult:
         typeStr = type.name.upper() + "S"
+
         if type == Type.Null:
             typeStr = "ARTISTS,ALBUMS,TRACKS,VIDEOS,PLAYLISTS"
 
@@ -341,7 +349,7 @@ class TidalAPI(object):
 
                     tracks.append(track_urls)
         return tracks
-    
+
     def getStreamUrl(self, id, quality: AudioQuality):
         squality = "HI_RES"
         if quality == AudioQuality.Normal:
@@ -373,12 +381,12 @@ class TidalAPI(object):
             ret.trackid = resp.trackid
             ret.soundQuality = resp.audioQuality
             ret.codec = aigpy.string.getSub(xmldata, 'codecs="', '"')
-            ret.encryptionKey = ""#manifest['keyId'] if 'keyId' in manifest else ""
+            ret.encryptionKey = ""  # manifest['keyId'] if 'keyId' in manifest else ""
             ret.urls = self.parse_mpd(xmldata)[0]
             if len(ret.urls) > 0:
                 ret.url = ret.urls[0]
             return ret
-            
+
         raise Exception("Can't get the streamUrl, type is " + resp.manifestMimeType)
 
     def getVideoStreamUrl(self, id, quality: VideoQuality):
@@ -473,6 +481,17 @@ class TidalAPI(object):
                 continue
 
         raise Exception("No result.")
+
+    def get_playlists(self) -> List[Union["Playlist", "UserPlaylist"]]:
+        playlists = self.session.user.playlists()
+
+        return playlists
+
+    def get_playlist_items(self, playlist_id: int) -> Union[tidalapi.Playlist, tidalapi.UserPlaylist]:
+        # tracks = self.session.playlist(playlist_id).items()
+        tracks, videos = TIDAL_API.getItems(playlist_id, Type.Playlist)
+
+        return tracks
 
 
 # Singleton
