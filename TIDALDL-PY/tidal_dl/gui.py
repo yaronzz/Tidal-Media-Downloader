@@ -171,6 +171,10 @@ else:
             self.c_btnSetting.clicked.connect(self.showSettings)
             self.tree_playlists.itemClicked.connect(self.playlist_display_tracks)
 
+            # Connect the contextmenu
+            self.tree_playlists.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.tree_playlists.customContextMenuRequested.connect(self.menuContextTree)
+
         def keyPressEvent(self, event: QKeyEvent):
             key = event.key()
 
@@ -252,8 +256,11 @@ else:
             for row in rows:
                 index = row.row()
                 item = self.s_array[index]
-                type = self.s_type
+                item_type = self.s_type
 
+                self.download_item(item, item_type)
+
+        def download_item(self, item, item_type):
                 self.c_btnDownload.setEnabled(False)
                 item_to_download = ""
                 if isinstance(item, Artist):
@@ -262,15 +269,15 @@ else:
                     item_to_download = item.title
 
                 self.c_btnDownload.setText(f"'{item_to_download}' ...")
-                self.download_(item, type)
+                self.download_(item, item_type)
 
         # Not race condition safe. Needs refactoring.
         def download_(self, item, s_type):
             downloading_item = ""
             try:
-                type = s_type
+                item_type = s_type
 
-                start_type(type, item)
+                start_type(item_type, item)
 
                 if isinstance(item, Artist):
                     downloading_item = item.name
@@ -320,6 +327,28 @@ else:
             self.s_type = Type.Track
 
             self.set_table_search_results(tracks, Type.Track)
+
+        def menuContextTree(self, point):
+            # Infos about the node selected.
+            index = self.tree_playlists.indexAt(point)
+
+            if not index.isValid():
+                return
+
+            item = self.tree_playlists.itemAt(point)
+            playlist = Playlist()
+            playlist.title = item.text(0)
+            playlist.uuid = item.text(2)
+
+            # We build the menu.
+            menu = QtWidgets.QMenu()
+            action = menu.addAction("Dowload Playlist")
+
+            menu.exec_(self.tree_playlists.mapToGlobal(point))
+
+            self.download_item(playlist, Type.Playlist)
+
+
 
 
     def startGui():
