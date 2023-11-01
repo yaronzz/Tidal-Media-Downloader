@@ -14,7 +14,7 @@
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
-                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/tidal_dl/"
             },
             "justMyCode": false
         },
@@ -26,7 +26,7 @@
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
-                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/tidal_dl/"
             },
             "args": [
                 "--link",
@@ -46,7 +46,7 @@
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
-                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/tidal_dl/"
             },
             "justMyCode": false
 
@@ -59,7 +59,7 @@
             "console": "integratedTerminal",
             // "python": "python3",
             "env": {
-                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/"
+                "PYTHONPATH": "${workspaceRoot}/TIDALDL-PY/tidal_dl/"
             },
             "justMyCode": false
 

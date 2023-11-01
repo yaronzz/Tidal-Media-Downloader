@@ -10,10 +10,12 @@
 '''
 import sys
 import getopt
+import aigpy
 
 from events import *
 from settings import *
 from gui import startGui
+from printf import Printf
 
 
 def mainCommand():
@@ -141,6 +143,8 @@ def test():
     SETTINGS.checkExist = False
 
     Printf.settings()
+
+    TIDAL_API.getPlaylistSelf()
     # test example
     # https://tidal.com/browse/track/70973230
     # track 70973230  77798028 212657

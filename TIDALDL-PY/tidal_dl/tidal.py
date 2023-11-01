@@ -11,11 +11,10 @@
 import random
 import re
 import time
-from typing import Union, List
+from typing import List
 from xml.etree import ElementTree
 
 import requests
-import tidalapi
 
 from model import *
 from settings import *
@@ -160,11 +159,6 @@ class TidalAPI(object):
 
         if 'status' in result and result['status'] != 200:
             return False
-
-        # Set tidalapi session.
-        self.session = tidalapi.session.Session()
-        self.session.load_oauth_session("Bearer", accessToken)
-
         return True
 
     def refreshAccessToken(self, refreshToken) -> bool:
@@ -207,6 +201,13 @@ class TidalAPI(object):
 
     def getPlaylist(self, id) -> Playlist:
         return aigpy.model.dictToModel(self.__get__('playlists/' + str(id)), Playlist())
+    
+    def getPlaylistSelf(self) -> List[Playlist]:
+        ret = self.__get__(f'users/{self.key.userId}/playlists')
+        playlists = []
+        for item in ret['items']:
+            playlists.append(aigpy.model.dictToModel(item, Playlist()))
+        return playlists
 
     def getArtist(self, id) -> Artist:
         return aigpy.model.dictToModel(self.__get__('artists/' + str(id)), Artist())
@@ -481,18 +482,6 @@ class TidalAPI(object):
                 continue
 
         raise Exception("No result.")
-
-    def get_playlists(self) -> List[Union["Playlist", "UserPlaylist"]]:
-        playlists = self.session.user.playlists()
-
-        return playlists
-
-    def get_playlist_items(self, playlist_id: int) -> Union[tidalapi.Playlist, tidalapi.UserPlaylist]:
-        # tracks = self.session.playlist(playlist_id).items()
-        tracks, videos = TIDAL_API.getItems(playlist_id, Type.Playlist)
-
-        return tracks
-
 
 # Singleton
 TIDAL_API = TidalAPI()

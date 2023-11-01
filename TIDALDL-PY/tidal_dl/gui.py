@@ -10,6 +10,7 @@
 """
 import importlib
 import sys
+import _thread
 
 from events import *
 from printf import *
@@ -34,31 +35,11 @@ else:
     from PyQt5 import QtWidgets
     from qt_material import apply_stylesheet
 
-
-    class SettingView(QtWidgets.QWidget):
-        def __init__(self, ) -> None:
-            super().__init__()
-            self.initView()
-
-        def initView(self):
-            self.c_pathDownload = QtWidgets.QLineEdit()
-            self.c_pathAlbumFormat = QtWidgets.QLineEdit()
-            self.c_pathTrackFormat = QtWidgets.QLineEdit()
-            self.c_pathVideoFormat = QtWidgets.QLineEdit()
-
-            self.mainGrid = QtWidgets.QVBoxLayout(self)
-            self.mainGrid.addWidget(self.c_pathDownload)
-            self.mainGrid.addWidget(self.c_pathAlbumFormat)
-            self.mainGrid.addWidget(self.c_pathTrackFormat)
-            self.mainGrid.addWidget(self.c_pathVideoFormat)
-
-
     class EmittingStream(QObject):
         textWritten = pyqtSignal(str)
 
         def write(self, text):
             self.textWritten.emit(str(text))
-
 
     class MainView(QtWidgets.QWidget):
         s_downloadEnd = pyqtSignal(str, bool, str)
@@ -67,7 +48,7 @@ else:
             super().__init__()
             self.initView()
             self.setMinimumSize(800, 620)
-            self.setWindowTitle("Tidal-dl")
+            self.setWindowTitle("TIDAL-DL")
 
         def __info__(self, msg):
             QtWidgets.QMessageBox.information(self, 'Info', msg, QtWidgets.QMessageBox.Yes)
@@ -83,12 +64,9 @@ else:
             self.c_lineSearch = QtWidgets.QLineEdit()
             self.c_btnSearch = QtWidgets.QPushButton("Search")
             self.c_btnDownload = QtWidgets.QPushButton("Download")
-            self.c_btnSetting = QtWidgets.QPushButton("Setting")
             self.c_combType = QtWidgets.QComboBox()
             self.c_combTQuality = QtWidgets.QComboBox()
             self.c_combVQuality = QtWidgets.QComboBox()
-            self.c_widgetSetting = SettingView()
-            self.c_widgetSetting.hide()
 
             # Supported types for search
             self.m_supportType = [Type.Album, Type.Playlist, Type.Track, Type.Video, Type.Artist]
@@ -124,10 +102,11 @@ else:
             self.tree_playlists.setAnimated(False)
             self.tree_playlists.setIndentation(20)
             self.tree_playlists.setSortingEnabled(True)
-            self.tree_playlists.resize(200, 400)
-            self.tree_playlists.setColumnCount(2)
-            self.tree_playlists.setHeaderLabels(("Name", "# Tracks"))
-            self.tree_playlists.setColumnWidth(0, 200)
+            self.tree_playlists.setFixedWidth(200)
+            self.tree_playlists.setColumnCount(1)
+            self.tree_playlists.setHeaderLabels(("User Playlists",))
+            # self.tree_playlists.setColumnWidth(0, 100)
+            self.tree_playlists.setContextMenuPolicy(Qt.CustomContextMenu)
 
             # print
             self.c_printTextEdit = QtWidgets.QTextEdit()
@@ -147,7 +126,6 @@ else:
             self.line2Grid.addWidget(self.c_combTQuality)
             self.line2Grid.addWidget(self.c_combVQuality)
             self.line2Grid.addStretch(4)
-            # self.line2Grid.addWidget(self.c_btnSetting)
             self.line2Grid.addWidget(self.c_btnDownload)
 
             self.funcGrid = QtWidgets.QVBoxLayout()
@@ -156,10 +134,9 @@ else:
             self.funcGrid.addLayout(self.line2Grid)
             self.funcGrid.addWidget(self.c_printTextEdit)
 
-            self.mainGrid = QtWidgets.QGridLayout(self)
-            self.mainGrid.addWidget(self.tree_playlists, 0, 0, 1, 2)
-            self.mainGrid.addLayout(self.funcGrid, 0, 2, 1, 3)
-            self.mainGrid.addWidget(self.c_widgetSetting, 0, 0)
+            self.mainGrid = QtWidgets.QHBoxLayout(self)
+            self.mainGrid.addWidget(self.tree_playlists)
+            self.mainGrid.addLayout(self.funcGrid)
 
             # connect
             self.c_btnSearch.clicked.connect(self.search)
@@ -168,17 +145,10 @@ else:
             self.s_downloadEnd.connect(self.downloadEnd)
             self.c_combTQuality.currentIndexChanged.connect(self.changeTQuality)
             self.c_combVQuality.currentIndexChanged.connect(self.changeVQuality)
-            self.c_btnSetting.clicked.connect(self.showSettings)
-            self.tree_playlists.itemClicked.connect(self.playlist_display_tracks)
-
-            # Connect the contextmenu
-            self.tree_playlists.setContextMenuPolicy(Qt.CustomContextMenu)
-            self.tree_playlists.customContextMenuRequested.connect(self.menuContextTree)
+            self.tree_playlists.itemClicked.connect(self.__displayTracks__)
 
         def keyPressEvent(self, event: QKeyEvent):
-            key = event.key()
-
-            if event.modifiers() & Qt.MetaModifier and key == Qt.Key_A:
+            if event.modifiers() & Qt.MetaModifier and event.key() == Qt.Key_A:
                 self.c_tableInfo.selectAll()
 
         def addItem(self, rowIdx: int, colIdx: int, text):
@@ -216,9 +186,9 @@ else:
                 self.__info__('No result！')
                 return
 
-            self.set_table_search_results(self.s_array, self.s_type)
+            self.setSearchResults(self.s_array, self.s_type)
 
-        def set_table_search_results(self, s_array, s_type):
+        def setSearchResults(self, s_array, s_type):
             self.c_tableInfo.clearSelection()
             self.c_tableInfo.setRowCount(len(s_array))
 
@@ -243,63 +213,50 @@ else:
             self.c_tableInfo.viewport().update()
 
         def download(self):
-            index = self.c_tableInfo.currentIndex().row()
-            selection = self.c_tableInfo.selectionModel()
-            has_selection = selection.hasSelection()
-
-            if has_selection == False:
+            if self.c_tableInfo.selectionModel().hasSelection() == False:
                 self.__info__('Please select a row first.')
                 return
 
             rows = self.c_tableInfo.selectionModel().selectedRows()
-
+            items = []
             for row in rows:
-                index = row.row()
-                item = self.s_array[index]
-                item_type = self.s_type
+                items.append(self.s_array[row.row()])
+            
+            self.__downloadFunc__(items)
+        
+        def __downloadFunc__(self, items):
+            self.c_btnDownload.setEnabled(False)
 
-                self.download_item(item, item_type)
+            def __thread_download__(model: MainView, items):
+                itemTitle = ''
+                type = model.s_type
+                try:
+                    for item in items:
+                        if isinstance(item, Artist):
+                            itemTitle = item.name
+                        else:
+                            itemTitle = item.title
+                        start_type(type, item)
+                    model.s_downloadEnd.emit('Download Success!', True, '')
+                except Exception as e:
+                    model.s_downloadEnd.emit(itemTitle, False, str(e))
 
-        def download_item(self, item, item_type):
-                self.c_btnDownload.setEnabled(False)
-                item_to_download = ""
-                if isinstance(item, Artist):
-                    item_to_download = item.name
-                else:
-                    item_to_download = item.title
-
-                self.c_btnDownload.setText(f"'{item_to_download}' ...")
-                self.download_(item, item_type)
-
-        # Not race condition safe. Needs refactoring.
-        def download_(self, item, s_type):
-            downloading_item = ""
-            try:
-                item_type = s_type
-
-                start_type(item_type, item)
-
-                if isinstance(item, Artist):
-                    downloading_item = item.name
-                else:
-                    downloading_item = item.title
-
-                self.s_downloadEnd.emit(downloading_item, True, '')
-            except Exception as e:
-                self.s_downloadEnd.emit(downloading_item, False, str(e))
+            _thread.start_new_thread(__thread_download__, (self, items))
 
         def downloadEnd(self, title, result, msg):
             self.c_btnDownload.setEnabled(True)
             self.c_btnDownload.setText(f"Download")
 
             if result:
-                Printf.info(f"Download '{title}' finished.")
+                self.__info__(f"Download finished.")
             else:
-                Printf.err(f"Download '{title}' failed:{msg}")
+                self.__info__(f"Download '{title}' failed:{msg}")
 
         def checkLogin(self):
             if not loginByConfig():
                 self.__info__('Login failed. Please log in using the command line first.')
+            else:
+                self.__showSelfPlaylists__()
 
         def changeTQuality(self, index):
             SETTINGS.audioQuality = self.c_combTQuality.itemData(index)
@@ -309,47 +266,21 @@ else:
             SETTINGS.videoQuality = self.c_combVQuality.itemData(index)
             SETTINGS.save()
 
-        def showSettings(self):
-            self.c_widgetSetting.show()
-
-        def tree_items_playlists(self):
-            playlists = TIDAL_API.get_playlists()
+        def __showSelfPlaylists__(self):
+            playlists = TIDAL_API.getPlaylistSelf()
 
             for playlist in playlists:
                 item = QtWidgets.QTreeWidgetItem(self.tree_playlists)
-                item.setText(0, playlist.name)
-                item.setText(1, str(playlist.num_tracks))
-                item.setText(2, playlist.id)
+                item.setText(0, playlist.title)
+                item.setText(1, str(playlist.numberOfTracks))
+                item.setText(2, playlist.uuid)
 
-        def playlist_display_tracks(self, item, column):
-            tracks = TIDAL_API.get_playlist_items(item.text(2))
+        def __displayTracks__(self, item, column):
+            tracks, videos = TIDAL_API.getItems(item.text(2), Type.Playlist)
             self.s_array = tracks
             self.s_type = Type.Track
 
-            self.set_table_search_results(tracks, Type.Track)
-
-        def menuContextTree(self, point):
-            # Infos about the node selected.
-            index = self.tree_playlists.indexAt(point)
-
-            if not index.isValid():
-                return
-
-            item = self.tree_playlists.itemAt(point)
-            playlist = Playlist()
-            playlist.title = item.text(0)
-            playlist.uuid = item.text(2)
-
-            # We build the menu.
-            menu = QtWidgets.QMenu()
-            action = menu.addAction("Dowload Playlist")
-
-            menu.exec_(self.tree_playlists.mapToGlobal(point))
-
-            self.download_item(playlist, Type.Playlist)
-
-
-
+            self.setSearchResults(tracks, Type.Track)
 
     def startGui():
         aigpy.cmd.enableColor(False)
@@ -360,7 +291,6 @@ else:
         window = MainView()
         window.show()
         window.checkLogin()
-        window.tree_items_playlists()
 
         app.exec_()
 
