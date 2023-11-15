@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   czech.py
-@Time    :   2022/11/13
+@Time    :   2023/11/10
 @Author  :   Tomikk & Sweder
-@Version :   1.2
+@Version :   1.3
 @Contact :   justtomikk@gmail.com & djsweder@gmail.com
 @Desc    :   
 '''
@@ -30,13 +30,13 @@ class LangCzech(object):
     SETTING_USE_PLAYLIST_FOLDER = "Používat složku playlistu"
     SETTING_MULITHREAD_DOWNLOAD = "Stahování více vlákny"
     SETTING_ALBUM_FOLDER_FORMAT = "Formát názvu složky alba"
-    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Formát názvu složky playlistu"
     SETTING_TRACK_FILE_FORMAT = "Formát názvu souboru skladby"
     SETTING_VIDEO_FILE_FORMAT = "Formát názvu souboru videa"
     SETTING_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování"
     SETTING_SHOW_TRACKINFO = "Zobrazit informace o skladbě"
     SETTING_SAVE_ALBUMINFO = "Uložit soubor AlbumInfo.txt"
-    SETTING_DOWNLOAD_VIDEOS = "Download videos"
+    SETTING_DOWNLOAD_VIDEOS = "Stáhnout videa"
     SETTING_ADD_LYRICS = "Přidat texty skladeb"
     SETTING_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb"
     SETTING_ADD_LRC_FILE = "Uložit slova skladby s časováním (soubor .lrc)"
@@ -82,13 +82,13 @@ class LangCzech(object):
     CHANGE_SAVE_COVERS = "Uložit obaly alb ('0'-Ne,'1'-Ano):"
     CHANGE_LANGUAGE = "Zvolit jazyk"
     CHANGE_ALBUM_FOLDER_FORMAT = "Formát názvu složky alba ('0' beze změny):"
-    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
-    CHANGE_TRACK_FILE_FORMAT = "Formát názvu složky skladny ('0' beze změny):"
-    CHANGE_VIDEO_FILE_FORMAT = "Formát názvu souboru videa ('0'-beze změny,'default'-pro nastavení výchozího názvu):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Formát názvu složky playlistu ('0' beze změny,'default'-pro nastavení výchozího názvu):"
+    CHANGE_TRACK_FILE_FORMAT = "Formát názvu složky skladby ('0' beze změny):"
+    CHANGE_VIDEO_FILE_FORMAT = "Formát názvu souboru videa ('0' beze změny,'default'-pro nastavení výchozího názvu):"
     CHANGE_SHOW_PROGRESS = "Zobrazit indikátor stavu stahování ('0'-Ne,'1'-Ano):"
     CHANGE_SHOW_TRACKINFO = "Zobrazit info o skladbě ('0'-Ne,'1'-Ano):"
     CHANGE_SAVE_ALBUM_INFO = "Uložit soubor AlbumInfo.txt ('0'-Ne,'1'-Ano):"
-    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
+    CHANGE_DOWNLOAD_VIDEOS = "Stáhnout videa (při stahování playlistů, alb a mixů) ('0'-Ne,'1'-Ano):"
     CHANGE_ADD_LYRICS = "Přidat texty skladeb ('0'-Ne,'1'-Ano):"
     CHANGE_LYRICS_SERVER_PROXY = "Server proxy pro texty skladeb ('0' beze změny):"
     CHANGE_ADD_LRC_FILE = "Uložit slova skladby s časováním do souboru .lrc) ('0'-Ne,'1'-Ano):"
