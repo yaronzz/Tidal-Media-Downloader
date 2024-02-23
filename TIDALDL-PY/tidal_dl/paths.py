@@ -60,6 +60,18 @@ def getAlbumPath(album):
     albumName = __fixPath__(album.title)
     year = __getYear__(album.releaseDate)
 
+    # avoid artist(s) and album name are too long
+    if len(albumName + albumArtistName) > 120:
+        albumName = albumName[:70] + "..."
+        albumArtistName = albumArtistName[:50] + "..."
+    else:
+        if len(albumName) > 100:
+            albumName = albumName[:100] + "..."
+        if len(albumArtistName) > 100:
+            albumArtistName = albumArtistName[:100] + "..."
+    if len(artistName) > 50:
+        artistName = artistName[:50] + "..." 
+
     # retpath
     retpath = SETTINGS.albumFolderFormat
     if retpath is None or len(retpath) <= 0:
@@ -93,7 +105,6 @@ def getPlaylistPath(playlist):
     retpath = retpath.replace(R"{PlaylistName}", playlistName)
     return f"{SETTINGS.downloadPath}/{retpath}"
 
-
 def getTrackPath(track, stream, album=None, playlist=None):
     base = './'
     number = str(track.trackNumber).rjust(2, '0')
@@ -124,6 +135,18 @@ def getTrackPath(track, stream, album=None, playlist=None):
 
     # extension
     extension = __getExtension__(stream)
+    
+    # avoid artist(s) and album name are too long
+    if len(artist + albumName) > 100:
+        artist = artist[:50] + "..."
+        albumName = albumName[:50] + "..."
+    else:
+        if len(artists) > 100:
+            artists = artists[:100] + "..."
+        if len(albumName) > 100:
+            albumName = albumName[:100] + "..."
+    if len(artist) > 50:
+        artist = artist[:50] + "..."
 
     retpath = SETTINGS.trackFileFormat
     if retpath is None or len(retpath) <= 0:
@@ -140,7 +163,14 @@ def getTrackPath(track, stream, album=None, playlist=None):
     retpath = retpath.replace(R"{Duration}", __getDurationStr__(track.duration))
     retpath = retpath.replace(R"{TrackID}", str(track.id))
     retpath = retpath.strip()
-    return f"{base}/{retpath}{extension}"
+
+    # avoid file path too long
+    fullpath = f"{base}/{retpath}"
+    fullpath = os.path.abspath(fullpath)
+    if len(fullpath) > 240:
+        fullpath = fullpath[:240]
+
+    return f"{fullpath}{extension}"
 
 
 def getVideoPath(video, album=None, playlist=None):
