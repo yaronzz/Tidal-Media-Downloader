@@ -42,7 +42,7 @@ class TidalAPI(object):
                     # random sleep between 0.5 and 5 seconds and print it
                     sleep_time = random.randint(500, 5000) / 1000
                     print(
-                        f"Sleeping for {sleep_time} seconds, to mimic human behaviour and prevent too many requests error")
+                        f"Sleeping for {sleep_time} seconds")
                     time.sleep(sleep_time)
 
                 if respond.status_code == 429:
