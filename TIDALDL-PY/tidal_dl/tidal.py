@@ -27,8 +27,9 @@ requests.adapters.DEFAULT_RETRIES = 5
 class TidalAPI(object):
     def __init__(self):
         self.key = LoginKey()
-        self.apiKey = {'clientId': '7m7Ap0JC9j1cOM3n',
-                       'clientSecret': 'vRAdA108tlvkJpTsGZS8rGZ7xTlbJ0qaZ2K9saEzsgY='}
+        # clientId and clientSecret taken from streamrip
+        self.apiKey = {'clientId': base64.b64decode("elU0WEhWVmtjMnREUG80dA==").decode("iso-8859-1"),
+                       'clientSecret': base64.b64decode("VkpLaERGcUpQcXZzUFZOQlY2dWtYVEptd2x2YnR0UDd3bE1scmM3MnNlND0=",).decode("iso-8859-1")}
 
     def __get__(self, path, params={}, urlpre='https://api.tidalhifi.com/v1/'):
         header = {}
