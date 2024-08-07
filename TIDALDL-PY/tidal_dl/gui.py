@@ -170,6 +170,12 @@ else:
                     self.__info__(f'Type[{tmpType.name}] not support！')
                     return
 
+
+
+            if self.s_text.contains('\'):
+                self._info_('Url Not Supported')
+                    return
+
                 tmpData = TIDAL_API.getTypeData(tmpId, tmpType)
                 if tmpData is None:
                     self.__info__('Url is wrong!')
