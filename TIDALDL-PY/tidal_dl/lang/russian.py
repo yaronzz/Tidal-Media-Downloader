@@ -2,11 +2,11 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   russian.py
-@Time    :   2020/11/29
-@Author  :   sergey.seve-s
-@Version :   1.0
+@Time    :   2025/01/09
+@Author  :   sergey.seve-s, Pal
+@Version :   1.1
 @Contact :   
-@Desc    :   
+@Desc    :   Обновлены непереведённые строки
 '''
 
 
@@ -30,20 +30,20 @@ class LangRussian(object):
     SETTING_USE_PLAYLIST_FOLDER = "Плейлисты в отдельную папку"
     SETTING_MULITHREAD_DOWNLOAD = "Многопоточная загрузка"
     SETTING_ALBUM_FOLDER_FORMAT = "Маска имени альбома"
-    SETTING_PLAYLIST_FOLDER_FORMAT = "Playlist folder format"
+    SETTING_PLAYLIST_FOLDER_FORMAT = "Формат папок плейлиста"
     SETTING_TRACK_FILE_FORMAT = "Маска имени трека"
-    SETTING_VIDEO_FILE_FORMAT = "Video file format"
+    SETTING_VIDEO_FILE_FORMAT = "Формат видеофайла"
     SETTING_SHOW_PROGRESS = "Показывать процесс загрузки"
-    SETTING_SHOW_TRACKINFO = "Show Track Info"
+    SETTING_SHOW_TRACKINFO = "Показывать информацию о треке"
     SETTING_SAVE_ALBUMINFO = "Сохранять AlbumInfo.txt"
-    SETTING_DOWNLOAD_VIDEOS = "Download videos"
+    SETTING_DOWNLOAD_VIDEOS = "Скачивать видео"
     SETTING_ADD_LYRICS = "Добавлять текст песень"
     SETTING_LYRICS_SERVER_PROXY = "Прокси сервер для текстов песен"
-    SETTING_ADD_LRC_FILE = "Save timed lyrics (.lrc file)"
+    SETTING_ADD_LRC_FILE = "Сохранять синхронизированный текст в .lrc файл"
     SETTING_PATH = "Путь для настроек"
-    SETTING_APIKEY = "APIKey support"
-    SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
-    SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_APIKEY = "Поддержка APIKey"
+    SETTING_ADD_TYPE_FOLDER = "Добавить подпапки"
+    SETTING_DOWNLOAD_DELAY = "Использовать задержку загрузки"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -55,7 +55,7 @@ class LangRussian(object):
     CHOICE_SET_ACCESS_TOKEN = "Применить AccessToken"
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
     CHOICE_LOGOUT = "Переподключение"
-    CHOICE_APIKEY = "Select APIKey"
+    CHOICE_APIKEY = "Выбрать APIKey"
 
     PRINT_ERR = "[ОШИБКА]"
     PRINT_INFO = "[СВЕДЕНИЯ]"
@@ -71,30 +71,30 @@ class LangRussian(object):
     CHANGE_AUDIO_QUALITY = "Качество аудио('0'-Стандарт,'1'-Высокое,'2'-HiFi,'3'-MQA,'4'-Max):"
     CHANGE_VIDEO_QUALITY = "Качество видео(1080, 720, 480, 360):"
     CHANGE_ONLYM4A = "Сохранять mp4 как m4a('0'-Нет,'1'-Да):"
-    CHANGE_ADD_EXPLICIT_TAG = "Добавить тег 'Нецензурно' ('0'-Нет,'1'-Да):"
-    CHANGE_ADD_HYPHEN = "Использовать дефис вместо пробела в имени трека('0'-Нет,'1'-Да):"
-    CHANGE_ADD_YEAR = "Добавлять год перед названием альбома('0'-Нет,'1'-Да):"
-    CHANGE_USE_TRACK_NUM = "Добавить номер перед названием трека('0'-Нет,'1'-Да):"
+    CHANGE_ADD_EXPLICIT_TAG = "Добавить тег 'Нецензурно(18+)' ('0'-Нет,'1'-Да):"
+    CHANGE_ADD_HYPHEN = "Использовать дефис вместо пробела в имени файла трека('0'-Нет,'1'-Да):"
+    CHANGE_ADD_YEAR = "Добавлять год выхода перед названием альбома('0'-Нет,'1'-Да):"
+    CHANGE_USE_TRACK_NUM = "Добавить порядковый номер в альбоме перед названием трека('0'-Нет,'1'-Да):"
     CHANGE_CHECK_EXIST = "Проверять наличие перед загрузкой('0'-Нет,'1'-Да):"
     CHANGE_ARTIST_BEFORE_TITLE = "Добавить имя артиста перед названием трека('0'-Нет,'1'-Да):"
-    CHANGE_INCLUDE_EP = "Включать синглы и миньоны в дискографию('0'-Нет'1'-Да):"
+    CHANGE_INCLUDE_EP = "Включать синглы и миньоны в дискографию('0'-Нет,'1'-Да):"
     CHANGE_ALBUMID_BEFORE_FOLDER = "Добавить ID перед названием альбома('0'-Нет,'1'-Да):"
     CHANGE_SAVE_COVERS = "Сохранять обложки('0'-Нет,'1'-Да):"
     CHANGE_LANGUAGE = "Выбрать язык"
-    CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0' не менять):"
-    CHANGE_PLAYLIST_FOLDER_FORMAT = "Playlist folder format('0'-not modify,'default'-to set default):"
-    CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0' не менять):"
-    CHANGE_VIDEO_FILE_FORMAT = "Video file format('0'-not modify,'default'-to set default):"
+    CHANGE_ALBUM_FOLDER_FORMAT = "Маска имени альбома('0'-не менять):"
+    CHANGE_PLAYLIST_FOLDER_FORMAT = "Формат папок плейлиста('0'-не менять,'default'-установить стандартный формат):"
+    CHANGE_TRACK_FILE_FORMAT = "Маска имени трека('0'-не менять):"
+    CHANGE_VIDEO_FILE_FORMAT = "Формат видеофайла('0'-не менять,'default'-установить стандартный формат):"
     CHANGE_SHOW_PROGRESS = "Показывать процесс загрузки('0'-Нет,'1'-Да):"
-    CHANGE_SHOW_TRACKINFO = "Show track info('0'-No,'1'-Yes):"
+    CHANGE_SHOW_TRACKINFO = "Показывать информацию о треке('0'-Нет,'1'-Да):"
     CHANGE_SAVE_ALBUM_INFO = "Сохранять AlbumInfo.txt('0'-Нет,'1'-Да):"
-    CHANGE_DOWNLOAD_VIDEOS = "Download videos (when downloading playlists, albums, mixes)('0'-No,'1'-Yes):"
-    CHANGE_ADD_LYRICS = "Добавлять тексты песень ('0'-Нет,'1'-Да):"
-    CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песень('0' не менять):"
-    CHANGE_ADD_LRC_FILE = "Save timed lyrics .lrc file ('0'-No,'1'-Yes):"
-    CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
-    CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
-    CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_DOWNLOAD_VIDEOS = "Скачивать видео (когда скачиваются плейлисты, альбомы, миксы) ('0'-Нет,'1'-Да):"
+    CHANGE_ADD_LYRICS = "Добавлять тексты песен('0'-Нет,'1'-Да):"
+    CHANGE_LYRICS_SERVER_PROXY = "Прокси для сервера с текстом песен('0'-не менять):"
+    CHANGE_ADD_LRC_FILE = "Сохранять синхронизированный текст в .lrc файл('0'-Нет,'1'-Да):"
+    CHANGE_ADD_TYPE_FOLDER = "Добавить подпапки типов, те Альбом/Видео/Плейлист('0'-Нет,'1'-Да):"
+    CHANGE_MULITHREAD_DOWNLOAD = "Мультипоточное скачивание('0'-Нет,'1'-Да):"
+    CHANGE_USE_DOWNLOAD_DELAY = "Использовать задержку загрузки('0'-Нет,'1'-Да):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."
@@ -108,11 +108,11 @@ class LangRussian(object):
     MSG_PATH_ERR = "Неверное место!"
     MSG_INPUT_ERR = "Ошибка ввода!"
 
-    MODEL_ALBUM_PROPERTY = "ALBUM-PROPERTY"
-    MODEL_TRACK_PROPERTY = "TRACK-PROPERTY"
-    MODEL_VIDEO_PROPERTY = "VIDEO-PROPERTY"
-    MODEL_ARTIST_PROPERTY = "ARTIST-PROPERTY"
-    MODEL_PLAYLIST_PROPERTY = "PLAYLIST-PROPERTY"
+    MODEL_ALBUM_PROPERTY = "СВОЙСТВА-АЛЬБОМА"
+    MODEL_TRACK_PROPERTY = "СВОЙСТВА-ТРЕКА"
+    MODEL_VIDEO_PROPERTY = "СВОЙСТВА-ВИДЕО"
+    MODEL_ARTIST_PROPERTY = "СВОЙСТВА-АВТОРА"
+    MODEL_PLAYLIST_PROPERTY = "СВОЙСТВА-ПЛЕЙЛИСТА"
 
     MODEL_TITLE = 'Название'
     MODEL_TRACK_NUMBER = 'Номер трека'
