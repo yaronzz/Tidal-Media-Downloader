@@ -27,8 +27,9 @@ requests.adapters.DEFAULT_RETRIES = 5
 class TidalAPI(object):
     def __init__(self):
         self.key = LoginKey()
-        self.apiKey = {'clientId': '7m7Ap0JC9j1cOM3n',
-                       'clientSecret': 'vRAdA108tlvkJpTsGZS8rGZ7xTlbJ0qaZ2K9saEzsgY='}
+        # apiKey taken from https://github.com/yaronzz/Tidal-Media-Downloader/issues/1167
+        self.apiKey = {'clientId': "4N3n6Q1x95LL5K7p",
+                       'clientSecret': "oKOXfJW371cX6xaZ0PyhgGNBdNLlBZd4AKKYougMjik="}
 
     def __get__(self, path, params={}, urlpre='https://api.tidalhifi.com/v1/'):
         header = {}
