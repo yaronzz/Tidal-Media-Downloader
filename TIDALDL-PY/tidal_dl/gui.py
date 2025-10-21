@@ -161,6 +161,10 @@ else:
             self.s_type = self.c_combType.currentData()
             self.s_text = self.c_lineSearch.text()
 
+            if "\\" in self.s_text:
+                self._info_('Url Not Supported')
+                return
+
             if self.s_text.startswith('http'):
                 tmpType, tmpId = TIDAL_API.parseUrl(self.s_text)
                 if tmpType == Type.Null:
@@ -169,6 +173,10 @@ else:
                 elif tmpType not in self.m_supportType:
                     self.__info__(f'Type[{tmpType.name}] not support！')
                     return
+
+
+
+            
 
                 tmpData = TIDAL_API.getTypeData(tmpId, tmpType)
                 if tmpData is None:
