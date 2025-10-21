@@ -176,10 +176,15 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
 
         # lyrics
         try:
-            lyrics = TIDAL_API.getLyrics(track.id).subtitles
+            lyrics = TIDAL_API.getLyrics(track.id)
+            if lyrics.subtitles is not None and lyrics.subtitles != '':
+                lyrics = lyrics.subtitles # get lyrics with timestamps
+            elif lyrics.lyrics is not None and lyrics.lyrics != '':
+                lyrics = lyrics.lyrics # some tracks has only text lyrics without timestamps
             if SETTINGS.lyricFile:
                 lrcPath = path.rsplit(".", 1)[0] + '.lrc'
-                aigpy.file.write(lrcPath, lyrics, 'w')
+                lyrics = lyrics.replace('\n', '\r\n')  # replace LF to CRLF for better compatibility
+                aigpy.file.write(lrcPath, lyrics, 'w', 'utf-8') # use utf-8 to avoid encoding error when lyrics contains non-ascii characters
         except:
             lyrics = ''
 
