@@ -44,6 +44,9 @@ class LangCzech(object):
     SETTING_APIKEY = "APIKey podporuje"
     SETTING_ADD_TYPE_FOLDER = "Složky dle typu obsahu"
     SETTING_DOWNLOAD_DELAY = "Stahovat s časovou prodlevou"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "Výběr"
     FUNCTION = "Funkce"
@@ -56,6 +59,9 @@ class LangCzech(object):
     CHOICE_DOWNLOAD_BY_URL = "Stáhnout buď dle URL nebo ID"
     CHOICE_LOGOUT = "Odhlásit"
     CHOICE_APIKEY = "Vybrat APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[Chyba]"
     PRINT_INFO = "[Info]"
@@ -95,6 +101,9 @@ class LangCzech(object):
     CHANGE_ADD_TYPE_FOLDER = "Ukládat do složek dle typu obsahu, např. Album/Video/Playlist ('0'-Ne,'1'-Ano):"
     CHANGE_MULITHREAD_DOWNLOAD = "Více vláken pro stahování ('0'-Ne,'1'-Ano):"
     CHANGE_USE_DOWNLOAD_DELAY = "Stahovat s časovou prodlevou('0'-Ne,'1'-Ano):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Spouštění přihlašovacího procesu..."

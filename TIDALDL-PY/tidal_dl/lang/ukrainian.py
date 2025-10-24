@@ -44,6 +44,9 @@ class LangUkrainian(object):
     SETTING_APIKEY = "Підтримка ключа API"
     SETTING_ADD_TYPE_FOLDER = "Додавати папку-тип"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "ВИБІР"
     FUNCTION = "ФУНКЦІЇ"
@@ -56,6 +59,8 @@ class LangUkrainian(object):
     CHOICE_DOWNLOAD_BY_URL = "Завантажити за URL-адресою або ідентифікатором"
     CHOICE_LOGOUT = "Деавторизація"
     CHOICE_APIKEY = "Вибрати ключ API"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[ПОМИЛКА]"
     PRINT_INFO = "[ІНФОРМАЦІЯ]"
@@ -95,6 +100,9 @@ class LangUkrainian(object):
     CHANGE_ADD_TYPE_FOLDER = "Додавати теку-тип,наприклад Альбом/Відео/Плейлист('0'-Ні,'1'-Так):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Початок процесу авторизації..."

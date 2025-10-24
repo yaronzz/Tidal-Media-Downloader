@@ -1,9 +1,16 @@
 TYPE tidal-dl
 USE  pip3 install tidal-dl --upgrade
 
+#### v2025-10-24
+
+- [X] Add DASH manifest parser to support python-tidal dash+xml playback
+- [X] Support PKCE login flow with selectable API keys
+- [X] Normalise embedded FLAC cover art with ffmpeg/metaflac
+- [X] Provide configurable listener mode for remote download triggers
+
 #### v2022-10-31
 
-- [X] Add delay setting by @grzekru 
+- [X] Add delay setting by @grzekru
 
 #### v2022-08-29
 

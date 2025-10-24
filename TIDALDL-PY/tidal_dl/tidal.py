@@ -8,11 +8,15 @@
 @Contact :   yaronhuang@foxmail.com
 @Desc    :   tidal api
 '''
+import base64
+import hashlib
 import random
-import re
+import secrets
 import time
 from typing import List
-from xml.etree import ElementTree
+from urllib.parse import parse_qs, urlencode, urlparse
+
+from tidal_dl import dash
 
 import requests
 
@@ -22,6 +26,22 @@ from settings import *
 # SSL Warnings | retry number
 requests.packages.urllib3.disable_warnings()
 requests.adapters.DEFAULT_RETRIES = 5
+
+
+def _supports_pkce(api_key):
+    value = api_key.get('supportsPkce')
+    if isinstance(value, str):
+        return value.lower() == 'true'
+    return bool(value)
+
+
+def _generate_code_verifier():
+    return base64.urlsafe_b64encode(secrets.token_bytes(32)).decode('utf-8').rstrip('=')
+
+
+def _generate_code_challenge(verifier):
+    digest = hashlib.sha256(verifier.encode('utf-8')).digest()
+    return base64.urlsafe_b64encode(digest).decode('utf-8').rstrip('=')
 
 
 class TidalAPI(object):
@@ -180,6 +200,72 @@ class TidalAPI(object):
         self.key.expiresIn = result['expires_in']
         return True
 
+    def startPkceAuthorization(self) -> str:
+        if not _supports_pkce(self.apiKey):
+            raise Exception("Current API key does not support PKCE login.")
+
+        authorize_url = self.apiKey.get('pkceAuthorizeUrl', 'https://login.tidal.com/authorize')
+        redirect_uri = self.apiKey.get('pkceRedirectUri', 'https://listen.tidal.com/callback')
+        scope = self.apiKey.get('pkceScope', 'r_usr+w_usr+w_sub')
+
+        verifier = _generate_code_verifier()
+        self.key.pkceCodeVerifier = verifier
+        self.key.pkceState = secrets.token_urlsafe(32)
+        self.key.pkceRedirectUri = redirect_uri
+
+        params = {
+            'response_type': 'code',
+            'client_id': self.apiKey['clientId'],
+            'scope': scope,
+            'redirect_uri': redirect_uri,
+            'state': self.key.pkceState,
+            'code_challenge': _generate_code_challenge(verifier),
+            'code_challenge_method': 'S256'
+        }
+        return f"{authorize_url}?{urlencode(params)}"
+
+    def completePkceAuthorization(self, redirect_url: str) -> bool:
+        if not _supports_pkce(self.apiKey):
+            raise Exception("Current API key does not support PKCE login.")
+        if self.key.pkceCodeVerifier is None:
+            raise Exception("PKCE authorization has not been initiated.")
+
+        parsed = urlparse(redirect_url.strip())
+        params = parse_qs(parsed.query)
+        if 'code' not in params or len(params['code']) == 0:
+            raise Exception("Authorization code not found in redirect URL.")
+
+        state = params.get('state', [None])[0]
+        if self.key.pkceState and state is not None and state != self.key.pkceState:
+            raise Exception("Authorization state mismatch. Please restart the PKCE login flow.")
+
+        code = params['code'][0]
+        scope = self.apiKey.get('pkceScope', 'r_usr+w_usr+w_sub')
+
+        data = {
+            'grant_type': 'authorization_code',
+            'client_id': self.apiKey['clientId'],
+            'code_verifier': self.key.pkceCodeVerifier,
+            'redirect_uri': self.key.pkceRedirectUri,
+            'code': code,
+            'scope': scope
+        }
+
+        result = self.__post__('/token', data, auth=None)
+        if 'status' in result and result['status'] != 200:
+            message = result.get('userMessage') or result.get('error_description') or 'PKCE authorization failed.'
+            raise Exception(message)
+
+        self.key.userId = result['user']['userId']
+        self.key.countryCode = result['user']['countryCode']
+        self.key.accessToken = result['access_token']
+        self.key.refreshToken = result.get('refresh_token')
+        self.key.expiresIn = result.get('expires_in')
+        self.key.pkceState = None
+        self.key.pkceCodeVerifier = None
+        self.key.pkceRedirectUri = None
+        return True
+
     def loginByAccessToken(self, accessToken, userid=None):
         header = {'authorization': 'Bearer {}'.format(accessToken)}
         result = requests.get('https://api.tidal.com/v1/sessions', headers=header).json()
@@ -298,58 +384,16 @@ class TidalAPI(object):
         return albums
 
     # from https://github.com/Dniel97/orpheusdl-tidal/blob/master/interface.py#L582
-    def parse_mpd(self, xml: bytes) -> list:
-        # Removes default namespace definition, don't do that!
-        xml = re.sub(r'xmlns="[^"]+"', '', xml, count=1)
-        root = ElementTree.fromstring(xml)
+    def parse_mpd(self, xml: bytes) -> dash.Manifest:
+        manifest = dash.parse_manifest(xml)
 
-        # List of AudioTracks
-        tracks = []
-
-        for period in root.findall('Period'):
-            for adaptation_set in period.findall('AdaptationSet'):
-                for rep in adaptation_set.findall('Representation'):
-                    # Check if representation is audio
-                    content_type = adaptation_set.get('contentType')
-                    if content_type != 'audio':
-                        raise ValueError('Only supports audio MPDs!')
-
-                    # Codec checks
-                    codec = rep.get('codecs').upper()
-                    if codec.startswith('MP4A'):
-                        codec = 'AAC'
-
-                    # Segment template
-                    seg_template = rep.find('SegmentTemplate')
-                    # Add init file to track_urls
-                    track_urls = [seg_template.get('initialization')]
-                    start_number = int(seg_template.get('startNumber') or 1)
-
-                    # https://dashif-documents.azurewebsites.net/Guidelines-TimingModel/master/Guidelines-TimingModel.html#addressing-explicit
-                    # Also see example 9
-                    seg_timeline = seg_template.find('SegmentTimeline')
-                    if seg_timeline is not None:
-                        seg_time_list = []
-                        cur_time = 0
-
-                        for s in seg_timeline.findall('S'):
-                            # Media segments start time
-                            if s.get('t'):
-                                cur_time = int(s.get('t'))
-
-                            # Segment reference
-                            for i in range((int(s.get('r') or 0) + 1)):
-                                seg_time_list.append(cur_time)
-                                # Add duration to current time
-                                cur_time += int(s.get('d'))
-
-                        # Create list with $Number$ indices
-                        seg_num_list = list(range(start_number, len(seg_time_list) + start_number))
-                        # Replace $Number$ with all the seg_num_list indices
-                        track_urls += [seg_template.get('media').replace('$Number$', str(n)) for n in seg_num_list]
-
-                    tracks.append(track_urls)
-        return tracks
+        for period in manifest.periods:
+            for adaptation in period.adaptation_sets:
+                if adaptation.content_type == 'audio':
+                    for representation in adaptation.representations:
+                        if representation.segments:
+                            return manifest
+        raise ValueError('No playable audio representations were found in MPD manifest.')
 
     def getStreamUrl(self, id, quality: AudioQuality):
         squality = "HI_RES"
@@ -377,13 +421,28 @@ class TidalAPI(object):
             ret.urls = [ret.url]
             return ret
         elif "dash+xml" in resp.manifestMimeType:
-            xmldata = base64.b64decode(resp.manifest).decode('utf-8')
+            xml_bytes = base64.b64decode(resp.manifest)
+            manifest = self.parse_mpd(xml_bytes)
             ret = StreamUrl()
             ret.trackid = resp.trackid
             ret.soundQuality = resp.audioQuality
-            ret.codec = aigpy.string.getSub(xmldata, 'codecs="', '"')
+            audio_reps = []
+            for period in manifest.periods:
+                for adaptation in period.adaptation_sets:
+                    if adaptation.content_type == 'audio':
+                        audio_reps.extend(adaptation.representations)
+
+            if not audio_reps:
+                raise ValueError('MPD manifest did not contain any audio representations.')
+
+            representation = next((rep for rep in audio_reps if rep.segments), audio_reps[0])
+
+            codec = (representation.codec or '').upper()
+            if codec.startswith('MP4A'):
+                codec = 'AAC'
+            ret.codec = codec
             ret.encryptionKey = ""  # manifest['keyId'] if 'keyId' in manifest else ""
-            ret.urls = self.parse_mpd(xmldata)[0]
+            ret.urls = representation.segments
             if len(ret.urls) > 0:
                 ret.url = ret.urls[0]
             return ret

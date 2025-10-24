@@ -44,6 +44,9 @@ class LangRussian(object):
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "ВЫБРАТЬ"
     FUNCTION = "ФУНКЦИИ"
@@ -56,6 +59,8 @@ class LangRussian(object):
     CHOICE_DOWNLOAD_BY_URL = "Использовать ссылку для загрузки"
     CHOICE_LOGOUT = "Переподключение"
     CHOICE_APIKEY = "Select APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[ОШИБКА]"
     PRINT_INFO = "[СВЕДЕНИЯ]"
@@ -95,6 +100,9 @@ class LangRussian(object):
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Входим в сервис..."

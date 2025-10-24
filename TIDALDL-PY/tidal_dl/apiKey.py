@@ -9,7 +9,6 @@
 @Desc    :
 """
 import json
-import requests
 
 __KEYS_JSON__ = '''
 {
@@ -44,7 +43,11 @@ __KEYS_JSON__ = '''
             "formats": "Normal/High/HiFi/Master",
             "clientId": "8SEZWa4J1NVC5U5Y",
             "clientSecret": "owUYDkxddz+9FpvGX24DlxECNtFEMBxipU0lBfrbq60=",
-            "valid": "False",
+            "valid": "True",
+            "supportsPkce": "True",
+            "pkceAuthorizeUrl": "https://login.tidal.com/authorize",
+            "pkceRedirectUri": "https://listen.tidal.com/callback",
+            "pkceScope": "r_usr+w_usr+w_sub",
             "from": "morguldir (https://github.com/morguldir/python-tidal/commit/50f1afcd2079efb2b4cf694ef5a7d67fdf619d09)"
         },
         {
@@ -98,11 +101,5 @@ def getVersion():
     return __API_KEYS__['version']
 
 
-# Load from gist
-try:
-    respond = requests.get('https://api.github.com/gists/48d01f5a24b4b7b37f19443977c22cd6')
-    if respond.status_code == 200:
-        content = respond.json()['files']['tidal-api-key.json']['content']
-        __API_KEYS__ = json.loads(content)
-except:
-    pass
+# Dynamic key updates from the upstream gist are disabled to keep the
+# downloader fully self-contained and avoid unexpected key rotations.

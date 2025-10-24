@@ -9,4 +9,5 @@ lyricsgenius==3.0.1
 pydub==0.25.1
 PyQt5==5.15.7
 qt-material==2.12
+Flask==2.3.3
 

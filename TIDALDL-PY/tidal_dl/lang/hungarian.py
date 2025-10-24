@@ -44,6 +44,9 @@ class LangHungarian(object):
     SETTING_APIKEY = "APIKey támogatás"
     SETTING_ADD_TYPE_FOLDER = "Mappa típus hozzáadása"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "VÁLASZTÁS"
     FUNCTION = "FUNKCIÓ"
@@ -56,6 +59,8 @@ class LangHungarian(object):
     CHOICE_DOWNLOAD_BY_URL = "Letöltés URL vagy ID alapján"
     CHOICE_LOGOUT = "Kijelentkezés"
     CHOICE_APIKEY = "APIKey kiválasztása"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[HIBA]"
     PRINT_INFO = "[INFÓ]"
@@ -95,6 +100,9 @@ class LangHungarian(object):
     CHANGE_ADD_TYPE_FOLDER = "Mappa típus hozzáadása, pl. Album/Video/Playlist('0'-Nem,'1'-Igen):"
     CHANGE_MULITHREAD_DOWNLOAD = "Többszálas letöltés('0'-Nem,'1'-Igen):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Bejelentkezési folyamat elindítása..."

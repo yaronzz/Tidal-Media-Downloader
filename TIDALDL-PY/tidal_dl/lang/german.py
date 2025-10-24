@@ -44,6 +44,9 @@ class LangGerman(object):
     SETTING_APIKEY = "APIKey Unterstützung"
     SETTING_ADD_TYPE_FOLDER = "Unterordner für jede Kategorie erstellen"
     SETTING_DOWNLOAD_DELAY = "Downloads zeitverzögert starten"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "AUSWAHL"
     FUNCTION = "FUNKTION"
@@ -56,6 +59,9 @@ class LangGerman(object):
     CHOICE_DOWNLOAD_BY_URL = "Download per URL oder ID"
     CHOICE_LOGOUT = "Ausloggen"
     CHOICE_APIKEY = "APIKey Auswahl"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[FEHLER]"
     PRINT_INFO = "[INFO]"
@@ -95,6 +101,9 @@ class LangGerman(object):
     CHANGE_ADD_TYPE_FOLDER = "Unterordner für jede Kategorie erstellen, Z.B. Album/Video/Playlist('0'-Nein, '1'-Ja):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi-Thread Download('0'-Nein, '1'-Ja):"
     CHANGE_USE_DOWNLOAD_DELAY = "Downloads zeitverzögert starten ('0'-nein, '1'-ja):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starte Loginprozess..."
