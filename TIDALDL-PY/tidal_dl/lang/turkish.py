@@ -44,6 +44,9 @@ class LangTurkish(object):
     SETTING_APIKEY = "APIKey support"
     SETTING_ADD_TYPE_FOLDER = "Add Type-Folder"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "Seçim"
     FUNCTION = "İşlemler"
@@ -56,6 +59,8 @@ class LangTurkish(object):
     CHOICE_DOWNLOAD_BY_URL = "URL ya da ID ile indir"
     CHOICE_LOGOUT = "Çıkış"
     CHOICE_APIKEY = "Select APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[HATA OLUŞTU]"
     PRINT_INFO = "[BİLGİ]"
@@ -95,6 +100,9 @@ class LangTurkish(object):
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Giriş işlemleri başlatıldı..."

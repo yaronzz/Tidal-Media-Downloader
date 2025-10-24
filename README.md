@@ -61,9 +61,13 @@ If you are using windows system, you can use [tidal-pro](https://github.com/yaro
 ## 🤖 Features
 - Download album \ track \ video \ playlist \ artist-albums
 
-- Add metadata to songs
+- Add metadata to songs with automatic FLAC cover-art normalisation *(requires `ffmpeg` and `metaflac` in `PATH`)*
 
-- Selectable video resolution and track quality
+- Selectable video resolution and track quality, including DASH manifests for compatible playback apps
+
+- PKCE login flow support for secure keyless authentication
+
+- Optional listener mode for remote-triggered downloads secured by a shared secret
 
 ## 💽 User Interface
 
@@ -72,6 +76,18 @@ If you are using windows system, you can use [tidal-pro](https://github.com/yaro
 ![image-20220708105823257](https://s2.loli.net/2022/07/08/vV6HsxugwoDyGr8.png)
 
 ![image-20200806013705425](https://i.loli.net/2020/08/06/sPLowIlCGyOdpVN.png)
+
+## 🔊 Listener Mode
+
+The command-line interface exposes a small HTTP listener that mirrors the companion script shared above. Enable it from the interactive settings screen (`tidal-dl` → option `6`) or by editing the config file, then launch it with:
+
+```shell
+tidal-dl --listen
+```
+
+The listener binds to `127.0.0.1` on port `8123` by default and requires POST requests to `/run` or `/run_sync` to include the `X-Auth` header set to your configured secret. You can change both the port and secret from the settings menu. When a request arrives the downloader attempts the current quality first and retries once at HiFi if the initial download fails.
+
+Log output is appended to `listener.log` inside your download directory so you can audit activity initiated via the listener.
 
 ## Settings - Possible Tags
 
@@ -138,6 +154,7 @@ This project exists thanks to all the people who contribute.
 
 - [aigpy](https://github.com/yaronzz/AIGPY)
 - [python-tidal](https://github.com/tamland/python-tidal)
+- [python-tidal (EbbLabs fork)](https://github.com/EbbLabs/python-tidal)
 - [redsea](https://github.com/redsudo/RedSea)
 - [tidal-wiki](https://github.com/Fokka-Engineering/TIDAL/wiki)
 

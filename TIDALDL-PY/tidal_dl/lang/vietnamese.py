@@ -44,6 +44,9 @@ class LangVietnamese(object):
     SETTING_APIKEY = "Hỗ trợ APIKey"
     SETTING_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "LỰA CHỌN"
     FUNCTION = "CHỨC NĂNG"
@@ -56,6 +59,8 @@ class LangVietnamese(object):
     CHOICE_DOWNLOAD_BY_URL = "Tải về qua url hoặc id"
     CHOICE_LOGOUT = "Đăng xuất"
     CHOICE_APIKEY = "Chọn APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[LỖI]"
     PRINT_INFO = "[THÔNG TIN]"
@@ -95,6 +100,9 @@ class LangVietnamese(object):
     CHANGE_ADD_TYPE_FOLDER = "Thêm Loại-Thư mục, ví dụ Album/Video/Playlist('0'-Không,'1'-Có):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Đang bắt đầu đăng nhập..."

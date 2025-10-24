@@ -44,6 +44,9 @@ class LangNorwegian(object):
     SETTING_APIKEY = "API-nøkkel støtte"
     SETTING_ADD_TYPE_FOLDER = "Legg til Type-Folder"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "VALG"
     FUNCTION = "FUNKSJON"
@@ -56,6 +59,8 @@ class LangNorwegian(object):
     CHOICE_DOWNLOAD_BY_URL = "Last ned via URL eller ID"
     CHOICE_LOGOUT = "Logg ut"
     CHOICE_APIKEY = "Velg APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[FEIL]"
     PRINT_INFO = "[INFO]"
@@ -95,6 +100,9 @@ class LangNorwegian(object):
     CHANGE_ADD_TYPE_FOLDER = "Legg til Type-mappe, f.eks. Album/Video/Spilleliste('0'-Nei,'1'-Ja):"
     CHANGE_MULITHREAD_DOWNLOAD = "Last ned flere samtidig('0'-Nei,'1'-Ja):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Starter login-prosessen."

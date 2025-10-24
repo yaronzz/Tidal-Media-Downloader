@@ -44,6 +44,9 @@ class LangPortuguese(object):
     SETTING_APIKEY = "Suporte APIKey"
     SETTING_ADD_TYPE_FOLDER = "Adicionar tipo de pasta"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "ESCOLHER"
     FUNCTION = "FUNÇÃO"
@@ -56,6 +59,8 @@ class LangPortuguese(object):
     CHOICE_DOWNLOAD_BY_URL = "Download Por url ou id"
     CHOICE_LOGOUT = "Logout"
     CHOICE_APIKEY = "Selecione a APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[ERRO]"
     PRINT_INFO = "[INFORMAÇÕES]"
@@ -95,6 +100,9 @@ class LangPortuguese(object):
     CHANGE_ADD_TYPE_FOLDER = "Adicionar Tipo de Pasta, por exemplo, Álbum/Vídeo/Lista de Reprodução('0'-Não,'1'-Sim):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Iniciando o processo de login..."

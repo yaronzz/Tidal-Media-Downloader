@@ -44,6 +44,9 @@ class LangChinese(object):
     SETTING_APIKEY = "APIKey支持"
     SETTING_ADD_TYPE_FOLDER = "添加类型文件夹"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "选项"
     FUNCTION = "功能"
@@ -56,6 +59,8 @@ class LangChinese(object):
     CHOICE_DOWNLOAD_BY_URL = "通过链接或ID下载"
     CHOICE_LOGOUT = "注销"
     CHOICE_APIKEY = "选择APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[错误]"
     PRINT_INFO = "[提示]"
@@ -95,6 +100,9 @@ class LangChinese(object):
     CHANGE_ADD_TYPE_FOLDER = "Add Type-Folder,eg Album/Video/Playlist('0'-No,'1'-Yes):"
     CHANGE_MULITHREAD_DOWNLOAD = "多线程下载('0'-否,'1'-是):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "开始启动登录..."

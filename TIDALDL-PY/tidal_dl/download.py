@@ -11,6 +11,7 @@
 
 from concurrent.futures import ThreadPoolExecutor
 
+from coverfix import ensure_flac_cover_art
 from decryption import *
 from printf import *
 from tidal import *
@@ -70,6 +71,7 @@ def __setMetaData__(track: Track, album: Album, filepath, contributors, lyrics):
         obj.totaltrack = album.numberOfTracks
     coverpath = TIDAL_API.getCoverUrl(album.cover, "1280", "1280")
     obj.save(coverpath)
+    ensure_flac_cover_art(filepath)
 
 
 def downloadCover(album):
@@ -152,7 +154,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         # check exist
         if __isSkip__(path, stream.url):
             Printf.success(aigpy.path.getFileName(path) + " (skip:already exists!)")
-            return True, ''
+            return True, '', stream
 
         # download
         logging.info("[DL Track] name=" + aigpy.path.getFileName(path) + "\nurl=" + stream.url)
@@ -163,7 +165,7 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         check, err = tool.start(SETTINGS.showProgress and not SETTINGS.multiThread)
         if not check:
             Printf.err(f"DL Track '{track.title}' failed: {str(err)}")
-            return False, str(err)
+            return False, str(err), stream
 
         # encrypted -> decrypt and remove encrypted file
         __encrypted__(stream, path + '.part', path)
@@ -186,10 +188,10 @@ def downloadTrack(track: Track, album=None, playlist=None, userProgress=None, pa
         __setMetaData__(track, album, path, contributors, lyrics)
         Printf.success(track.title)
 
-        return True, ''
+        return True, '', stream
     except Exception as e:
         Printf.err(f"DL Track '{track.title}' failed: {str(e)}")
-        return False, str(e)
+        return False, str(e), None
 
 
 def downloadTracks(tracks, album: Album = None, playlist: Playlist = None):

@@ -13,6 +13,7 @@ import getopt
 import aigpy
 
 from events import *
+from listener import start_listener
 from settings import *
 from gui import startGui
 from printf import Printf
@@ -20,9 +21,11 @@ from printf import Printf
 
 def mainCommand():
     try:
-        opts, args = getopt.getopt(sys.argv[1:],
-                                   "hvgl:o:q:r:",
-                                   ["help", "version", "gui", "link=", "output=", "quality", "resolution"])
+        opts, args = getopt.getopt(
+            sys.argv[1:],
+            "hvgl:o:q:r:",
+            ["help", "version", "gui", "link=", "output=", "quality", "resolution", "listen"],
+        )
     except getopt.GetoptError as errmsg:
         Printf.err(vars(errmsg)['msg'] + ". Use 'tidal-dl -h' for usage.")
         return
@@ -40,6 +43,9 @@ def mainCommand():
         if opt in ('-g', '--gui'):
             showGui = True
             continue
+        if opt == '--listen':
+            start_listener()
+            return
         if opt in ('-l', '--link'):
             link = val
             continue
@@ -66,7 +72,10 @@ def mainCommand():
 
     if link is not None:
         if not loginByConfig():
-            loginByWeb()
+            if apiSupportsPkce():
+                loginByPkce()
+            else:
+                loginByWeb()
         Printf.info(LANG.select.SETTING_DOWNLOAD_PATH + ':' + SETTINGS.downloadPath)
         start(link)
 
@@ -84,9 +93,15 @@ def main():
 
     if not apiKey.isItemValid(SETTINGS.apiKeyIndex):
         changeApiKey()
-        loginByWeb()
+        if apiSupportsPkce():
+            loginByPkce()
+        else:
+            loginByWeb()
     elif not loginByConfig():
-        loginByWeb()
+        if apiSupportsPkce():
+            loginByPkce()
+        else:
+            loginByWeb()
 
     Printf.checkVersion()
 
@@ -97,9 +112,15 @@ def main():
             return
         elif choice == "1":
             if not loginByConfig():
-                loginByWeb()
+                if apiSupportsPkce():
+                    loginByPkce()
+                else:
+                    loginByWeb()
         elif choice == "2":
-            loginByWeb()
+            if apiSupportsPkce():
+                loginByPkce()
+            else:
+                loginByWeb()
         elif choice == "3":
             loginByAccessToken()
         elif choice == "4":
@@ -110,7 +131,14 @@ def main():
             changeSettings()
         elif choice == "7":
             if changeApiKey():
-                loginByWeb()
+                if apiSupportsPkce():
+                    loginByPkce()
+                else:
+                    loginByWeb()
+        elif choice == "8":
+            loginByPkce()
+        elif choice == "9":
+            start_listener()
         else:
             start(choice)
 
@@ -120,7 +148,10 @@ def test():
     TOKEN.read(getTokenPath())
 
     if not loginByConfig():
-        loginByWeb()
+        if apiSupportsPkce():
+            loginByPkce()
+        else:
+            loginByWeb()
 
     SETTINGS.audioQuality = AudioQuality.Master
     SETTINGS.videoFileFormat = VideoQuality.P240

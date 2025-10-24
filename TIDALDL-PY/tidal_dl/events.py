@@ -177,6 +177,23 @@ def changeSettings():
     SETTINGS.multiThread = Printf.enterBool(LANG.select.CHANGE_MULITHREAD_DOWNLOAD)
     SETTINGS.usePlaylistFolder = Printf.enterBool(LANG.select.SETTING_USE_PLAYLIST_FOLDER + "('0'-No,'1'-Yes):")
     SETTINGS.downloadDelay = Printf.enterBool(LANG.select.CHANGE_USE_DOWNLOAD_DELAY)
+    SETTINGS.listenerEnabled = Printf.enterBool(LANG.select.CHANGE_ENABLE_LISTENER)
+
+    secret = Printf.enter(LANG.select.CHANGE_LISTENER_SECRET)
+    if secret != '0' and not aigpy.string.isNull(secret):
+        SETTINGS.listenerSecret = secret
+
+    port_value = Printf.enter(LANG.select.CHANGE_LISTENER_PORT)
+    if port_value != '0' and not aigpy.string.isNull(port_value):
+        try:
+            port_int = int(port_value)
+            if port_int > 0 and port_int <= 65535:
+                SETTINGS.listenerPort = port_int
+            else:
+                Printf.err(LANG.select.MSG_INPUT_ERR)
+        except ValueError:
+            Printf.err(LANG.select.MSG_INPUT_ERR)
+
     SETTINGS.language = Printf.enter(LANG.select.CHANGE_LANGUAGE + "(" + LANG.getLangChoicePrint() + "):")
     LANG.setLang(SETTINGS.language)
     SETTINGS.save()
@@ -204,6 +221,15 @@ def changeApiKey():
 LOGIN
 =================================
 '''
+
+
+def apiSupportsPkce():
+    if TIDAL_API.apiKey is None:
+        return False
+    value = TIDAL_API.apiKey.get('supportsPkce')
+    if isinstance(value, str):
+        return value.lower() == 'true'
+    return bool(value)
 
 
 def __displayTime__(seconds, granularity=2):
@@ -263,6 +289,43 @@ def loginByWeb():
     except Exception as e:
         Printf.err(f"Login failed.{str(e)}")
         return False
+
+
+def loginByPkce():
+    if not apiSupportsPkce():
+        Printf.err('PKCE login is not available in the current configuration.')
+        return False
+
+    try:
+        authorize_url = TIDAL_API.startPkceAuthorization()
+    except Exception as e:
+        Printf.err(str(e))
+        return False
+
+    Printf.info('Open the following URL in your browser to authenticate:')
+    print(aigpy.cmd.green(authorize_url))
+    Printf.info('After approving access, paste the final redirect URL below.')
+
+    redirect_url = Printf.enter("Redirect URL('0'-Cancel):")
+    if redirect_url == '0':
+        return False
+
+    try:
+        TIDAL_API.completePkceAuthorization(redirect_url)
+    except Exception as e:
+        Printf.err(str(e))
+        return False
+
+    expires = TIDAL_API.key.expiresIn if TIDAL_API.key.expiresIn is not None else 0
+    Printf.success(LANG.select.MSG_VALID_ACCESSTOKEN.format(__displayTime__(int(expires))))
+
+    TOKEN.userid = TIDAL_API.key.userId
+    TOKEN.countryCode = TIDAL_API.key.countryCode
+    TOKEN.accessToken = TIDAL_API.key.accessToken
+    TOKEN.refreshToken = TIDAL_API.key.refreshToken
+    TOKEN.expiresAfter = time.time() + int(expires) if expires else 0
+    TOKEN.save()
+    return True
 
 
 def loginByConfig():

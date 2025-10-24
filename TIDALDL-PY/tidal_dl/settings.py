@@ -29,6 +29,9 @@ class Settings(aigpy.model.ModelBase):
     downloadVideos = True
     multiThread = False
     downloadDelay = True
+    listenerEnabled = False
+    listenerSecret = "change-this-listener-secret"
+    listenerPort = 8123
 
     downloadPath = "./download/"
     audioQuality = AudioQuality.Normal
@@ -83,6 +86,15 @@ class Settings(aigpy.model.ModelBase):
             self.videoFileFormat = self.getDefaultPathFormat(Type.Video)
         if self.apiKeyIndex is None:
             self.apiKeyIndex = 0
+
+        if self.listenerSecret is None or self.listenerSecret == "":
+            self.listenerSecret = "change-this-listener-secret"
+        try:
+            self.listenerPort = int(self.listenerPort)
+        except (TypeError, ValueError):
+            self.listenerPort = 8123
+        if self.listenerPort <= 0 or self.listenerPort > 65535:
+            self.listenerPort = 8123
 
         LANG.setLang(self.language)
 

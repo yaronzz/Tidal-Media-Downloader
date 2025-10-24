@@ -44,6 +44,9 @@ class LangFrench(object):
     SETTING_APIKEY = "Prise en charge de la clé API"
     SETTING_ADD_TYPE_FOLDER = "Ajouter un dossier de type"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "CHOIX"
     FUNCTION = "FONCTION"
@@ -56,6 +59,8 @@ class LangFrench(object):
     CHOICE_DOWNLOAD_BY_URL = "Téléchargement par url ou id"
     CHOICE_LOGOUT = "Déconnexion"
     CHOICE_APIKEY = "Choisir la clé d'API"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[ERR]"
     PRINT_INFO = "[INFO]"
@@ -95,6 +100,9 @@ class LangFrench(object):
     CHANGE_ADD_TYPE_FOLDER = "Ajouter un dossier de type,Ex: Album/Video/Playlist('0'-Non,'1'-Oui):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-Non,'1'-Oui):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Démarrage du processus de connexion..."

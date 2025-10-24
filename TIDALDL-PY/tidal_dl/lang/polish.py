@@ -44,6 +44,9 @@ class LangPolish(object):
     SETTING_APIKEY = "Obsługa APIKey"
     SETTING_ADD_TYPE_FOLDER = "Dodaj folder typu"
     SETTING_DOWNLOAD_DELAY = "Use Download Delay"
+    SETTING_LISTENER_ENABLED = "Listener mode enabled"
+    SETTING_LISTENER_PORT = "Listener port"
+    SETTING_LISTENER_SECRET = "Listener secret"
 
     CHOICE = "WYBÓR"
     FUNCTION = "FUNKCJA"
@@ -56,6 +59,8 @@ class LangPolish(object):
     CHOICE_DOWNLOAD_BY_URL = "Pobierz według adresu URL lub ID"
     CHOICE_LOGOUT = "Wyloguj"
     CHOICE_APIKEY = "Wybierz APIKey"
+    CHOICE_PKCE_LOGIN = "Login via PKCE"
+    CHOICE_LISTENER = "Start listener mode"
 
     PRINT_ERR = "[BŁĄD]"
     PRINT_INFO = "[INFO]"
@@ -95,6 +100,9 @@ class LangPolish(object):
     CHANGE_ADD_TYPE_FOLDER = "Dodaj folder typu, np. Album/wideo/lista odtwarzania('0'-Nie,'1'-Tak):"
     CHANGE_MULITHREAD_DOWNLOAD = "Multi thread download('0'-No,'1'-Yes):"
     CHANGE_USE_DOWNLOAD_DELAY = "Use Download Delay('0'-No,'1'-Yes):"
+    CHANGE_ENABLE_LISTENER = "Enable listener mode('0'-No,'1'-Yes):"
+    CHANGE_LISTENER_SECRET = "Listener secret('0'-not modify):"
+    CHANGE_LISTENER_PORT = "Listener port('0'-not modify):"
 
     # {} are required in these strings
     AUTH_START_LOGIN = "Rozpoczęcie procesu logowania..."
