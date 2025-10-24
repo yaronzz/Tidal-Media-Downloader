@@ -31,6 +31,12 @@ jobs:
           python -m pip install -r requirements.txt --upgrade
         working-directory: TIDALDL-PY
 
+      - name: Pin SIP to v6.x
+        shell: bash
+        run: |
+          pip3 install "sip<7"
+        working-directory: TIDALDL-PY
+
       - name: Clean build artifacts
         shell: bash
         run: |
