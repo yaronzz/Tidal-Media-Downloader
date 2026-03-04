@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
@@ -243,6 +244,8 @@ def paginate_results(
             if tmp_result:
                 result += tmp_result
                 offset += limit
+                # Small delay between pagination pages to avoid rapid-fire API calls.
+                time.sleep(0.5)
             else:
                 done = True
 

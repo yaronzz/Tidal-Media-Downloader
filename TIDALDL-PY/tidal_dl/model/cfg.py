@@ -20,7 +20,7 @@ class Settings:
     quality_video: QualityVideo = QualityVideo.P480
     download_dolby_atmos: bool = False
     format_album: str = "Albums/{album_artist}/{album_title}/{track_volume_num_optional_CD}/{track_title}"
-    format_playlist: str = "Playlists/{playlist_name}/{list_pos}. {artist_name} - {track_title}"
+    format_playlist: str = "- Playlists/{playlist_name}/{list_pos}. {artist_name} - {track_title}"
     format_mix: str = "Mix/{mix_name}/{artist_name} - {track_title}"
     format_track: str = "Tracks/{album_artist}/{album_title}/{track_title}"
     format_video: str = "Videos/{artist_name}/{track_title}"

@@ -30,7 +30,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.progress import Progress, TaskID
 from tidalapi import Album, Mix, Playlist, Session, Track, UserPlaylist, Video
-from tidalapi.exceptions import TooManyRequests
+from tidalapi.exceptions import ObjectNotFound, TooManyRequests
 from tidalapi.media import (
     AudioExtensions,
     AudioMode,
@@ -61,6 +61,7 @@ from tidal_dl.constants import (
 from tidal_dl.helper.camelot import format_initial_key
 from tidal_dl.helper.decryption import decrypt_file, decrypt_security_token
 from tidal_dl.helper.exceptions import MediaMissing
+from tidal_dl.helper.ffmpeg import find_ffmpeg, install_ffmpeg
 from tidal_dl.helper.isrc_index import IsrcIndex
 from tidal_dl.helper.path import (
     check_file_exists,
@@ -79,6 +80,10 @@ from tidal_dl.helper.tidal import (
 )
 from tidal_dl.metadata import Metadata
 from tidal_dl.model.downloader import DownloadOutcome, DownloadSegmentResult, DownloadSummary, TrackStreamInfo
+
+
+# Sentinel returned by _validate_and_prepare_media when media is de-listed / unavailable.
+_UNAVAILABLE_SENTINEL = object()
 
 
 # TODO: Set appropriate client string and use it for video download.
@@ -175,20 +180,14 @@ class Download:
         if not self.settings.data.path_binary_ffmpeg and (
             self.settings.data.video_convert_mp4 or self.settings.data.extract_flac
         ):
-            discovered = shutil.which("ffmpeg")
+            discovered = find_ffmpeg()
 
-            if discovered:
-                self.settings.data.path_binary_ffmpeg = discovered
-                self.fn_logger.info(f"FFmpeg auto-discovered at: {discovered}")
-            else:
-                self.settings.data.video_convert_mp4 = False
-                self.settings.data.extract_flac = False
+            if not discovered:
+                # Mandatory install — raises SystemExit on failure.
+                discovered = install_ffmpeg()
 
-                self.fn_logger.error(
-                    "FFmpeg was not found. Videos can be downloaded but will not be converted to MP4. "
-                    "FLAC cannot be extracted from MP4 containers. "
-                    "Install FFmpeg and ensure it is in your PATH, or set `path_binary_ffmpeg` in the config."
-                )
+            self.settings.data.path_binary_ffmpeg = discovered
+            self.fn_logger.info(f"FFmpeg located at: {discovered}")
 
     def _get_media_urls(
         self,
@@ -577,6 +576,8 @@ class Download:
 
         # Step 1: Validate and prepare media
         validated_media = self._validate_and_prepare_media(media, media_id, media_type, video_download)
+        if validated_media is _UNAVAILABLE_SENTINEL:
+            return DownloadOutcome.UNAVAILABLE, ""
         if validated_media is None or not isinstance(validated_media, Track | Video):
             return DownloadOutcome.FAILED, ""
 
@@ -653,29 +654,29 @@ class Download:
         """
         try:
             if media_id and media_type:
-                # If no media instance is provided, we need to create the media instance.
-                # Throws `tidalapi.exceptions.ObjectNotFound` if item is not available anymore.
                 media = instantiate_media(self.session, media_type, media_id, cache=self._api_cache)
             elif isinstance(media, Track | Video):
-                # Check if media is available not deactivated / removed from TIDAL.
                 if not media.allow_streaming:
                     self.fn_logger.info(
                         f"This item is not available for listening anymore on TIDAL. Skipping: {name_builder_item(media)}"
                     )
-                    return None
+                    return _UNAVAILABLE_SENTINEL
                 elif isinstance(media, Track):
-                    # Re-create media instance with full album information
                     media = self.session.track(str(media.id), with_album=True)
             elif isinstance(media, Album):
-                # Check if media is available not deactivated / removed from TIDAL.
                 if not media.allow_streaming:
                     self.fn_logger.info(
                         f"This item is not available for listening anymore on TIDAL. Skipping: {name_builder_title(media)}"
                     )
-                    return None
+                    return _UNAVAILABLE_SENTINEL
             elif not media:
                 self._raise_media_missing()
+        except ObjectNotFound:
+            _id = media_id or getattr(media, "id", None)
+            self.fn_logger.warning(f"Media {_id} is de-listed / unavailable on TIDAL. Skipping.")
+            return _UNAVAILABLE_SENTINEL
         except (MediaMissing, Exception):
+            self.fn_logger.exception("Unexpected error validating media.")
             return None
 
         # If video download is not allowed and this is a video, return None
@@ -847,8 +848,6 @@ class Download:
             path_media_dst = path_media_dst.with_suffix(file_extension)
             path_media_dst = pathlib.Path(path_file_sanitize(path_media_dst, adapt=True))
 
-        os.makedirs(path_media_dst.parent, exist_ok=True)
-
         # Perform actual download
         return self._perform_actual_download(
             media,
@@ -860,14 +859,46 @@ class Download:
             event_stop,
         )
 
+    _STREAM_RETRY_MAX: int = 3
+
     def _get_stream_info(self, media: Track | Video) -> tuple[StreamManifest | None, str, bool, Stream | None]:
-        """Get stream information for media.
+        """Get stream information for media, with retry-on-429.
 
         Args:
             media (Track | Video): Media item.
 
         Returns:
             tuple[StreamManifest | None, str, bool, Stream | None]: Stream info.
+        """
+        backoff_sec: float = self.settings.data.api_rate_limit_delay_sec
+
+        for attempt in range(1, self._STREAM_RETRY_MAX + 1):
+            result = self._try_get_stream_info(media, attempt, backoff_sec)
+            if result is not None:
+                return result
+            # Exponential backoff before next attempt.
+            backoff_sec *= 2
+
+        self.fn_logger.error(
+            f"Rate-limited {self._STREAM_RETRY_MAX} times for '{name_builder_item(media)}'. Skipping."
+        )
+        return None, "", False, None
+
+    def _try_get_stream_info(
+        self,
+        media: Track | Video,
+        attempt: int,
+        backoff_sec: float,
+    ) -> tuple[StreamManifest | None, str, bool, Stream | None] | None:
+        """Single attempt to fetch stream info.  Returns None to signal a retry.
+
+        Args:
+            media (Track | Video): Media item.
+            attempt (int): Current attempt number (1-based).
+            backoff_sec (float): Seconds to sleep on 429 before returning None.
+
+        Returns:
+            The stream info tuple on success, or None if a retry is needed.
         """
         stream_manifest: StreamManifest | None = None
         media_stream: Stream | None = None
@@ -910,13 +941,11 @@ class Download:
                     media_stream = track_info.media_stream
 
                 elif isinstance(media, Video):
-                    # Videos always require the normal session
                     if not self.tidal.restore_normal_session():
                         self.fn_logger.error(f"Failed to restore normal session for video: {media.id}")
                         return None, "", False, None
 
                     file_extension = AudioExtensions.MP4 if self.settings.data.video_convert_mp4 else VideoExtensions.TS
-
                     stream_manifest = None
                     media_stream = None
                     do_flac_extract = False
@@ -926,11 +955,12 @@ class Download:
                     return None, "", False, None
 
             except TooManyRequests:
-                self.fn_logger.exception(
-                    f"Too many requests against TIDAL backend. Skipping '{name_builder_item(media)}'. "
-                    f"Consider to activate delay between downloads."
+                self.fn_logger.warning(
+                    f"Rate-limited (429) on attempt {attempt}/{self._STREAM_RETRY_MAX} "
+                    f"for '{name_builder_item(media)}'. Backing off {backoff_sec:.1f}s..."
                 )
-                return None, "", False, None
+                time.sleep(backoff_sec)
+                return None  # Signal retry
 
             except Exception:
                 self.fn_logger.exception(f"Something went wrong. Skipping '{name_builder_item(media)}'.")
@@ -1035,6 +1065,9 @@ class Download:
             self._handle_metadata_and_extras(media, tmp_path_file, path_media_dst, is_parent_album, media_stream)
 
             self.fn_logger.info(f"Downloaded item '{name_builder_item(media)}'.")
+
+            # Ensure destination directory exists only when we have a file to move.
+            os.makedirs(path_media_dst.parent, exist_ok=True)
 
             # Move final file to the configured destination directory.
             shutil.move(tmp_path_file, path_media_dst)
@@ -1535,6 +1568,7 @@ class Download:
             f"[green]✓ Downloaded:[/green]  {summary.downloaded}",
             f"[yellow]⏭ Skipped:[/yellow]    {summary.skipped}",
             f"[red]✗ Failed:[/red]      {summary.failed}",
+            f"[dim]⊘ Unavailable:[/dim] {summary.unavailable}",
             f"[bold]Total:[/bold]         {summary.total}",
         ]
         Console().print(Panel(
@@ -1624,10 +1658,18 @@ class Download:
 
             return result_dirs
 
-        # Iterate through list items
-        while not progress.finished:
-            with futures.ThreadPoolExecutor(max_workers=self.settings.data.downloads_concurrent_max) as executor:
-                # Dispatch all download tasks to worker threads
+        # Submit downloads in batches to respect API rate limits.
+        batch_size: int = self.settings.data.api_rate_limit_batch_size
+        batch_delay: float = self.settings.data.api_rate_limit_delay_sec
+
+        with futures.ThreadPoolExecutor(max_workers=self.settings.data.downloads_concurrent_max) as executor:
+            for batch_start in range(0, len(items), batch_size):
+                # Check for abort signal before submitting next batch
+                if self.event_abort.is_set() or (event_stop and event_stop.is_set()):
+                    break
+
+                batch = items[batch_start : batch_start + batch_size]
+
                 download_futures: list[futures.Future] = [
                     executor.submit(
                         self.item,
@@ -1637,21 +1679,24 @@ class Download:
                         quality_video=quality_video,
                         download_delay=download_delay,
                         is_parent_album=is_album,
-                        list_position=count + 1,
+                        list_position=batch_start + idx + 1,
                         list_total=list_total,
                         event_stop=event_stop,
                     )
-                    for count, item_media in enumerate(items)
+                    for idx, item_media in enumerate(batch)
                 ]
 
-                # Process download results
-                result_dirs = self._process_download_futures(
+                batch_dirs = self._process_download_futures(
                     download_futures, progress, progress_task, progress_stdout, summary
                 )
+                result_dirs.extend(batch_dirs)
 
-                # Check for abort signal
-                if self.event_abort.is_set() or (event_stop and event_stop.is_set()):
-                    return result_dirs
+                # Rate-limit delay between batches (skip after the last batch)
+                if batch_start + batch_size < len(items):
+                    self.fn_logger.debug(
+                        f"Rate limit: pausing {batch_delay:.1f}s after batch of {len(batch)} items."
+                    )
+                    time.sleep(batch_delay)
 
         return result_dirs
 
@@ -1679,8 +1724,12 @@ class Download:
 
         # Report results as they become available
         for future in futures.as_completed(futures_list):
-            # Retrieve result
-            outcome, result_path_file = future.result()
+            try:
+                outcome, result_path_file = future.result()
+            except Exception as exc:
+                self.fn_logger.error(f"Download task failed with unexpected error: {exc}")
+                outcome = DownloadOutcome.FAILED
+                result_path_file = None
 
             if summary is not None:
                 summary.record(outcome)
@@ -1688,7 +1737,7 @@ class Download:
             if result_path_file:
                 result_dirs.append(result_path_file.parent)
 
-            # Advance progress bar.
+            # Always advance progress bar, even on failure, to prevent infinite loop.
             progress.advance(progress_task)
 
             # If app is terminated (CTRL+C)

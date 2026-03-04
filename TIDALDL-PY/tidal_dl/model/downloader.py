@@ -12,6 +12,7 @@ class DownloadOutcome(StrEnum):
     DOWNLOADED = "downloaded"
     SKIPPED = "skipped"
     FAILED = "failed"
+    UNAVAILABLE = "unavailable"
 
 
 @dataclass
@@ -21,16 +22,19 @@ class DownloadSummary:
     downloaded: int = 0
     skipped: int = 0
     failed: int = 0
+    unavailable: int = 0
 
     @property
     def total(self) -> int:
-        return self.downloaded + self.skipped + self.failed
+        return self.downloaded + self.skipped + self.failed + self.unavailable
 
     def record(self, outcome: DownloadOutcome) -> None:
         if outcome == DownloadOutcome.DOWNLOADED:
             self.downloaded += 1
         elif outcome == DownloadOutcome.SKIPPED:
             self.skipped += 1
+        elif outcome == DownloadOutcome.UNAVAILABLE:
+            self.unavailable += 1
         else:
             self.failed += 1
 

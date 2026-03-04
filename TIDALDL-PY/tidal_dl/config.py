@@ -141,6 +141,7 @@ class Tidal(BaseConfig, metaclass=SingletonMeta):
         # Serialize all stream-fetch operations to prevent race conditions
         # when switching between Atmos and normal session credentials.
         self.stream_lock = Lock()
+        self.is_pkce = False
         self.is_atmos_session = False
         self._active_key_index = 0
         self.file_path = path_file_token()
