@@ -31,6 +31,8 @@ from lang.ukrainian import LangUkrainian
 from lang.vietnamese import LangVietnamese
 from lang.korean import LangKorean
 from lang.japanese import LangJapanese
+from lang.indonesian import LangIndonesian
+from lang.malay import LangMalay
 
 _ALL_LANGUAGE_ = [
     ['English', LangEnglish()],
@@ -55,6 +57,8 @@ _ALL_LANGUAGE_ = [
     ['Dutch', LangDutch()],
     ['Polish', LangPolish()],
     ['Norwegian', LangNorwegian()],
+    ['Bahasa Indonesia', LangIndonesian()],
+    ['Bahasa Melayu', LangMalay()],
 ]
 
 class Language(object):
